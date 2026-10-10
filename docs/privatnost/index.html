@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="sr-Latn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Politika privatnosti — RUVO</title>
+<meta name="description" content="Kako RUVO obrađuje podatke o zaposlenima, gostima, porudžbinama i uređajima restorana.">
+<link rel="canonical" href="https://ruvo.ac/privatnost/">
+<link rel="alternate" hreflang="sr" href="https://ruvo.ac/privatnost/">
+<link rel="alternate" hreflang="en" href="https://ruvo.ac/en/privacy/">
+<link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/privacy/">
+<link rel="alternate" hreflang="x-default" href="https://ruvo.ac/privatnost/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RUVO">
+<meta property="og:title" content="Politika privatnosti — RUVO">
+<meta property="og:description" content="Kako RUVO obrađuje podatke o zaposlenima, gostima, porudžbinama i uređajima restorana.">
+<meta property="og:url" content="https://ruvo.ac/privatnost/">
+<meta property="og:locale" content="sr_RS">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E8EBE7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F1214" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;family=Unbounded:wght@700&amp;family=JetBrains+Mono:wght@600&amp;display=swap">
+<style>
+:root {
+--bg: #E8EBE7;
+--bg-2: #DCE0DA;
+--surface: #FFFFFF;
+--surface-2: #F3F5F2;
+--ink: #13171A;
+--ink-2: #4A5258;
+--ink-3: #68727A;
+--line: #D4D9D2;
+--line-2: #BDC4BB;
+--tile: #DCE1DB;
+--accent: #1E44B0;
+--accent-2: #17378F;
+--accent-ink: #FFFFFF;
+--accent-soft: #E2E8F8;
+--warn: #9A5C00;
+--warn-soft: #FAEBCF;
+--plate: #1E44B0;
+--plate-2: #17378F;
+--plate-ink: #FFFFFF;
+--plate-rule: rgb(255 255 255 / 0.92);
+--kds: #171B1E;
+--kds-2: #222930;
+--kds-ink: #EEF1F2;
+--kds-ink-2: #A9B2B9;
+--kds-line: #2E373D;
+--kds-ok: #4CC788;
+--kds-warn: #F0A93E;
+--kds-warn-soft: #3A2A10;
+--shadow-1: 0 1px 2px rgb(19 23 26 / 0.06), 0 2px 10px rgb(19 23 26 / 0.05);
+--shadow-2: 0 22px 56px rgb(19 23 26 / 0.16), 0 2px 8px rgb(19 23 26 / 0.06);
+--font-ui: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+--font-brand: "Unbounded", "Onest", system-ui, sans-serif;
+--font-timer: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+--fs-xs: 12px;
+--fs-sm: 14px;
+--fs-body: 15px;
+--fs-md: 16px;
+--fs-lg: 18px;
+--fs-xl: 22px;
+--fs-lead: clamp(17px, 0.7vw + 13.5px, 20px);
+--fs-h2: clamp(26px, 1.4vw + 19px, 38px);
+--fs-h1: clamp(34px, 3.4vw + 18px, 60px);
+--track-caps: 0.06em;
+--sp-1: 4px;
+--sp-2: 8px;
+--sp-3: 12px;
+--sp-4: 16px;
+--sp-5: 20px;
+--sp-6: 24px;
+--sp-8: 32px;
+--sp-10: 40px;
+--sp-12: 48px;
+--band: clamp(56px, 7vw, 104px);
+--gutter: clamp(16px, 4vw, 40px);
+--r-sm: 8px;
+--r-md: 12px;
+--r-lg: 16px;
+--r-xl: 20px;
+color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) {
+--bg: #0F1214; --bg-2: #0A0C0E; --surface: #171B1E; --surface-2: #1D2226;
+--ink: #ECEFF1; --ink-2: #B4BCC2; --ink-3: #8A949B; --line: #2A3238; --line-2: #3B454C; --tile: #171C1F;
+--accent: #7D97F0; --accent-2: #9DB1F5; --accent-ink: #0B1124; --accent-soft: #1C2647;
+--warn: #F0A93E; --warn-soft: #382910;
+--kds: #1A1F23; --kds-2: #252C33; --kds-line: #353F46;
+--shadow-1: 0 1px 2px rgb(0 0 0 / 0.45); --shadow-2: 0 22px 56px rgb(0 0 0 / 0.55), 0 2px 8px rgb(0 0 0 / 0.4);
+color-scheme: dark;
+}
+}
+:root[data-theme="dark"] {
+--bg: #0F1214; --bg-2: #0A0C0E; --surface: #171B1E; --surface-2: #1D2226;
+--ink: #ECEFF1; --ink-2: #B4BCC2; --ink-3: #8A949B; --line: #2A3238; --line-2: #3B454C; --tile: #171C1F;
+--accent: #7D97F0; --accent-2: #9DB1F5; --accent-ink: #0B1124; --accent-soft: #1C2647;
+--warn: #F0A93E; --warn-soft: #382910;
+--kds: #1A1F23; --kds-2: #252C33; --kds-line: #353F46;
+--shadow-1: 0 1px 2px rgb(0 0 0 / 0.45); --shadow-2: 0 22px 56px rgb(0 0 0 / 0.55), 0 2px 8px rgb(0 0 0 / 0.4);
+color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+margin: 0;
+background: var(--bg);
+color: var(--ink);
+font-family: var(--font-ui);
+font-size: var(--fs-md);
+line-height: 1.5;
+-webkit-font-smoothing: antialiased;
+position: relative;
+isolation: isolate;
+overflow-x: hidden;
+}
+h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
+h1, h2, h3 { overflow-wrap: break-word; }
+.nw { white-space: nowrap; }
+.pad, .kds-t, .co, .upd { font-variant-numeric: tabular-nums; }
+ul, ol { padding: 0; list-style: none; }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+a:hover { color: var(--accent-2); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+@media (prefers-reduced-motion: reduce) {
+html { scroll-behavior: auto; }
+*, *::before, *::after { transition: none !important; }
+}
+.wrap { width: 100%; max-width: 1240px; margin-inline: auto; padding-inline: var(--gutter); }
+.skip {
+position: absolute; left: var(--gutter); top: -120px; z-index: 10;
+padding: 10px 14px; border-radius: var(--r-sm);
+background: var(--surface); color: var(--ink); box-shadow: var(--shadow-2);
+}
+.skip:focus { top: 12px; }
+.caption, .eyebrow, .feat-tag, .integr-title, .course, .kds-station, .co dt {
+font-size: var(--fs-xs);
+font-weight: 600;
+line-height: 1.2;
+letter-spacing: var(--track-caps);
+text-transform: uppercase;
+color: var(--ink-3);
+}
+.wordmark, .plate, .step-n, .house {
+position: relative;
+background: var(--plate);
+color: var(--plate-ink);
+font-family: var(--font-brand);
+font-weight: 700;
+line-height: 1;
+}
+.wordmark::after, .plate::after, .step-n::after, .house::after {
+content: ''; position: absolute; pointer-events: none;
+border: 1.5px solid var(--plate-rule);
+}
+.wordmark {
+display: inline-block; flex: none;
+padding: 8px 12px 7px calc(12px + 0.08em);
+border-radius: 8px;
+font-size: var(--fs-md);
+letter-spacing: 0.08em;
+text-decoration: none;
+}
+.wordmark::after { inset: 2px; border-radius: 6px; }
+.wordmark:hover { color: var(--plate-ink); background: var(--plate-2); }
+.wordmark.sm { padding: 6px 9px 5px calc(9px + 0.08em); border-radius: 7px; font-size: var(--fs-sm); }
+.wordmark.sm::after { border-width: 1px; border-radius: 5px; }
+.tiles {
+position: absolute; inset: 0 0 auto; z-index: -1; height: 980px; pointer-events: none;
+background-image: linear-gradient(var(--tile) 1px, transparent 1px), linear-gradient(90deg, var(--tile) 1px, transparent 1px);
+background-size: 56px 56px;
+background-position: center -1px;
+-webkit-mask-image: linear-gradient(to bottom, #000 25%, transparent 95%);
+mask-image: linear-gradient(to bottom, #000 25%, transparent 95%);
+}
+.tiles.short { height: 440px; }
+.top-in { display: flex; align-items: center; gap: var(--sp-6); min-height: 80px; }
+.nav { display: flex; gap: var(--sp-6); margin-left: auto; }
+.nav a { color: var(--ink-2); font-size: var(--fs-body); font-weight: 500; text-decoration: none; }
+.nav a:hover { color: var(--ink); }
+.langs { display: flex; gap: 2px; padding: 3px; border-radius: 10px; background: var(--bg-2); }
+.langs a {
+display: inline-flex; align-items: center; justify-content: center;
+min-width: 40px; height: 34px; padding-inline: 8px; border-radius: 8px;
+color: var(--ink-2); font-size: var(--fs-sm); font-weight: 600; letter-spacing: 0.02em; text-decoration: none;
+}
+.langs a:hover { color: var(--ink); }
+.langs a[aria-current] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow-1); }
+@media (max-width: 760px) {
+.nav { display: none; }
+.top-in > .langs { margin-left: auto; }
+.top-in { min-height: 68px; }
+}
+.hero { padding-block: clamp(24px, 4vw, 64px) var(--band); }
+.hero-in { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: clamp(40px, 5vw, 80px); align-items: center; }
+.hero-text { min-width: 0; }
+.eyebrow { color: var(--accent); }
+.hero h1 { margin-top: var(--sp-4); font-size: var(--fs-h1); font-weight: 700; line-height: 1.04; letter-spacing: -0.028em; text-wrap: balance; }
+.lead { margin-top: var(--sp-6); max-width: 33em; color: var(--ink-2); font-size: var(--fs-lead); line-height: 1.5; text-wrap: pretty; }
+.cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-4) var(--sp-6); margin-top: var(--sp-8); }
+.btn {
+display: inline-flex; align-items: center; gap: 10px;
+height: 52px; padding-inline: 24px; border-radius: var(--r-md);
+background: var(--accent); color: var(--accent-ink);
+font-weight: 600; text-decoration: none;
+}
+.btn:hover { background: var(--accent-2); color: var(--accent-ink); }
+.btn svg { width: 18px; height: 18px; flex: none; }
+.trial { color: var(--ink-2); font-weight: 500; }
+@media (max-width: 1000px) {
+.hero-in { grid-template-columns: minmax(0, 1fr); }
+}
+.scene { display: flex; align-items: flex-start; justify-content: center; gap: var(--sp-3); min-width: 0; }
+.pad {
+flex: 0 1 344px; min-width: 0;
+padding: var(--sp-5);
+border: 1px solid var(--line); border-radius: var(--r-xl);
+background: var(--surface); box-shadow: var(--shadow-2);
+}
+.pad-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3); padding-bottom: var(--sp-3); border-bottom: 1px solid var(--line); }
+.pad-title { font-size: var(--fs-xl); font-weight: 700; letter-spacing: -0.01em; }
+.pad-meta { color: var(--ink-3); font-size: var(--fs-sm); white-space: nowrap; }
+.pad-lines { display: grid; padding-block: var(--sp-2); }
+.pl { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: var(--sp-3); align-items: baseline; padding-block: 9px; font-size: var(--fs-body); }
+.pl-n { min-width: 0; overflow-wrap: anywhere; }
+.pl-q { color: var(--ink-3); }
+.pl-p { min-width: 4.6ch; text-align: right; font-weight: 600; }
+.pl.later { color: var(--ink-3); }
+.pl.later .pl-p { font-weight: 500; }
+.course { display: flex; align-items: center; gap: 10px; margin-block: 6px 2px; color: var(--warn); }
+.course::before, .course::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+.pad-total { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3); padding-top: var(--sp-3); border-top: 1px solid var(--line); font-size: var(--fs-lg); font-weight: 700; }
+.pad-total small { margin-left: 4px; color: var(--ink-3); font-size: var(--fs-sm); font-weight: 600; }
+.pad-btns { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--sp-2); margin-top: var(--sp-4); }
+.pad-btn { display: flex; align-items: center; justify-content: center; height: 44px; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 600; }
+.pad-btn.go { background: var(--accent); color: var(--accent-ink); }
+.pad-btn.bill { border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); }
+.kds-t {
+flex: 0 1 204px; min-width: 0; margin-top: 88px; overflow: hidden;
+border: 1px solid var(--kds-line); border-radius: var(--r-lg);
+background: var(--kds); color: var(--kds-ink); box-shadow: var(--shadow-2);
+}
+.kds-t::before { content: ''; display: block; height: 4px; background: var(--kds-ok); }
+.kds-head { display: flex; align-items: center; gap: var(--sp-2); padding: 12px 14px 10px; border-bottom: 1px solid var(--kds-line); }
+.kds-no { font-size: var(--fs-lg); font-weight: 700; }
+.kds-tbl { color: var(--kds-ink-2); font-size: var(--fs-sm); }
+.kds-time { margin-left: auto; color: var(--kds-ok); font-family: var(--font-timer); font-size: var(--fs-md); font-weight: 600; letter-spacing: 0; }
+.kds-station { padding: 12px 14px 0; color: var(--kds-ink-2); }
+.kds-lines { display: grid; gap: 10px; padding: 10px 14px 14px; }
+.kl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: center; font-size: var(--fs-body); font-weight: 600; }
+.kl-q { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 30px; border: 1px solid var(--kds-line); border-radius: var(--r-sm); background: var(--kds-2); font-size: var(--fs-sm); }
+.kl-n { min-width: 0; overflow-wrap: anywhere; }
+.kds-wait { margin: 0 14px 14px; padding: 8px 10px; border-radius: var(--r-sm); background: var(--kds-warn-soft); color: var(--kds-warn); font-size: var(--fs-sm); font-weight: 600; }
+@media (max-width: 560px) {
+.scene { flex-direction: column; align-items: stretch; gap: 0; }
+.pad { flex-basis: auto; }
+.kds-t { flex-basis: auto; align-self: flex-end; width: 80%; margin-top: -18px; margin-right: -4px; position: relative; }
+}
+.band { padding-block: var(--band); }
+.band.raised { background: var(--surface); border-block: 1px solid var(--line); }
+.sec-head { display: grid; gap: var(--sp-3); max-width: 44em; margin-bottom: clamp(32px, 4vw, 56px); }
+h2 { font-size: var(--fs-h2); font-weight: 700; line-height: 1.1; letter-spacing: -0.022em; text-wrap: balance; }
+.sec-head p { color: var(--ink-2); font-size: var(--fs-lead); }
+.feats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-10) var(--sp-10); }
+.feat { display: grid; align-content: start; gap: var(--sp-2); min-width: 0; padding-top: var(--sp-4); border-top: 1px solid var(--line-2); }
+.feat-tag { color: var(--accent); }
+.feat h3 { font-size: var(--fs-lg); font-weight: 600; line-height: 1.3; }
+.feat p { color: var(--ink-2); font-size: var(--fs-body); line-height: 1.55; }
+@media (max-width: 900px) {
+.feats { grid-template-columns: minmax(0, 1fr); gap: var(--sp-6); }
+}
+@media (min-width: 600px) and (max-width: 900px) {
+.feat { grid-template-columns: 8.5rem minmax(0, 1fr); column-gap: var(--sp-6); }
+.feat-tag { grid-row: span 2; padding-top: 5px; }
+}
+.integr { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3) var(--sp-5); margin-top: clamp(40px, 5vw, 64px); padding-top: var(--sp-6); border-top: 1px solid var(--line); }
+.integr ul { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.integr li { padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--ink); font-size: var(--fs-sm); font-weight: 500; }
+.integr li.soon { border-style: dashed; background: transparent; color: var(--ink-3); }
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-8); }
+.step { display: grid; align-content: start; gap: var(--sp-2); min-width: 0; }
+.step-n { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; margin-bottom: var(--sp-3); border-radius: 9px; font-size: var(--fs-lg); }
+.step-n::after { inset: 2px; border-radius: 7px; }
+.step h3 { font-size: var(--fs-lg); font-weight: 600; line-height: 1.3; }
+.step p { color: var(--ink-2); font-size: var(--fs-body); line-height: 1.55; }
+@media (max-width: 1000px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-8) var(--sp-10); } }
+@media (max-width: 560px) { .steps { grid-template-columns: minmax(0, 1fr); gap: var(--sp-6); } }
+.note { display: flex; gap: var(--sp-3); max-width: 62em; margin-top: clamp(40px, 5vw, 56px); padding: var(--sp-4) var(--sp-5); border: 1px solid var(--line); border-radius: var(--r-md); color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.55; }
+.note-i { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; margin-top: 1px; border: 1.5px solid var(--ink-3); border-radius: 50%; color: var(--ink-3); font-size: 12px; font-weight: 700; line-height: 1; }
+.contact-in { display: grid; gap: var(--sp-8); justify-items: start; }
+.contact-in .sec-head { margin-bottom: 0; }
+.plates { display: flex; flex-wrap: wrap; align-items: stretch; gap: var(--sp-4); max-width: 100%; }
+.plate {
+display: inline-flex; align-items: center; max-width: 100%;
+padding: 0.44em 0.66em 0.38em 0.7em;
+border-radius: 0.2em;
+font-size: clamp(26px, 7vw, 64px);
+letter-spacing: 0.01em;
+text-decoration: none;
+overflow-wrap: anywhere;
+box-shadow: var(--shadow-2);
+}
+.plate::after { inset: 0.07em; border-width: max(1.5px, 0.045em); border-radius: 0.14em; }
+.plate:hover { background: var(--plate-2); color: var(--plate-ink); }
+.house { display: inline-grid; align-content: center; justify-items: center; gap: 6px; min-width: 128px; padding: 12px 16px 14px; border-radius: 10px; box-shadow: var(--shadow-2); }
+.house::after { inset: 3px; border-radius: 7px; }
+.house-st { font-family: var(--font-ui); font-size: 10px; font-weight: 700; line-height: 1.25; letter-spacing: 0.08em; text-align: center; }
+.house-no { font-size: 40px; letter-spacing: 0.02em; }
+.addr { color: var(--ink-2); font-size: var(--fs-body); line-height: 1.6; }
+.addr b { color: var(--ink); font-weight: 600; }
+@media (max-width: 480px) { .house { display: none; } }
+.foot { padding-block: var(--sp-10) var(--sp-12); border-top: 1px solid var(--line); color: var(--ink-3); font-size: var(--fs-sm); }
+.foot-in { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: var(--sp-6) var(--sp-12); }
+.foot-co { display: grid; gap: var(--sp-3); justify-items: start; }
+.foot-co p { line-height: 1.6; }
+.foot-nav { display: grid; gap: var(--sp-2); justify-items: start; }
+.foot-nav ul { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-6); }
+.foot-nav a { color: var(--ink-2); }
+.foot-nav a[aria-current] { color: var(--ink); text-decoration: none; font-weight: 600; }
+.doc { padding-block: clamp(16px, 3vw, 40px) var(--band); }
+.doc-in { max-width: 70ch; }
+.doc h1 { font-size: clamp(26px, 2.6vw + 18px, 46px); hyphens: auto; font-weight: 700; line-height: 1.08; letter-spacing: -0.024em; text-wrap: balance; }
+.upd { margin-top: var(--sp-3); color: var(--ink-3); font-size: var(--fs-sm); }
+.doc-lead { margin-top: var(--sp-5); color: var(--ink-2); font-size: var(--fs-lead); line-height: 1.5; }
+.doc section { display: grid; gap: var(--sp-3); margin-top: var(--sp-10); }
+.doc h2 { font-size: var(--fs-xl); line-height: 1.25; letter-spacing: -0.01em; }
+.doc p, .doc li { line-height: 1.65; hyphens: auto; }
+.doc section ul { display: grid; gap: var(--sp-3); }
+.doc section li { position: relative; padding-left: 22px; }
+.doc section li::before { content: ''; position: absolute; left: 4px; top: 0.66em; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+.doc b { font-weight: 600; }
+.faq { border-top: 1px solid var(--line); }
+.faq-item { display: grid; gap: 6px; padding-block: var(--sp-5); border-bottom: 1px solid var(--line); }
+.faq-item h3 { font-size: var(--fs-lg); font-weight: 600; line-height: 1.35; }
+.faq-item p { color: var(--ink-2); }
+.co { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: var(--sp-3) var(--sp-6); align-items: baseline; padding: var(--sp-5) var(--sp-6); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); }
+.co dt { margin: 0; }
+.co dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 480px) {
+.co { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+.co dd + dt { margin-top: var(--sp-3); }
+}
+.lost { display: grid; gap: var(--sp-4); justify-items: start; padding-block: var(--band); }
+.lost h1 { font-size: var(--fs-h2); font-weight: 700; letter-spacing: -0.02em; }
+.lost ul { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-6); }
+</style>
+</head>
+<body>
+<div class="tiles short" aria-hidden="true"></div>
+<a class="skip" href="#main">Na sadržaj</a>
+<header class="top"><div class="wrap top-in">
+<a class="wordmark" href="../" aria-label="RUVO — Početna">RUVO</a>
+<nav class="nav" aria-label="Glavni meni"><a href="../#features">Mogućnosti</a><a href="../#start">Kako počinje</a><a href="../#contact">Kontakt</a></nav>
+<nav class="langs" aria-label="Jezik"><a href="./" hreflang="sr" lang="sr-Latn" title="Srpski" aria-current="page">SR</a><a href="../en/privacy/" hreflang="en" lang="en" title="English">EN</a><a href="../ru/privacy/" hreflang="ru" lang="ru" title="Русский">RU</a></nav>
+</div></header>
+<main id="main" class="doc"><div class="wrap"><div class="doc-in">
+<h1>Politika privatnosti</h1>
+<p class="upd">Ažurirano: <time datetime="2026-10-10">10. oktobra 2026.</time></p>
+<section><h2>Ko smo mi</h2><p>RUVO je <span class="nw">kasa-sistem</span> za restorane koji razvija i prodaje TT DAILY KITCHEN DOO, PIB 113820680, Cara Uroša 19, 11000 Beograd („mi”). Pitanja o privatnosti: <a href="mailto:hello@ruvo.ac">hello@ruvo.ac</a>.</p></section>
+<section><h2>Dve uloge</h2><p>Restorani koji koriste RUVO (naši klijenti) odlučuju koji se podaci o njihovim zaposlenima i gostima unose u sistem. Za te podatke restoran je rukovalac, a mi smo obrađivač: obrađujemo ih samo da bismo za taj restoran pružali RUVO, na osnovu ugovora sa njim.</p><p>Za podatke osoba koje nas kontaktiraju i nosilaca naloga naših klijenata mi smo rukovalac.</p></section>
+<section><h2>Koje podatke RUVO obrađuje</h2><ul><li><b>Zaposleni u restoranu:</b> ime, uloga, objekti u kojima rade, lični PIN (čuva se samo kao kriptografski otisak sa tajnim ključem, nikada kao sam PIN), <span class="nw">e-mail</span> adresa za pristup <span class="nw">back-office-u</span>, smene i satnica ako restoran koristi modul smena, kao i radnje koje izvode (dnevnik radnji: popusti, storniranja, vraćanja).</li><li><b>Gosti</b>, samo ako restoran vodi program lojalnosti i gost se saglasi: ime, broj telefona, broj kartice, bodovi, popusti i istorija kupovine.</li><li><b>Porudžbine i plaćanja:</b> stavke, cene, iznosi i način plaćanja. Kod plaćanja karticom dobijamo samo iznos i potvrdu bankovnog terminala, nikada broj kartice.</li><li><b>Uređaji:</b> identifikator svakog povezanog <span class="nw">iPad-a</span>, <span class="nw">iPhone-a</span>, ekrana kuhinje ili kioska i tehnički zapisi (vreme pristupa, greške) potrebni za bezbedan i ispravan rad.</li><li><b>Fakture dobavljača iz <span class="nw">SEF-a</span></b> (Sistem elektronskih faktura): podaci sa faktura dobavljača restorana, uglavnom podaci o firmama. API ključ <span class="nw">SEF-a</span> čuva se samo na našem serveru, šifrovan, i više se nigde ne prikazuje.</li><li><b>Poruke koje nam pošaljete:</b> vaša <span class="nw">e-mail</span> adresa i sadržaj poruke.</li></ul></section>
+<section><h2>Svrha i pravni osnov</h2><p>Pružanje usluge RUVO na osnovu ugovora sa restoranom; ispunjavanje zakonskih obaveza (računovodstvo, porezi); legitimni interes da usluga bude bezbedna i da se spreči zloupotreba; podaci gostiju u programu lojalnosti — na osnovu pristanka koji pribavlja restoran.</p></section>
+<section><h2>Gde se podaci čuvaju i kako su zaštićeni</h2><p>Na serverima u Evropskoj uniji (Nemačka). Veze su šifrovane (TLS). Podaci svakog restorana odvojeni su od podataka drugih klijenata u samoj bazi podataka. Pristup imaju samo osobe kojima je potreban za rad i podršku.</p></section>
+<section><h2>Ko još obrađuje podatke</h2><ul><li><b>Pružalac hostinga u EU</b> — čuva podatke i pokreće uslugu.</li><li><b>Pružalac <span class="nw">e-pošte</span></b> — za našu prepisku.</li><li><b>Anthropic (SAD)</b> — AI pomoćnik u izveštajima i pri prenosu podataka iz drugog POS sistema. Dobija pitanje i brojke potrebne za odgovor; brojeve telefona i <span class="nw">e-mail</span> adrese gostiju ne šaljemo. Prenos van Srbije i EU vrši se uz mere zaštite koje propisuje zakon.</li><li><b>Apple</b> — distribuira aplikaciju RUVO (App Store, TestFlight) prema svojoj politici privatnosti.</li><li><b>Google Fonts</b> — ovaj sajt učitava fontove sa tog servisa; Google pri tome dobija IP adresu posetioca.</li></ul><p>Podatke ne prodajemo, ne prikazujemo reklame i ne pratimo korisnike kroz druge aplikacije i sajtove.</p></section>
+<section><h2>Koliko dugo</h2><p>Dok traje ugovor sa restoranom. Po prestanku ugovora podatke restorana vraćamo ili brišemo u roku od 30 dana, osim onih koje moramo da čuvamo po zakonu. Tehničke zapise čuvamo do 90 dana.</p></section>
+<section><h2>Vaša prava</h2><p>U skladu sa Zakonom o zaštiti podataka o ličnosti („Sl. glasnik RS”, br. 87/2018) i, gde se primenjuje, Opštom uredbom EU o zaštiti podataka (GDPR), možete tražiti pristup svojim podacima, ispravku, brisanje, ograničenje obrade i prenosivost, kao i uložiti prigovor na obradu. Pristanak možete povući u svakom trenutku.</p><p>Zaposleni i gosti restorana treba najpre da se obrate tom restoranu kao rukovaocu; mi mu pomažemo da odgovori. Pišite nam na <a href="mailto:hello@ruvo.ac">hello@ruvo.ac</a>. Pritužbu možete podneti i Povereniku za informacije od javnog značaja i zaštitu podataka o ličnosti (<a href="https://www.poverenik.rs">www.poverenik.rs</a>).</p></section>
+<section><h2>Deca</h2><p>RUVO je poslovni alat i nije namenjen deci.</p></section>
+<section><h2>Izmene</h2><p>Izmene objavljujemo na ovoj stranici, sa novim datumom.</p></section>
+</div></div></main>
+<footer class="foot"><div class="wrap foot-in">
+<div class="foot-co"><a class="wordmark sm" href="../" aria-label="RUVO — Početna">RUVO</a><p>TT DAILY KITCHEN DOO · PIB 113820680<br>Cara Uroša 19, 11000 Beograd</p></div>
+<nav class="foot-nav" aria-label="O firmi i dokumenti"><ul><li><a href="./" aria-current="page">Privatnost</a></li><li><a href="../podrska/">Podrška</a></li><li><a href="mailto:hello@ruvo.ac">hello@ruvo.ac</a></li></ul><p>Razvijeno u Beogradu. © 2026</p></nav>
+</div></footer>
+</body>
+</html>
