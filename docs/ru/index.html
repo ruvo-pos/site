@@ -295,20 +295,17 @@ h2 { font-size: var(--fs-h2); font-weight: 700; line-height: 1.1; letter-spacing
 .contact-in { display: grid; gap: var(--sp-8); justify-items: start; }
 .contact-in .sec-head { margin-bottom: 0; }
 .plates { display: flex; flex-wrap: wrap; align-items: stretch; gap: var(--sp-4); max-width: 100%; }
+.plate, .house { font-size: clamp(26px, 7vw, 64px); border-radius: 0.2em; box-shadow: var(--shadow-2); }
+.plate::after, .house::after { inset: 0.07em; border-width: max(1.5px, 0.045em); border-radius: 0.14em; }
 .plate {
 display: inline-flex; align-items: center; max-width: 100%;
 padding: 0.44em 0.66em 0.38em 0.7em;
-border-radius: 0.2em;
-font-size: clamp(26px, 7vw, 64px);
 letter-spacing: 0.01em;
 text-decoration: none;
 overflow-wrap: anywhere;
-box-shadow: var(--shadow-2);
 }
-.plate::after { inset: 0.07em; border-width: max(1.5px, 0.045em); border-radius: 0.14em; }
 .plate:hover { background: var(--plate-2); color: var(--plate-ink); }
-.house { display: inline-grid; align-content: center; justify-items: center; gap: 6px; min-width: 128px; padding: 12px 16px 14px; border-radius: 10px; box-shadow: var(--shadow-2); }
-.house::after { inset: 3px; border-radius: 7px; }
+.house { display: inline-grid; align-content: center; justify-items: center; gap: 6px; min-width: 128px; padding: 12px 16px 14px; }
 .house-st { font-family: var(--font-ui); font-size: 10px; font-weight: 700; line-height: 1.25; letter-spacing: 0.08em; text-align: center; }
 .house-no { font-size: 40px; letter-spacing: 0.02em; }
 .addr { color: var(--ink-2); font-size: var(--fs-body); line-height: 1.6; }
