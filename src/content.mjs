@@ -318,7 +318,8 @@ const PRICING = {
       year: { label: 'Godišnje', badge: '2 meseca besplatno', unit: 'po objektu, godišnje', note: 'Izlazi {perMonth} mesečno — ušteda {saving} po objektu. Jedna faktura unapred.' },
     },
     includesTitle: 'U ceni objekta',
-    includes: 'Terminal sale i ekran kuhinje, meni, magacin i normativi, izveštaji i AI pomoćnik, zaposleni, uloge i dnevnik radnji. Ostali uređaji i moduli — po cenovniku ispod.',
+    includes: ['Terminal sale', 'Ekran kuhinje', 'Meni, magacin i normativi', 'Izveštaji i AI pomoćnik', 'Zaposleni, uloge i dnevnik radnji'],
+    includesNote: 'Ostali uređaji i moduli — po cenovniku ispod.',
     tableTitle: 'Licence i moduli',
     cols: ['mesečno', 'godišnje'],
     groups: [
@@ -373,7 +374,8 @@ const PRICING = {
       year: { label: 'Yearly', badge: '2 months free', unit: 'per venue, a year', note: 'Works out at {perMonth} a month — you save {saving} per venue. One invoice in advance.' },
     },
     includesTitle: 'Included in a venue',
-    includes: 'A front terminal and a kitchen screen, the menu, stock and recipes, reports and the AI assistant, staff, roles and the action log. Other devices and modules — by the price list below.',
+    includes: ['A front terminal', 'A kitchen screen', 'Menu, stock and recipes', 'Reports and the AI assistant', 'Staff, roles and the action log'],
+    includesNote: 'Other devices and modules — by the price list below.',
     tableTitle: 'Licences and modules',
     cols: ['monthly', 'yearly'],
     groups: [
@@ -428,7 +430,8 @@ const PRICING = {
       year: { label: 'За год', badge: '2 месяца бесплатно', unit: 'за заведение в год', note: 'Выходит {perMonth} в месяц — экономия {saving} на заведении. Один счёт вперёд.' },
     },
     includesTitle: 'В цене заведения',
-    includes: 'Фронт и экран кухни, меню, склад и техкарты, отчёты и ИИ-помощник, сотрудники, роли и журнал действий. Остальные устройства и модули — по прайсу ниже.',
+    includes: ['Фронт', 'Экран кухни', 'Меню, склад и техкарты', 'Отчёты и ИИ-помощник', 'Сотрудники, роли и журнал действий'],
+    includesNote: 'Остальные устройства и модули — по прайсу ниже.',
     tableTitle: 'Лицензии и модули',
     cols: ['в месяц', 'за год'],
     groups: [

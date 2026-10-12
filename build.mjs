@@ -607,17 +607,26 @@ function pricing(lang, file) {
 <p class="plan-note">${point(x.note)}</p>${cta}
 </article>`;
   };
-  const groups = p.groups.map(([title, items]) => `<tbody>
+  const group = ([title, items]) => `<tbody>
 <tr class="pt-g"><th colspan="3" scope="colgroup">${esc(title)}</th></tr>${items.map(([key, name, desc]) => {
     const v = priceOf(key);
     const cells = v === 0 ? `<td colspan="2" class="pt-free">${esc(p.free)}</td>` : `<td>${num(v)}</td><td>${num(yearOf(v))}</td>`;
     return `
 <tr><th scope="row"><span class="pt-n">${txt(name)}</span><span class="pt-d">${txt(desc)}</span></th>${cells}</tr>`;
   }).join('')}
-</tbody>`).join('\n');
+</tbody>`;
+  // two tables of one look on the page's halves: the licences; the modules and what a company pays once
+  const table = (gs) => `<table class="pt">
+<thead><tr><th scope="col"><span class="vh">${esc(p.tableTitle)}</span></th><th scope="col">${esc(p.cols[0])}</th><th scope="col">${esc(p.cols[1])}</th></tr></thead>
+${gs.map(group).join('\n')}
+</table>`;
+  // every block under the plans has the same head: its title, a note on the right
+  const head = (title, note = '') => `<div class="p-head"><h3>${esc(title)}</h3>${note ? `<p>${esc(note)}</p>` : ''}</div>`;
+  const half = Math.ceil(p.faq.length / 2);
   const bills = p.bills.map(([name, setup, s]) => {
     const b = billOf(PRICES, s);
-    const lines = b.lines.length > 1 ? `<ul class="bill-lines">${b.lines.map(([key, qty, sum]) => `<li><span>${lineName(key, qty)}</span><span>${num(sum)}</span></li>`).join('')}</ul>` : '';
+    // every bill shows its lines, also the café's one — so no card stands empty above its sum
+    const lines = b.lines.length ? `<ul class="bill-lines">${b.lines.map(([key, qty, sum]) => `<li><span>${lineName(key, qty)}</span><span>${num(sum)}</span></li>`).join('')}</ul>` : '';
     return `
 <li class="bill-card"><h4>${esc(name)}</h4><p class="bill-setup">${txt(setup)}</p>${lines}<p class="bill-sum"><span>${esc(p.plans.month.label)}</span><b>${rsd(lang, b.month)}</b></p><p class="bill-year"><span>${esc(p.plans.year.label)}</span><b>${rsd(lang, yearOf(b.month))}</b></p></li>`;
   }).join('');
@@ -631,22 +640,22 @@ function pricing(lang, file) {
 <div class="plans">
 ${plan('month', PRICES.venue)}
 ${plan('year', yearOf(PRICES.venue))}
-<div class="incl"><h3 class="plan-label">${esc(p.includesTitle)}</h3><p>${txt(p.includes)}</p></div>
+<article class="plan incl" aria-labelledby="plan-incl">
+<h3 class="plan-label" id="plan-incl">${esc(p.includesTitle)}</h3>
+<ul class="incl-list">${p.includes.map((x) => `<li>${txt(x)}</li>`).join('')}</ul>
+<p class="incl-note">${txt(p.includesNote)}</p>
+</article>
 </div>
-<div class="p-detail">
-<div class="ptab">
-<div class="ptab-head"><h3>${esc(p.tableTitle)}</h3><p>RSD, ${esc(p.vat)}</p></div>
-<table class="pt">
-<thead><tr><th scope="col"><span class="vh">${esc(p.tableTitle)}</span></th><th scope="col">${esc(p.cols[0])}</th><th scope="col">${esc(p.cols[1])}</th></tr></thead>
-${groups}
-</table>
+<div class="p-block ptab">${head(p.tableTitle, `RSD, ${p.vat}`)}
+<div class="pt-cols">
+${table(p.groups.slice(0, 1))}
+${table(p.groups.slice(1))}
 </div>
-<div class="bills"><h3>${esc(p.billsTitle)}</h3><ul class="bill-list">${bills}
+</div>
+<div class="p-block bills">${head(p.billsTitle)}<ul class="bill-list">${bills}
 </ul></div>
-</div>
-<div class="calc" id="calc" hidden>
-<div class="calc-head"><h3 class="calc-title">${esc(c.title)}</h3><p class="calc-vat">${esc(c.vat)}</p></div>
-<div class="calc-grid">
+<div class="p-block calc" id="calc" hidden>${head(c.title, c.vat)}
+<div class="calc-card"><div class="calc-grid">
 <div class="calc-col calc-in">
 <p class="calc-k">${esc(c.venuesTitle)}</p>
 ${stepper('venues', c.venues, 1, 50, 1)}
@@ -664,11 +673,11 @@ ${stepper('kiosk', c.kiosk, 0, 10, 0)}
 </div>
 <ul class="calc-lines" data-o="lines"></ul>
 </div>
+</div></div>
 </div>
-</div>
-<div class="pfaq"><h3>${esc(p.faqTitle)}</h3><dl class="pfaq-list">${p.faq.map(([q, a]) => `
-<div class="pfaq-item"><dt>${txt(q)}</dt><dd>${txt(a)}</dd></div>`).join('')}
-</dl></div>
+<div class="p-block pfaq">${head(p.faqTitle)}<div class="pfaq-cols">${[p.faq.slice(0, half), p.faq.slice(half)].map((col) => `<div class="pfaq-col">${col.map(([q, a]) => `
+<details class="pfaq-item"><summary>${txt(q)}</summary><p>${txt(a)}</p></details>`).join('')}
+</div>`).join('')}</div></div>
 <script type="application/json" id="calc-data">${data}</script>
 </div></section>`;
 }

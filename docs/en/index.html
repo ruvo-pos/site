@@ -700,17 +700,27 @@ background: radial-gradient(circle, var(--line-2) 0.07em, transparent 0.08em) 0 
 .plan-cta:hover { background: var(--accent-2); color: var(--accent-ink); }
 .enamel .plan-cta { background: var(--plate-ink); color: var(--plate); }
 .enamel .plan-cta:hover { background: #E8EDFB; color: var(--plate-2); }
-.incl { display: flex; flex-direction: column; gap: var(--sp-5); min-width: 0; padding: clamp(24px, 2.6vw, 32px); border: 1px solid var(--line-2); border-radius: var(--r-xl); }
-.incl p { color: var(--ink-2); font-size: var(--fs-body); line-height: 1.6; text-wrap: pretty; }
-@media (max-width: 1000px) { .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); } .incl { grid-column: 1 / -1; } }
-@media (max-width: 640px) { .plans { grid-template-columns: minmax(0, 1fr); } }
-.p-detail { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-10) var(--gap); align-items: start; margin-top: clamp(40px, 5vw, 64px); }
-.ptab { padding-right: clamp(0px, 2vw, 24px); }
-.ptab, .bills { min-width: 0; }
-.ptab-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--sp-1) var(--sp-4); }
-.ptab-head h3, .bills h3, .pfaq h3 { font-size: var(--fs-lg); font-weight: 600; line-height: 1.3; }
-.ptab-head p { color: var(--ink-3); font-size: var(--fs-sm); }
-.pt { width: 100%; margin-top: var(--sp-3); border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.incl-list { display: grid; margin-top: var(--sp-4); }
+.incl-list li { padding-block: 10px; border-bottom: 1px solid var(--line); font-size: var(--fs-body); line-height: 1.4; }
+.incl-list li:first-child { border-top: 1px solid var(--line); }
+.incl-note { margin-top: auto; padding-top: var(--sp-4); color: var(--ink-3); font-size: var(--fs-sm); line-height: 1.45; }
+@media (max-width: 1000px) {
+.plans { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.plan.incl { grid-column: 1 / -1; }
+.incl-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gap); }
+.incl-list li:nth-child(2) { border-top: 1px solid var(--line); }
+}
+@media (max-width: 640px) {
+.plans { grid-template-columns: minmax(0, 1fr); }
+.incl-list { grid-template-columns: minmax(0, 1fr); }
+.incl-list li:nth-child(2) { border-top: 0; }
+}
+.p-block { margin-top: clamp(48px, 6vw, 80px); }
+.p-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--sp-1) var(--sp-4); margin-bottom: var(--sp-5); }
+.p-head h3 { font-size: var(--fs-xl); font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
+.p-head p { color: var(--ink-3); font-size: var(--fs-sm); }
+.pt-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-6) var(--gap); align-items: start; }
+.pt { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .pt thead th { padding: 0 0 10px 16px; border-bottom: 1px solid var(--line-2); color: var(--ink-3); font-size: var(--fs-xs); font-weight: 600; line-height: 1.2; letter-spacing: var(--track-caps); text-align: right; text-transform: uppercase; white-space: nowrap; }
 .pt thead th:first-child { padding-left: 0; text-align: left; }
 .pt .pt-g th { padding: 24px 0 8px; border-bottom: 1px solid var(--line); color: var(--accent); font-size: var(--fs-xs); font-weight: 600; line-height: 1.3; letter-spacing: var(--track-caps); text-align: left; text-transform: uppercase; }
@@ -720,26 +730,22 @@ background: radial-gradient(circle, var(--line-2) 0.07em, transparent 0.08em) 0 
 .pt td { width: 6.5em; padding: 12px 0 12px 16px; border-bottom: 1px solid var(--line); font-size: var(--fs-body); font-weight: 600; line-height: 1.4; text-align: right; vertical-align: top; white-space: nowrap; }
 .pt td.pt-free { color: var(--ok); }
 .vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-.bill-list { display: grid; gap: var(--sp-3); margin-top: var(--sp-3); }
-.bill-card { display: grid; gap: 4px; padding: var(--sp-5); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); font-variant-numeric: tabular-nums; }
+.bill-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); align-items: stretch; }
+.bill-card { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: clamp(20px, 2.2vw, 28px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--shadow-1); font-variant-numeric: tabular-nums; }
 .bill-card h4 { font-size: var(--fs-md); font-weight: 600; line-height: 1.3; }
 .bill-setup { color: var(--ink-3); font-size: var(--fs-sm); line-height: 1.45; }
-.bill-lines { display: grid; gap: 4px; margin-top: var(--sp-2); padding-top: var(--sp-3); border-top: 1px solid var(--line); font-size: var(--fs-sm); }
+.bill-lines { display: grid; gap: 4px; margin-top: var(--sp-2); margin-bottom: 4px; padding-top: var(--sp-3); border-top: 1px solid var(--line); font-size: var(--fs-sm); }
 .bill-lines li { display: flex; justify-content: space-between; gap: var(--sp-3); color: var(--ink-2); }
 .bill-lines li span:last-child { color: var(--ink); white-space: nowrap; }
 .bill-sum, .bill-year { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0 var(--sp-3); }
-.bill-sum { margin-top: var(--sp-2); padding-top: var(--sp-3); border-top: 1px solid var(--line); }
+.bill-sum { margin-top: auto; padding-top: var(--sp-3); border-top: 1px solid var(--line); }
 .bill-sum span, .bill-year span { color: var(--ink-2); font-size: var(--fs-sm); }
 .bill-sum b { font-size: var(--fs-lg); font-weight: 700; white-space: nowrap; }
 .bill-year b { font-size: var(--fs-body); font-weight: 600; white-space: nowrap; }
-@media (max-width: 1000px) { .p-detail { grid-template-columns: minmax(0, 1fr); } .bill-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); } }
-@media (max-width: 760px) { .bill-list { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 900px) { .pt-cols, .bill-list { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 480px) { .pt thead th, .pt td { padding-left: 10px; } .pt td { width: auto; font-size: var(--fs-sm); } }
-.calc { margin-top: clamp(40px, 5vw, 64px); padding: clamp(20px, 2.5vw, 32px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--shadow-1); }
 .calc[hidden] { display: none; }
-.calc-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--sp-1) var(--sp-4); margin-bottom: var(--sp-6); padding-bottom: var(--sp-5); border-bottom: 1px solid var(--line); }
-.calc-title { font-size: var(--fs-lg); font-weight: 600; }
-.calc-vat { color: var(--ink-3); font-size: var(--fs-sm); }
+.calc-card { padding: clamp(20px, 2.5vw, 32px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--shadow-1); }
 .calc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-6) clamp(24px, 3vw, 48px); align-items: start; }
 .calc-col { display: grid; align-content: start; gap: var(--sp-2); min-width: 0; margin: 0; padding: 0; border: 0; }
 .calc-k { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-height: 24px; color: var(--ink-3); font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--track-caps); text-transform: uppercase; }
@@ -785,12 +791,18 @@ background: radial-gradient(circle, var(--line-2) 0.07em, transparent 0.08em) 0 
 .calc-in, .calc-mods, .calc-out { grid-column: auto; grid-row: auto; }
 .calc-out { padding-left: 0; padding-top: var(--sp-5); border-left: 0; border-top: 1px solid var(--line); }
 }
-.pfaq { margin-top: clamp(40px, 5vw, 64px); }
-.pfaq-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--gap); margin: var(--sp-3) 0 0; border-top: 1px solid var(--line-2); }
-.pfaq-item { padding: var(--sp-5) clamp(0px, 2vw, 32px) var(--sp-5) 0; border-bottom: 1px solid var(--line); }
-.pfaq-item dt { font-size: var(--fs-md); font-weight: 600; line-height: 1.35; }
-.pfaq-item dd { margin: 6px 0 0; color: var(--ink-2); font-size: var(--fs-body); line-height: 1.55; }
-@media (max-width: 760px) { .pfaq-list { grid-template-columns: minmax(0, 1fr); } .pfaq-item { padding-right: 0; } }
+.pfaq-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--gap); align-items: start; }
+.pfaq-col { border-top: 1px solid var(--line-2); }
+.pfaq-item { border-bottom: 1px solid var(--line); }
+.pfaq-item summary { position: relative; display: block; padding: 18px 40px 18px 0; font-size: var(--fs-md); font-weight: 600; line-height: 1.4; list-style: none; cursor: pointer; }
+.pfaq-item summary::-webkit-details-marker { display: none; }
+.pfaq-item summary::after { content: ''; position: absolute; top: 50%; right: 10px; width: 9px; height: 9px; margin-top: -7px; border-right: 2px solid var(--ink-3); border-bottom: 2px solid var(--ink-3); transform: rotate(45deg); transition: transform 0.2s, margin-top 0.2s; }
+.pfaq-item[open] summary::after { margin-top: -2px; transform: rotate(-135deg); }
+.pfaq-item summary:hover { color: var(--accent); }
+.pfaq-item summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.pfaq-item p { padding: 0 40px 20px 0; color: var(--ink-2); font-size: var(--fs-body); line-height: 1.6; }
+@media (max-width: 900px) { .pfaq-cols { grid-template-columns: minmax(0, 1fr); } .pfaq-col + .pfaq-col { border-top: 0; } }
+@media (prefers-reduced-motion: reduce) { .pfaq-item summary::after { transition: none; } }
 .equip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-3) var(--gap); margin-top: clamp(40px, 5vw, 56px); padding-top: var(--sp-6); border-top: 1px solid var(--line); }
 .equip-h { display: grid; grid-row: 1 / span 2; gap: var(--sp-4); align-content: start; }
 .equip-h .photo { border-radius: var(--r-lg); }
@@ -1121,11 +1133,14 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <p class="plan-unit">per venue, a year · without VAT</p>
 <p class="plan-note">Works out at 5,000 RSD a month — you save 12,000 RSD per venue. One invoice in advance.</p><a class="plan-cta" href="../demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Try the demo</a>
 </article>
-<div class="incl"><h3 class="plan-label">Included in a venue</h3><p>A front terminal and a kitchen screen, the menu, stock and recipes, reports and the AI assistant, staff, roles and the action log. Other devices and modules — by the price list below.</p></div>
+<article class="plan incl" aria-labelledby="plan-incl">
+<h3 class="plan-label" id="plan-incl">Included in a venue</h3>
+<ul class="incl-list"><li>A front terminal</li><li>A kitchen screen</li><li>Menu, stock and recipes</li><li>Reports and the AI assistant</li><li>Staff, roles and the action log</li></ul>
+<p class="incl-note">Other devices and modules — by the price list below.</p>
+</article>
 </div>
-<div class="p-detail">
-<div class="ptab">
-<div class="ptab-head"><h3>Licences and modules</h3><p>RSD, without VAT</p></div>
+<div class="p-block ptab"><div class="p-head"><h3>Licences and modules</h3><p>RSD, without VAT</p></div>
+<div class="pt-cols">
 <table class="pt">
 <thead><tr><th scope="col"><span class="vh">Licences and modules</span></th><th scope="col">monthly</th><th scope="col">yearly</th></tr></thead>
 <tbody>
@@ -1135,6 +1150,9 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <tr><th scope="row"><span class="pt-n">Waiter device</span><span class="pt-d">The order goes from the table straight to the kitchen; the bill and the QR are with the waiter. Runs on iPhone.</span></th><td>1,000</td><td>10,000</td></tr>
 <tr><th scope="row"><span class="pt-n">Kiosk</span><span class="pt-d">Guests choose and order by themselves, and pay at the till by number. Runs on iPad.</span></th><td>5,000</td><td>50,000</td></tr>
 </tbody>
+</table>
+<table class="pt">
+<thead><tr><th scope="col"><span class="vh">Licences and modules</span></th><th scope="col">monthly</th><th scope="col">yearly</th></tr></thead>
 <tbody>
 <tr class="pt-g"><th colspan="3" scope="colgroup">Modules — per venue</th></tr>
 <tr><th scope="row"><span class="pt-n">IPS QR payments</span><span class="pt-d">The guest pays by scanning the QR code with their bank’s app.</span></th><td>1,000</td><td>10,000</td></tr>
@@ -1148,15 +1166,14 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 </tbody>
 </table>
 </div>
-<div class="bills"><h3>Example bills</h3><ul class="bill-list">
-<li class="bill-card"><h4>Café</h4><p class="bill-setup">A front terminal and a kitchen screen</p><p class="bill-sum"><span>Monthly</span><b>6,000 RSD</b></p><p class="bill-year"><span>Yearly</span><b>60,000 RSD</b></p></li>
+</div>
+<div class="p-block bills"><div class="p-head"><h3>Example bills</h3></div><ul class="bill-list">
+<li class="bill-card"><h4>Café</h4><p class="bill-setup">A front terminal and a kitchen screen</p><ul class="bill-lines"><li><span>Venue</span><span>6,000</span></li></ul><p class="bill-sum"><span>Monthly</span><b>6,000 RSD</b></p><p class="bill-year"><span>Yearly</span><b>60,000 RSD</b></p></li>
 <li class="bill-card"><h4>Restaurant</h4><p class="bill-setup">2 front terminals, 2 kitchen screens, 4 waiter devices</p><ul class="bill-lines"><li><span>Venue</span><span>6,000</span></li><li><span>Extra front terminal</span><span>1,500</span></li><li><span>Extra kitchen screen</span><span>1,200</span></li><li><span>Waiter device × 4</span><span>4,000</span></li></ul><p class="bill-sum"><span>Monthly</span><b>12,700 RSD</b></p><p class="bill-year"><span>Yearly</span><b>127,000 RSD</b></p></li>
 <li class="bill-card"><h4>A group of 5 restaurants</h4><p class="bill-setup">Each as above, plus the report in Telegram</p><ul class="bill-lines"><li><span>Venue × 5</span><span>30,000</span></li><li><span>Extra front terminal × 5</span><span>7,500</span></li><li><span>Extra kitchen screen × 5</span><span>6,000</span></li><li><span>Waiter device × 20</span><span>20,000</span></li><li><span>Report in Telegram</span><span>500</span></li></ul><p class="bill-sum"><span>Monthly</span><b>64,000 RSD</b></p><p class="bill-year"><span>Yearly</span><b>640,000 RSD</b></p></li>
 </ul></div>
-</div>
-<div class="calc" id="calc" hidden>
-<div class="calc-head"><h3 class="calc-title">Work out your price</h3><p class="calc-vat">Amounts without VAT.</p></div>
-<div class="calc-grid">
+<div class="p-block calc" id="calc" hidden><div class="p-head"><h3>Work out your price</h3><p>Amounts without VAT.</p></div>
+<div class="calc-card"><div class="calc-grid">
 <div class="calc-col calc-in">
 <p class="calc-k">Venues</p>
 <div class="stp"><label for="c-venues">Venues</label><span class="stp-ctl"><button type="button" data-d="-1" aria-label="Fewer: Venues">−</button><input id="c-venues" type="number" inputmode="numeric" min="1" max="50" step="1" value="1"><button type="button" data-d="1" aria-label="More: Venues">+</button></span></div>
@@ -1174,18 +1191,19 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 </div>
 <ul class="calc-lines" data-o="lines"></ul>
 </div>
+</div></div>
 </div>
-</div>
-<div class="pfaq"><h3>Pricing questions</h3><dl class="pfaq-list">
-<div class="pfaq-item"><dt>What is included in the venue price?</dt><dd>One front terminal and one kitchen screen, the menu, stock and recipes, reports with the AI assistant, staff and roles. Other devices and modules — by the price list.</dd></div>
-<div class="pfaq-item"><dt>How do I pay?</dt><dd>Monthly — an invoice to your company every month, or yearly — one invoice in advance, 10 months instead of 12. By bank transfer; prices are without VAT, and 20% VAT is added to the invoice.</dd></div>
-<div class="pfaq-item"><dt>What if I add a device <span class="nw">mid-year</span>?</dt><dd>A device or module added in the middle of a paid year is paid monthly until that year ends. On a monthly subscription — from the next invoice.</dd></div>
-<div class="pfaq-item"><dt>Can I use my own devices?</dt><dd>Yes. The front terminal and the kiosk run on iPad, the waiter device on iPhone, the kitchen screen on a tablet — the devices you already have will do.</dd></div>
-<div class="pfaq-item"><dt>Does RUVO replace the fiscal register?</dt><dd>No. Your register still issues the fiscal receipt, and RUVO records the payment method so the totals match.</dd></div>
-<div class="pfaq-item"><dt>Is there a <span class="nw">lock-in</span> contract?</dt><dd>No. End the subscription whenever you like, and we send you your data in a standard format.</dd></div>
-<div class="pfaq-item"><dt>What if a payment is late?</dt><dd>The floor and the kitchen keep working — we call before anything is switched off.</dd></div>
-<div class="pfaq-item"><dt>How do I get support?</dt><dd>Write to <a href="mailto:hello@ruvo.ac">hello@ruvo.ac</a> — we answer on working days.</dd></div>
-</dl></div>
+<div class="p-block pfaq"><div class="p-head"><h3>Pricing questions</h3></div><div class="pfaq-cols"><div class="pfaq-col">
+<details class="pfaq-item"><summary>What is included in the venue price?</summary><p>One front terminal and one kitchen screen, the menu, stock and recipes, reports with the AI assistant, staff and roles. Other devices and modules — by the price list.</p></details>
+<details class="pfaq-item"><summary>How do I pay?</summary><p>Monthly — an invoice to your company every month, or yearly — one invoice in advance, 10 months instead of 12. By bank transfer; prices are without VAT, and 20% VAT is added to the invoice.</p></details>
+<details class="pfaq-item"><summary>What if I add a device <span class="nw">mid-year</span>?</summary><p>A device or module added in the middle of a paid year is paid monthly until that year ends. On a monthly subscription — from the next invoice.</p></details>
+<details class="pfaq-item"><summary>Can I use my own devices?</summary><p>Yes. The front terminal and the kiosk run on iPad, the waiter device on iPhone, the kitchen screen on a tablet — the devices you already have will do.</p></details>
+</div><div class="pfaq-col">
+<details class="pfaq-item"><summary>Does RUVO replace the fiscal register?</summary><p>No. Your register still issues the fiscal receipt, and RUVO records the payment method so the totals match.</p></details>
+<details class="pfaq-item"><summary>Is there a <span class="nw">lock-in</span> contract?</summary><p>No. End the subscription whenever you like, and we send you your data in a standard format.</p></details>
+<details class="pfaq-item"><summary>What if a payment is late?</summary><p>The floor and the kitchen keep working — we call before anything is switched off.</p></details>
+<details class="pfaq-item"><summary>How do I get support?</summary><p>Write to <a href="mailto:hello@ruvo.ac">hello@ruvo.ac</a> — we answer on working days.</p></details>
+</div></div></div>
 <script type="application/json" id="calc-data">{"currency":"RSD","venue":6000,"included":{"ipad":1,"kds":1},"device":{"ipad":1500,"kds":1200,"iphone":1000,"kiosk":5000},"modules":{"ips":1000,"terminal":1000,"shifts":1500,"telegram":500,"migrate":0},"yearMonths":10,"vat":20,"locale":"en-GB","lines":{"venue":"Venue","ipad":"Extra front terminal","kds":"Extra kitchen screen","iphone":"Waiter device","kiosk":"Kiosk","ips":"IPS QR payments","terminal":"Bank terminal","shifts":"Shifts and pay","telegram":"Report in Telegram"}}</script>
 </div></section>
 <section class="band raised" id="start" aria-labelledby="start-h"><div class="wrap">
