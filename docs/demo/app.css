@@ -648,6 +648,12 @@ h1, h2, h3, p, ul, ol, dl, dd { margin: 0; }
 .role-desc { min-height: 60px; color: var(--ink-2); font-size: var(--fs-sm); line-height: 20px; text-wrap: pretty; }
 .role-foot { display: flex; align-items: center; justify-content: space-between; color: var(--accent); }
 .role-hint { color: var(--ink-3); font-size: var(--fs-sm); }
+/* a note under the description: the demo's back office «za sada samo na ruskom» */
+.role-note { color: var(--ink-3); font-size: var(--fs-xs); font-weight: var(--fw-semibold); line-height: 16px; }
+/* a name too long for one line (the demo's «Устройство официанта») wraps; in the row of five every card keeps two
+   lines for its name, so the descriptions start on one line */
+.roles.long .role .role-title { white-space: normal; text-wrap: balance; }
+@media (min-width: 1000px) { .roles.long .role .role-title { min-height: 48px; } }
 /* narrower than five cards: one list, the picture on the left */
 @media (max-width: 999px) {
   .roles { grid-template-columns: minmax(0, 1fr); gap: var(--sp-3); }

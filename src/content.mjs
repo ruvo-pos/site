@@ -41,16 +41,39 @@ const TICKET = {
   ru: { table: 'Стол 12', meta: '4 гостя · Marko', lines: [['Чевапи, 10 шт', 2, 2580], ['Шопский салат', 1, 590], ['Домашний лимонад', 3, 1050]], course: 'Курс 2 · ждёт вызова', later: [['Палачинки с шоколадом', 2, 1040]], total: 'Итого', send: 'На кухню', bill: 'Счёт', kitchen: 'Кухня', waits: 'курс 2 ждёт', label: 'Пример: заказ стола 12 на iPad и тот же заказ на экране кухни' },
 };
 
-// «Kako izgleda u radu»: five screens of RUVO drawn from the app's own parts, with the dishes and figures of one
-// restaurant. The figures add up: the tech card's cost and food cost, the week's sales and its change are counted by
-// build.mjs from these rows. Supplier lines stay in Serbian in every language — that is how the e-invoice comes.
+// «Kako izgleda u radu»: nine screens of RUVO drawn from the app's own parts, with the dishes and figures of one
+// restaurant (the owner, 13 October: «Как это выглядит в работе — надо больше примеров»). The figures add up: the tech
+// card's cost and food cost, the week's sales and its change, the guest's discounts and points are counted by build.mjs
+// from these rows. Supplier lines stay in Serbian in every language — that is how the e-invoice comes.
 const SALES = { now: [128400, 121900, 134700, 141200, 176800, 198300, 161500], before: [131000, 118000, 129000, 137000, 171000, 192000, 161000] };
+// the floor of the front terminal as the demo shows it at dinner: four tables open in the dining room and one on the
+// terrace (5 open), table 5 with three dishes ready, table 7 waiting for the bill
+const FLOOR = {
+  tables: [
+    { n: 1, shape: 'round', seats: 2 }, { n: 2, shape: 'round', guests: 2, mins: 14 }, { n: 3, shape: 'round', seats: 2 }, { n: 4, shape: 'round', seats: 2 },
+    { n: 5, shape: 'sq', st: 'ready', guests: 4, mins: 31, sum: 5510 }, { n: 6, shape: 'sq', seats: 4 }, { n: 7, shape: 'sq', st: 'bill', guests: 3, mins: 64, sum: 4338 }, { n: 8, shape: 'sq', seats: 4 },
+    { n: 9, shape: 'wide', guests: 6, mins: 4, sum: 8660 }, { n: 10, shape: 'wide', seats: 8 },
+  ],
+  open: 5, ready: 3, revenue: 23230,
+};
+// the guest's bill: the level gives 10% (Zlato), happy hours 20% on drinks; discounts do not add up — each dish gets
+// the biggest; points: 3 for every 100 RSD paid (the app's loyalty programme)
+const LOYAL = { levelPct: 10, promoPct: 20, earn: 3, points: 1840 };
+// the kiosk's dishes: the app's own pictures (src/dishes/, taken from the kiosk) and prices; two in the basket
+const KIOSK = { dishes: [['cevapi', 1290], ['pljeskavica', 1190], ['burger', 1290], ['carbonara', 990]], basket: ['cevapi', 'pljeskavica'], no: 47 };
 const EXAMPLES = {
   sr: {
     title: 'Kako izgleda u radu',
-    lead: 'Pet ekrana iz RUVO-a, sa jelima i brojkama kao u pravom restoranu.',
+    lead: 'Devet ekrana iz RUVO-a — od sale i kuhinje do magacina i izveštaja, sa jelima i brojkama kao u pravom restoranu.',
     tabsLabel: 'Primeri ekrana',
     items: [
+      {
+        id: 'floor', tab: 'Sala', title: 'Plan sale na terminalu',
+        text: 'Cela sala na jednom ekranu: koji su stolovi zauzeti i koliko dugo, gde je jelo spremno za serviranje i gde gosti čekaju račun. Sa strane — dostava i promet smene.',
+        points: ['Sala i bašta — svaka na svom planu', 'Spremno za serviranje — odmah, sa brojem stola', 'Gosti prelaze za drugi sto bez nove porudžbine'],
+        label: 'Primer: plan sale na terminalu — slobodni i zauzeti stolovi, sto sa spremnim jelima i sto koji čeka račun',
+        floor: { ...FLOOR, halls: [['Sala', 4], ['Bašta', 1]], legend: ['Slobodan', 'Otvoren', 'Spremno', 'Račun'], seats: { 2: '2 mesta', 4: '4 mesta', 8: '8 mesta' }, readyTag: 'Spremno', billTag: 'Račun', bar: 'Šank', delivery: 'Dostava', dl: ['W-7F3A', 'Spremno 0/2 · Kurir 21:52'], readyTitle: 'Spremno za serviranje', readyText: '2× Ćevapi, 10 kom, 1× Šopska salata', served: 'Servirano', shift: 'Smena', openLabel: 'Otvorenih stolova', revLabel: 'Promet danas, RSD' },
+      },
       {
         id: 'waiter', tab: 'Konobar', title: 'Konobar za stolom',
         text: 'Porudžbina se kuca na iPhone-u i odmah ide u kuhinju i na šank. Gost plaća skeniranjem IPS QR koda — bez čekanja na terminal.',
@@ -69,6 +92,31 @@ const EXAMPLES = {
           { no: 21, src: 'Wolt', time: '07:15', tone: 'warn', lines: [[2, 'Ćevapi, 10 kom'], [1, 'Šopska salata']] },
           { no: 19, src: 'Sto 3', time: '12:58', tone: 'late', lines: [[2, 'Palačinke sa čokoladom']], called: true },
         ] },
+      },
+      {
+        id: 'delivery', tab: 'Dostava', title: 'Dostava na istom ekranu',
+        text: 'Porudžbine sa Wolt-a i Glovo-a idu u kuhinju i magacin kao i sve ostale, sa vremenom kurira. Za sada ih prenosite sa tableta platforme — direktna veza stiže uskoro.',
+        points: ['U pripremi, čekaju kurira, preuzete', 'Posebne cene za Wolt i Glovo', 'Vreme kurira na svakoj porudžbini'],
+        label: 'Primer: dostava na terminalu sale — porudžbine Wolt-a i Glovo-a u pripremi i jedna koja čeka kurira',
+        delivery: { tabs: ['Sala', 'Dostava', 'Zatvoreni'], manual: 'ručno sa tableta', cols: [
+          ['U pripremi', [{ ch: 'Wolt', code: 'W-7F3A', items: ['2× Ćevapi, 10 kom', '1× Šopska salata'], state: 'Spremno 1/3', courier: 'Kurir 21:52' }, { ch: 'Glovo', code: 'G-1186', items: ['1× Burger sa junetinom', '2× Pomfrit'], state: 'Spremno 0/3', courier: 'Kurir 22:05' }]],
+          ['Čekaju kurira', [{ ch: 'Wolt', code: 'W-7E91', items: ['1× Pasta karbonara', '1× Cezar salata sa piletinom'], state: 'Spremno 2/2', courier: 'Kurir 21:44', ready: true }]],
+          ['Preuzete', [{ ch: 'Glovo', code: 'G-1179', items: ['2× Pljeskavica'], state: 'Kurir preuzeo 21:31', done: true }]],
+        ] },
+      },
+      {
+        id: 'kiosk', tab: 'Kiosk', title: 'Kiosk za goste',
+        text: 'Gost sam bira jela po slikama, vidi opis i alergene i dobija broj. Porudžbina odmah ide u kuhinju, a plaća se na kasi po broju.',
+        points: ['Srpski ili ruski — jednim dodirom', 'Alergeni i opis uz svako jelo', 'Akcije po rasporedu važe i ovde'],
+        label: 'Primer: kiosk sa glavnim jelima po slikama i broj porudžbine za plaćanje na kasi',
+        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['doručak', 'supe i čorbe', 'glavna jela', 'salate'], on: 2, section: 'Glavna jela', names: { cevapi: 'Ćevapi, 10 kom', pljeskavica: 'Pljeskavica', burger: 'Burger sa junetinom', carbonara: 'Pasta karbonara' }, basketTitle: 'Vaša porudžbina', items: '2 stavke', checkout: 'Poruči', yourNo: 'Vaš broj', payAt: 'Platite na kasi i recite ovaj broj.' },
+      },
+      {
+        id: 'guests', tab: 'Gosti', title: 'Kartica gosta na računu',
+        text: 'Popust nivoa gosta i poeni sa svakog računa. Akcije po rasporedu se uračunavaju same, a popusti se ne sabiraju: za svako jelo važi najveći.',
+        points: ['Nivoi po potrošnji: Gost, Srebro, Zlato', 'Plaćanje poenima — uz kod iz SMS-a ili karticu', 'Srećni sati i ručak — po rasporedu'],
+        label: 'Primer: račun stola 4 sa karticom gosta, popustom nivoa i srećnim satima na pića',
+        guests: { ...LOYAL, table: 'Sto 4', meta: '2 gosta · 17:20', name: 'Milica Stojanović', level: 'Zlato', ptsWord: 'poena', lines: [['Ćevapi, 10 kom', 1, 1290, 'food'], ['Šopska salata', 1, 590, 'food'], ['Domaća limunada', 2, 700, 'drink']], disc: { food: 'Zlato −10% · hrana', drink: 'Srećni sati −20% · pića' }, subtotal: 'Bez popusta', due: 'Za naplatu', earnLabel: 'Dodajemo', payPoints: 'Plati poenima', close: 'Zatvori sto', now: 'Trenutno važi', promo: 'Srećni sati', promoText: 'Pića −20% · radnim danima 16:00–18:00' },
       },
       {
         id: 'stock', tab: 'Magacin', title: 'Magacin i normativi',
@@ -95,9 +143,16 @@ const EXAMPLES = {
   },
   en: {
     title: 'See it at work',
-    lead: 'Five screens of RUVO, with the dishes and figures of a real restaurant.',
+    lead: 'Nine screens of RUVO — from the floor and the kitchen to stock and reports, with the dishes and figures of a real restaurant.',
     tabsLabel: 'Example screens',
     items: [
+      {
+        id: 'floor', tab: 'Floor', title: 'The floor plan on the front terminal',
+        text: 'The whole floor on one screen: which tables are taken and for how long, where a dish is ready to serve and where guests wait for the bill. At the side — delivery and the shift’s sales.',
+        points: ['The dining room and the terrace — each on its own plan', 'Ready to serve — at once, with the table number', 'Guests move to another table without a new order'],
+        label: 'Example: the floor plan on the front terminal — free and taken tables, a table with dishes ready and a table waiting for the bill',
+        floor: { ...FLOOR, halls: [['Dining room', 4], ['Terrace', 1]], legend: ['Free', 'Open', 'Ready', 'Bill'], seats: { 2: '2 seats', 4: '4 seats', 8: '8 seats' }, readyTag: 'Ready', billTag: 'Bill', bar: 'Bar', delivery: 'Delivery', dl: ['W-7F3A', 'Ready 0/2 · Courier 21:52'], readyTitle: 'Ready to serve', readyText: '2× Ćevapi, 10 pcs, 1× Shopska salad', served: 'Served', shift: 'Shift', openLabel: 'Open tables', revLabel: 'Sales today, RSD' },
+      },
       {
         id: 'waiter', tab: 'Waiter', title: 'The waiter at the table',
         text: 'The order is typed on the iPhone and goes straight to the kitchen and the bar. The guest pays by scanning the IPS QR code — no waiting for the terminal.',
@@ -116,6 +171,31 @@ const EXAMPLES = {
           { no: 21, src: 'Wolt', time: '07:15', tone: 'warn', lines: [[2, 'Ćevapi, 10 pcs'], [1, 'Shopska salad']] },
           { no: 19, src: 'Table 3', time: '12:58', tone: 'late', lines: [[2, 'Pancakes with chocolate']], called: true },
         ] },
+      },
+      {
+        id: 'delivery', tab: 'Delivery', title: 'Delivery on the same screen',
+        text: 'Wolt and Glovo orders go to the kitchen and stock like all the others, with the courier’s time. For now you carry them over from the platform’s tablet — the direct link is coming soon.',
+        points: ['Cooking, waiting for the courier, picked up', 'Separate prices for Wolt and Glovo', 'The courier’s time on every order'],
+        label: 'Example: delivery on the front terminal — Wolt and Glovo orders cooking and one waiting for the courier',
+        delivery: { tabs: ['Floor', 'Delivery', 'Closed'], manual: 'by hand from the tablet', cols: [
+          ['Cooking', [{ ch: 'Wolt', code: 'W-7F3A', items: ['2× Ćevapi, 10 pcs', '1× Shopska salad'], state: 'Ready 1/3', courier: 'Courier 21:52' }, { ch: 'Glovo', code: 'G-1186', items: ['1× Beef burger', '2× Fries'], state: 'Ready 0/3', courier: 'Courier 22:05' }]],
+          ['Waiting for courier', [{ ch: 'Wolt', code: 'W-7E91', items: ['1× Pasta carbonara', '1× Caesar salad with chicken'], state: 'Ready 2/2', courier: 'Courier 21:44', ready: true }]],
+          ['Picked up', [{ ch: 'Glovo', code: 'G-1179', items: ['2× Pljeskavica'], state: 'Courier picked up 21:31', done: true }]],
+        ] },
+      },
+      {
+        id: 'kiosk', tab: 'Kiosk', title: 'The kiosk for guests',
+        text: 'The guest picks dishes by picture, sees the description and allergens and gets a number. The order goes to the kitchen at once and is paid at the till by number.',
+        points: ['Serbian or Russian — one tap', 'Allergens and a description with every dish', 'Scheduled promotions apply here too'],
+        label: 'Example: the kiosk with main dishes by picture and the order number to pay at the till',
+        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['breakfast', 'soups', 'mains', 'salads'], on: 2, section: 'Mains', names: { cevapi: 'Ćevapi, 10 pcs', pljeskavica: 'Pljeskavica', burger: 'Beef burger', carbonara: 'Pasta carbonara' }, basketTitle: 'Your order', items: '2 items', checkout: 'Order', yourNo: 'Your number', payAt: 'Pay at the till and say this number.' },
+      },
+      {
+        id: 'guests', tab: 'Guests', title: 'The guest’s card on the bill',
+        text: 'The discount of the guest’s level and points from every bill. Scheduled promotions count by themselves, and discounts don’t add up: each dish gets the biggest one.',
+        points: ['Levels by spend: Guest, Silver, Gold', 'Paying with points — with a code by SMS or the card', 'Happy hours and lunch — on a schedule'],
+        label: 'Example: the bill of table 4 with a guest card, the level discount and happy hours on drinks',
+        guests: { ...LOYAL, table: 'Table 4', meta: '2 guests · 17:20', name: 'Milica Stojanović', level: 'Gold', ptsWord: 'points', lines: [['Ćevapi, 10 pcs', 1, 1290, 'food'], ['Shopska salad', 1, 590, 'food'], ['Homemade lemonade', 2, 700, 'drink']], disc: { food: 'Gold −10% · food', drink: 'Happy hours −20% · drinks' }, subtotal: 'Before discounts', due: 'To pay', earnLabel: 'We add', payPoints: 'Pay with points', close: 'Close table', now: 'On now', promo: 'Happy hours', promoText: 'Drinks −20% · weekdays 16:00–18:00' },
       },
       {
         id: 'stock', tab: 'Stock', title: 'Stock and recipes',
@@ -142,9 +222,16 @@ const EXAMPLES = {
   },
   ru: {
     title: 'Как это выглядит в работе',
-    lead: 'Пять экранов RUVO — с блюдами и цифрами, как в настоящем ресторане.',
+    lead: 'Девять экранов RUVO — от зала и кухни до склада и отчётов, с блюдами и цифрами, как в настоящем ресторане.',
     tabsLabel: 'Примеры экранов',
     items: [
+      {
+        id: 'floor', tab: 'Зал', title: 'План зала на фронте',
+        text: 'Весь зал на одном экране: какие столы заняты и как давно, где блюдо готово к подаче и где гости ждут счёт. Сбоку — доставка и выручка смены.',
+        points: ['Зал и терраса — каждый на своём плане', 'Готово к подаче — сразу, с номером стола', 'Гостей пересаживают за другой стол без нового заказа'],
+        label: 'Пример: план зала на фронте — свободные и занятые столы, стол с готовыми блюдами и стол, который ждёт счёт',
+        floor: { ...FLOOR, halls: [['Зал', 4], ['Терраса', 1]], legend: ['Свободен', 'Открыт', 'Готово', 'Счёт'], seats: { 2: '2 места', 4: '4 места', 8: '8 мест' }, readyTag: 'Готово', billTag: 'Счёт', bar: 'Бар', delivery: 'Доставка', dl: ['W-7F3A', 'Готово 0/2 · Курьер 21:52'], readyTitle: 'Готово к подаче', readyText: '2× Чевапи, 10 шт, 1× Шопский салат', served: 'Подано', shift: 'Смена', openLabel: 'Открыто столов', revLabel: 'Выручка сегодня, RSD' },
+      },
       {
         id: 'waiter', tab: 'Официант', title: 'Официант у стола',
         text: 'Заказ набирается на iPhone и сразу уходит на кухню и в бар. Гость платит, отсканировав IPS QR, — без ожидания терминала.',
@@ -163,6 +250,31 @@ const EXAMPLES = {
           { no: 21, src: 'Wolt', time: '07:15', tone: 'warn', lines: [[2, 'Чевапи, 10 шт'], [1, 'Шопский салат']] },
           { no: 19, src: 'Стол 3', time: '12:58', tone: 'late', lines: [[2, 'Палачинки с шоколадом']], called: true },
         ] },
+      },
+      {
+        id: 'delivery', tab: 'Доставка', title: 'Доставка на том же экране',
+        text: 'Заказы Wolt и Glovo идут на кухню и в склад, как все остальные, со временем курьера. Пока их переносят с планшета платформы — прямая связь скоро.',
+        points: ['Готовятся, ждут курьера, выданы', 'Свои цены для Wolt и Glovo', 'Время курьера на каждом заказе'],
+        label: 'Пример: доставка на фронте — заказы Wolt и Glovo готовятся, один ждёт курьера',
+        delivery: { tabs: ['Зал', 'Доставка', 'Закрытые'], manual: 'вручную с планшета', cols: [
+          ['Готовятся', [{ ch: 'Wolt', code: 'W-7F3A', items: ['2× Чевапи, 10 шт', '1× Шопский салат'], state: 'Готово 1/3', courier: 'Курьер 21:52' }, { ch: 'Glovo', code: 'G-1186', items: ['1× Бургер с говядиной', '2× Картофель фри'], state: 'Готово 0/3', courier: 'Курьер 22:05' }]],
+          ['Ждут курьера', [{ ch: 'Wolt', code: 'W-7E91', items: ['1× Паста карбонара', '1× Цезарь с курицей'], state: 'Готово 2/2', courier: 'Курьер 21:44', ready: true }]],
+          ['Выданы', [{ ch: 'Glovo', code: 'G-1179', items: ['2× Плескавица'], state: 'Курьер забрал 21:31', done: true }]],
+        ] },
+      },
+      {
+        id: 'kiosk', tab: 'Киоск', title: 'Киоск для гостей',
+        text: 'Гость сам выбирает блюда по фото, видит описание и аллергены и получает номер. Заказ сразу уходит на кухню, а оплата — на кассе по номеру.',
+        points: ['Сербский или русский — одним касанием', 'Аллергены и описание у каждого блюда', 'Акции по расписанию действуют и здесь'],
+        label: 'Пример: киоск с горячим по фото и номер заказа для оплаты на кассе',
+        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['завтраки', 'супы', 'горячее', 'салаты'], on: 2, section: 'Горячее', names: { cevapi: 'Чевапи, 10 шт', pljeskavica: 'Плескавица', burger: 'Бургер с говядиной', carbonara: 'Паста карбонара' }, basketTitle: 'Ваш заказ', items: '2 позиции', checkout: 'Оформить', yourNo: 'Ваш номер', payAt: 'Оплатите на кассе и назовите этот номер.' },
+      },
+      {
+        id: 'guests', tab: 'Гости', title: 'Карта гостя в счёте',
+        text: 'Скидка уровня гостя и баллы с каждого чека. Акции по расписанию считаются сами, а скидки не суммируются: на каждое блюдо действует самая большая.',
+        points: ['Уровни по сумме покупок: Гость, Серебро, Золото', 'Оплата баллами — по коду из SMS или карте', 'Счастливые часы и обед — по расписанию'],
+        label: 'Пример: счёт стола 4 с картой гостя, скидкой уровня и счастливыми часами на напитки',
+        guests: { ...LOYAL, table: 'Стол 4', meta: '2 гостя · 17:20', name: 'Milica Stojanović', level: 'Золото', ptsWord: 'баллов', lines: [['Чевапи, 10 шт', 1, 1290, 'food'], ['Шопский салат', 1, 590, 'food'], ['Домашний лимонад', 2, 700, 'drink']], disc: { food: 'Золото −10% · еда', drink: 'Счастливые часы −20% · напитки' }, subtotal: 'Без скидок', due: 'К оплате', earnLabel: 'Начислим', payPoints: 'Оплатить баллами', close: 'Закрыть стол', now: 'Сейчас действует', promo: 'Счастливые часы', promoText: 'Напитки −20% · по будням 16:00–18:00' },
       },
       {
         id: 'stock', tab: 'Склад', title: 'Склад и техкарты',
@@ -202,11 +314,11 @@ const PRICING = {
     lead: 'Plaćate objekat i licencu za svaki uređaj koji povežete — mesečno ili godišnje. Prvih 30 dana besplatno.',
     vat: 'bez PDV-a',
     plans: {
-      month: { label: 'Mesečno', unit: 'po objektu, mesečno', points: ['Faktura svakog meseca', 'Bez plaćanja unapred', 'Pretplatu završavate kad želite'] },
-      year: { label: 'Godišnje', badge: '2 meseca besplatno', unit: 'po objektu, godišnje', points: ['Izlazi {perMonth} mesečno', 'Ušteda {saving} po objektu', 'Jedna faktura unapred za 12 meseci'] },
+      month: { label: 'Mesečno', unit: 'po objektu, mesečno', note: 'Faktura svakog meseca, bez plaćanja unapred. Pretplatu završavate kad želite.' },
+      year: { label: 'Godišnje', badge: '2 meseca besplatno', unit: 'po objektu, godišnje', note: 'Izlazi {perMonth} mesečno — ušteda {saving} po objektu. Jedna faktura unapred.' },
     },
     includesTitle: 'U ceni objekta',
-    includes: ['Terminal sale — porudžbine, sala i naplata', 'Ekran kuhinje', 'Meni, magacin i normativi', 'Izveštaji i AI pomoćnik', 'Zaposleni, uloge i dnevnik radnji'],
+    includes: 'Terminal sale i ekran kuhinje, meni, magacin i normativi, izveštaji i AI pomoćnik, zaposleni, uloge i dnevnik radnji. Ostali uređaji i moduli — po cenovniku ispod.',
     tableTitle: 'Licence i moduli',
     cols: ['mesečno', 'godišnje'],
     groups: [
@@ -257,11 +369,11 @@ const PRICING = {
     lead: 'You pay for the venue and a licence for each device you connect — monthly or yearly. The first 30 days are free.',
     vat: 'without VAT',
     plans: {
-      month: { label: 'Monthly', unit: 'per venue, a month', points: ['An invoice every month', 'Nothing paid in advance', 'End the subscription whenever you like'] },
-      year: { label: 'Yearly', badge: '2 months free', unit: 'per venue, a year', points: ['Works out at {perMonth} a month', 'You save {saving} per venue', 'One invoice in advance for 12 months'] },
+      month: { label: 'Monthly', unit: 'per venue, a month', note: 'An invoice every month, nothing paid in advance. End the subscription whenever you like.' },
+      year: { label: 'Yearly', badge: '2 months free', unit: 'per venue, a year', note: 'Works out at {perMonth} a month — you save {saving} per venue. One invoice in advance.' },
     },
     includesTitle: 'Included in a venue',
-    includes: ['A front terminal — orders, floor and payments', 'A kitchen screen', 'Menu, stock and recipes', 'Reports and the AI assistant', 'Staff, roles and the action log'],
+    includes: 'A front terminal and a kitchen screen, the menu, stock and recipes, reports and the AI assistant, staff, roles and the action log. Other devices and modules — by the price list below.',
     tableTitle: 'Licences and modules',
     cols: ['monthly', 'yearly'],
     groups: [
@@ -312,11 +424,11 @@ const PRICING = {
     lead: 'Платите за заведение и лицензию на каждое подключённое устройство — помесячно или за год. Первые 30 дней бесплатно.',
     vat: 'без ПДВ',
     plans: {
-      month: { label: 'Помесячно', unit: 'за заведение в месяц', points: ['Счёт каждый месяц', 'Без оплаты вперёд', 'Подписку можно закончить в любой момент'] },
-      year: { label: 'За год', badge: '2 месяца бесплатно', unit: 'за заведение в год', points: ['Выходит {perMonth} в месяц', 'Экономия {saving} на заведении', 'Один счёт вперёд на 12 месяцев'] },
+      month: { label: 'Помесячно', unit: 'за заведение в месяц', note: 'Счёт каждый месяц, без оплаты вперёд. Подписку можно закончить в любой момент.' },
+      year: { label: 'За год', badge: '2 месяца бесплатно', unit: 'за заведение в год', note: 'Выходит {perMonth} в месяц — экономия {saving} на заведении. Один счёт вперёд.' },
     },
     includesTitle: 'В цене заведения',
-    includes: ['Фронт — заказы, зал и расчёт', 'Экран кухни', 'Меню, склад и техкарты', 'Отчёты и ИИ-помощник', 'Сотрудники, роли и журнал действий'],
+    includes: 'Фронт и экран кухни, меню, склад и техкарты, отчёты и ИИ-помощник, сотрудники, роли и журнал действий. Остальные устройства и модули — по прайсу ниже.',
     tableTitle: 'Лицензии и модули',
     cols: ['в месяц', 'за год'],
     groups: [
@@ -368,10 +480,42 @@ const PRICING = {
 // и пересобирай»; not copied): everything a venue needs in cards, the small things of a shift, who RUVO is for — beyond
 // restaurants too —, why RUVO, a closing call; and the demo. Every line is something the app does today (the prototype,
 // version 24) — no reviews, figures or clients RUVO does not have yet. Icons are named in build.mjs (ICONS, WHO_ICONS).
+// Places for live photos (the owner, 13 October: «не хватает живых фото — давай под них оставим места, предложи куда»).
+// A photo goes into src/photos/<id>.jpg (.webp or .png also do); the site shows a place only once its photo is there,
+// so ruvo.ac never shows an empty frame. The preview build (--preview) shows each empty place, numbered in the order of
+// the page, with what to shoot (`shot`, for the owner — in Russian on every page). `alt` describes the photo for those
+// who do not see it; fix it to what the real photo shows when it arrives. Guests in a photo: with their consent or
+// without faces.
+export const PHOTOS = {
+  hero: { ratio: '4 / 5', shot: 'Фронт на баре в разгар смены: на экране план зала, за ним зал с гостями. Вертикальное 4:5.',
+    alt: { sr: 'Terminal sale na šanku restorana tokom smene', en: 'The front terminal on a restaurant bar during service', ru: 'Фронт на баре ресторана во время смены' } },
+  'ex-floor': { ratio: '4 / 3', shot: 'Фронт на стойке крупно: рука касается стола на плане зала. Горизонтальное 4:3.',
+    alt: { sr: 'Konobar dodiruje sto na planu sale na terminalu', en: 'A waiter taps a table on the floor plan of the front terminal', ru: 'Официант нажимает на стол на плане зала на фронте' } },
+  'ex-waiter': { ratio: '4 / 3', shot: 'Официант у стола принимает заказ на iPhone; гости — с их согласия или без лиц. 4:3.',
+    alt: { sr: 'Konobar prima porudžbinu za stolom na telefonu', en: 'A waiter takes an order at the table on the phone', ru: 'Официант принимает заказ у стола на телефоне' } },
+  'ex-kitchen': { ratio: '4 / 3', shot: 'Экран кухни над раздачей, повар отмечает блюдо касанием. 4:3.',
+    alt: { sr: 'Ekran kuhinje iznad pulta za izdavanje, kuvar označava jelo', en: 'The kitchen screen above the pass, a cook marks a dish', ru: 'Экран кухни над раздачей, повар отмечает блюдо' } },
+  'ex-delivery': { ratio: '4 / 3', shot: 'Стойка выдачи: пакеты Wolt и Glovo, курьер забирает заказ, рядом фронт. 4:3.',
+    alt: { sr: 'Kurir preuzima porudžbinu za dostavu na pultu', en: 'A courier picks up a delivery order at the counter', ru: 'Курьер забирает заказ доставки у стойки' } },
+  'ex-kiosk': { ratio: '4 / 3', shot: 'Гость выбирает блюда на киоске у входа или у кассы. 4:3.',
+    alt: { sr: 'Gost poručuje na kiosku', en: 'A guest orders at the kiosk', ru: 'Гость заказывает на киоске' } },
+  'ex-stock': { ratio: '4 / 3', shot: 'Приёмка товара: управляющий с планшетом у ящиков с продуктами или в холодильной камере. 4:3.',
+    alt: { sr: 'Prijem robe u magacin sa tabletom', en: 'Receiving goods into stock with a tablet', ru: 'Приёмка товара на склад с планшетом' } },
+  'who-restaurant': { ratio: '3 / 2', shot: 'Ваш ресторан вечером: зал с гостями. 3:2.',
+    alt: { sr: 'Sala restorana uveče, sa gostima', en: 'A restaurant’s dining room in the evening, with guests', ru: 'Зал ресторана вечером, с гостями' } },
+  'who-cafe': { ratio: '3 / 2', shot: 'Ваше кафе: стойка с кофемашиной, бариста и гости. 3:2.',
+    alt: { sr: 'Šank kafića sa aparatom za kafu', en: 'A café counter with the coffee machine', ru: 'Стойка кафе с кофемашиной' } },
+  'who-hotel': { ratio: '3 / 2', shot: 'Ваш отель: завтрак в ресторане отеля или лобби-бар. 3:2.',
+    alt: { sr: 'Doručak u restoranu hotela', en: 'Breakfast in a hotel restaurant', ru: 'Завтрак в ресторане отеля' } },
+  'why-team': { ratio: '21 / 9', shot: 'Команда в своём ресторане: повара и официанты на кухне или у раздачи — к тезису «Создан в ресторане». Широкое 21:9.',
+    alt: { sr: 'Tim restorana u kuhinji', en: 'The restaurant’s team in the kitchen', ru: 'Команда ресторана на кухне' } },
+  'start-kit': { ratio: '4 / 3', shot: 'Комплект на столе: iPad на подставке, iPhone, планшет для кухни, роутер, банковский терминал. 4:3.',
+    alt: { sr: 'Oprema za RUVO: iPad, iPhone, tablet za kuhinju i ruter', en: 'The kit for RUVO: an iPad, an iPhone, a kitchen tablet and a router', ru: 'Оборудование для RUVO: iPad, iPhone, планшет для кухни и роутер' } },
+};
+
 const MORE = {
   sr: {
-    checks: ['30 dana besplatno', 'od {price} mesečno', 'bez obaveze'],
-    demo: { cta: 'Isprobajte demo', note: 'Sve ovo možete da probate sami — demo restoran radi u vašem pregledaču.', link: 'Otvorite demo', page: { title: 'Demo restoran — RUVO', description: 'Isprobajte RUVO u pregledaču: terminal sale, uređaj konobara, ekran kuhinje i kiosk, sa demo menijem.', noscript: 'Za demo je potreban JavaScript.' } },
+    demo: { cta: 'Isprobajte demo', note: 'Sve ovo možete da probate sami — demo restoran radi u vašem pregledaču.', link: 'Otvorite demo', page: { title: 'Demo restoran — RUVO', description: 'Isprobajte RUVO u pregledaču: terminal sale, uređaj konobara, ekran kuhinje, kiosk i bekofis, sa demo menijem.', noscript: 'Za demo je potreban JavaScript.' } },
     suite: {
       title: 'Sve što objektu treba',
       lead: 'Sala, kuhinja, magacin i tim u jednom sistemu — porudžbina stiže u kuhinju za sekundu.',
@@ -406,6 +550,7 @@ const MORE = {
     },
     who: {
       title: 'Za koga je RUVO',
+      photoCaps: ['Restoran', 'Kafić', 'Hotel'],
       lead: 'Svuda gde se kuva i služi: od kafića do hotela i kuhinje samo za dostavu.',
       items: [
         ['restaurant', 'Restoran sa salom', 'Plan sale, kursevi i konobari sa uređajima; magacin i normativi za svako jelo.'],
@@ -436,7 +581,6 @@ const MORE = {
     final: { title: 'Probajte RUVO na svom objektu', text: 'Prvih 30 dana besplatno, bez kartice i bez obaveze. Ili prvo otvorite demo — radi u pregledaču.' },
   },
   en: {
-    checks: ['30 days free', 'from {price} a month', 'no commitment'],
     demo: { cta: 'Try the demo', note: 'You can try all of this yourself — the demo restaurant runs in your browser, in Serbian or Russian.', link: 'Open the demo' },
     suite: {
       title: 'Everything a venue needs',
@@ -472,6 +616,7 @@ const MORE = {
     },
     who: {
       title: 'Who RUVO is for',
+      photoCaps: ['Restaurant', 'Café', 'Hotel'],
       lead: 'Wherever food is cooked and served: from a café to a hotel and a delivery-only kitchen.',
       items: [
         ['restaurant', 'Restaurant with a dining room', 'Floor plan, courses and waiters with their devices; stock and recipes for every dish.'],
@@ -502,8 +647,7 @@ const MORE = {
     final: { title: 'Try RUVO in your venue', text: 'The first 30 days are free — no card, no commitment. Or open the demo first: it runs in your browser.' },
   },
   ru: {
-    checks: ['30 дней бесплатно', 'от {price} в месяц', 'без обязательств'],
-    demo: { cta: 'Попробовать демо', note: 'Всё это можно попробовать самим — демо-ресторан работает прямо в вашем браузере.', link: 'Открыть демо', page: { title: 'Демо-ресторан — RUVO', description: 'Попробуйте RUVO в браузере: фронт, устройство официанта, экран кухни и киоск с демо-меню.', noscript: 'Для демо нужен JavaScript.' } },
+    demo: { cta: 'Попробовать демо', note: 'Всё это можно попробовать самим — демо-ресторан работает прямо в вашем браузере.', link: 'Открыть демо', page: { title: 'Демо-ресторан — RUVO', description: 'Попробуйте RUVO в браузере: фронт, устройство официанта, экран кухни, киоск и бэкофис — с демо-меню.', noscript: 'Для демо нужен JavaScript.' } },
     suite: {
       title: 'Всё, что нужно заведению',
       lead: 'Зал, кухня, склад и команда — в одной системе: заказ доходит до кухни за секунду.',
@@ -538,6 +682,7 @@ const MORE = {
     },
     who: {
       title: 'Для кого RUVO',
+      photoCaps: ['Ресторан', 'Кафе', 'Отель'],
       lead: 'Везде, где готовят и подают: от кафе до отеля и кухни, которая работает только на доставку.',
       items: [
         ['restaurant', 'Ресторан с залом', 'План зала, курсы и официанты с устройствами; склад и техкарты на каждое блюдо.'],

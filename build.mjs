@@ -8,10 +8,10 @@
 // The demo (ruvo.ac/demo/, ruvo.ac/ru/demo/) is the app's own bundle, src/demo/app.js and app.css: made in the ruvo
 // repository by `node build.mjs` in app/ (dist/demo/) and copied here.
 import { createHash } from 'node:crypto';
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { LANGS, PRICES, SITE, T } from './src/content.mjs';
+import { LANGS, PHOTOS, PRICES, SITE, T } from './src/content.mjs';
 import { SIGNUP as SG } from './src/signup.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
@@ -231,6 +231,12 @@ function scene(lang) {
 </div>`;
 }
 
+// the hero's picture: the order and the kitchen ticket, over the photo of a real service once there is one
+function heroArt(lang, file) {
+  const ph = photo(lang, file, 'hero');
+  return `<div class="hero-art${ph ? ' has-photo' : ''}">${ph}${scene(lang)}</div>`;
+}
+
 // ---------- «Kako izgleda u radu»: five screens of the app, drawn in em so each scales with its column ----------
 const fmt = (lang, v, opts) => new Intl.NumberFormat(LOCALE[lang], opts).format(v);
 const rsd = (lang, v) => `${fmt(lang, v)} RSD`;
@@ -350,9 +356,113 @@ function sefScene(lang, x) {
 </div></div>`;
 }
 
-const SCENES = { waiter: waiterScene, kitchen: kitchenScene, stock: stockScene, reports: reportsScene, sef: sefScene };
+// the front terminal's floor at dinner, as the demo shows it: tables by state around the bar; at the side the delivery
+// that is coming, the dishes ready to serve and the shift
+const PERSON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>';
+function floorScene(lang, x) {
+  const f = x.floor;
+  const table = (t) => {
+    const st = t.st || (t.guests ? 'open' : 'free');
+    const tag = st === 'ready' ? `<span class="tb-tag">${esc(f.readyTag)} ${f.ready}</span>` : st === 'bill' ? `<span class="tb-tag">${esc(f.billTag)}</span>` : '';
+    const body = t.guests
+      ? `<span class="tb-who">${PERSON}${t.guests} · ${t.mins}′</span>${t.sum ? `<span class="tb-sum">${fmt(lang, t.sum)}</span>` : ''}`
+      : `<span class="tb-seats">${esc(f.seats[t.seats])}</span>`;
+    return `<div class="tb ${t.shape} ${st}">${tag}<b>${t.n}</b>${body}</div>`;
+  };
+  return `<div class="scn scn-floor"><div class="ui fl">
+<div class="fl-top"><span class="seg">${f.halls.map(([name, n], i) => `<span${i ? '' : ' class="on"'}>${esc(name)}<i>${n}</i></span>`).join('')}</span><span class="fl-legend">${f.legend.map((l, i) => `<span class="lg lg-${['free', 'open', 'ready', 'bill'][i]}">${esc(l)}</span>`).join('')}</span></div>
+<div class="fl-body">
+<div class="fl-plan">${f.tables.map(table).join('')}<div class="fl-bar"><span>${esc(f.bar)}</span></div></div>
+<div class="fl-side">
+<div class="fl-card"><div class="fl-ch">${esc(f.delivery)}<i>1</i></div><div class="fl-dl"><span class="pf wolt">Wolt</span><b>${esc(f.dl[0])}</b><small>${esc(f.dl[1])}</small></div></div>
+<div class="fl-card"><div class="fl-ch">${esc(f.readyTitle)}<i>${f.ready}</i></div><div class="fl-ready"><b>5</b><span>${esc(f.readyText)}</span></div><span class="fl-served">${esc(f.served)}</span></div>
+<div class="fl-card"><div class="fl-ch">${esc(f.shift)}</div><div class="fl-stats"><div><b>${f.open}</b><small>${esc(f.openLabel)}</small></div><div><b>${fmt(lang, f.revenue)}</b><small>${esc(f.revLabel)}</small></div></div></div>
+</div>
+</div>
+</div></div>`;
+}
 
-// Without JavaScript the five examples stand one under another; the script turns them into tabs (one shown, the rest
+// delivery on the front terminal: what is cooking, what waits for its courier, what has gone — carried over by hand from
+// the platforms' tablets until the direct link (stage 2)
+function deliveryScene(lang, x) {
+  const d = x.delivery;
+  const active = d.cols.reduce((n, [, cards]) => n + cards.filter((c) => !c.done).length, 0);
+  const card = (c) => `<div class="dc${c.done ? ' done' : ''}${c.ready ? ' rdy' : ''}"><div class="dc-h"><span class="pf ${c.ch.toLowerCase()}">${esc(c.ch)}</span><b>${esc(c.code)}</b></div><div class="dc-items">${c.items.map((i) => `<span>${esc(i)}</span>`).join('')}</div><div class="dc-f"><span class="dc-st">${esc(c.state)}</span>${c.courier ? `<span class="dc-c">${esc(c.courier)}</span>` : ''}</div></div>`;
+  return `<div class="scn scn-dl"><div class="ui dl">
+<div class="dl-top"><span class="seg">${d.tabs.map((t, i) => `<span${i === 1 ? ' class="on"' : ''}>${esc(t)}${i === 1 ? `<i>${active}</i>` : ''}</span>`).join('')}</span><span class="ui-meta">${esc(d.manual)}</span></div>
+<div class="dl-cols">${d.cols.map(([title, cards], i) => `<div class="dl-col${i === d.cols.length - 1 ? ' dl-done' : ''}"><div class="dl-h">${esc(title)}<i>${cards.length}</i></div>${cards.map(card).join('')}</div>`).join('')}</div>
+</div></div>`;
+}
+
+// the guests' kiosk with the app's own pictures of the dishes (src/dishes/), two of them in the basket; beside it the
+// number the guest says at the till
+function kioskScene(lang, x, file) {
+  const k = x.kiosk;
+  const price = Object.fromEntries(k.dishes);
+  const sum = k.basket.reduce((total, id) => total + price[id], 0);
+  return `<div class="scn scn-kiosk">
+<div class="kio"><div class="kio-scr">
+<div class="kio-top"><span class="kio-brand">RUVO</span><span class="kio-place">${esc(k.place)}</span><span class="kio-lang">${k.langs.map((l, i) => `<span${(lang === 'ru' ? i === 1 : i === 0) ? ' class="on"' : ''}>${esc(l)}</span>`).join('')}</span></div>
+<div class="kio-cats">${k.cats.map((c, i) => `<span${i === k.on ? ' class="on"' : ''}>${esc(c)}</span>`).join('')}</div>
+<div class="kio-sec">${esc(k.section)}</div>
+<div class="kio-grid">${k.dishes.map(([id, p]) => `<div class="kd${k.basket.includes(id) ? ' in' : ''}"><span class="kd-img"><img src="${href(file, `assets/dishes/${id}.svg`)}" alt="" loading="lazy" decoding="async"></span><span class="kd-n">${esc(k.names[id])}</span><span class="kd-p">${fmt(lang, p)}<small>RSD</small></span></div>`).join('')}</div>
+<div class="kio-cart"><span class="kio-b"><b>${esc(k.basketTitle)}</b><small>${esc(k.items)} · ${rsd(lang, sum)}</small></span><span class="kio-go">${esc(k.checkout)}</span></div>
+</div></div>
+<div class="ui kio-no"><span class="ui-caps">${esc(k.yourNo)}</span><span class="kio-num">${k.no}</span><span class="kio-pay">${esc(k.payAt)}</span></div>
+</div>`;
+}
+
+// the bill of table 4 with the guest's card: each dish gets the biggest discount — the level's on food, happy hours' on
+// drinks — and the points are counted on what is paid, as the app counts them (actions.js: floor(paid × earn / 100))
+function guestsScene(lang, x) {
+  const g = x.guests;
+  const part = (kind) => g.lines.filter((l) => l[3] === kind).reduce((total, l) => total + l[2], 0);
+  const sub = part('food') + part('drink');
+  const offFood = Math.round((part('food') * g.levelPct) / 100);
+  const offDrink = Math.round((part('drink') * Math.max(g.levelPct, g.promoPct)) / 100);
+  const due = sub - offFood - offDrink;
+  const earned = Math.floor((due * g.earn) / 100);
+  const initials = g.name.split(' ').map((w) => w[0]).join('');
+  const line = ([name, qty, price]) => `<div class="gb-l"><span>${esc(name)}</span><span class="gb-q">×${qty}</span><span>${fmt(lang, price)}</span></div>`;
+  return `<div class="scn scn-guest">
+<div class="ui gb">
+<div class="gb-head"><span class="gb-title">${esc(g.table)}</span><span class="ui-meta">${esc(g.meta)}</span></div>
+<div class="gc"><span class="gc-av">${esc(initials)}</span><span class="gc-t"><b>${esc(g.name)}</b><small>${fmt(lang, g.points)} ${esc(g.ptsWord)}</small></span><span class="gc-lvl">${esc(g.level)} · −${g.levelPct}%</span></div>
+<div class="gb-lines">${g.lines.map(line).join('')}</div>
+<div class="gb-sums">
+<div><span>${esc(g.subtotal)}</span><span>${fmt(lang, sub)}</span></div>
+<div class="gb-d"><span>${esc(g.disc.food)}</span><span>−${fmt(lang, offFood)}</span></div>
+<div class="gb-d"><span>${esc(g.disc.drink)}</span><span>−${fmt(lang, offDrink)}</span></div>
+<div class="gb-due"><span>${esc(g.due)}</span><span>${rsd(lang, due)}</span></div>
+<div class="gb-earn"><span>${esc(g.earnLabel)}</span><b>+${earned} ${esc(g.ptsWord)}</b></div>
+</div>
+<div class="gb-btns"><span class="ui-btn">${esc(g.payPoints)}</span><span class="ui-btn go">${esc(g.close)}</span></div>
+</div>
+<div class="ui gp"><span class="ui-caps">${esc(g.now)}</span><b>${esc(g.promo)}</b><span>${esc(g.promoText)}</span></div>
+</div>`;
+}
+
+const SCENES = { floor: floorScene, waiter: waiterScene, kitchen: kitchenScene, delivery: deliveryScene, kiosk: kioskScene, guests: guestsScene, stock: stockScene, reports: reportsScene, sef: sefScene };
+// the photo of each example in real life, where there is one to take (PHOTOS)
+const EX_PHOTO = { floor: 'ex-floor', waiter: 'ex-waiter', kitchen: 'ex-kitchen', delivery: 'ex-delivery', kiosk: 'ex-kiosk', stock: 'ex-stock' };
+
+// ---------- live photos: a place shows once its file is in src/photos/ (PHOTOS in content.mjs); the preview shows each
+// empty one, numbered in the order of the page, with what to shoot — the live site never shows an empty frame ----------
+const PHOTO_DIR = path.join(ROOT, 'src/photos');
+const PHOTO_FILES = Object.fromEntries(Object.keys(PHOTOS).map((id) => [id,
+  ['jpg', 'jpeg', 'webp', 'png'].map((e) => `${id}.${e}`).find((f) => existsSync(path.join(PHOTO_DIR, f))) || null]));
+const PHOTO_NO = Object.fromEntries(Object.keys(PHOTOS).map((id, i) => [id, i + 1]));
+const CAMERA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+function photo(lang, file, id, caption = '') {
+  const p = PHOTOS[id];
+  const f = PHOTO_FILES[id];
+  const style = ` style="--ratio: ${p.ratio}"`;
+  if (f) return `<figure class="photo"${style}><img src="${href(file, `img/${f}`)}" alt="${esc(p.alt[lang])}" loading="lazy" decoding="async">${caption ? `<figcaption>${esc(caption)}</figcaption>` : ''}</figure>`;
+  if (!PREVIEW) return '';
+  return `<figure class="photo slot"${style} aria-hidden="true"><span class="slot-in"><span class="slot-n">${CAMERA}Фото ${PHOTO_NO[id]}${caption ? ` · ${esc(caption)}` : ''}</span><span class="slot-t">${esc(p.shot)}</span><code>src/photos/${id}.jpg</code></span></figure>`;
+}
+
+// Without JavaScript the examples stand one under another; the script turns them into tabs (one shown, the rest
 // kept in the same grid cell, so switching does not move the page)
 function examples(lang, file) {
   const x = T[lang].home.examples;
@@ -363,8 +473,8 @@ function examples(lang, file) {
 <div class="ex-tabs" aria-label="${esc(x.tabsLabel)}" hidden>${x.items.map((it, i) => `<button type="button" id="ex-t-${it.id}" aria-controls="ex-p-${it.id}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''}>${esc(it.tab)}</button>`).join('')}</div>
 <div class="ex-panels">${x.items.map((it) => `
 <div class="ex-panel" id="ex-p-${it.id}">
-<div class="ex-shot" role="img" aria-label="${esc(it.label)}">${SCENES[it.id](lang, it)}</div>
-<div class="ex-text"><h3>${txt(it.title)}</h3><p>${txt(it.text)}</p><ul>${it.points.map((p) => `<li>${txt(p)}</li>`).join('')}</ul></div>
+<div class="ex-shot" role="img" aria-label="${esc(it.label)}">${SCENES[it.id](lang, it, file)}</div>
+<div class="ex-text"><h3>${txt(it.title)}</h3><p>${txt(it.text)}</p><ul>${it.points.map((p) => `<li>${txt(p)}</li>`).join('')}</ul>${EX_PHOTO[it.id] ? photo(lang, file, EX_PHOTO[it.id]) : ''}</div>
 </div>`).join('')}
 </div>
 </div>
@@ -401,10 +511,12 @@ function rush(lang) {
 </div></section>`;
 }
 
-function who(lang) {
+function who(lang, file) {
   const w = T[lang].home.who;
+  const shots = ['who-restaurant', 'who-cafe', 'who-hotel'].map((id, i) => photo(lang, file, id, w.photoCaps[i])).filter(Boolean);
   return `<section class="band" id="who" aria-labelledby="who-h"><div class="wrap">
 <div class="sec-head"><h2 id="who-h">${esc(w.title)}</h2><p>${txt(w.lead)}</p></div>
+${shots.length ? `<div class="who-photos" style="--n: ${shots.length}">${shots.join('')}</div>` : ''}
 <ul class="cards who">${w.items.map(([key, title, text]) => `
 <li class="card"><span class="who-i" aria-hidden="true">${WHO_ICONS[key]}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
 </ul>
@@ -416,6 +528,7 @@ function why(lang, file) {
   const d = T[lang].home.demo;
   return `<section class="band raised" id="why" aria-labelledby="why-h"><div class="wrap">
 <div class="sec-head"><h2 id="why-h">${esc(w.title)}</h2></div>
+${photo(lang, file, 'why-team')}
 <ul class="why">${w.items.map(([title, text], i) => `
 <li><span class="why-i" aria-hidden="true">${WHY_ICONS[i]}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
 </ul>
@@ -480,7 +593,8 @@ function pricing(lang, file) {
   const cta = SIGNUP_ON
     ? `<a class="plan-cta" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].home.priceCta)}</a>`
     : `<a class="plan-cta" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(d.cta)}</a>`;
-  // {perMonth} — what the year comes to a month, {saving} — what it saves on a venue against twelve months
+  // {perMonth} — what the year comes to a month, {saving} — what it saves on a venue against twelve months. One plain
+  // sentence under the price: no ticked lists on the page (the owner, 13 October: «Все с зелеными галочками — убираем»)
   const point = (x) => txt(x
     .replace('{perMonth}', rsd(lang, Math.round(yearOf(PRICES.venue) / 12)))
     .replace('{saving}', rsd(lang, PRICES.venue * 12 - yearOf(PRICES.venue))));
@@ -490,7 +604,7 @@ function pricing(lang, file) {
 <h3 class="plan-label" id="plan-${k}">${esc(x.label)}${x.badge ? ` <span class="plan-badge">${esc(x.badge)}</span>` : ''}</h3>
 <p class="plan-amount">${num(amount)}<small>RSD</small></p>
 <p class="plan-unit">${esc(x.unit)} · ${esc(p.vat)}</p>
-<ul class="ticks plan-pts">${x.points.map((pt) => `<li>${point(pt)}</li>`).join('')}</ul>${cta}
+<p class="plan-note">${point(x.note)}</p>${cta}
 </article>`;
   };
   const groups = p.groups.map(([title, items]) => `<tbody>
@@ -517,7 +631,7 @@ function pricing(lang, file) {
 <div class="plans">
 ${plan('month', PRICES.venue)}
 ${plan('year', yearOf(PRICES.venue))}
-<div class="incl"><h3 class="plan-label">${esc(p.includesTitle)}</h3><ul class="ticks">${p.includes.map((x) => `<li>${txt(x)}</li>`).join('')}</ul></div>
+<div class="incl"><h3 class="plan-label">${esc(p.includesTitle)}</h3><p>${txt(p.includes)}</p></div>
 </div>
 <div class="p-detail">
 <div class="ptab">
@@ -560,7 +674,7 @@ ${stepper('kiosk', c.kiosk, 0, 10, 0)}
 }
 
 // The home page's script: the calculator (billOf above, the same sum as the app's) and the tabs of the examples.
-// Without it the price list, the example bills and all five examples still show.
+// Without it the price list, the example bills and all the examples still show.
 const HOME_JS = `(() => {
   const calc = document.getElementById('calc');
   if (calc) {
@@ -656,16 +770,13 @@ ${header(lang, 'home', file)}
 <div class="cta-row">${SIGNUP_ON
     ? `<a class="btn" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].home.cta)}</a><a class="btn ghost" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(h.demo.cta)}</a>`
     : `<a class="btn" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(h.demo.cta)}</a><a class="btn ghost" href="mailto:${SITE.email}">${MAIL_ICON}${esc(h.cta)}</a>`}</div>
-<ul class="ticks checks">${h.checks.map((x) => (x.includes('{price}')
-    ? `<li><a href="#pricing">${txt(x.replace('{price}', rsd(lang, PRICES.venue)))}</a></li>`
-    : `<li>${txt(x)}</li>`)).join('')}</ul>
 </div>
-${scene(lang)}
+${heroArt(lang, file)}
 </div></section>
 ${suite(lang)}
 ${examples(lang, file)}
 ${rush(lang)}
-${who(lang)}
+${who(lang, file)}
 ${why(lang, file)}
 ${pricing(lang, file)}
 <section class="band raised" id="start" aria-labelledby="start-h"><div class="wrap">
@@ -673,7 +784,7 @@ ${pricing(lang, file)}
 <ol class="steps">${(SIGNUP_ON ? SG[lang].home.start : h.start).map(([title, text], i) => `
 <li class="step"><span class="step-n" aria-hidden="true">${i + 1}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
 </ol>
-<div class="equip"><h3>${esc(h.equip.title)}</h3><ul class="ticks">${h.equip.items.map((x) => `<li>${txt(x)}</li>`).join('')}</ul><p>${txt(h.equip.note)}</p></div>
+<div class="equip"><div class="equip-h"><h3>${esc(h.equip.title)}</h3>${photo(lang, file, 'start-kit')}</div><ul>${h.equip.items.map((x) => `<li>${txt(x)}</li>`).join('')}</ul><p>${txt(h.equip.note)}</p></div>
 </div></section>
 ${contact(lang, file)}
 </main>
@@ -984,7 +1095,8 @@ function demoPage(lang) {
   const file = DEMO[lang];
   const d = T[lang].home.demo.page;
   const asset = (name) => `${href(file, `demo/${name}`)}?v=${DEMO_V}`;
-  const config = JSON.stringify({ lang, site: href(file, fileOf(lang, 'home')) }).replace(/</g, '\\u003c');
+  // the app's demo counts the demo company's month with the site's own prices (no RUVO console there)
+  const config = JSON.stringify({ lang, site: href(file, fileOf(lang, 'home')), prices: PRICES }).replace(/</g, '\\u003c');
   return `<!doctype html>
 <html lang="${T[lang].ui.lang}">
 <head>
@@ -1072,6 +1184,9 @@ for (const lang of LANGS) {
   }
 }
 put('assets/favicon.svg', FAVICON);
+// the kiosk example's dishes: the app's own drawings (taken from its kiosk), one file each
+for (const f of readdirSync(path.join(ROOT, 'src/dishes')).filter((x) => x.endsWith('.svg'))) put(`assets/dishes/${f}`, readFileSync(path.join(ROOT, 'src/dishes', f)));
+for (const f of Object.values(PHOTO_FILES).filter(Boolean)) put(`img/${f}`, readFileSync(path.join(PHOTO_DIR, f)));
 put(DEMO.sr, demoPage('sr'));
 put(DEMO.ru, demoPage('ru'));
 put('demo/app.js', DEMO_JS);
