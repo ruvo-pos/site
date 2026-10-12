@@ -6,7 +6,28 @@ export const SITE = {
   company: 'TT DAILY KITCHEN DOO',
   pib: '113820680',
   address: 'Cara Uroša 19, 11000 Beograd',
-  updated: { iso: '2026-10-10', sr: '10. oktobra 2026.', en: '10 October 2026', ru: '10 октября 2026 г.' },
+  updated: { iso: '2026-10-12', sr: '12. oktobra 2026.', en: '12 October 2026', ru: '12 октября 2026 г.' },
+  // Registration on the site (the owner's decision of 12 October): built and tested now, switched on when the app works
+  // through the server — until then the pages are only in the preview build (node build.mjs --preview) and the site
+  // keeps «Pišite nam». `api` — the server (render.yaml; api.ruvo.ac points at it), `app` — where a new client opens RUVO.
+  signup: false,
+  api: 'https://api.ruvo.ac',
+  app: 'https://app.ruvo.ac',
+};
+
+// The price list — the owner's choice of 12 October: the prototype's test prices (app/test/ruvo.mjs), RSD a month
+// without VAT (the company is in the VAT system: 20% goes on the invoice); a year paid in advance costs 10 months.
+// The same shape as the app's billing (app/src/billing.js, pricesOf): a venue includes one iPad and one kitchen screen;
+// devices beyond those are paid per device; modules per venue where they are on, Telegram and the move once a company.
+// SEF and Wolt/Glovo have no price yet, so they are not on the list.
+export const PRICES = {
+  currency: 'RSD',
+  venue: 6000,
+  included: { ipad: 1, kds: 1 },
+  device: { ipad: 1500, kds: 1200, iphone: 600, kiosk: 2500 },
+  modules: { waiter: 2000, kiosk: 3000, ips: 1000, terminal: 1000, shifts: 1500, telegram: 500, migrate: 0 },
+  yearMonths: 10,
+  vat: 20,
 };
 
 export const LANGS = ['sr', 'en', 'ru'];
@@ -18,12 +39,269 @@ const TICKET = {
   ru: { table: 'Стол 12', meta: '4 гостя · Marko', lines: [['Чевапи, 10 шт', 2, 2580], ['Шопский салат', 1, 590], ['Домашний лимонад', 3, 1050]], course: 'Курс 2 · ждёт вызова', later: [['Палачинки с шоколадом', 2, 1040]], total: 'Итого', send: 'На кухню', bill: 'Счёт', kitchen: 'Кухня', waits: 'курс 2 ждёт', label: 'Пример: заказ стола 12 на iPad и тот же заказ на экране кухни' },
 };
 
+// «Kako izgleda u radu»: five screens of RUVO drawn from the app's own parts, with the dishes and figures of one
+// restaurant. The figures add up: the tech card's cost and food cost, the week's sales and its change are counted by
+// build.mjs from these rows. Supplier lines stay in Serbian in every language — that is how the e-invoice comes.
+const SALES = { now: [128400, 121900, 134700, 141200, 176800, 198300, 161500], before: [131000, 118000, 129000, 137000, 171000, 192000, 161000] };
+const EXAMPLES = {
+  sr: {
+    title: 'Kako izgleda u radu',
+    lead: 'Pet ekrana iz RUVO-a, sa jelima i brojkama kao u pravom restoranu.',
+    tabsLabel: 'Primeri ekrana',
+    items: [
+      {
+        id: 'waiter', tab: 'Konobar', title: 'Konobar za stolom',
+        text: 'Porudžbina se kuca na iPhone-u i odmah ide u kuhinju i na šank. Gost plaća skeniranjem IPS QR koda — bez čekanja na terminal.',
+        points: ['Kursevi: drugi kurs čeka „Pozovi”', 'Račun na ekranu, deljenje po stavkama', 'Kartica, gotovina ili IPS QR'],
+        label: 'Primer: porudžbina za stolom 7 na iPhone-u konobara i račun sa IPS QR kodom za plaćanje',
+        order: { back: 'Sala', table: 'Sto 7', meta: '2 gosta', lines: [['Pljeskavica', 1, 1150], ['Pomfrit', 1, 350], ['Kisela voda', 2, 400]], course: 'Kurs 2 · čeka poziv', later: [['Baklava', 2, 680]], send: 'Pošalji', bill: 'Račun' },
+        bill: { title: 'Račun za goste', table: 'Sto 7', total: 'Ukupno', qr: 'IPS QR — skenirajte aplikacijom banke', paid: 'Plaćeno' },
+      },
+      {
+        id: 'kitchen', tab: 'Kuhinja', title: 'Ekran kuhinje',
+        text: 'Svaka stanica vidi svoje: kuhinja jela, šank pića. Tajmer pokazuje koliko porudžbina čeka, a one koje kasne se ističu.',
+        points: ['Sala, kiosk, Wolt i Glovo na jednom ekranu', 'Dodir — „sprema se”, još jedan — „gotovo”', 'Konobar odmah vidi šta je gotovo'],
+        label: 'Primer: ekran kuhinje sa tri porudžbine i tajmerima',
+        kds: { station: 'Kuhinja', other: 'Šank', count: '3 u radu', wait: 'kurs 2 čeka', called: 'Pozvano', tickets: [
+          { no: 22, src: 'Sto 7', time: '02:41', tone: 'ok', lines: [[1, 'Pljeskavica'], [1, 'Pomfrit']], wait: true },
+          { no: 21, src: 'Wolt', time: '07:15', tone: 'warn', lines: [[2, 'Ćevapi, 10 kom'], [1, 'Šopska salata']] },
+          { no: 19, src: 'Sto 3', time: '12:58', tone: 'late', lines: [[2, 'Palačinke sa čokoladom']], called: true },
+        ] },
+      },
+      {
+        id: 'stock', tab: 'Magacin', title: 'Magacin i normativi',
+        text: 'Svaka prodaja otpisuje namirnice po normativu. Vidite nabavnu cenu porcije, food cost i šta je ispod minimuma.',
+        points: ['Prijemnice, otpis i popis', 'Poluproizvodi sa svojim normativima', 'Prosečna nabavna cena se računa sama'],
+        label: 'Primer: normativ za ćevape sa nabavnom cenom porcije i namirnice ispod minimuma',
+        card: { crumb: 'Normativ', dish: 'Ćevapi, 10 kom', yield: '1 porcija', head: ['Namirnica', 'Količina', 'RSD'], rows: [['Mleveno meso', '0,25 kg', 287], ['Lepinja', '1 kom', 45], ['Kajmak', '0,04 kg', 48], ['Crni luk', '0,05 kg', 6]], price: 1290, cost: 'Nabavna cena porcije', menu: 'Prodajna cena', fc: 'Food cost', low: 'Ispod minimuma', lowRows: [['Kajmak', '0,8 kg', '2 kg'], ['Lepinja', '12 kom', '40 kom']], min: 'min' },
+      },
+      {
+        id: 'reports', tab: 'Izveštaji', title: 'Izveštaji i AI pomoćnik',
+        text: 'Pitajte običnim rečima i RUVO sastavi izveštaj: promet, prosečan račun, food cost, jela, konobari. Dugme „Objasni” kaže šta se promenilo.',
+        points: ['16 gotovih izveštaja i vaši sačuvani', 'Poređenje sa prethodnim periodom', 'Svi objekti zajedno ili svaki posebno'],
+        label: 'Primer: pitanje o prometu prošle nedelje i izveštaj po danima sa objašnjenjem',
+        report: { ask: 'Kakav je bio promet prošle nedelje u odnosu na nedelju pre?', title: 'Promet po danima', period: '5–11. okt', cmp: 'prema 28. sep – 4. okt', total: '{n} mil. RSD', days: ['pon', 'uto', 'sre', 'čet', 'pet', 'sub', 'ned'], ...SALES, explain: 'Objasni', answer: 'Promet je veći za {pct}. Najviše su porasle subota (+6.300 RSD) i petak (+5.800 RSD), a ponedeljak je bio slabiji (−2.600 RSD).' },
+      },
+      {
+        id: 'sef', tab: 'SEF', title: 'Fakture dobavljača iz SEF-a',
+        text: 'Ulazne e-fakture stižu same. Stavke dobavljača povežete sa svojim proizvodima jednom, a prijemnica u magacin nastaje jednim dugmetom.',
+        points: ['Prihvatite ili odbijte fakturu iz RUVO-a', 'Rok za odgovor uvek pred očima', 'Više firmi (PIB) pod jednim nalogom'],
+        label: 'Primer: ulazna faktura mlekare iz SEF-a, stavke povezane sa proizvodima magacina',
+        sef: { inbox: 'Fakture dobavljača', tabs: ['Nove · 2', 'Obrađene', 'Sve'], supplier: 'Mlekara Primer d.o.o.', meta: 'Faktura 2026-01183 · 9. okt', due: 'Odgovor do 24. okt', head: ['Stavka dobavljača', 'Naš proizvod'], rows: [['Mleko 2,8% 1 l', '24 kom', 'Mleko', '1 kom = 1 l'], ['Kajmak 500 g', '6 kom', 'Kajmak', '1 kom = 0,5 kg'], ['Pavlaka 20% 400 g', '10 kom', 'Pavlaka', '1 kom = 0,4 kg']], remembered: 'zapamćeno', accept: 'Prihvati i primi u magacin', reject: 'Odbij' },
+      },
+    ],
+  },
+  en: {
+    title: 'See it at work',
+    lead: 'Five screens of RUVO, with the dishes and figures of a real restaurant.',
+    tabsLabel: 'Example screens',
+    items: [
+      {
+        id: 'waiter', tab: 'Waiter', title: 'The waiter at the table',
+        text: 'The order is typed on the iPhone and goes straight to the kitchen and the bar. The guest pays by scanning the IPS QR code — no waiting for the terminal.',
+        points: ['Courses: the second waits for “Fire”', 'The bill on screen, split by items', 'Card, cash or IPS QR'],
+        label: 'Example: the order for table 7 on a waiter’s iPhone and the bill with an IPS QR code to pay',
+        order: { back: 'Floor', table: 'Table 7', meta: '2 guests', lines: [['Pljeskavica', 1, 1150], ['Fries', 1, 350], ['Sparkling water', 2, 400]], course: 'Course 2 · waits for the call', later: [['Baklava', 2, 680]], send: 'Send', bill: 'Bill' },
+        bill: { title: 'Bill for the guests', table: 'Table 7', total: 'Total', qr: 'IPS QR — scan with your bank’s app', paid: 'Paid' },
+      },
+      {
+        id: 'kitchen', tab: 'Kitchen', title: 'The kitchen screen',
+        text: 'Each station sees its own: the kitchen the dishes, the bar the drinks. A timer shows how long an order has waited, and late ones stand out.',
+        points: ['The floor, the kiosk, Wolt and Glovo on one screen', 'Tap once — “cooking”, again — “ready”', 'The waiter sees at once what is ready'],
+        label: 'Example: the kitchen screen with three orders and their timers',
+        kds: { station: 'Kitchen', other: 'Bar', count: '3 in progress', wait: 'course 2 waits', called: 'Fired', tickets: [
+          { no: 22, src: 'Table 7', time: '02:41', tone: 'ok', lines: [[1, 'Pljeskavica'], [1, 'Fries']], wait: true },
+          { no: 21, src: 'Wolt', time: '07:15', tone: 'warn', lines: [[2, 'Ćevapi, 10 pcs'], [1, 'Shopska salad']] },
+          { no: 19, src: 'Table 3', time: '12:58', tone: 'late', lines: [[2, 'Pancakes with chocolate']], called: true },
+        ] },
+      },
+      {
+        id: 'stock', tab: 'Stock', title: 'Stock and recipes',
+        text: 'Every sale writes off ingredients by recipe. You see what a portion costs, the food cost and what is below the minimum.',
+        points: ['Receipts, write-offs and stocktakes', 'Semi-finished items with recipes of their own', 'The average cost is worked out by itself'],
+        label: 'Example: the recipe for ćevapi with the cost of a portion, and ingredients below the minimum',
+        card: { crumb: 'Recipe', dish: 'Ćevapi, 10 pcs', yield: '1 portion', head: ['Ingredient', 'Quantity', 'RSD'], rows: [['Minced meat', '0.25 kg', 287], ['Lepinja (flatbread)', '1 pc', 45], ['Kajmak', '0.04 kg', 48], ['Onion', '0.05 kg', 6]], price: 1290, cost: 'Cost of a portion', menu: 'Menu price', fc: 'Food cost', low: 'Below the minimum', lowRows: [['Kajmak', '0.8 kg', '2 kg'], ['Lepinja', '12 pcs', '40 pcs']], min: 'min' },
+      },
+      {
+        id: 'reports', tab: 'Reports', title: 'Reports and an AI assistant',
+        text: 'Ask in plain words and RUVO builds the report: sales, average bill, food cost, dishes, waiters. “Explain” says what has changed.',
+        points: ['16 ready reports, plus your own saved ones', 'Compared with the period before', 'All venues together or each on its own'],
+        label: 'Example: a question about last week’s sales and the report by day with an explanation',
+        report: { ask: 'How did last week’s sales compare with the week before?', title: 'Sales by day', period: '5–11 Oct', cmp: 'vs 28 Sep – 4 Oct', total: '{n}m RSD', days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], ...SALES, explain: 'Explain', answer: 'Sales are up {pct}. Saturday (+6,300 RSD) and Friday (+5,800 RSD) grew most; Monday was weaker (−2,600 RSD).' },
+      },
+      {
+        id: 'sef', tab: 'SEF', title: 'Supplier invoices from SEF',
+        text: 'Incoming e-invoices arrive by themselves. Match a supplier’s items to your products once, and the stock receipt is one button.',
+        points: ['Accept or reject the invoice from RUVO', 'The reply deadline always in sight', 'Several companies (PIB) in one account'],
+        label: 'Example: a dairy’s incoming invoice from SEF, its items matched to stock products',
+        sef: { inbox: 'Supplier invoices', tabs: ['New · 2', 'Done', 'All'], supplier: 'Mlekara Primer d.o.o.', meta: 'Invoice 2026-01183 · 9 Oct', due: 'Reply by 24 Oct', head: ['Supplier’s item', 'Our product'], rows: [['Mleko 2,8% 1 l', '24 kom', 'Milk', '1 pc = 1 l'], ['Kajmak 500 g', '6 kom', 'Kajmak', '1 pc = 0.5 kg'], ['Pavlaka 20% 400 g', '10 kom', 'Sour cream', '1 pc = 0.4 kg']], remembered: 'remembered', accept: 'Accept and receive into stock', reject: 'Reject' },
+      },
+    ],
+  },
+  ru: {
+    title: 'Как это выглядит в работе',
+    lead: 'Пять экранов RUVO — с блюдами и цифрами, как в настоящем ресторане.',
+    tabsLabel: 'Примеры экранов',
+    items: [
+      {
+        id: 'waiter', tab: 'Официант', title: 'Официант у стола',
+        text: 'Заказ набирается на iPhone и сразу уходит на кухню и в бар. Гость платит, отсканировав IPS QR, — без ожидания терминала.',
+        points: ['Курсы: второй ждёт «Вызвать»', 'Счёт на экране, деление по позициям', 'Карта, наличные или IPS QR'],
+        label: 'Пример: заказ стола 7 на iPhone официанта и счёт с IPS QR для оплаты',
+        order: { back: 'Зал', table: 'Стол 7', meta: '2 гостя', lines: [['Плескавица', 1, 1150], ['Картофель фри', 1, 350], ['Минеральная вода', 2, 400]], course: 'Курс 2 · ждёт вызова', later: [['Баклава', 2, 680]], send: 'Отправить', bill: 'Счёт' },
+        bill: { title: 'Счёт для гостей', table: 'Стол 7', total: 'Итого', qr: 'IPS QR — отсканируйте приложением банка', paid: 'Оплачено' },
+      },
+      {
+        id: 'kitchen', tab: 'Кухня', title: 'Экран кухни',
+        text: 'Каждый цех видит своё: кухня — блюда, бар — напитки. Таймер показывает, сколько ждёт заказ, а опаздывающие выделены.',
+        points: ['Зал, киоск, Wolt и Glovo на одном экране', 'Касание — «готовлю», ещё одно — «готово»', 'Официант сразу видит, что готово'],
+        label: 'Пример: экран кухни с тремя заказами и таймерами',
+        kds: { station: 'Кухня', other: 'Бар', count: '3 в работе', wait: 'курс 2 ждёт', called: 'Вызвано', tickets: [
+          { no: 22, src: 'Стол 7', time: '02:41', tone: 'ok', lines: [[1, 'Плескавица'], [1, 'Картофель фри']], wait: true },
+          { no: 21, src: 'Wolt', time: '07:15', tone: 'warn', lines: [[2, 'Чевапи, 10 шт'], [1, 'Шопский салат']] },
+          { no: 19, src: 'Стол 3', time: '12:58', tone: 'late', lines: [[2, 'Палачинки с шоколадом']], called: true },
+        ] },
+      },
+      {
+        id: 'stock', tab: 'Склад', title: 'Склад и техкарты',
+        text: 'Каждая продажа списывает продукты по техкарте. Видно себестоимость порции, фудкост и что ниже минимума.',
+        points: ['Приход, списание и инвентаризация', 'Полуфабрикаты со своими техкартами', 'Средняя себестоимость считается сама'],
+        label: 'Пример: техкарта чевапи с себестоимостью порции и продукты ниже минимума',
+        card: { crumb: 'Техкарта', dish: 'Чевапи, 10 шт', yield: '1 порция', head: ['Продукт', 'Количество', 'RSD'], rows: [['Фарш', '0,25 кг', 287], ['Лепиня', '1 шт', 45], ['Каймак', '0,04 кг', 48], ['Лук', '0,05 кг', 6]], price: 1290, cost: 'Себестоимость порции', menu: 'Цена в меню', fc: 'Фудкост', low: 'Ниже минимума', lowRows: [['Каймак', '0,8 кг', '2 кг'], ['Лепиня', '12 шт', '40 шт']], min: 'мин' },
+      },
+      {
+        id: 'reports', tab: 'Отчёты', title: 'Отчёты и ИИ-помощник',
+        text: 'Спросите обычными словами — RUVO соберёт отчёт: выручка, средний чек, фудкост, блюда, официанты. «Объяснить» скажет, что изменилось.',
+        points: ['16 готовых отчётов и ваши сохранённые', 'Сравнение с прошлым периодом', 'Все заведения вместе или каждое отдельно'],
+        label: 'Пример: вопрос о выручке за прошлую неделю и отчёт по дням с объяснением',
+        report: { ask: 'Какая была выручка на прошлой неделе по сравнению с позапрошлой?', title: 'Выручка по дням', period: '5–11 окт', cmp: 'к 28 сен – 4 окт', total: '{n} млн RSD', days: ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'], ...SALES, explain: 'Объяснить', answer: 'Выручка выше на {pct}. Больше всего выросли суббота (+6 300 RSD) и пятница (+5 800 RSD), понедельник был слабее (−2 600 RSD).' },
+      },
+      {
+        id: 'sef', tab: 'SEF', title: 'Счета поставщиков из SEF',
+        text: 'Входящие e-фактуры приходят сами. Позиции поставщика связываются с вашими продуктами один раз, а приход на склад — одной кнопкой.',
+        points: ['Принять или отклонить счёт из RUVO', 'Срок ответа всегда на виду', 'Несколько фирм (ПИБ) в одном аккаунте'],
+        label: 'Пример: входящий счёт молочного поставщика из SEF, позиции связаны с продуктами склада',
+        sef: { inbox: 'Счета поставщиков', tabs: ['Новые · 2', 'Обработанные', 'Все'], supplier: 'Mlekara Primer d.o.o.', meta: 'Счёт 2026-01183 · 9 окт', due: 'Ответить до 24 окт', head: ['Позиция поставщика', 'Наш продукт'], rows: [['Mleko 2,8% 1 l', '24 kom', 'Молоко', '1 шт = 1 л'], ['Kajmak 500 g', '6 kom', 'Каймак', '1 шт = 0,5 кг'], ['Pavlaka 20% 400 g', '10 kom', 'Сметана', '1 шт = 0,4 кг']], remembered: 'запомнено', accept: 'Принять и оприходовать', reject: 'Отклонить' },
+      },
+    ],
+  },
+};
+
+// «Cene»: the price list, how one pays and a calculator. A row's parts are prices from PRICES: d: — a device, m: — a module.
+const PRICING = {
+  sr: {
+    title: 'Cene',
+    lead: 'Plaćate po objektu, uz uređaje i dodatke koje uključite. Prvih 30 dana besplatno.',
+    venue: 'Objekat', month: 'mesečno', vat: 'bez PDV-a',
+    includes: ['iPad za salu i kasu', 'Ekran kuhinje', 'Meni, magacin i normativi', 'Izveštaji i AI pomoćnik', 'Zaposleni, uloge i dnevnik radnji'],
+    addonsTitle: 'Uređaji i dodaci',
+    addonsUnit: 'RSD mesečno',
+    addons: [
+      ['Konobari na iPhone-u', [['m:waiter', 'po objektu'], ['d:iphone', 'po telefonu']]],
+      ['Kiosk za samostalno naručivanje', [['m:kiosk', 'po objektu'], ['d:kiosk', 'po kiosku']]],
+      ['Dodatni iPad', [['d:ipad', '']]],
+      ['Dodatni ekran kuhinje', [['d:kds', '']]],
+      ['IPS QR plaćanje', [['m:ips', 'po objektu']]],
+      ['Bankovni terminal', [['m:terminal', 'po objektu']]],
+      ['Smene i plate', [['m:shifts', 'po objektu']]],
+      ['Dnevni izveštaj u Telegramu', [['m:telegram', 'za celu firmu']]],
+      ['Prenos iz drugog POS-a', [['m:migrate', '']]],
+    ],
+    free: 'besplatno',
+    howTitle: 'Kako se plaća',
+    how: [
+      'Prvih 30 dana besplatno — bez kartice i bez obaveze.',
+      'Zatim faktura firmi jednom mesečno, plaćanje na račun.',
+      'Godišnje unapred plaćate 10 meseci umesto 12.',
+      'Cene su u dinarima, bez PDV-a; PDV od 20% dodaje se na fakturu.',
+      'Pretplatu završavate kad želite, a podatke vam šaljemo u standardnom formatu.',
+      'Ako plaćanje kasni, sala i kuhinja rade dalje — javljamo se pre bilo kakvog isključenja.',
+    ],
+    calc: {
+      title: 'Izračunajte cenu', venues: 'Objekata', perVenue: 'U svakom objektu', ipad: 'iPad', kds: 'Ekrana kuhinje', iphone: 'iPhone konobara', kiosk: 'Kioska',
+      modsTitle: 'Dodaci', mods: { ips: 'IPS QR plaćanje', terminal: 'Bankovni terminal', shifts: 'Smene i plate', telegram: 'Izveštaj u Telegramu' },
+      month: 'Mesečno', year: 'Godišnje unapred', yearNote: '10 meseci umesto 12', vat: 'Iznosi su bez PDV-a.', less: 'Manje', more: 'Više',
+      lines: { venue: 'Objekat', ipad: 'Dodatni iPad', kds: 'Dodatni ekran kuhinje', iphone: 'iPhone konobara', waiter: 'Konobari na iPhone-u', kiosk: 'Kiosk', kioskMod: 'Kiosk za samostalno naručivanje', ips: 'IPS QR plaćanje', terminal: 'Bankovni terminal', shifts: 'Smene i plate', telegram: 'Izveštaj u Telegramu' },
+    },
+  },
+  en: {
+    title: 'Pricing',
+    lead: 'You pay per venue, plus the devices and add-ons you switch on. The first 30 days are free.',
+    venue: 'Venue', month: 'a month', vat: 'without VAT',
+    includes: ['An iPad for the floor and the till', 'A kitchen screen', 'Menu, stock and recipes', 'Reports and the AI assistant', 'Staff, roles and the action log'],
+    addonsTitle: 'Devices and add-ons',
+    addonsUnit: 'RSD a month',
+    addons: [
+      ['Waiters on iPhone', [['m:waiter', 'per venue'], ['d:iphone', 'per phone']]],
+      ['Self-order kiosk', [['m:kiosk', 'per venue'], ['d:kiosk', 'per kiosk']]],
+      ['Extra iPad', [['d:ipad', '']]],
+      ['Extra kitchen screen', [['d:kds', '']]],
+      ['IPS QR payments', [['m:ips', 'per venue']]],
+      ['Bank terminal', [['m:terminal', 'per venue']]],
+      ['Shifts and pay', [['m:shifts', 'per venue']]],
+      ['Daily report in Telegram', [['m:telegram', 'for the whole company']]],
+      ['Moving from another POS', [['m:migrate', '']]],
+    ],
+    free: 'free',
+    howTitle: 'How you pay',
+    how: [
+      'The first 30 days are free — no card, no commitment.',
+      'Then an invoice to your company once a month, paid by bank transfer.',
+      'Paying a year in advance costs 10 months instead of 12.',
+      'Prices are in dinars, without VAT; 20% VAT is added to the invoice.',
+      'End the subscription whenever you like; we send you your data in a standard format.',
+      'If a payment is late, the floor and the kitchen keep working — we call before anything is switched off.',
+    ],
+    calc: {
+      title: 'Work out your price', venues: 'Venues', perVenue: 'In each venue', ipad: 'iPads', kds: 'Kitchen screens', iphone: 'Waiters’ iPhones', kiosk: 'Kiosks',
+      modsTitle: 'Add-ons', mods: { ips: 'IPS QR payments', terminal: 'Bank terminal', shifts: 'Shifts and pay', telegram: 'Report in Telegram' },
+      month: 'A month', year: 'A year in advance', yearNote: '10 months instead of 12', vat: 'Amounts without VAT.', less: 'Fewer', more: 'More',
+      lines: { venue: 'Venue', ipad: 'Extra iPad', kds: 'Extra kitchen screen', iphone: 'Waiter’s iPhone', waiter: 'Waiters on iPhone', kiosk: 'Kiosk', kioskMod: 'Self-order kiosk', ips: 'IPS QR payments', terminal: 'Bank terminal', shifts: 'Shifts and pay', telegram: 'Report in Telegram' },
+    },
+  },
+  ru: {
+    title: 'Цены',
+    lead: 'Платите за заведение, плюс устройства и модули, которые включили. Первые 30 дней бесплатно.',
+    venue: 'Заведение', month: 'в месяц', vat: 'без ПДВ',
+    includes: ['iPad для зала и кассы', 'Экран кухни', 'Меню, склад и техкарты', 'Отчёты и ИИ-помощник', 'Сотрудники, роли и журнал действий'],
+    addonsTitle: 'Устройства и модули',
+    addonsUnit: 'RSD в месяц',
+    addons: [
+      ['Официанты на iPhone', [['m:waiter', 'за заведение'], ['d:iphone', 'за телефон']]],
+      ['Киоск самообслуживания', [['m:kiosk', 'за заведение'], ['d:kiosk', 'за киоск']]],
+      ['Ещё один iPad', [['d:ipad', '']]],
+      ['Ещё один экран кухни', [['d:kds', '']]],
+      ['Оплата по QR (IPS)', [['m:ips', 'за заведение']]],
+      ['Банковский терминал', [['m:terminal', 'за заведение']]],
+      ['Смены и зарплата', [['m:shifts', 'за заведение']]],
+      ['Отчёт в Telegram каждый день', [['m:telegram', 'на всю компанию']]],
+      ['Перенос из другой POS', [['m:migrate', '']]],
+    ],
+    free: 'бесплатно',
+    howTitle: 'Как платить',
+    how: [
+      'Первые 30 дней бесплатно — без карты и обязательств.',
+      'Затем счёт на фирму раз в месяц, оплата переводом.',
+      'За год вперёд — 10 месяцев вместо 12.',
+      'Цены в динарах, без ПДВ; ПДВ 20% добавляется в счёт.',
+      'Подписку можно закончить в любой момент — ваши данные пришлём в стандартном формате.',
+      'Если оплата задержалась, зал и кухня продолжают работать — перед любым отключением мы позвоним.',
+    ],
+    calc: {
+      title: 'Посчитайте цену', venues: 'Заведений', perVenue: 'В каждом заведении', ipad: 'iPad', kds: 'Экранов кухни', iphone: 'iPhone официантов', kiosk: 'Киосков',
+      modsTitle: 'Модули', mods: { ips: 'Оплата по QR (IPS)', terminal: 'Банковский терминал', shifts: 'Смены и зарплата', telegram: 'Отчёт в Telegram' },
+      month: 'В месяц', year: 'За год вперёд', yearNote: '10 месяцев вместо 12', vat: 'Суммы без ПДВ.', less: 'Меньше', more: 'Больше',
+      lines: { venue: 'Заведение', ipad: 'Ещё один iPad', kds: 'Ещё один экран кухни', iphone: 'iPhone официанта', waiter: 'Официанты на iPhone', kiosk: 'Киоск', kioskMod: 'Киоск самообслуживания', ips: 'Оплата по QR (IPS)', terminal: 'Банковский терминал', shifts: 'Смены и зарплата', telegram: 'Отчёт в Telegram' },
+    },
+  },
+};
+
 export const T = {
   sr: {
     name: 'Srpski',
     ui: { lang: 'sr-Latn', og: 'sr_RS', langLabel: 'Jezik', menuLabel: 'Glavni meni', footLabel: 'O firmi i dokumenti', co: { company: 'Firma', pib: 'PIB', address: 'Adresa', email: 'E-pošta' }, plate: ['ЦАРА УРОША', 'CARA UROŠA'], preview: 'Sajt RUVO' },
     paths: { home: 'index.html', privacy: 'privatnost/index.html', support: 'podrska/index.html' },
-    nav: { features: 'Mogućnosti', start: 'Kako počinje', contact: 'Kontakt', privacy: 'Privatnost', support: 'Podrška', home: 'Početna' },
+    nav: { features: 'Mogućnosti', examples: 'Primeri', pricing: 'Cene', start: 'Kako počinje', contact: 'Kontakt', privacy: 'Privatnost', support: 'Podrška', home: 'Početna' },
     tax: 'PIB',
     skip: 'Na sadržaj',
     home: {
@@ -33,8 +311,11 @@ export const T = {
       h1: 'Sala, kuhinja i magacin u jednom sistemu',
       lead: 'RUVO prima porudžbine na iPad-u i iPhone-u, šalje ih na ekran kuhinje, otpisuje namirnice po normativima i pravi izveštaje. Za jedan objekat ili za celu mrežu.',
       cta: 'Pišite nam',
-      trial: 'Prvih 30 dana besplatno',
+      trial: 'Prvih 30 dana besplatno,',
+      from: 'zatim od {price} mesečno',
       ticket: TICKET.sr,
+      examples: EXAMPLES.sr,
+      pricing: PRICING.sr,
       featuresTitle: 'Šta RUVO radi',
       features: [
         ['iPad', 'Sala i porudžbine', 'Plan sale sa stolovima, porudžbine po kursevima, deljenje računa i plaćanje po delovima.'],
@@ -54,7 +335,7 @@ export const T = {
         ['Pišete nam', 'Na hello@ruvo.ac, ukratko o objektu: sale, stolovi, uređaji.'],
         ['Otvaramo nalog', 'Prenosimo meni, normative i stanje magacina iz vašeg dosadašnjeg sistema ili tabele.'],
         ['Povezujete uređaje', 'iPad, iPhone konobara i ekran kuhinje povezuju se jednokratnim kodom iz back-office-a.'],
-        ['30 dana besplatno', 'Zatim mesečna pretplata po objektu. Cenu šaljemo na upit.'],
+        ['30 dana besplatno', 'Zatim mesečna pretplata po cenovniku, faktura jednom mesečno.'],
       ],
       fiscal: 'Fiskalni račun izdaje vaša fiskalna kasa. RUVO vodi porudžbine, kuhinju, magacin i izveštaje, a način plaćanja beleži da bi se iznosi slagali sa kasom.',
       contactTitle: 'Kontakt',
@@ -69,6 +350,7 @@ export const T = {
         ['Ko smo mi', ['RUVO je kasa-sistem za restorane koji razvija i prodaje {company}, PIB {pib}, {address} („mi”). Pitanja o privatnosti: {email}.']],
         ['Dve uloge', ['Restorani koji koriste RUVO (naši klijenti) odlučuju koji se podaci o njihovim zaposlenima i gostima unose u sistem. Za te podatke restoran je rukovalac, a mi smo obrađivač: obrađujemo ih samo da bismo za taj restoran pružali RUVO, na osnovu ugovora sa njim.', 'Za podatke osoba koje nas kontaktiraju i nosilaca naloga naših klijenata mi smo rukovalac.']],
         ['Koje podatke RUVO obrađuje', [[
+          '<b>Nosilac naloga</b> (vlasnik ili menadžer koji otvara nalog): ime, e-pošta, telefon, naziv restorana i firme i PIB — za otvaranje naloga, prepisku i fakture.',
           '<b>Zaposleni u restoranu:</b> ime, uloga, objekti u kojima rade, lični PIN (čuva se samo kao kriptografski otisak sa tajnim ključem, nikada kao sam PIN), e-mail adresa za pristup back-office-u, smene i satnica ako restoran koristi modul smena, kao i radnje koje izvode (dnevnik radnji: popusti, storniranja, vraćanja).',
           '<b>Gosti</b>, samo ako restoran vodi program lojalnosti i gost se saglasi: ime, broj telefona, broj kartice, bodovi, popusti i istorija kupovine.',
           '<b>Porudžbine i plaćanja:</b> stavke, cene, iznosi i način plaćanja. Kod plaćanja karticom dobijamo samo iznos i potvrdu bankovnog terminala, nikada broj kartice.',
@@ -80,12 +362,12 @@ export const T = {
         ['Gde se podaci čuvaju i kako su zaštićeni', ['Na serverima u Evropskoj uniji (Nemačka). Veze su šifrovane (TLS). Podaci svakog restorana odvojeni su od podataka drugih klijenata u samoj bazi podataka. Pristup imaju samo osobe kojima je potreban za rad i podršku.']],
         ['Ko još obrađuje podatke', [[
           '<b>Pružalac hostinga u EU</b> — čuva podatke i pokreće uslugu.',
-          '<b>Pružalac e-pošte</b> — za našu prepisku.',
+          '<b>Pružalac e-pošte</b> — za našu prepisku i poruke o nalogu (potvrda e-pošte, kod za prvi uređaj).',
           '<b>Anthropic (SAD)</b> — AI pomoćnik u izveštajima i pri prenosu podataka iz drugog POS sistema. Dobija pitanje i brojke potrebne za odgovor; brojeve telefona i e-mail adrese gostiju ne šaljemo. Prenos van Srbije i EU vrši se uz mere zaštite koje propisuje zakon.',
           '<b>Apple</b> — distribuira aplikaciju RUVO (App Store, TestFlight) prema svojoj politici privatnosti.',
           '<b>Google Fonts</b> — ovaj sajt učitava fontove sa tog servisa; Google pri tome dobija IP adresu posetioca.',
         ], 'Podatke ne prodajemo, ne prikazujemo reklame i ne pratimo korisnike kroz druge aplikacije i sajtove.']],
-        ['Koliko dugo', ['Dok traje ugovor sa restoranom. Po prestanku ugovora podatke restorana vraćamo ili brišemo u roku od 30 dana, osim onih koje moramo da čuvamo po zakonu. Tehničke zapise čuvamo do 90 dana.']],
+        ['Koliko dugo', ['Dok traje ugovor sa restoranom. Po prestanku ugovora podatke restorana vraćamo ili brišemo u roku od 30 dana, osim onih koje moramo da čuvamo po zakonu. Tehničke zapise čuvamo do 90 dana, a nepotvrđene registracije brišemo posle 30 dana.']],
         ['Vaša prava', ['U skladu sa Zakonom o zaštiti podataka o ličnosti („Sl. glasnik RS”, br. 87/2018) i, gde se primenjuje, Opštom uredbom EU o zaštiti podataka (GDPR), možete tražiti pristup svojim podacima, ispravku, brisanje, ograničenje obrade i prenosivost, kao i uložiti prigovor na obradu. Pristanak možete povući u svakom trenutku.', 'Zaposleni i gosti restorana treba najpre da se obrate tom restoranu kao rukovaocu; mi mu pomažemo da odgovori. Pišite nam na {email}. Pritužbu možete podneti i Povereniku za informacije od javnog značaja i zaštitu podataka o ličnosti (<a href="https://www.poverenik.rs">www.poverenik.rs</a>).']],
         ['Deca', ['RUVO je poslovni alat i nije namenjen deci.']],
         ['Izmene', ['Izmene objavljujemo na ovoj stranici, sa novim datumom.']],
@@ -101,6 +383,7 @@ export const T = {
         ['Zaboravio sam PIN.', 'Menadžer ili vlasnik postavlja novi PIN u back-office-u, u delu sa zaposlenima.'],
         ['Izgubili smo uređaj.', 'U back-office-u, u delu sa uređajima, isključite ga: odmah gubi pristup.'],
         ['Ko izdaje fiskalni račun?', 'Vaša fiskalna kasa. RUVO beleži način plaćanja da bi se iznosi mogli uporediti sa kasom.'],
+        ['Kako se plaća pretplata?', 'Prvih 30 dana besplatno. Zatim faktura firmi jednom mesečno, plaćanje na račun; godišnje unapred plaćate 10 meseci umesto 12. Cene su na početnoj strani, u delu „Cene”.'],
         ['Kako da izvezemo podatke ili završimo pretplatu?', 'Pišite na {email}: šaljemo vaše podatke u standardnom formatu i zatvaramo nalog.'],
         ['Kako da obrišemo nalog?', 'Nosilac naloga može na {email} zatražiti brisanje naloga i svih podataka. Javljamo kada je obrisano.'],
       ],
@@ -113,7 +396,7 @@ export const T = {
     name: 'English',
     ui: { lang: 'en', og: 'en_US', langLabel: 'Language', menuLabel: 'Main menu', footLabel: 'Company and documents', co: { company: 'Company', pib: 'Tax ID (PIB)', address: 'Address', email: 'Email' }, plate: ['ЦАРА УРОША', 'CARA UROŠA'], preview: 'RUVO website' },
     paths: { home: 'en/index.html', privacy: 'en/privacy/index.html', support: 'en/support/index.html' },
-    nav: { features: 'Features', start: 'How it starts', contact: 'Contact', privacy: 'Privacy', support: 'Support', home: 'Home' },
+    nav: { features: 'Features', examples: 'Examples', pricing: 'Pricing', start: 'How it starts', contact: 'Contact', privacy: 'Privacy', support: 'Support', home: 'Home' },
     tax: 'Tax ID (PIB)',
     skip: 'Skip to content',
     home: {
@@ -123,8 +406,11 @@ export const T = {
       h1: 'Dining room, kitchen and stock in one system',
       lead: 'RUVO takes orders on iPad and iPhone, sends them to the kitchen screen, writes off ingredients by recipe and builds the reports. For one venue or a whole group.',
       cta: 'Write to us',
-      trial: 'First 30 days free',
+      trial: 'First 30 days free,',
+      from: 'then from {price} a month',
       ticket: TICKET.en,
+      examples: EXAMPLES.en,
+      pricing: PRICING.en,
       featuresTitle: 'What RUVO does',
       features: [
         ['iPad', 'Floor and orders', 'A floor plan with tables, orders by course, split bills and paying in parts.'],
@@ -144,7 +430,7 @@ export const T = {
         ['You write to us', 'At hello@ruvo.ac, briefly about the venue: rooms, tables, devices.'],
         ['We open the account', 'We move your menu, recipes and stock from your current system or a spreadsheet.'],
         ['You connect the devices', 'The iPad, the waiters’ iPhones and the kitchen screen join with a one-time code from the back office.'],
-        ['30 days free', 'Then a monthly subscription per venue. We send the price on request.'],
+        ['30 days free', 'Then a monthly subscription by the price list, invoiced once a month.'],
       ],
       fiscal: 'Your fiscal cash register issues the fiscal receipt. RUVO runs orders, the kitchen, stock and reports, and records the payment method so the totals match the register.',
       contactTitle: 'Contact',
@@ -159,6 +445,7 @@ export const T = {
         ['Who we are', ['RUVO is a point-of-sale system for restaurants, made and sold by {company}, Tax ID (PIB) {pib}, {address}, Serbia (“we”). Questions about privacy: {email}.']],
         ['Two roles', ['Restaurants that use RUVO (our clients) decide what data about their staff and guests goes into it. For that data the restaurant is the controller and we are its processor: we process it only to provide RUVO to that restaurant, under our contract with it.', 'For the data of people who contact us and of our clients’ account holders, we are the controller.']],
         ['What RUVO processes', [[
+          '<b>The account holder</b> (the owner or manager who opens the account): name, email, phone, the names of the restaurant and the company, and the PIB — to open the account, write to you and invoice.',
           '<b>A restaurant’s staff:</b> name, role, the venues they work in, a personal PIN (stored only as a keyed cryptographic hash, never as the PIN itself), an email address for back-office access, shifts and pay rates if the restaurant uses the shifts module, and the actions they take (the action log: discounts, cancellations, refunds).',
           '<b>Guests</b>, only if the restaurant runs a loyalty program and the guest agrees: name, phone number, card number, points, discounts and purchase history.',
           '<b>Orders and payments:</b> items, prices, totals and the payment method. For card payments we receive only the amount and the bank terminal’s approval, never the card number.',
@@ -170,12 +457,12 @@ export const T = {
         ['Where the data is kept and how it is protected', ['On servers in the European Union (Germany). Connections are encrypted (TLS). Each restaurant’s data is separated from other clients’ data in the database itself. Access is limited to people who need it to run and support the service.']],
         ['Who else processes data', [[
           '<b>A hosting provider in the EU</b> — stores the data and runs the service.',
-          '<b>An email provider</b> — for our correspondence.',
+          '<b>An email provider</b> — for our correspondence and messages about the account (email confirmation, the code for the first device).',
           '<b>Anthropic (USA)</b> — the AI assistant in reports and in moving data from another POS. It receives the question and the figures needed for the answer; we do not send guests’ phone numbers or email addresses. Transfers outside Serbia and the EU are made with the safeguards the law requires.',
           '<b>Apple</b> — distributes the RUVO app (App Store, TestFlight) under its own privacy policy.',
           '<b>Google Fonts</b> — this website loads its fonts from that service; Google receives the visitor’s IP address.',
         ], 'We do not sell data, show ads or track users across other apps and websites.']],
-        ['How long', ['As long as the contract with the restaurant lasts. When it ends, we return or delete the restaurant’s data within 30 days, except what the law requires us to keep. Technical records are kept for up to 90 days.']],
+        ['How long', ['As long as the contract with the restaurant lasts. When it ends, we return or delete the restaurant’s data within 30 days, except what the law requires us to keep. Technical records are kept for up to 90 days, and sign-ups that were never confirmed are deleted after 30 days.']],
         ['Your rights', ['Under the Law on Personal Data Protection of the Republic of Serbia (“Official Gazette of RS”, No. 87/2018) and, where it applies, the EU General Data Protection Regulation (GDPR), you may ask for access to your data, correction, deletion, restriction of processing and portability, and you may object to processing. You can withdraw consent at any time.', 'Staff and guests of a restaurant should first contact that restaurant, as the controller; we help it answer. Write to us at {email}. You may also complain to the Commissioner for Information of Public Importance and Personal Data Protection (<a href="https://www.poverenik.rs">www.poverenik.rs</a>).']],
         ['Children', ['RUVO is a business tool and is not meant for children.']],
         ['Changes', ['We publish changes on this page with a new date.']],
@@ -191,6 +478,7 @@ export const T = {
         ['I forgot my PIN.', 'A manager or the owner sets a new PIN in the back office, where the staff are.'],
         ['We lost a device.', 'In the back office, where the devices are, switch it off: it loses access at once.'],
         ['Who issues the fiscal receipt?', 'Your fiscal cash register. RUVO records the payment method so the totals can be compared with the register.'],
+        ['How is the subscription paid?', 'The first 30 days are free. Then an invoice to your company once a month, paid by bank transfer; paying a year in advance costs 10 months instead of 12. Prices are on the home page, under “Pricing”.'],
         ['How do we export our data or end the subscription?', 'Write to {email}: we send your data in a standard format and close the account.'],
         ['How do we delete the account?', 'The account holder can ask at {email} to delete the account and all its data. We let you know when it is done.'],
       ],
@@ -203,7 +491,7 @@ export const T = {
     name: 'Русский',
     ui: { lang: 'ru', og: 'ru_RU', langLabel: 'Язык', menuLabel: 'Главное меню', footLabel: 'Реквизиты и документы', co: { company: 'Компания', pib: 'ПИБ', address: 'Адрес', email: 'Почта' }, plate: ['ЦАРА УРОША', 'CARA UROŠA'], preview: 'Сайт RUVO' },
     paths: { home: 'ru/index.html', privacy: 'ru/privacy/index.html', support: 'ru/support/index.html' },
-    nav: { features: 'Возможности', start: 'Как начать', contact: 'Контакты', privacy: 'Конфиденциальность', support: 'Поддержка', home: 'Главная' },
+    nav: { features: 'Возможности', examples: 'Примеры', pricing: 'Цены', start: 'Как начать', contact: 'Контакты', privacy: 'Конфиденциальность', support: 'Поддержка', home: 'Главная' },
     tax: 'ПИБ',
     skip: 'К содержанию',
     home: {
@@ -213,8 +501,11 @@ export const T = {
       h1: 'Зал, кухня и склад в одной системе',
       lead: 'RUVO принимает заказы на iPad и iPhone, отправляет их на экран кухни, списывает продукты по техкартам и строит отчёты. Для одного заведения или целой сети.',
       cta: 'Напишите нам',
-      trial: 'Первые 30 дней бесплатно',
+      trial: 'Первые 30 дней бесплатно,',
+      from: 'затем от {price} в месяц',
       ticket: TICKET.ru,
+      examples: EXAMPLES.ru,
+      pricing: PRICING.ru,
       featuresTitle: 'Что умеет RUVO',
       features: [
         ['iPad', 'Зал и заказы', 'План зала со столами, заказы по курсам, разделение счёта и оплата частями.'],
@@ -234,7 +525,7 @@ export const T = {
         ['Вы пишете нам', 'На hello@ruvo.ac — коротко о заведении: залы, столы, устройства.'],
         ['Мы открываем аккаунт', 'Переносим меню, техкарты и остатки из вашей нынешней системы или таблицы.'],
         ['Вы подключаете устройства', 'iPad, iPhone официантов и экран кухни подключаются одноразовым кодом из бэкофиса.'],
-        ['30 дней бесплатно', 'Затем ежемесячная подписка за каждое заведение. Цену пришлём по запросу.'],
+        ['30 дней бесплатно', 'Затем ежемесячная подписка по прайсу, счёт раз в месяц.'],
       ],
       fiscal: 'Фискальный чек печатает ваша фискальная касса. RUVO ведёт заказы, кухню, склад и отчёты и отмечает способ оплаты, чтобы суммы сходились с кассой.',
       contactTitle: 'Контакты',
@@ -249,6 +540,7 @@ export const T = {
         ['Кто мы', ['RUVO — POS-система для ресторанов, которую разрабатывает и продаёт {company}, ПИБ {pib}, {address}, Сербия («мы»). Вопросы о конфиденциальности: {email}.']],
         ['Две роли', ['Рестораны, которые пользуются RUVO (наши клиенты), решают, какие данные о своих сотрудниках и гостях вносить в систему. Для этих данных ресторан — оператор (контролёр), а мы — обработчик: обрабатываем их только для того, чтобы предоставлять RUVO этому ресторану, по договору с ним.', 'Для данных людей, которые пишут нам, и владельцев аккаунтов наших клиентов оператором являемся мы.']],
         ['Какие данные обрабатывает RUVO', [[
+          '<b>Владелец аккаунта</b> (собственник или управляющий, который открывает аккаунт): имя, почта, телефон, названия ресторана и фирмы, ПИБ — чтобы открыть аккаунт, переписываться и выставлять счета.',
           '<b>Сотрудники ресторана:</b> имя, роль, заведения, где они работают, личный PIN (хранится только как криптографический отпечаток с секретным ключом, никогда в виде самого PIN), почта для входа в бэкофис, смены и ставка, если ресторан пользуется модулем смен, и действия сотрудника (журнал действий: скидки, отмены, возвраты).',
           '<b>Гости</b> — только если ресторан ведёт программу лояльности и гость согласен: имя, телефон, номер карты, баллы, скидки и история покупок.',
           '<b>Заказы и оплаты:</b> позиции, цены, суммы и способ оплаты. При оплате картой мы получаем только сумму и подтверждение банковского терминала, никогда — номер карты.',
@@ -260,12 +552,12 @@ export const T = {
         ['Где хранятся данные и как они защищены', ['На серверах в Европейском союзе (Германия). Соединения зашифрованы (TLS). Данные каждого ресторана отделены от данных других клиентов в самой базе данных. Доступ есть только у тех, кому он нужен для работы и поддержки сервиса.']],
         ['Кто ещё обрабатывает данные', [[
           '<b>Хостинг-провайдер в ЕС</b> — хранит данные и запускает сервис.',
-          '<b>Почтовый сервис</b> — для нашей переписки.',
+          '<b>Почтовый сервис</b> — для нашей переписки и писем об аккаунте (подтверждение почты, код для первого устройства).',
           '<b>Anthropic (США)</b> — ИИ-помощник в отчётах и при переносе данных из другой POS. Получает вопрос и цифры, нужные для ответа; телефоны и адреса почты гостей мы не отправляем. Передача за пределы Сербии и ЕС — с мерами защиты, которые требует закон.',
           '<b>Apple</b> — распространяет приложение RUVO (App Store, TestFlight) по своей политике конфиденциальности.',
           '<b>Google Fonts</b> — этот сайт загружает шрифты с этого сервиса; Google при этом получает IP-адрес посетителя.',
         ], 'Мы не продаём данные, не показываем рекламу и не отслеживаем пользователей в других приложениях и на других сайтах.']],
-        ['Сколько хранятся данные', ['Пока действует договор с рестораном. После его окончания мы возвращаем или удаляем данные ресторана в течение 30 дней, кроме тех, что обязаны хранить по закону. Технические записи хранятся до 90 дней.']],
+        ['Сколько хранятся данные', ['Пока действует договор с рестораном. После его окончания мы возвращаем или удаляем данные ресторана в течение 30 дней, кроме тех, что обязаны хранить по закону. Технические записи хранятся до 90 дней, а неподтверждённые регистрации удаляются через 30 дней.']],
         ['Ваши права', ['По Закону о защите персональных данных Республики Сербия («Службени гласник РС», № 87/2018) и, где он применяется, по Общему регламенту ЕС о защите данных (GDPR) вы можете запросить доступ к своим данным, исправление, удаление, ограничение обработки и перенос, а также возразить против обработки. Согласие можно отозвать в любой момент.', 'Сотрудникам и гостям ресторана нужно сначала обратиться в этот ресторан как к оператору; мы помогаем ему ответить. Пишите нам: {email}. Жалобу можно подать и Уполномоченному по информации общественного значения и защите персональных данных (<a href="https://www.poverenik.rs">www.poverenik.rs</a>).']],
         ['Дети', ['RUVO — рабочий инструмент для бизнеса и не предназначен для детей.']],
         ['Изменения', ['Изменения мы публикуем на этой странице с новой датой.']],
@@ -281,6 +573,7 @@ export const T = {
         ['Я забыл PIN.', 'Менеджер или владелец задаёт новый PIN в бэкофисе, в разделе сотрудников.'],
         ['Мы потеряли устройство.', 'В бэкофисе, в разделе устройств, отключите его: доступ пропадёт сразу.'],
         ['Кто печатает фискальный чек?', 'Ваша фискальная касса. RUVO отмечает способ оплаты, чтобы суммы можно было сверить с кассой.'],
+        ['Как оплачивается подписка?', 'Первые 30 дней бесплатно. Затем счёт на фирму раз в месяц, оплата переводом; за год вперёд — 10 месяцев вместо 12. Цены — на главной странице, в разделе «Цены».'],
         ['Как выгрузить данные или закончить подписку?', 'Напишите на {email}: пришлём ваши данные в стандартном формате и закроем аккаунт.'],
         ['Как удалить аккаунт?', 'Владелец аккаунта может попросить на {email} удалить аккаунт и все его данные. Мы сообщим, когда всё удалено.'],
       ],

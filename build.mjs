@@ -1,18 +1,23 @@
-// Makes the RUVO website (ruvo.ac) from src/content.mjs and src/site.css. No dependencies.
+// Makes the RUVO website (ruvo.ac) from src/content.mjs, src/signup.mjs and src/site.css. No dependencies.
 //   node build.mjs            → docs/     what GitHub Pages serves (Settings → Pages → branch main, folder /docs);
 //                                         links between pages end in "/" (ruvo.ac/en/privacy/)
 //   node build.mjs --preview  → preview/  the same pages for the private Claude preview: links end in "index.html",
-//                                         and the Serbian home page has no skeleton of its own (the preview adds one)
+//                                         and the Serbian home page has no skeleton of its own (the preview adds one).
+//                                         The preview always has registration (its forms only pretend to send).
+//   --signup                  → registration and the Terms of Service in docs/ too, before SITE.signup is switched on
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { LANGS, SITE, T } from './src/content.mjs';
+import { LANGS, PRICES, SITE, T } from './src/content.mjs';
+import { SIGNUP as SG } from './src/signup.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PREVIEW = process.argv.includes('--preview');
 const OUT = path.join(ROOT, PREVIEW ? 'preview' : 'docs');
 const ORIGIN = `https://${SITE.domain}`;
-const PAGES = ['home', 'privacy', 'support'];
+// registration on the site: on when SITE.signup is (the app works through the server), always in the preview
+const SIGNUP_ON = SITE.signup || PREVIEW || process.argv.includes('--signup');
+const PAGES = ['home', 'privacy', 'support', ...(SIGNUP_ON ? ['signup', 'confirm', 'terms'] : [])];
 const LOCALE = { sr: 'sr-Latn-RS', en: 'en-GB', ru: 'ru-RU' };
 const FONTS = 'https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;family=Unbounded:wght@700&amp;family=JetBrains+Mono:wght@600&amp;display=swap';
 const CSS = readFileSync(path.join(ROOT, 'src/site.css'), 'utf8')
@@ -32,6 +37,7 @@ const mail = `<a href="mailto:${SITE.email}">${SITE.email}</a>`;
 // next one ("i magacin", "в бэкофисе"), and a hyphenated word on one line ("iPad-u", "back-office-a")
 const keep = (html) => html.split(/(<[^>]+>)/).map((part) => (part.startsWith('<') ? part : part
   .replace(/(\d) (?=\p{L})/gu, '$1\u00A0')
+  .replace(/ (?=[—–] )/g, '\u00A0')
   .replace(/(^|[\s(\u00A0])(\p{L}) /gu, '$1$2\u00A0')
   .replace(/[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)+/gu, '<span class="nw">$&</span>'))).join('');
 // plain text from content.mjs: escaped, with the address made a link
@@ -43,7 +49,7 @@ const fill = (s) => keep(s)
   .replace(/\{address\}/g, esc(SITE.address))
   .replace(/\{email\}/g, mail);
 
-const fileOf = (lang, page) => T[lang].paths[page];
+const fileOf = (lang, page) => T[lang].paths[page] || SG[lang].paths[page];
 // a link from one page to another, relative, so the pages work anywhere they are served
 function href(from, to, hash = '') {
   let r = path.posix.relative(path.posix.dirname(from), to);
@@ -52,12 +58,13 @@ function href(from, to, hash = '') {
 }
 const urlOf = (file) => `${ORIGIN}/${file.replace(/(^|\/)index\.html$/, '$1')}`;
 
-function head(lang, page, file, title, description) {
+function head(lang, page, file, title, description, { noindex = false } = {}) {
   const alternates = LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${urlOf(fileOf(l, page))}">`);
   return [
     '<meta charset="utf-8">',
     '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">',
     `<title>${esc(title)}</title>`,
+    ...(noindex ? ['<meta name="robots" content="noindex">'] : []),
     `<meta name="description" content="${esc(description)}">`,
     `<link rel="canonical" href="${urlOf(file)}">`,
     ...alternates,
@@ -79,7 +86,7 @@ function head(lang, page, file, title, description) {
   ].join('\n');
 }
 
-function page(lang, key, file, title, description, body) {
+function page(lang, key, file, title, description, body, opts = {}) {
   if (PREVIEW && file === 'index.html') {
     return `<title>${esc(T.ru.ui.preview)}</title>
 <link rel="stylesheet" href="${FONTS}">
@@ -94,7 +101,7 @@ ${body}
   return `<!doctype html>
 <html lang="${T[lang].ui.lang}">
 <head>
-${head(lang, key, file, title, description)}
+${head(lang, key, file, title, description, opts)}
 </head>
 <body>
 ${body}
@@ -111,17 +118,18 @@ function header(lang, key, file) {
   return `<a class="skip" href="#main">${esc(t.skip)}</a>
 <header class="top"><div class="wrap top-in">
 <a class="wordmark" href="${href(file, home)}" aria-label="RUVO — ${esc(t.nav.home)}">RUVO</a>
-<nav class="nav" aria-label="${esc(t.ui.menuLabel)}">${section('features', t.nav.features)}${section('start', t.nav.start)}${section('contact', t.nav.contact)}</nav>
+<nav class="nav" aria-label="${esc(t.ui.menuLabel)}">${['features', 'examples', 'pricing', 'start', 'contact'].map((id) => section(id, t.nav[id])).join('')}</nav>
+${SIGNUP_ON && key !== 'signup' && key !== 'confirm' ? `<a class="top-cta" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].nav.signup)}</a>` : ''}
 <nav class="langs" aria-label="${esc(t.ui.langLabel)}">${langs.join('')}</nav>
 </div></header>`;
 }
 
 function footer(lang, key, file) {
   const t = T[lang];
-  const link = (p) => `<a href="${href(file, fileOf(lang, p))}"${p === key ? ' aria-current="page"' : ''}>${esc(t.nav[p])}</a>`;
+  const link = (p) => `<a href="${href(file, fileOf(lang, p))}"${p === key ? ' aria-current="page"' : ''}>${esc(t.nav[p] || SG[lang].nav[p])}</a>`;
   return `<footer class="foot"><div class="wrap foot-in">
 <div class="foot-co"><a class="wordmark sm" href="${href(file, fileOf(lang, 'home'))}" aria-label="RUVO — ${esc(t.nav.home)}">RUVO</a><p>${esc(SITE.company)} · ${esc(t.tax)} ${SITE.pib}<br>${esc(SITE.address)}</p></div>
-<nav class="foot-nav" aria-label="${esc(t.ui.footLabel)}"><ul><li>${link('privacy')}</li><li>${link('support')}</li><li>${mail}</li></ul><p>${esc(t.home.made)} © ${SITE.updated.iso.slice(0, 4)}</p></nav>
+<nav class="foot-nav" aria-label="${esc(t.ui.footLabel)}"><ul><li>${link('privacy')}</li>${SIGNUP_ON ? `<li>${link('terms')}</li>` : ''}<li>${link('support')}</li><li>${mail}</li></ul><p>${esc(t.home.made)} © ${SITE.updated.iso.slice(0, 4)}</p></nav>
 </div></footer>`;
 }
 
@@ -147,6 +155,290 @@ function scene(lang) {
 </div>`;
 }
 
+// ---------- «Kako izgleda u radu»: five screens of the app, drawn in em so each scales with its column ----------
+const fmt = (lang, v, opts) => new Intl.NumberFormat(LOCALE[lang], opts).format(v);
+const rsd = (lang, v) => `${fmt(lang, v)} RSD`;
+
+// A QR-like picture for the guest's bill: the corner squares and timing rows of a QR code around a fixed pseudo-random
+// field. It reads as a code and carries nothing — a real IPS QR is made with the restaurant's account by its bank.
+function qrSvg(seed = 20261012) {
+  const n = 25;
+  const m = Array.from({ length: n }, () => Array(n).fill(0));
+  let s = seed;
+  const rnd = () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648; };
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) m[y][x] = rnd() < 0.48 ? 1 : 0;
+  const finder = (ox, oy) => {
+    for (let y = -1; y <= 7; y++) {
+      for (let x = -1; x <= 7; x++) {
+        const X = ox + x;
+        const Y = oy + y;
+        if (X < 0 || Y < 0 || X >= n || Y >= n) continue;
+        const inside = x >= 0 && y >= 0 && x <= 6 && y <= 6;
+        const ring = x === 0 || y === 0 || x === 6 || y === 6;
+        const core = x >= 2 && x <= 4 && y >= 2 && y <= 4;
+        m[Y][X] = inside && (ring || core) ? 1 : 0;
+      }
+    }
+  };
+  finder(0, 0);
+  finder(n - 7, 0);
+  finder(0, n - 7);
+  for (let i = 8; i < n - 8; i++) { m[6][i] = (i + 1) % 2; m[i][6] = (i + 1) % 2; }
+  let d = '';
+  for (let y = 0; y < n; y++) {
+    for (let x = 0; x < n; x++) {
+      if (!m[y][x]) continue;
+      let w = 1;
+      while (x + w < n && m[y][x + w]) w++;
+      d += `M${x} ${y}h${w}v1h-${w}z`;
+      x += w - 1;
+    }
+  }
+  return `<svg class="qr-svg" viewBox="-2 -2 ${n + 4} ${n + 4}" aria-hidden="true" focusable="false"><rect x="-2" y="-2" width="${n + 4}" height="${n + 4}" fill="#fff"/><path d="${d}" fill="#13171A"/></svg>`;
+}
+
+// the waiter's iPhone: table 7's order, course 2 held; next to it the guests' bill with the IPS QR, paid
+function waiterScene(lang, x) {
+  const o = x.order;
+  const b = x.bill;
+  const total = [...o.lines, ...o.later].reduce((sum, l) => sum + l[2], 0);
+  const line = ([name, qty, price], cls = '') => `<div class="ph-line${cls}"><span class="ph-n">${esc(name)}</span><span class="ph-q">×${qty}</span><span class="ph-p">${fmt(lang, price)}</span></div>`;
+  return `<div class="scn scn-waiter">
+<div class="phone"><div class="phone-scr">
+<div class="ph-top"><span class="ph-back">‹ ${esc(o.back)}</span><span class="ph-title">${esc(o.table)}</span><span class="ph-meta">${esc(o.meta)}</span></div>
+<div class="ph-lines">${o.lines.map((l) => line(l)).join('')}<div class="ph-course">${esc(o.course)}</div>${o.later.map((l) => line(l, ' later')).join('')}</div>
+<div class="ph-sum"><span>${esc(b.total)}</span><span>${rsd(lang, total)}</span></div>
+<div class="ph-btns"><span class="ph-btn go">${esc(o.send)}</span><span class="ph-btn">${esc(o.bill)}</span></div>
+</div></div>
+<div class="phone"><div class="phone-scr bill">
+<div class="ph-top"><span class="ph-title">${esc(b.title)}</span></div>
+<div class="ph-bill"><span class="ph-meta">${esc(b.table)}</span><span class="ph-total">${fmt(lang, total)}<small>RSD</small></span>${qrSvg()}<span class="ph-cap">${esc(b.qr)}</span><span class="ph-paid">${esc(b.paid)}</span></div>
+</div></div>
+</div>`;
+}
+
+// the kitchen screen: three tickets — on time, getting long, late after the call
+function kitchenScene(lang, x) {
+  const k = x.kds;
+  const ticket = (t) => `<div class="tk ${t.tone}"><div class="tk-head"><span class="tk-no">#${t.no}</span><span class="tk-src">${esc(t.src)}</span><span class="tk-time">${t.time}</span></div>
+<div class="tk-lines">${t.lines.map(([qty, name]) => `<div class="tk-l"><span class="tk-q">${qty}</span><span class="tk-n">${esc(name)}</span></div>`).join('')}</div>${t.wait ? `<div class="tk-wait">${esc(k.wait)}</div>` : ''}${t.called ? `<div class="tk-called">${esc(k.called)}</div>` : ''}</div>`;
+  return `<div class="scn scn-kds"><div class="kds-scr">
+<div class="kds-bar"><span class="kds-seg"><span class="on">${esc(k.station)}</span><span>${esc(k.other)}</span></span><span class="kds-count">${esc(k.count)}</span></div>
+<div class="kds-cols">${k.tickets.map(ticket).join('')}</div>
+</div></div>`;
+}
+
+// the tech card of a dish: what a portion costs and its food cost, counted from its rows; and what runs low
+function stockScene(lang, x) {
+  const c = x.card;
+  const cost = c.rows.reduce((sum, r) => sum + r[2], 0);
+  const fc = Math.round((cost / c.price) * 100);
+  return `<div class="scn scn-stock">
+<div class="ui tc">
+<div class="tc-head"><span class="ui-caps">${esc(c.crumb)}</span><span class="tc-dish">${esc(c.dish)}</span><span class="ui-meta">${esc(c.yield)}</span></div>
+<div class="tc-table"><div class="tc-row th">${c.head.map((h) => `<span>${esc(h)}</span>`).join('')}</div>${c.rows.map(([name, qty, v]) => `<div class="tc-row"><span>${esc(name)}</span><span>${esc(qty)}</span><span>${fmt(lang, v)}</span></div>`).join('')}</div>
+<div class="tc-sum"><div><span>${esc(c.cost)}</span><b>${rsd(lang, cost)}</b></div><div><span>${esc(c.menu)}</span><b>${rsd(lang, c.price)}</b></div><div class="tc-fc"><span>${esc(c.fc)}</span><b>${fc}%</b><i style="--v:${fc}%"></i></div></div>
+</div>
+<div class="ui low"><div class="low-head"><span class="low-i">!</span>${esc(c.low)}</div>${c.lowRows.map(([name, have, min]) => `<div class="low-row"><span class="low-n">${esc(name)}</span><span class="low-have">${esc(have)}</span><span class="low-min">${esc(c.min)} ${esc(min)}</span></div>`).join('')}</div>
+</div>`;
+}
+
+const SPARK = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2.5l1.9 5.6 5.6 1.9-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.9zM19 15l.9 2.6 2.6.9-2.6.9L19 22l-.9-2.6-2.6-.9 2.6-.9z"/></svg>';
+
+// a question in plain words → the week by day against the week before, and «Objasni»; the total and the change counted here
+function reportsScene(lang, x) {
+  const r = x.report;
+  const sum = (a) => a.reduce((s, v) => s + v, 0);
+  const now = sum(r.now);
+  const before = sum(r.before);
+  const pct = fmt(lang, (now / before - 1) * 100, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+  const total = r.total.replace('{n}', fmt(lang, now / 1e6, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  const max = Math.max(...r.now, ...r.before);
+  const h = (v) => `${((v / max) * 100).toFixed(1)}%`;
+  return `<div class="scn scn-rep"><div class="ui rep">
+<div class="ask">${SPARK}<span>${esc(r.ask)}</span></div>
+<div class="rep-head"><div><span class="ui-caps">${esc(r.title)} · ${esc(r.period)}</span><span class="rep-total">${esc(total)}</span></div><span class="rep-delta">▲ ${esc(pct)}<small>${esc(r.cmp)}</small></span></div>
+<div class="bars">${r.days.map((d, i) => `<div class="bar"><span class="bar-plot"><span class="bar-c" style="--h:${h(r.now[i])}"></span><span class="bar-p" style="--h:${h(r.before[i])}"></span></span><span class="bar-d">${esc(d)}</span></div>`).join('')}</div>
+<div class="ans"><span class="ans-k">${SPARK}${esc(r.explain)}</span><p>${esc(r.answer.replace('{pct}', pct))}</p></div>
+</div></div>`;
+}
+
+// an incoming e-invoice from SEF: the supplier's lines matched to our products, the answer due, one button to receive
+function sefScene(lang, x) {
+  const s = x.sef;
+  return `<div class="scn scn-sef"><div class="ui sef">
+<div class="sef-top"><span class="sef-inbox">${esc(s.inbox)}</span><span class="seg">${s.tabs.map((tab, i) => `<span${i ? '' : ' class="on"'}>${esc(tab)}</span>`).join('')}</span></div>
+<div class="sef-inv"><div><span class="sef-sup">${esc(s.supplier)}</span><span class="ui-meta">${esc(s.meta)}</span></div><span class="sef-due">${esc(s.due)}</span></div>
+<div class="sef-rows"><div class="sef-row th"><span>${esc(s.head[0])}</span><span></span><span>${esc(s.head[1])}</span></div>${s.rows.map(([item, qty, product, factor]) => `<div class="sef-row"><span class="sef-item">${esc(item)}<small>${esc(qty)}</small></span><span class="sef-arrow">→</span><span class="sef-prod">${esc(product)}<small>${esc(factor)} · ${esc(s.remembered)}</small></span></div>`).join('')}</div>
+<div class="sef-btns"><span class="ui-btn go">${esc(s.accept)}</span><span class="ui-btn">${esc(s.reject)}</span></div>
+</div></div>`;
+}
+
+const SCENES = { waiter: waiterScene, kitchen: kitchenScene, stock: stockScene, reports: reportsScene, sef: sefScene };
+
+// Without JavaScript the five examples stand one under another; the script turns them into tabs (one shown, the rest
+// kept in the same grid cell, so switching does not move the page)
+function examples(lang) {
+  const x = T[lang].home.examples;
+  return `<section class="band" id="examples" aria-labelledby="examples-h"><div class="wrap">
+<div class="sec-head"><h2 id="examples-h">${esc(x.title)}</h2><p>${txt(x.lead)}</p></div>
+<div class="ex" data-tabs>
+<div class="ex-tabs" aria-label="${esc(x.tabsLabel)}" hidden>${x.items.map((it, i) => `<button type="button" id="ex-t-${it.id}" aria-controls="ex-p-${it.id}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''}>${esc(it.tab)}</button>`).join('')}</div>
+<div class="ex-panels">${x.items.map((it) => `
+<div class="ex-panel" id="ex-p-${it.id}">
+<div class="ex-shot" role="img" aria-label="${esc(it.label)}">${SCENES[it.id](lang, it)}</div>
+<div class="ex-text"><h3>${txt(it.title)}</h3><p>${txt(it.text)}</p><ul>${it.points.map((p) => `<li>${txt(p)}</li>`).join('')}</ul></div>
+</div>`).join('')}
+</div>
+</div>
+</div></section>`;
+}
+
+// ---------- «Cene»: the venue on an enamel plate, the add-ons, a calculator and how one pays ----------
+const priceOf = (key) => {
+  const [kind, id] = key.split(':');
+  const v = kind === 'd' ? PRICES.device[id] : PRICES.modules[id];
+  if (typeof v !== 'number') throw new Error('no price for ' + key);
+  return v;
+};
+
+function pricing(lang) {
+  const p = T[lang].home.pricing;
+  const c = p.calc;
+  const row = ([label, parts]) => `<li class="p-row"><span class="p-name">${txt(label)}</span><span class="p-vals">${parts.map(([key, unit], i) => {
+    const v = priceOf(key);
+    if (v === 0) return `<span class="p-v free">${esc(p.free)}</span>`;
+    return `<span class="p-v">${i ? '+ ' : ''}${fmt(lang, v)}${unit ? ` <small>${esc(unit)}</small>` : ''}</span>`;
+  }).join('')}</span></li>`;
+  const stepper = (id, label, min, max, value) => `<div class="stp"><label for="c-${id}">${esc(label)}</label><span class="stp-ctl"><button type="button" data-d="-1" aria-label="${esc(c.less)}: ${esc(label)}">−</button><input id="c-${id}" type="number" inputmode="numeric" min="${min}" max="${max}" step="1" value="${value}"><button type="button" data-d="1" aria-label="${esc(c.more)}: ${esc(label)}">+</button></span></div>`;
+  // what the calculator counts with: the price list and the names of its lines; «<» never ends the script early
+  const data = JSON.stringify({ ...PRICES, locale: LOCALE[lang], lines: c.lines }).replace(/</g, '\\u003c');
+  return `<section class="band raised" id="pricing" aria-labelledby="pricing-h"><div class="wrap">
+<div class="sec-head"><h2 id="pricing-h">${esc(p.title)}</h2><p>${txt(p.lead)}</p></div>
+<div class="price">
+<div class="p-base"><p class="p-label">${esc(p.venue)}</p><p class="p-amount">${fmt(lang, PRICES.venue)}<small>RSD</small></p><p class="p-unit">${esc(p.month)}, ${esc(p.vat)}</p><ul class="p-incl">${p.includes.map((x) => `<li>${txt(x)}</li>`).join('')}</ul>${SIGNUP_ON ? `<a class="p-cta" href="${href(fileOf(lang, 'home'), fileOf(lang, 'signup'))}">${esc(SG[lang].home.priceCta)}</a>` : ''}</div>
+<div class="p-add"><div class="p-add-head"><h3>${esc(p.addonsTitle)}</h3><span>${esc(p.addonsUnit)}</span></div><ul class="p-list">${p.addons.map(row).join('')}</ul></div>
+</div>
+<div class="p-more">
+<div class="calc" id="calc" hidden>
+<h3 class="calc-title">${esc(c.title)}</h3>
+<div class="calc-grid">
+<div class="calc-in">
+${stepper('venues', c.venues, 1, 50, 1)}
+<p class="calc-sub">${esc(c.perVenue)}</p>
+${stepper('ipad', c.ipad, 1, 10, 1)}
+${stepper('kds', c.kds, 0, 10, 1)}
+${stepper('iphone', c.iphone, 0, 30, 0)}
+${stepper('kiosk', c.kiosk, 0, 10, 0)}
+<fieldset class="calc-mods"><legend>${esc(c.modsTitle)}</legend>${['ips', 'terminal', 'shifts', 'telegram'].map((m) => `<label class="chk"><input type="checkbox" value="${m}"><span>${esc(c.mods[m])}</span></label>`).join('')}</fieldset>
+</div>
+<div class="calc-out">
+<p class="calc-k">${esc(c.month)}</p>
+<p class="calc-total" aria-live="polite"><span data-o="month">${fmt(lang, PRICES.venue)}</span><small>RSD</small></p>
+<p class="calc-year">${esc(c.year)}: <b><span data-o="year">${fmt(lang, PRICES.venue * PRICES.yearMonths)}</span> RSD</b><small>${esc(c.yearNote)}</small></p>
+<ul class="calc-lines" data-o="lines"></ul>
+<p class="calc-vat">${esc(c.vat)}</p>
+</div>
+</div>
+</div>
+<div class="p-how"><h3>${esc(p.howTitle)}</h3><ul>${p.how.map((x) => `<li>${txt(x)}</li>`).join('')}</ul></div>
+</div>
+<script type="application/json" id="calc-data">${data}</script>
+</div></section>`;
+}
+
+// The home page's script: the calculator (the same sum as the app's billOf: the venue with one iPad and one kitchen
+// screen, devices beyond, the waiters' and the kiosk's modules where there are such devices, the chosen add-ons per
+// venue, Telegram once) and the tabs of the examples. Without it the price list and all five examples still show.
+const HOME_JS = `(() => {
+  const calc = document.getElementById('calc');
+  if (calc) {
+    const D = JSON.parse(document.getElementById('calc-data').textContent);
+    const f = new Intl.NumberFormat(D.locale);
+    const $ = (s) => calc.querySelector(s);
+    const val = (id) => {
+      const i = $('#c-' + id);
+      let n = Math.round(Number(i.value));
+      if (!Number.isFinite(n)) n = Number(i.min);
+      return Math.min(Number(i.max), Math.max(Number(i.min), n));
+    };
+    const on = (m) => $('input[value="' + m + '"]').checked;
+    const update = () => {
+      const n = val('venues'), ipad = val('ipad'), kds = val('kds'), iphone = val('iphone'), kiosk = val('kiosk');
+      const lines = [];
+      const add = (key, qty, price) => { if (qty > 0) lines.push([key, qty, qty * price]); };
+      add('venue', n, D.venue);
+      add('ipad', n * Math.max(0, ipad - D.included.ipad), D.device.ipad);
+      add('kds', n * Math.max(0, kds - D.included.kds), D.device.kds);
+      add('iphone', n * iphone, D.device.iphone);
+      if (iphone) add('waiter', n, D.modules.waiter);
+      add('kiosk', n * kiosk, D.device.kiosk);
+      if (kiosk) add('kioskMod', n, D.modules.kiosk);
+      for (const m of ['ips', 'terminal', 'shifts']) if (on(m)) add(m, n, D.modules[m]);
+      if (on('telegram')) add('telegram', 1, D.modules.telegram);
+      const month = lines.reduce((s, l) => s + l[2], 0);
+      $('[data-o=month]').textContent = f.format(month);
+      $('[data-o=year]').textContent = f.format(month * D.yearMonths);
+      const ul = $('[data-o=lines]');
+      ul.textContent = '';
+      for (const [key, qty, sum] of lines) {
+        const li = document.createElement('li');
+        const a = document.createElement('span');
+        const b = document.createElement('span');
+        a.textContent = D.lines[key] + (qty > 1 ? ' \\u00D7 ' + qty : '');
+        b.textContent = f.format(sum);
+        li.append(a, b);
+        ul.append(li);
+      }
+    };
+    calc.addEventListener('input', update);
+    calc.addEventListener('change', (e) => { if (e.target.type === 'number') e.target.value = val(e.target.id.slice(2)); update(); });
+    calc.addEventListener('click', (e) => {
+      const b = e.target.closest('button[data-d]');
+      if (!b) return;
+      const i = b.parentNode.querySelector('input');
+      i.value = Math.min(Number(i.max), Math.max(Number(i.min), (Math.round(Number(i.value)) || 0) + Number(b.dataset.d)));
+      update();
+    });
+    calc.hidden = false;
+    update();
+  }
+  const ex = document.querySelector('[data-tabs]');
+  if (ex) {
+    const list = ex.querySelector('.ex-tabs');
+    const tabs = [...list.querySelectorAll('button')];
+    const panels = tabs.map((t) => document.getElementById(t.getAttribute('aria-controls')));
+    list.setAttribute('role', 'tablist');
+    tabs.forEach((t, j) => {
+      t.setAttribute('role', 'tab');
+      panels[j].setAttribute('role', 'tabpanel');
+      panels[j].setAttribute('aria-labelledby', t.id);
+    });
+    const show = (i, focus) => {
+      tabs.forEach((t, j) => {
+        const on = i === j;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        panels[j].classList.toggle('on', on);
+        panels[j].inert = !on;
+      });
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => show(i));
+      t.addEventListener('keydown', (e) => {
+        const to = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+        if (to === undefined) return;
+        e.preventDefault();
+        show((to + tabs.length) % tabs.length, true);
+      });
+    });
+    list.hidden = false;
+    ex.classList.add('js');
+    show(0);
+  }
+})();`;
+
 function homePage(lang) {
   const t = T[lang];
   const h = t.home;
@@ -161,7 +453,9 @@ ${header(lang, 'home', file)}
 <p class="eyebrow">${esc(h.eyebrow)}</p>
 <h1>${txt(h.h1)}</h1>
 <p class="lead">${txt(h.lead)}</p>
-<div class="cta-row"><a class="btn" href="mailto:${SITE.email}">${MAIL_ICON}${esc(h.cta)}</a><span class="trial">${esc(h.trial)}</span></div>
+<div class="cta-row">${SIGNUP_ON
+    ? `<a class="btn" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].home.cta)}</a><a class="btn ghost" href="mailto:${SITE.email}">${MAIL_ICON}${esc(SG[lang].home.write)}</a>`
+    : `<a class="btn" href="mailto:${SITE.email}">${MAIL_ICON}${esc(h.cta)}</a>`}<span class="trial">${esc(h.trial)} <a href="#pricing">${esc(h.from.replace('{price}', rsd(lang, PRICES.venue)))}</a></span></div>
 </div>
 ${scene(lang)}
 </div></section>
@@ -172,9 +466,11 @@ ${scene(lang)}
 </ul>
 <div class="integr"><h3 class="integr-title">${esc(h.integrationsTitle)}</h3><ul>${h.integrations.map((x, i) => `<li${i === soon ? ' class="soon"' : ''}>${esc(x)}</li>`).join('')}</ul></div>
 </div></section>
+${examples(lang)}
+${pricing(lang)}
 <section class="band" id="start" aria-labelledby="start-h"><div class="wrap">
 <div class="sec-head"><h2 id="start-h">${esc(h.startTitle)}</h2></div>
-<ol class="steps">${h.start.map(([title, text], i) => `
+<ol class="steps">${(SIGNUP_ON ? SG[lang].home.start : h.start).map(([title, text], i) => `
 <li class="step"><span class="step-n" aria-hidden="true">${i + 1}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
 </ol>
 <p class="note"><span class="note-i" aria-hidden="true">i</span><span>${txt(h.fiscal)}</span></p>
@@ -185,7 +481,10 @@ ${scene(lang)}
 <p class="addr"><b>${esc(SITE.company)}</b><br>${esc(SITE.address)}</p>
 </div></section>
 </main>
-${footer(lang, 'home', file)}`;
+${footer(lang, 'home', file)}
+<script>
+${HOME_JS}
+</script>`;
   return page(lang, 'home', file, h.title, h.description, body);
 }
 
@@ -225,6 +524,263 @@ ${footer(lang, 'support', file)}`;
   return page(lang, 'support', file, `${s.title} — RUVO`, s.description, body);
 }
 
+// ---------- registration: the form, the link's page with the PIN, the Terms (src/signup.mjs) ----------
+// {mail} in a message becomes the address as a link, {email} the address the person typed — put in by the scripts
+const textData = (id, data) => `<script type="application/json" id="${id}">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`;
+
+function signupPage(lang) {
+  const t = T[lang];
+  const g = SG[lang].signup;
+  const file = fileOf(lang, 'signup');
+  const field = (name, { type = 'text', required = false, attrs = '' } = {}) => {
+    const [label, hint] = g.fields[name];
+    const ids = [hint ? `f-${name}-hint` : '', `f-${name}-err`].filter(Boolean).join(' ');
+    return `<div class="fld"><label for="f-${name}">${esc(label)}${required ? '' : ` <span class="opt">${esc(g.optional)}</span>`}</label><input id="f-${name}" name="${name}" type="${type}"${required ? ' required' : ''} ${attrs} aria-describedby="${ids}">${hint ? `<p class="fld-hint" id="f-${name}-hint">${esc(hint)}</p>` : ''}<p class="fld-err" id="f-${name}-err" hidden></p></div>`;
+  };
+  const select = (name, options) => {
+    const [label] = g.fields[name];
+    return `<div class="fld"><label for="f-${name}">${esc(label)} <span class="opt">${esc(g.optional)}</span></label><select id="f-${name}" name="${name}"><option value="">${esc(g.choose)}</option>${options.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join('')}</select></div>`;
+  };
+  const link = (page, label) => `<a href="${href(file, fileOf(lang, page))}">${esc(label)}</a>`;
+  const accept = esc(g.accept).replace('{terms}', link('terms', g.termsLink)).replace('{privacy}', link('privacy', g.privacyLink));
+  const body = `<div class="tiles short" aria-hidden="true"></div>
+${header(lang, 'signup', file)}
+<main id="main" class="doc"><div class="wrap"><div class="su">
+<div class="su-main">
+<h1>${esc(g.title)}</h1>
+<p class="doc-lead">${txt(g.lead)}</p>
+${PREVIEW ? `<p class="su-demo">${esc(g.demo)}</p>` : ''}
+<form class="su-form" id="su" novalidate data-api="${esc(SITE.api)}" data-lang="${lang}"${PREVIEW ? ' data-demo="1"' : ''}>
+${field('name', { required: true, attrs: 'autocomplete="name" maxlength="80"' })}
+${field('email', { type: 'email', required: true, attrs: 'autocomplete="email" maxlength="120" spellcheck="false"' })}
+${field('phone', { type: 'tel', attrs: 'autocomplete="tel" maxlength="30"' })}
+${field('restaurant', { required: true, attrs: 'maxlength="60"' })}
+<div class="fld-row">${field('company', { attrs: 'autocomplete="organization" maxlength="120"' })}${field('pib', { attrs: 'inputmode="numeric" maxlength="11" spellcheck="false"' })}</div>
+<div class="fld-row">${select('venues', g.venues)}${select('pos', g.pos.map((x) => [x, x]))}</div>
+<div class="hp" aria-hidden="true"><label for="f-website">Website</label><input id="f-website" name="website" tabindex="-1" autocomplete="off"></div>
+<div class="fld"><label class="cb"><input type="checkbox" id="f-accept" name="accept" required aria-describedby="f-accept-err"><span>${accept}</span></label><p class="fld-err" id="f-accept-err" hidden></p></div>
+<p class="su-msg" role="alert" hidden></p>
+<button class="btn" type="submit">${esc(g.submit)}</button>
+</form>
+<div class="su-done" id="su-done" tabindex="-1" hidden><span class="su-done-i" aria-hidden="true">✓</span><h2>${esc(g.done.title)}</h2><p data-t="text"></p><p class="su-spam" data-t="spam"></p></div>
+</div>
+<aside class="su-side" aria-labelledby="su-side-h"><h2 id="su-side-h">${esc(g.sideTitle)}</h2><ol class="su-steps">${g.side.map(([title, text], i) => `<li><span class="step-n" aria-hidden="true">${i + 1}</span><div><h3>${txt(title)}</h3><p>${txt(text)}</p></div></li>`).join('')}</ol></aside>
+</div></div></main>
+${footer(lang, 'signup', file)}
+${textData('su-text', { submit: g.submit, sending: g.sending, errors: g.errors, done: g.done, mail: SITE.email })}
+<script>
+${SIGNUP_JS}
+</script>`;
+  return page(lang, 'signup', file, `${g.title} — RUVO`, g.description, body);
+}
+
+function confirmPage(lang) {
+  const t = T[lang];
+  const g = SG[lang].confirm;
+  const file = fileOf(lang, 'confirm');
+  const pin = (id, label) => `<div class="fld"><label for="${id}">${esc(label)}</label><input id="${id}" class="pin-in" type="password" inputmode="numeric" autocomplete="new-password" maxlength="4" pattern="[0-9]{4}" required></div>`;
+  const body = `<div class="tiles short" aria-hidden="true"></div>
+${header(lang, 'confirm', file)}
+<main id="main" class="doc"><div class="wrap"><div class="doc-in cf">
+<h1>${esc(g.title)}</h1>
+<p class="doc-lead">${txt(g.lead)}</p>
+${PREVIEW ? `<p class="su-demo">${esc(g.demo)}</p>` : ''}
+<form class="cf-form" id="cf" novalidate data-api="${esc(SITE.api)}" data-lang="${lang}" data-locale="${LOCALE[lang]}"${PREVIEW ? ' data-demo="1"' : ''}>
+<div class="fld-row">${pin('c-pin', g.pin)}${pin('c-pin2', g.pin2)}</div>
+<p class="fld-hint">${esc(g.hint)}</p>
+<p class="su-msg" role="alert" hidden></p>
+<button class="btn" type="submit">${esc(g.submit)}</button>
+</form>
+<div class="cf-done" id="cf-done" tabindex="-1" hidden>
+<h2>${esc(g.done.title)}</h2>
+<p class="cf-k">${esc(g.done.code)}</p>
+<p class="cf-code" data-t="code"></p>
+<p class="cf-until" data-t="until"></p>
+<ol class="cf-steps">${g.done.steps.map((x) => `<li>${txt(x)}</li>`).join('')}</ol>
+<a class="btn" href="${esc(SITE.app)}" data-t="app">${esc(g.done.open)}</a>
+<p class="cf-note" data-t="mailed"></p>
+<p class="cf-note">${txt(g.done.trial)}</p>
+</div>
+</div></div></main>
+${footer(lang, 'confirm', file)}
+${textData('cf-text', { submit: g.submit, sending: g.sending, errors: g.errors, done: g.done, mail: SITE.email, signup: href(file, fileOf(lang, 'signup')) })}
+<script>
+${CONFIRM_JS}
+</script>`;
+  return page(lang, 'confirm', file, `${g.title} — RUVO`, g.description, body, { noindex: true });
+}
+
+function termsPage(lang) {
+  const t = T[lang];
+  const g = SG[lang].terms;
+  const file = fileOf(lang, 'terms');
+  const links = (x) => fill(x)
+    .replace(/\{privacy\}/g, `<a href="${href(file, fileOf(lang, 'privacy'))}">${esc(t.nav.privacy)}</a>`)
+    .replace(/\{pricing\}/g, `<a href="${href(file, fileOf(lang, 'home'), '#pricing')}">${esc(t.nav.pricing)}</a>`);
+  const block = (x) => (Array.isArray(x) ? `<ul>${x.map((li) => `<li>${links(li)}</li>`).join('')}</ul>` : `<p>${links(x)}</p>`);
+  const description = g.description.replace('{company}', SITE.company);
+  const body = `<div class="tiles short" aria-hidden="true"></div>
+${header(lang, 'terms', file)}
+<main id="main" class="doc"><div class="wrap"><div class="doc-in">
+<h1>${esc(g.title)}</h1>
+<p class="upd">${esc(g.updatedLabel)}: <time datetime="${SITE.updated.iso}">${esc(SITE.updated[lang])}</time></p>
+${g.sections.map(([title, items]) => `<section><h2>${esc(title)}</h2>${items.map(block).join('')}</section>`).join('\n')}
+</div></div></main>
+${footer(lang, 'terms', file)}`;
+  return page(lang, 'terms', file, `${g.title} — RUVO`, description, body);
+}
+
+// The form: checked here first (the same rules as the server: a name, an address, a phone if any, the PIB's check digit,
+// the consent), then sent to the server; its answer — or what went wrong — shown by the field or under the form.
+const SIGNUP_JS = `(() => {
+  const form = document.getElementById('su');
+  if (!form) return;
+  const T = JSON.parse(document.getElementById('su-text').textContent);
+  const demo = form.dataset.demo === '1';
+  const el = (n) => form.elements[n];
+  const v = (n) => el(n).value.trim();
+  const put = (node, text, email) => {
+    node.textContent = '';
+    text.split(/(\\{mail\\}|\\{email\\})/).forEach((part) => {
+      if (part === '{mail}') { const a = document.createElement('a'); a.href = 'mailto:' + T.mail; a.textContent = T.mail; node.append(a); }
+      else if (part === '{email}') { const b = document.createElement('b'); b.textContent = email || ''; node.append(b); }
+      else node.append(part);
+    });
+  };
+  const pibOk = (s) => {
+    if (!/^\\d{9}$/.test(s)) return false;
+    let p = 10;
+    for (let i = 0; i < 8; i++) { let t = (Number(s[i]) + p) % 10; if (t === 0) t = 10; p = (2 * t) % 11; }
+    return (11 - p) % 10 === Number(s[8]);
+  };
+  const showErr = (name, msg) => {
+    const box = document.getElementById('f-' + name + '-err');
+    if (!box) return;
+    box.textContent = msg || '';
+    box.hidden = !msg;
+    el(name).setAttribute('aria-invalid', msg ? 'true' : 'false');
+  };
+  const rules = {
+    name: () => (v('name').length < 2 ? T.errors.required : ''),
+    email: () => (!v('email') ? T.errors.required : /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v('email')) ? '' : T.errors.email),
+    phone: () => (v('phone') && !/^\\+?[\\d\\s()\\/.-]{6,}$/.test(v('phone')) ? T.errors.phone : ''),
+    restaurant: () => (!v('restaurant') ? T.errors.required : ''),
+    pib: () => (v('pib') && !pibOk(v('pib').replace(/\\D+/g, '')) ? T.errors.pib : ''),
+    accept: () => (el('accept').checked ? '' : T.errors.accept),
+  };
+  const msgBox = form.querySelector('.su-msg');
+  const say = (text) => { if (text) put(msgBox, text); msgBox.hidden = !text; };
+  form.addEventListener('input', (e) => { const n = e.target.name; if (rules[n] && e.target.getAttribute('aria-invalid') === 'true') showErr(n, rules[n]()); });
+  form.addEventListener('change', (e) => { if (e.target.name === 'accept') showErr('accept', rules.accept()); });
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    say('');
+    let first = null;
+    for (const n of Object.keys(rules)) { const m = rules[n](); showErr(n, m); if (m && !first) first = n; }
+    if (first) { el(first).focus(); return; }
+    const btn = form.querySelector('button[type=submit]');
+    btn.disabled = true;
+    btn.textContent = T.sending;
+    const body = { lang: form.dataset.lang, name: v('name'), email: v('email'), phone: v('phone'), restaurant: v('restaurant'), company: v('company'), pib: v('pib').replace(/\\D+/g, ''), venues: el('venues').value || null, pos: el('pos').value, accept: true, website: el('website').value };
+    try {
+      let status = 202;
+      let data = { ok: true };
+      if (demo) await new Promise((r) => setTimeout(r, 600));
+      else {
+        const res = await fetch(form.dataset.api + '/v1/signup', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+        status = res.status;
+        data = await res.json().catch(() => ({}));
+      }
+      if (status === 202) {
+        const done = document.getElementById('su-done');
+        put(done.querySelector('[data-t=text]'), T.done.text, body.email);
+        put(done.querySelector('[data-t=spam]'), T.done.spam);
+        form.hidden = true;
+        done.hidden = false;
+        done.focus();
+        return;
+      }
+      if (status === 400 && data.issues) {
+        const known = { email: T.errors.email, pib: T.errors.pib, phone: T.errors.phone, accept: T.errors.accept };
+        let f = null;
+        for (const i of data.issues) if (rules[i.path]) { showErr(i.path, known[i.path] || T.errors.required); f = f || i.path; }
+        if (f) el(f).focus(); else say(T.errors.other);
+      } else say(status === 429 ? T.errors.wait : status === 503 ? T.errors.off : status === 502 ? T.errors.mail : T.errors.other);
+    } catch (err) {
+      say(T.errors.net);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = T.submit;
+    }
+  });
+})();`;
+
+// The link's page: the token after «#» (it never reaches a server log), two PINs, the account — and the code, big.
+const CONFIRM_JS = `(() => {
+  const form = document.getElementById('cf');
+  if (!form) return;
+  const T = JSON.parse(document.getElementById('cf-text').textContent);
+  const demo = form.dataset.demo === '1';
+  const token = location.hash.slice(1);
+  const msgBox = form.querySelector('.su-msg');
+  const put = (node, text) => {
+    node.textContent = '';
+    text.split(/(\\{mail\\}|\\{signup\\})/).forEach((part) => {
+      if (part === '{mail}') { const a = document.createElement('a'); a.href = 'mailto:' + T.mail; a.textContent = T.mail; node.append(a); }
+      else if (part === '{signup}') { const a = document.createElement('a'); a.href = T.signup; a.textContent = T.errors.signupLink; node.append(a); }
+      else node.append(part);
+    });
+  };
+  const say = (text) => { if (text) put(msgBox, text); msgBox.hidden = !text; };
+  const btn = form.querySelector('button[type=submit]');
+  if (!demo && !/^[A-Za-z0-9_-]{43}$/.test(token)) { say(T.errors.noToken); btn.disabled = true; return; }
+  const weak = (p) => { const d = [...p].map(Number); return d.every((x) => x === d[0]) || d.every((x, i) => !i || x === d[i - 1] + 1) || d.every((x, i) => !i || x === d[i - 1] - 1); };
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    say('');
+    const a = document.getElementById('c-pin');
+    const b = document.getElementById('c-pin2');
+    const pin = a.value.trim();
+    if (!/^\\d{4}$/.test(pin)) { say(T.errors.format); a.focus(); return; }
+    if (b.value.trim() !== pin) { say(T.errors.mismatch); b.focus(); return; }
+    if (weak(pin)) { say(T.errors.weak); a.focus(); return; }
+    btn.disabled = true;
+    btn.textContent = T.sending;
+    try {
+      let status = 201;
+      let data = { code: { code: '482913', expiresAt: new Date(Date.now() + 7 * 86400000).toISOString() }, appUrl: null, mailed: true };
+      if (demo) await new Promise((r) => setTimeout(r, 600));
+      else {
+        const res = await fetch(form.dataset.api + '/v1/signup/confirm', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ token, pin }) });
+        status = res.status;
+        data = await res.json().catch(() => ({}));
+      }
+      if (status === 201) {
+        history.replaceState(null, '', location.pathname + location.search);
+        const done = document.getElementById('cf-done');
+        const until = new Intl.DateTimeFormat(form.dataset.locale, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Belgrade' }).format(new Date(data.code.expiresAt));
+        done.querySelector('[data-t=code]').textContent = data.code.code;
+        done.querySelector('[data-t=until]').textContent = T.done.until.replace('{until}', until);
+        if (data.appUrl) done.querySelector('[data-t=app]').href = data.appUrl;
+        done.querySelector('[data-t=mailed]').textContent = data.mailed ? T.done.mailed : T.done.notMailed;
+        for (const x of document.querySelectorAll('.cf > .doc-lead, .cf > .su-demo')) x.hidden = true;
+        form.hidden = true;
+        done.hidden = false;
+        done.focus();
+        return;
+      }
+      const err = data.error;
+      say(err === 'pin_weak' ? T.errors.weak : err === 'signup_not_found' ? T.errors.notFound : err === 'signup_used' ? T.errors.used : err === 'signup_expired' ? T.errors.expired
+        : err === 'email_taken' ? T.errors.taken : status === 429 ? T.errors.wait : status === 503 ? T.errors.off : T.errors.other);
+    } catch (err) {
+      say(T.errors.net);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = T.submit;
+    }
+  });
+})();`;
+
 // GitHub Pages serves this for any address that does not exist, at any depth: so its links start at the root
 function notFoundPage() {
   const blocks = LANGS.map((l) => `<div lang="${T[l].ui.lang}"><p><b>${esc(T[l].notFound.title)}</b></p><p>${esc(T[l].notFound.text)}</p></div>`);
@@ -257,7 +813,7 @@ ${blocks.join('\n')}
 }
 
 function sitemap() {
-  const urls = PAGES.flatMap((key) => LANGS.map((lang) => `  <url>
+  const urls = PAGES.filter((key) => key !== 'confirm').flatMap((key) => LANGS.map((lang) => `  <url>
     <loc>${urlOf(fileOf(lang, key))}</loc>
     <lastmod>${SITE.updated.iso}</lastmod>
 ${LANGS.map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${urlOf(fileOf(l, key))}"/>`).join('\n')}
@@ -281,6 +837,11 @@ for (const lang of LANGS) {
   put(fileOf(lang, 'home'), homePage(lang));
   put(fileOf(lang, 'privacy'), privacyPage(lang));
   put(fileOf(lang, 'support'), supportPage(lang));
+  if (SIGNUP_ON) {
+    put(fileOf(lang, 'signup'), signupPage(lang));
+    put(fileOf(lang, 'confirm'), confirmPage(lang));
+    put(fileOf(lang, 'terms'), termsPage(lang));
+  }
 }
 put('assets/favicon.svg', FAVICON);
 if (!PREVIEW) {
