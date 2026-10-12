@@ -311,7 +311,9 @@ const EXAMPLES = {
 const PRICING = {
   // Little text (the owner, 13 October, 01:43: «Ещё раз пересобирай цены. Сейчас очень много текста»): the plans say
   // their price and nothing more; a row of the price list is a name and, for a licence, the hardware in one word; the
-  // three example setups are the calculator's presets; six questions, closed until opened.
+  // three example setups are the calculator's presets; six questions, closed until opened. The price list's two halves
+  // are of one size — four licences, four modules (01:56: «не симметрична по размеру левой и правой части»): Telegram
+  // says «for the company» beside its name, and the free move from another POS is told in «Kako počinje».
   sr: {
     title: 'Cene',
     lead: 'Objekat i licenca za svaki uređaj, mesečno ili godišnje. Prvih 30 dana besplatno.',
@@ -335,10 +337,7 @@ const PRICING = {
         ['m:ips', 'IPS QR plaćanje'],
         ['m:terminal', 'Bankovni terminal'],
         ['m:shifts', 'Smene i plate'],
-      ]],
-      ['Za celu firmu', [
-        ['m:telegram', 'Izveštaj u Telegramu'],
-        ['m:migrate', 'Prenos iz drugog POS-a'],
+        ['m:telegram', 'Izveštaj u Telegramu', 'za firmu'],
       ]],
     ],
     free: 'besplatno',
@@ -388,10 +387,7 @@ const PRICING = {
         ['m:ips', 'IPS QR payments'],
         ['m:terminal', 'Bank terminal'],
         ['m:shifts', 'Shifts and pay'],
-      ]],
-      ['For the whole company', [
-        ['m:telegram', 'Report in Telegram'],
-        ['m:migrate', 'Moving from another POS'],
+        ['m:telegram', 'Report in Telegram', 'per company'],
       ]],
     ],
     free: 'free',
@@ -441,10 +437,7 @@ const PRICING = {
         ['m:ips', 'Оплата по QR (IPS)'],
         ['m:terminal', 'Банковский терминал'],
         ['m:shifts', 'Смены и зарплата'],
-      ]],
-      ['На всю компанию', [
-        ['m:telegram', 'Отчёт в Telegram'],
-        ['m:migrate', 'Перенос из другой POS'],
+        ['m:telegram', 'Отчёт в Telegram', 'на компанию'],
       ]],
     ],
     free: 'бесплатно',
@@ -735,7 +728,7 @@ export const T = {
       startTitle: 'Kako počinje',
       start: [
         ['Pišete nam', 'Na hello@ruvo.ac, ukratko o objektu: sale, stolovi, uređaji.'],
-        ['Otvaramo nalog', 'Prenosimo meni, normative i stanje magacina iz vašeg dosadašnjeg sistema ili tabele.'],
+        ['Otvaramo nalog', 'Prenosimo meni, normative i stanje magacina iz vašeg dosadašnjeg sistema ili tabele — besplatno.'],
         ['Povezujete uređaje', 'Terminal sale, uređaji konobara i ekran kuhinje povezuju se jednokratnim kodom iz back-office-a.'],
         ['30 dana besplatno', 'Zatim pretplata po cenovniku — mesečno ili godišnje.'],
       ],
@@ -816,7 +809,7 @@ export const T = {
       startTitle: 'How it starts',
       start: [
         ['You write to us', 'At hello@ruvo.ac, briefly about the venue: rooms, tables, devices.'],
-        ['We open the account', 'We move your menu, recipes and stock from your current system or a spreadsheet.'],
+        ['We open the account', 'We move your menu, recipes and stock from your current system or a spreadsheet — free of charge.'],
         ['You connect the devices', 'The front terminal, the waiter devices and the kitchen screen join with a one-time code from the back office.'],
         ['30 days free', 'Then a subscription by the price list — monthly or yearly.'],
       ],
@@ -897,7 +890,7 @@ export const T = {
       startTitle: 'Как начать',
       start: [
         ['Вы пишете нам', 'На hello@ruvo.ac — коротко о заведении: залы, столы, устройства.'],
-        ['Мы открываем аккаунт', 'Переносим меню, техкарты и остатки из вашей нынешней системы или таблицы.'],
+        ['Мы открываем аккаунт', 'Бесплатно переносим меню, техкарты и остатки из вашей нынешней системы или таблицы.'],
         ['Вы подключаете устройства', 'Фронт, устройства официантов и экран кухни подключаются одноразовым кодом из бэкофиса.'],
         ['30 дней бесплатно', 'Затем подписка по прайсу — помесячно или за год.'],
       ],
