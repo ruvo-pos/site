@@ -588,31 +588,26 @@ function pricing(lang, file) {
   const d = T[lang].home.demo;
   const num = (v) => fmt(lang, v);
   const yearOf = (v) => v * PRICES.yearMonths;
-  const lineName = (key, qty) => `${esc(c.lines[key])}${qty > 1 ? ` × ${qty}` : ''}`;
-  // each plan ends with the same button, so the two cards end on one line
+  // each plan ends with the same button, so the cards end on one line
   const cta = SIGNUP_ON
     ? `<a class="plan-cta" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].home.priceCta)}</a>`
     : `<a class="plan-cta" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(d.cta)}</a>`;
-  // {perMonth} — what the year comes to a month, {saving} — what it saves on a venue against twelve months. One plain
-  // sentence under the price: no ticked lists on the page (the owner, 13 October: «Все с зелеными галочками — убираем»)
-  const point = (x) => txt(x
-    .replace('{perMonth}', rsd(lang, Math.round(yearOf(PRICES.venue) / 12)))
-    .replace('{saving}', rsd(lang, PRICES.venue * 12 - yearOf(PRICES.venue))));
+  // a plan says its price and nothing more (the owner, 13 October: «Сейчас очень много текста»)
   const plan = (k, amount) => {
     const x = p.plans[k];
     return `<article class="plan${k === 'year' ? ' enamel' : ''}" aria-labelledby="plan-${k}">
 <h3 class="plan-label" id="plan-${k}">${esc(x.label)}${x.badge ? ` <span class="plan-badge">${esc(x.badge)}</span>` : ''}</h3>
 <p class="plan-amount">${num(amount)}<small>RSD</small></p>
-<p class="plan-unit">${esc(x.unit)} · ${esc(p.vat)}</p>
-<p class="plan-note">${point(x.note)}</p>${cta}
+<p class="plan-unit">${esc(x.unit)} · ${esc(p.vat)}</p>${cta}
 </article>`;
   };
+  // a row of the price list: the name, for a licence the hardware in one word, both prices
   const group = ([title, items]) => `<tbody>
-<tr class="pt-g"><th colspan="3" scope="colgroup">${esc(title)}</th></tr>${items.map(([key, name, desc]) => {
+<tr class="pt-g"><th colspan="3" scope="colgroup">${esc(title)}</th></tr>${items.map(([key, name, hw]) => {
     const v = priceOf(key);
     const cells = v === 0 ? `<td colspan="2" class="pt-free">${esc(p.free)}</td>` : `<td>${num(v)}</td><td>${num(yearOf(v))}</td>`;
     return `
-<tr><th scope="row"><span class="pt-n">${txt(name)}</span><span class="pt-d">${txt(desc)}</span></th>${cells}</tr>`;
+<tr><th scope="row"><span class="pt-n">${txt(name)}</span>${hw ? ` <span class="pt-hw">${esc(hw)}</span>` : ''}</th>${cells}</tr>`;
   }).join('')}
 </tbody>`;
   // two tables of one look on the page's halves: the licences; the modules and what a company pays once
@@ -620,21 +615,16 @@ function pricing(lang, file) {
 <thead><tr><th scope="col"><span class="vh">${esc(p.tableTitle)}</span></th><th scope="col">${esc(p.cols[0])}</th><th scope="col">${esc(p.cols[1])}</th></tr></thead>
 ${gs.map(group).join('\n')}
 </table>`;
-  // every block under the plans has the same head: its title, a note on the right
-  const head = (title, note = '') => `<div class="p-head"><h3>${esc(title)}</h3>${note ? `<p>${esc(note)}</p>` : ''}</div>`;
-  const half = Math.ceil(p.faq.length / 2);
-  const bills = p.bills.map(([name, setup, s]) => {
-    const b = billOf(PRICES, s);
-    // every bill shows its lines, also the café's one — so no card stands empty above its sum
-    const lines = b.lines.length ? `<ul class="bill-lines">${b.lines.map(([key, qty, sum]) => `<li><span>${lineName(key, qty)}</span><span>${num(sum)}</span></li>`).join('')}</ul>` : '';
-    return `
-<li class="bill-card"><h4>${esc(name)}</h4><p class="bill-setup">${txt(setup)}</p>${lines}<p class="bill-sum"><span>${esc(p.plans.month.label)}</span><b>${rsd(lang, b.month)}</b></p><p class="bill-year"><span>${esc(p.plans.year.label)}</span><b>${rsd(lang, yearOf(b.month))}</b></p></li>`;
-  }).join('');
+  // every block under the plans has the same head: its title, on the right a note or the calculator's examples
+  const head = (title, right = '') => `<div class="p-head"><h3>${esc(title)}</h3>${right}</div>`;
+  // the example setups (café, restaurant, a group) are the calculator's presets: one press fills it in
+  const presets = `<div class="calc-presets" role="group" aria-label="${esc(p.presets)}"><span class="calc-presets-k">${esc(p.presets)}:</span>${p.bills.map(([name], i) => `<button type="button" class="chip" data-preset="${i}" aria-pressed="${i === 0}">${esc(name)}</button>`).join('')}</div>`;
   // a row of the calculator: the name (with «1 included» where a venue includes one) and − value +
   const stepper = (id, label, min, max, value, hint = '') => `<div class="stp"><label for="c-${id}">${esc(label)}${hint ? ` <small>${esc(hint)}</small>` : ''}</label><span class="stp-ctl"><button type="button" data-d="-1" aria-label="${esc(c.less)}: ${esc(label)}">−</button><input id="c-${id}" type="number" inputmode="numeric" min="${min}" max="${max}" step="1" value="${value}"><button type="button" data-d="1" aria-label="${esc(c.more)}: ${esc(label)}">+</button></span></div>`;
   const mod = (m) => `<label class="mod"><input type="checkbox" value="${m}"><span class="mod-box" aria-hidden="true"></span><span class="mod-n">${esc(c.mods[m])}${m === 'telegram' ? ` <small>${esc(c.perCompany)}</small>` : ''}</span><span class="mod-p">${num(PRICES.modules[m])}</span></label>`;
-  // what the calculator counts with: the price list and the names of its lines; «<» never ends the script early
-  const data = JSON.stringify({ ...PRICES, locale: LOCALE[lang], lines: c.lines }).replace(/</g, '\\u003c');
+  // what the calculator counts with: the price list, the names of its lines and the presets; «<» never ends the script
+  const data = JSON.stringify({ ...PRICES, locale: LOCALE[lang], lines: c.lines, presets: p.bills.map(([, s]) => s) }).replace(/</g, '\\u003c');
+  const half = Math.ceil(p.faq.length / 2);
   return `<section class="band" id="pricing" aria-labelledby="pricing-h"><div class="wrap">
 <div class="sec-head"><h2 id="pricing-h">${esc(p.title)}</h2><p>${txt(p.lead)}</p></div>
 <div class="plans">
@@ -643,18 +633,15 @@ ${plan('year', yearOf(PRICES.venue))}
 <article class="plan incl" aria-labelledby="plan-incl">
 <h3 class="plan-label" id="plan-incl">${esc(p.includesTitle)}</h3>
 <ul class="incl-list">${p.includes.map((x) => `<li>${txt(x)}</li>`).join('')}</ul>
-<p class="incl-note">${txt(p.includesNote)}</p>
 </article>
 </div>
-<div class="p-block ptab">${head(p.tableTitle, `RSD, ${p.vat}`)}
+<div class="p-block ptab">${head(p.tableTitle, `<p>RSD, ${esc(p.vat)}</p>`)}
 <div class="pt-cols">
 ${table(p.groups.slice(0, 1))}
 ${table(p.groups.slice(1))}
 </div>
 </div>
-<div class="p-block bills">${head(p.billsTitle)}<ul class="bill-list">${bills}
-</ul></div>
-<div class="p-block calc" id="calc" hidden>${head(c.title, c.vat)}
+<div class="p-block calc" id="calc" hidden>${head(c.title, presets)}
 <div class="calc-card"><div class="calc-grid">
 <div class="calc-col calc-in">
 <p class="calc-k">${esc(c.venuesTitle)}</p>
@@ -716,13 +703,23 @@ const HOME_JS = `(() => {
         ul.append(li);
       }
     };
-    calc.addEventListener('input', update);
+    // the example setups: a press fills the calculator in; any change by hand lets the pressed one go
+    const chips = [...calc.querySelectorAll('[data-preset]')];
+    const press = (i) => chips.forEach((x, j) => x.setAttribute('aria-pressed', String(i === j)));
+    const preset = (s) => {
+      for (const k of ['venues', 'ipad', 'kds', 'iphone', 'kiosk']) $('#c-' + k).value = s[k] || (k === 'venues' || k === 'ipad' ? 1 : 0);
+      for (const m of ['ips', 'terminal', 'shifts', 'telegram']) $('input[value="' + m + '"]').checked = !!s[m];
+    };
+    calc.addEventListener('input', () => { press(-1); update(); });
     calc.addEventListener('change', (e) => { if (e.target.type === 'number') e.target.value = val(e.target.id.slice(2)); update(); });
     calc.addEventListener('click', (e) => {
+      const c = e.target.closest('[data-preset]');
+      if (c) { const i = Number(c.dataset.preset); preset(D.presets[i]); press(i); update(); return; }
       const b = e.target.closest('button[data-d]');
       if (!b) return;
       const i = b.parentNode.querySelector('input');
       i.value = Math.min(Number(i.max), Math.max(Number(i.min), (Math.round(Number(i.value)) || 0) + Number(b.dataset.d)));
+      press(-1);
       update();
     });
     calc.hidden = false;

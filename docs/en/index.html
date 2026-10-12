@@ -691,7 +691,7 @@ background: radial-gradient(circle, var(--line-2) 0.07em, transparent 0.08em) 0 
 .enamel .plan-badge { background: var(--plate-ink); color: var(--plate); }
 .plan-amount { margin-top: var(--sp-4); font-family: var(--font-brand); font-size: clamp(38px, 2.4vw + 18px, 54px); font-weight: 700; line-height: 1; letter-spacing: 0.01em; font-variant-numeric: tabular-nums; }
 .plan-amount small { margin-left: 0.3em; font-family: var(--font-ui); font-size: 0.32em; font-weight: 600; letter-spacing: 0.02em; }
-.plan-unit { margin-top: var(--sp-2); color: var(--ink-2); font-size: var(--fs-body); }
+.plan-unit { margin-top: var(--sp-2); margin-bottom: var(--sp-6); color: var(--ink-2); font-size: var(--fs-body); }
 .enamel .plan-unit { color: rgb(255 255 255 / 0.86); }
 .plan-note { margin-top: var(--sp-5); margin-bottom: var(--sp-6); padding-top: var(--sp-5); border-top: 1px solid var(--line); color: var(--ink-2); font-size: var(--fs-body); line-height: 1.55; text-wrap: pretty; }
 .enamel .plan-note { border-top-color: rgb(255 255 255 / 0.28); color: rgb(255 255 255 / 0.9); }
@@ -703,7 +703,6 @@ background: radial-gradient(circle, var(--line-2) 0.07em, transparent 0.08em) 0 
 .incl-list { display: grid; margin-top: var(--sp-4); }
 .incl-list li { padding-block: 10px; border-bottom: 1px solid var(--line); font-size: var(--fs-body); line-height: 1.4; }
 .incl-list li:first-child { border-top: 1px solid var(--line); }
-.incl-note { margin-top: auto; padding-top: var(--sp-4); color: var(--ink-3); font-size: var(--fs-sm); line-height: 1.45; }
 @media (max-width: 1000px) {
 .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .plan.incl { grid-column: 1 / -1; }
@@ -724,28 +723,23 @@ background: radial-gradient(circle, var(--line-2) 0.07em, transparent 0.08em) 0 
 .pt thead th { padding: 0 0 10px 16px; border-bottom: 1px solid var(--line-2); color: var(--ink-3); font-size: var(--fs-xs); font-weight: 600; line-height: 1.2; letter-spacing: var(--track-caps); text-align: right; text-transform: uppercase; white-space: nowrap; }
 .pt thead th:first-child { padding-left: 0; text-align: left; }
 .pt .pt-g th { padding: 24px 0 8px; border-bottom: 1px solid var(--line); color: var(--accent); font-size: var(--fs-xs); font-weight: 600; line-height: 1.3; letter-spacing: var(--track-caps); text-align: left; text-transform: uppercase; }
-.pt tbody th[scope="row"] { padding: 12px 0; border-bottom: 1px solid var(--line); font-weight: 400; text-align: left; vertical-align: top; }
-.pt-n { display: block; font-size: var(--fs-body); font-weight: 600; line-height: 1.4; }
-.pt-d { display: block; margin-top: 2px; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; }
-.pt td { width: 6.5em; padding: 12px 0 12px 16px; border-bottom: 1px solid var(--line); font-size: var(--fs-body); font-weight: 600; line-height: 1.4; text-align: right; vertical-align: top; white-space: nowrap; }
+.pt tbody th[scope="row"] { padding: 11px 0; border-bottom: 1px solid var(--line); font-weight: 400; text-align: left; vertical-align: baseline; }
+.pt-n { font-size: var(--fs-body); font-weight: 600; line-height: 1.4; }
+.pt-hw { margin-left: 4px; color: var(--ink-3); font-size: var(--fs-sm); white-space: nowrap; }
+.pt td { width: 6.5em; padding: 11px 0 11px 16px; border-bottom: 1px solid var(--line); font-size: var(--fs-body); font-weight: 600; line-height: 1.4; text-align: right; vertical-align: baseline; white-space: nowrap; }
 .pt td.pt-free { color: var(--ok); }
 .vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-.bill-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); align-items: stretch; }
-.bill-card { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: clamp(20px, 2.2vw, 28px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--shadow-1); font-variant-numeric: tabular-nums; }
-.bill-card h4 { font-size: var(--fs-md); font-weight: 600; line-height: 1.3; }
-.bill-setup { color: var(--ink-3); font-size: var(--fs-sm); line-height: 1.45; }
-.bill-lines { display: grid; gap: 4px; margin-top: var(--sp-2); margin-bottom: 4px; padding-top: var(--sp-3); border-top: 1px solid var(--line); font-size: var(--fs-sm); }
-.bill-lines li { display: flex; justify-content: space-between; gap: var(--sp-3); color: var(--ink-2); }
-.bill-lines li span:last-child { color: var(--ink); white-space: nowrap; }
-.bill-sum, .bill-year { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0 var(--sp-3); }
-.bill-sum { margin-top: auto; padding-top: var(--sp-3); border-top: 1px solid var(--line); }
-.bill-sum span, .bill-year span { color: var(--ink-2); font-size: var(--fs-sm); }
-.bill-sum b { font-size: var(--fs-lg); font-weight: 700; white-space: nowrap; }
-.bill-year b { font-size: var(--fs-body); font-weight: 600; white-space: nowrap; }
-@media (max-width: 900px) { .pt-cols, .bill-list { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 900px) { .pt-cols { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 480px) { .pt thead th, .pt td { padding-left: 10px; } .pt td { width: auto; font-size: var(--fs-sm); } }
 .calc[hidden] { display: none; }
 .calc-card { padding: clamp(20px, 2.5vw, 32px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--shadow-1); }
+.calc .p-head { align-items: center; }
+.calc-presets { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.calc-presets-k { margin-right: 2px; color: var(--ink-3); font-size: var(--fs-sm); }
+.calc-presets .chip { height: 38px; padding: 0 16px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--surface); color: var(--ink-2); font: inherit; font-size: var(--fs-sm); font-weight: 600; cursor: pointer; }
+.calc-presets .chip:hover { border-color: var(--ink-3); color: var(--ink); }
+.calc-presets .chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
+.calc-presets .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .calc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-6) clamp(24px, 3vw, 48px); align-items: start; }
 .calc-col { display: grid; align-content: start; gap: var(--sp-2); min-width: 0; margin: 0; padding: 0; border: 0; }
 .calc-k { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-height: 24px; color: var(--ink-3); font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--track-caps); text-transform: uppercase; }
@@ -1119,24 +1113,21 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <div class="why-cta"><a class="btn" href="#pricing">See pricing</a><a class="btn ghost" href="../demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Try the demo</a></div>
 </div></section>
 <section class="band" id="pricing" aria-labelledby="pricing-h"><div class="wrap">
-<div class="sec-head"><h2 id="pricing-h">Pricing</h2><p>You pay for the venue and a licence for each device you connect — monthly or yearly. The first 30 days are free.</p></div>
+<div class="sec-head"><h2 id="pricing-h">Pricing</h2><p>A venue and a licence for each device, monthly or yearly. The first 30 days are free.</p></div>
 <div class="plans">
 <article class="plan" aria-labelledby="plan-month">
 <h3 class="plan-label" id="plan-month">Monthly</h3>
 <p class="plan-amount">6,000<small>RSD</small></p>
-<p class="plan-unit">per venue, a month · without VAT</p>
-<p class="plan-note">An invoice every month, nothing paid in advance. End the subscription whenever you like.</p><a class="plan-cta" href="../demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Try the demo</a>
+<p class="plan-unit">per venue, a month · without VAT</p><a class="plan-cta" href="../demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Try the demo</a>
 </article>
 <article class="plan enamel" aria-labelledby="plan-year">
 <h3 class="plan-label" id="plan-year">Yearly <span class="plan-badge">2 months free</span></h3>
 <p class="plan-amount">60,000<small>RSD</small></p>
-<p class="plan-unit">per venue, a year · without VAT</p>
-<p class="plan-note">Works out at 5,000 RSD a month — you save 12,000 RSD per venue. One invoice in advance.</p><a class="plan-cta" href="../demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Try the demo</a>
+<p class="plan-unit">per venue, a year · without VAT</p><a class="plan-cta" href="../demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Try the demo</a>
 </article>
 <article class="plan incl" aria-labelledby="plan-incl">
 <h3 class="plan-label" id="plan-incl">Included in a venue</h3>
-<ul class="incl-list"><li>A front terminal</li><li>A kitchen screen</li><li>Menu, stock and recipes</li><li>Reports and the AI assistant</li><li>Staff, roles and the action log</li></ul>
-<p class="incl-note">Other devices and modules — by the price list below.</p>
+<ul class="incl-list"><li>A front terminal</li><li>A kitchen screen</li><li>Menu, stock and recipes</li><li>Reports and the AI assistant</li><li>Staff and roles</li></ul>
 </article>
 </div>
 <div class="p-block ptab"><div class="p-head"><h3>Licences and modules</h3><p>RSD, without VAT</p></div>
@@ -1145,34 +1136,29 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <thead><tr><th scope="col"><span class="vh">Licences and modules</span></th><th scope="col">monthly</th><th scope="col">yearly</th></tr></thead>
 <tbody>
 <tr class="pt-g"><th colspan="3" scope="colgroup">Licences — per device</th></tr>
-<tr><th scope="row"><span class="pt-n">Extra front terminal</span><span class="pt-d">Another terminal for the floor, the bar or payments. Runs on iPad.</span></th><td>1,500</td><td>15,000</td></tr>
-<tr><th scope="row"><span class="pt-n">Extra kitchen screen</span><span class="pt-d">For another station — the bar, the grill or the pastry. Runs on a tablet.</span></th><td>1,200</td><td>12,000</td></tr>
-<tr><th scope="row"><span class="pt-n">Waiter device</span><span class="pt-d">The order goes from the table straight to the kitchen; the bill and the QR are with the waiter. Runs on iPhone.</span></th><td>1,000</td><td>10,000</td></tr>
-<tr><th scope="row"><span class="pt-n">Kiosk</span><span class="pt-d">Guests choose and order by themselves, and pay at the till by number. Runs on iPad.</span></th><td>5,000</td><td>50,000</td></tr>
+<tr><th scope="row"><span class="pt-n">Extra front terminal</span> <span class="pt-hw">iPad</span></th><td>1,500</td><td>15,000</td></tr>
+<tr><th scope="row"><span class="pt-n">Extra kitchen screen</span> <span class="pt-hw">tablet</span></th><td>1,200</td><td>12,000</td></tr>
+<tr><th scope="row"><span class="pt-n">Waiter device</span> <span class="pt-hw">iPhone</span></th><td>1,000</td><td>10,000</td></tr>
+<tr><th scope="row"><span class="pt-n">Kiosk</span> <span class="pt-hw">iPad</span></th><td>5,000</td><td>50,000</td></tr>
 </tbody>
 </table>
 <table class="pt">
 <thead><tr><th scope="col"><span class="vh">Licences and modules</span></th><th scope="col">monthly</th><th scope="col">yearly</th></tr></thead>
 <tbody>
 <tr class="pt-g"><th colspan="3" scope="colgroup">Modules — per venue</th></tr>
-<tr><th scope="row"><span class="pt-n">IPS QR payments</span><span class="pt-d">The guest pays by scanning the QR code with their bank’s app.</span></th><td>1,000</td><td>10,000</td></tr>
-<tr><th scope="row"><span class="pt-n">Bank terminal</span><span class="pt-d">The bill’s amount goes straight to the terminal, no typing.</span></th><td>1,000</td><td>10,000</td></tr>
-<tr><th scope="row"><span class="pt-n">Shifts and pay</span><span class="pt-d">Shifts by PIN on the front terminal, hourly rates and a share of sales.</span></th><td>1,500</td><td>15,000</td></tr>
+<tr><th scope="row"><span class="pt-n">IPS QR payments</span></th><td>1,000</td><td>10,000</td></tr>
+<tr><th scope="row"><span class="pt-n">Bank terminal</span></th><td>1,000</td><td>10,000</td></tr>
+<tr><th scope="row"><span class="pt-n">Shifts and pay</span></th><td>1,500</td><td>15,000</td></tr>
 </tbody>
 <tbody>
 <tr class="pt-g"><th colspan="3" scope="colgroup">For the whole company</th></tr>
-<tr><th scope="row"><span class="pt-n">Daily report in Telegram</span><span class="pt-d">Sales, discounts and cancellations every evening.</span></th><td>500</td><td>5,000</td></tr>
-<tr><th scope="row"><span class="pt-n">Moving from another POS</span><span class="pt-d">Menu, recipes, stock and guests from your current system.</span></th><td colspan="2" class="pt-free">free</td></tr>
+<tr><th scope="row"><span class="pt-n">Report in Telegram</span></th><td>500</td><td>5,000</td></tr>
+<tr><th scope="row"><span class="pt-n">Moving from another POS</span></th><td colspan="2" class="pt-free">free</td></tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="p-block bills"><div class="p-head"><h3>Example bills</h3></div><ul class="bill-list">
-<li class="bill-card"><h4>Café</h4><p class="bill-setup">A front terminal and a kitchen screen</p><ul class="bill-lines"><li><span>Venue</span><span>6,000</span></li></ul><p class="bill-sum"><span>Monthly</span><b>6,000 RSD</b></p><p class="bill-year"><span>Yearly</span><b>60,000 RSD</b></p></li>
-<li class="bill-card"><h4>Restaurant</h4><p class="bill-setup">2 front terminals, 2 kitchen screens, 4 waiter devices</p><ul class="bill-lines"><li><span>Venue</span><span>6,000</span></li><li><span>Extra front terminal</span><span>1,500</span></li><li><span>Extra kitchen screen</span><span>1,200</span></li><li><span>Waiter device × 4</span><span>4,000</span></li></ul><p class="bill-sum"><span>Monthly</span><b>12,700 RSD</b></p><p class="bill-year"><span>Yearly</span><b>127,000 RSD</b></p></li>
-<li class="bill-card"><h4>A group of 5 restaurants</h4><p class="bill-setup">Each as above, plus the report in Telegram</p><ul class="bill-lines"><li><span>Venue × 5</span><span>30,000</span></li><li><span>Extra front terminal × 5</span><span>7,500</span></li><li><span>Extra kitchen screen × 5</span><span>6,000</span></li><li><span>Waiter device × 20</span><span>20,000</span></li><li><span>Report in Telegram</span><span>500</span></li></ul><p class="bill-sum"><span>Monthly</span><b>64,000 RSD</b></p><p class="bill-year"><span>Yearly</span><b>640,000 RSD</b></p></li>
-</ul></div>
-<div class="p-block calc" id="calc" hidden><div class="p-head"><h3>Work out your price</h3><p>Amounts without VAT.</p></div>
+<div class="p-block calc" id="calc" hidden><div class="p-head"><h3>Work out your price</h3><div class="calc-presets" role="group" aria-label="Example"><span class="calc-presets-k">Example:</span><button type="button" class="chip" data-preset="0" aria-pressed="true">Café</button><button type="button" class="chip" data-preset="1" aria-pressed="false">Restaurant</button><button type="button" class="chip" data-preset="2" aria-pressed="false">A group of 5 restaurants</button></div></div>
 <div class="calc-card"><div class="calc-grid">
 <div class="calc-col calc-in">
 <p class="calc-k">Venues</p>
@@ -1194,7 +1180,6 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 </div></div>
 </div>
 <div class="p-block pfaq"><div class="p-head"><h3>Pricing questions</h3></div><div class="pfaq-cols"><div class="pfaq-col">
-<details class="pfaq-item"><summary>What is included in the venue price?</summary><p>One front terminal and one kitchen screen, the menu, stock and recipes, reports with the AI assistant, staff and roles. Other devices and modules — by the price list.</p></details>
 <details class="pfaq-item"><summary>How do I pay?</summary><p>Monthly — an invoice to your company every month, or yearly — one invoice in advance, 10 months instead of 12. By bank transfer; prices are without VAT, and 20% VAT is added to the invoice.</p></details>
 <details class="pfaq-item"><summary>What if I add a device <span class="nw">mid-year</span>?</summary><p>A device or module added in the middle of a paid year is paid monthly until that year ends. On a monthly subscription — from the next invoice.</p></details>
 <details class="pfaq-item"><summary>Can I use my own devices?</summary><p>Yes. The front terminal and the kiosk run on iPad, the waiter device on iPhone, the kitchen screen on a tablet — the devices you already have will do.</p></details>
@@ -1202,9 +1187,8 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <details class="pfaq-item"><summary>Does RUVO replace the fiscal register?</summary><p>No. Your register still issues the fiscal receipt, and RUVO records the payment method so the totals match.</p></details>
 <details class="pfaq-item"><summary>Is there a <span class="nw">lock-in</span> contract?</summary><p>No. End the subscription whenever you like, and we send you your data in a standard format.</p></details>
 <details class="pfaq-item"><summary>What if a payment is late?</summary><p>The floor and the kitchen keep working — we call before anything is switched off.</p></details>
-<details class="pfaq-item"><summary>How do I get support?</summary><p>Write to <a href="mailto:hello@ruvo.ac">hello@ruvo.ac</a> — we answer on working days.</p></details>
 </div></div></div>
-<script type="application/json" id="calc-data">{"currency":"RSD","venue":6000,"included":{"ipad":1,"kds":1},"device":{"ipad":1500,"kds":1200,"iphone":1000,"kiosk":5000},"modules":{"ips":1000,"terminal":1000,"shifts":1500,"telegram":500,"migrate":0},"yearMonths":10,"vat":20,"locale":"en-GB","lines":{"venue":"Venue","ipad":"Extra front terminal","kds":"Extra kitchen screen","iphone":"Waiter device","kiosk":"Kiosk","ips":"IPS QR payments","terminal":"Bank terminal","shifts":"Shifts and pay","telegram":"Report in Telegram"}}</script>
+<script type="application/json" id="calc-data">{"currency":"RSD","venue":6000,"included":{"ipad":1,"kds":1},"device":{"ipad":1500,"kds":1200,"iphone":1000,"kiosk":5000},"modules":{"ips":1000,"terminal":1000,"shifts":1500,"telegram":500,"migrate":0},"yearMonths":10,"vat":20,"locale":"en-GB","lines":{"venue":"Venue","ipad":"Extra front terminal","kds":"Extra kitchen screen","iphone":"Waiter device","kiosk":"Kiosk","ips":"IPS QR payments","terminal":"Bank terminal","shifts":"Shifts and pay","telegram":"Report in Telegram"},"presets":[{"venues":1,"ipad":1,"kds":1},{"venues":1,"ipad":2,"kds":2,"iphone":4},{"venues":5,"ipad":2,"kds":2,"iphone":4,"telegram":true}]}</script>
 </div></section>
 <section class="band raised" id="start" aria-labelledby="start-h"><div class="wrap">
 <div class="sec-head"><h2 id="start-h">How it starts</h2></div>
@@ -1281,13 +1265,23 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
         ul.append(li);
       }
     };
-    calc.addEventListener('input', update);
+    // the example setups: a press fills the calculator in; any change by hand lets the pressed one go
+    const chips = [...calc.querySelectorAll('[data-preset]')];
+    const press = (i) => chips.forEach((x, j) => x.setAttribute('aria-pressed', String(i === j)));
+    const preset = (s) => {
+      for (const k of ['venues', 'ipad', 'kds', 'iphone', 'kiosk']) $('#c-' + k).value = s[k] || (k === 'venues' || k === 'ipad' ? 1 : 0);
+      for (const m of ['ips', 'terminal', 'shifts', 'telegram']) $('input[value="' + m + '"]').checked = !!s[m];
+    };
+    calc.addEventListener('input', () => { press(-1); update(); });
     calc.addEventListener('change', (e) => { if (e.target.type === 'number') e.target.value = val(e.target.id.slice(2)); update(); });
     calc.addEventListener('click', (e) => {
+      const c = e.target.closest('[data-preset]');
+      if (c) { const i = Number(c.dataset.preset); preset(D.presets[i]); press(i); update(); return; }
       const b = e.target.closest('button[data-d]');
       if (!b) return;
       const i = b.parentNode.querySelector('input');
       i.value = Math.min(Number(i.max), Math.max(Number(i.min), (Math.round(Number(i.value)) || 0) + Number(b.dataset.d)));
+      press(-1);
       update();
     });
     calc.hidden = false;
