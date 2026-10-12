@@ -82,6 +82,7 @@
 --sp-12: 48px;
 --band: clamp(56px, 7vw, 104px);
 --gutter: clamp(16px, 4vw, 40px);
+--gap: clamp(16px, 1.8vw, 24px);
 --r-sm: 8px;
 --r-md: 12px;
 --r-lg: 16px;
@@ -141,7 +142,7 @@ padding: 10px 14px; border-radius: var(--r-sm);
 background: var(--surface); color: var(--ink); box-shadow: var(--shadow-2);
 }
 .skip:focus { top: 12px; }
-.caption, .eyebrow, .feat-tag, .integr-title, .course, .kds-station, .co dt {
+.caption, .eyebrow, .integr-title, .course, .kds-station, .co dt {
 font-size: var(--fs-xs);
 font-weight: 600;
 line-height: 1.2;
@@ -215,6 +216,9 @@ font-weight: 600; text-decoration: none;
 .btn:hover { background: var(--accent-2); color: var(--accent-ink); }
 .btn svg { width: 18px; height: 18px; flex: none; }
 .checks { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: var(--sp-5); color: var(--ink-2); font-size: var(--fs-body); font-weight: 500; }
+.checks li { white-space: nowrap; }
+.checks { flex-direction: column; }
+@media (min-width: 561px) and (max-width: 1000px) { .checks { flex-direction: row; } }
 @media (max-width: 1000px) {
 .hero-in { grid-template-columns: minmax(0, 1fr); }
 }
@@ -252,7 +256,7 @@ background: var(--kds); color: var(--kds-ink); box-shadow: var(--shadow-2);
 .kds-t::before { content: ''; display: block; height: 4px; background: var(--kds-ok); }
 .kds-head { display: flex; align-items: center; gap: var(--sp-2); padding: 12px 14px 10px; border-bottom: 1px solid var(--kds-line); }
 .kds-no { font-size: var(--fs-lg); font-weight: 700; }
-.kds-tbl { color: var(--kds-ink-2); font-size: var(--fs-sm); }
+.kds-tbl { color: var(--kds-ink-2); font-size: var(--fs-sm); white-space: nowrap; }
 .kds-time { margin-left: auto; color: var(--kds-ok); font-family: var(--font-timer); font-size: var(--fs-md); font-weight: 600; letter-spacing: 0; }
 .kds-station { padding: 12px 14px 0; color: var(--kds-ink-2); }
 .kds-lines { display: grid; gap: 10px; padding: 10px 14px 14px; }
@@ -270,34 +274,51 @@ background: var(--kds); color: var(--kds-ink); box-shadow: var(--shadow-2);
 .sec-head { display: grid; gap: var(--sp-3); max-width: 44em; margin-bottom: clamp(32px, 4vw, 56px); }
 h2 { font-size: var(--fs-h2); font-weight: 700; line-height: 1.1; letter-spacing: -0.022em; text-wrap: balance; }
 .sec-head p { color: var(--ink-2); font-size: var(--fs-lead); text-wrap: pretty; }
-.feats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-10) var(--sp-10); }
-.feat { display: grid; align-content: start; gap: var(--sp-2); min-width: 0; padding-top: var(--sp-4); border-top: 1px solid var(--line-2); }
-.feat-tag { color: var(--accent); }
-.feat h3 { font-size: var(--fs-lg); font-weight: 600; line-height: 1.3; }
-.feat p { color: var(--ink-2); font-size: var(--fs-body); line-height: 1.55; }
-@media (max-width: 900px) {
-.feats { grid-template-columns: minmax(0, 1fr); gap: var(--sp-6); }
+.cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
+.card { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; padding: clamp(20px, 2vw, 28px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); }
+.band.raised .card { background: var(--surface-2); }
+.card h3 { font-size: var(--fs-lg); font-weight: 600; line-height: 1.3; }
+.card p { color: var(--ink-2); font-size: var(--fs-body); line-height: 1.55; }
+@media (max-width: 1000px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .cards { grid-template-columns: minmax(0, 1fr); } }
+.suite-art { display: flex; align-items: flex-end; height: 84px; margin-bottom: var(--sp-3); }
+.suite-i { display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: var(--r-md); background: var(--accent-soft); color: var(--accent); }
+.suite-i svg { width: 28px; height: 28px; }
+.glyph { position: relative; display: block; padding: 6px; border: 2.5px solid var(--ink); background: var(--surface); }
+.glyph-ui { display: block; width: 100%; height: 100%; border-radius: 3px; }
+.g-front { width: 112px; height: 78px; border-radius: 12px; }
+.g-front .glyph-ui { background: linear-gradient(90deg, var(--line) 0 62%, transparent 62% 66%, var(--accent-soft) 66%); }
+.g-waiter { width: 42px; height: 80px; padding: 5px 4px; border-radius: 12px; }
+.g-waiter .glyph-ui { background: repeating-linear-gradient(180deg, var(--line) 0 9px, transparent 9px 13px); }
+.g-kds { width: 124px; height: 70px; border-radius: 6px; background: #171B1E; }
+.g-kds .glyph-ui { background: linear-gradient(90deg, #2E8F5C 0 30%, transparent 30% 35%, #B57A1F 35% 65%, transparent 65% 70%, #2E8F5C 70%); opacity: 0.85; }
+.g-kiosk { width: 50px; height: 66px; margin-bottom: 14px; padding: 5px; border-radius: 7px; }
+.g-kiosk .glyph-ui {
+background:
+linear-gradient(var(--accent) 0 0) 0 0 / 46% 6px no-repeat,
+linear-gradient(var(--line) 0 0) 0 11px / 45% 40% no-repeat,
+linear-gradient(var(--line) 0 0) 100% 11px / 45% 40% no-repeat,
+linear-gradient(var(--line) 0 0) 0 100% / 45% 34% no-repeat,
+linear-gradient(var(--line) 0 0) 100% 100% / 45% 34% no-repeat;
 }
-@media (min-width: 600px) and (max-width: 900px) {
-.feat { grid-template-columns: 8.5rem minmax(0, 1fr); column-gap: var(--sp-6); }
-.feat-tag { grid-row: span 2; padding-top: 5px; }
-}
+.g-kiosk::after { content: ''; position: absolute; bottom: -14px; left: 50%; width: 8px; height: 12px; margin-left: -4px; border-radius: 0 0 2px 2px; background: var(--ink); }
 .integr { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3) var(--sp-5); margin-top: clamp(40px, 5vw, 64px); padding-top: var(--sp-6); border-top: 1px solid var(--line); }
 .integr ul { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 .integr li { padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--ink); font-size: var(--fs-sm); font-weight: 500; }
 .integr li.soon { border-style: dashed; background: transparent; color: var(--ink-3); }
-.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-8); }
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-8) var(--gap); }
 .step { display: grid; align-content: start; gap: var(--sp-2); min-width: 0; }
 .step-n { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; margin-bottom: var(--sp-3); border-radius: 9px; font-size: var(--fs-lg); }
 .step-n::after { inset: 2px; border-radius: 7px; }
 .step h3 { font-size: var(--fs-lg); font-weight: 600; line-height: 1.3; }
 .step p { color: var(--ink-2); font-size: var(--fs-body); line-height: 1.55; }
-@media (max-width: 1000px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-8) var(--sp-10); } }
+@media (max-width: 1000px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .steps { grid-template-columns: minmax(0, 1fr); gap: var(--sp-6); } }
-.note { display: flex; gap: var(--sp-3); max-width: 62em; margin-top: clamp(40px, 5vw, 56px); padding: var(--sp-4) var(--sp-5); border: 1px solid var(--line); border-radius: var(--r-md); color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.55; }
-.note-i { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; margin-top: 1px; border: 1.5px solid var(--ink-3); border-radius: 50%; color: var(--ink-3); font-size: 12px; font-weight: 700; line-height: 1; }
 .contact-in { display: grid; gap: var(--sp-8); justify-items: start; }
 .contact-in .sec-head { margin-bottom: 0; }
+.contact-in .cta-row { margin-top: calc(-1 * var(--sp-2)); }
+.contact-card { display: grid; gap: var(--sp-5); justify-items: start; max-width: 100%; margin-top: var(--sp-4); }
+.contact-note { color: var(--ink-3); font-size: var(--fs-sm); }
 .plates { display: flex; flex-wrap: wrap; align-items: stretch; gap: var(--sp-4); max-width: 100%; }
 .plate, .house { font-size: clamp(26px, 7vw, 64px); border-radius: 0.2em; box-shadow: var(--shadow-2); }
 .plate::after, .house::after { inset: 0.07em; border-width: max(1.5px, 0.045em); border-radius: 0.14em; }
@@ -333,8 +354,8 @@ background: transparent; color: var(--ink-2); font: inherit; font-size: var(--fs
 .ex-text h3 { font-size: var(--fs-xl); font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
 .ex-text p { color: var(--ink-2); line-height: 1.6; }
 .ex-text ul { display: grid; gap: var(--sp-2); margin-top: var(--sp-2); }
-.ex-text li, .p-how li { position: relative; padding-left: 22px; font-size: var(--fs-body); line-height: 1.55; }
-.ex-text li::before, .p-how li::before { content: ''; position: absolute; left: 4px; top: 0.62em; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
+.ex-text li { position: relative; padding-left: 22px; font-size: var(--fs-body); line-height: 1.55; }
+.ex-text li::before { content: ''; position: absolute; left: 4px; top: 0.62em; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); }
 @media (max-width: 900px) { .ex-panel { grid-template-columns: minmax(0, 1fr); } }
 .ex-demo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-3) var(--sp-6); margin-top: clamp(40px, 5vw, 64px); padding: 16px 16px 16px 24px; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); }
 .ex-demo p { max-width: 40em; color: var(--ink-2); font-size: var(--fs-md); }
@@ -479,59 +500,57 @@ font-size: 14px; line-height: 1.35; font-variant-numeric: tabular-nums;
 .sef { width: 27em; }
 }
 .rush { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--line); }
-.rush li { display: grid; align-content: start; gap: 6px; min-width: 0; padding: clamp(18px, 2vw, 26px); background: var(--surface-2); }
+.rush li { display: flex; flex-direction: column; gap: 6px; min-width: 0; padding: clamp(18px, 2vw, 26px); background: var(--surface-2); }
+.rush-i { display: inline-flex; width: 24px; height: 24px; margin-bottom: var(--sp-2); color: var(--accent); }
+.rush-i svg { width: 24px; height: 24px; }
 .rush h3 { font-size: var(--fs-md); font-weight: 600; line-height: 1.3; }
-.rush h3::before { content: ''; display: block; width: 18px; height: 3px; margin-bottom: 12px; border-radius: 2px; background: var(--accent); }
 .rush p { color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.55; }
 @media (max-width: 1000px) { .rush { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .rush { grid-template-columns: minmax(0, 1fr); } }
-.who { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); }
-.who li { display: grid; align-content: start; gap: var(--sp-2); min-width: 0; padding: clamp(20px, 2.2vw, 28px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); }
-.who-i { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-bottom: var(--sp-2); border-radius: var(--r-md); background: var(--accent-soft); color: var(--accent); }
+.who-i { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-bottom: var(--sp-3); border-radius: var(--r-md); background: var(--accent-soft); color: var(--accent); }
 .who-i svg { width: 24px; height: 24px; }
-.who h3 { font-size: var(--fs-lg); font-weight: 600; line-height: 1.3; }
-.who p { color: var(--ink-2); font-size: var(--fs-body); line-height: 1.55; }
-@media (max-width: 1000px) { .who { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .who { grid-template-columns: minmax(0, 1fr); } }
-.why { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 3.5vw, 48px) clamp(32px, 5vw, 80px); }
-.why li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 20px; align-items: start; }
+.why { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 3.5vw, 48px) var(--gap); }
+.why li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 20px; align-items: start; padding-right: clamp(0px, 3vw, 48px); }
 .why-i { position: relative; grid-row: span 2; display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 10px; background: var(--plate); color: var(--plate-ink); }
 .why-i::after { content: ''; position: absolute; inset: 2px; border: 1.5px solid var(--plate-rule); border-radius: 8px; pointer-events: none; }
 .why-i svg { width: 24px; height: 24px; }
 .why h3 { padding-top: 2px; font-size: var(--fs-xl); font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
 .why p { max-width: 34em; color: var(--ink-2); line-height: 1.6; }
-@media (max-width: 760px) { .why { grid-template-columns: minmax(0, 1fr); } }
+.why-cta { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: clamp(32px, 4vw, 48px); padding-top: clamp(24px, 3vw, 32px); border-top: 1px solid var(--line); }
+@media (max-width: 760px) { .why { grid-template-columns: minmax(0, 1fr); } .why li { padding-right: 0; } }
 .ticks li { position: relative; padding-left: 28px; line-height: 1.45; }
 .ticks li::before { content: ''; position: absolute; left: 3px; top: 0.36em; width: 11px; height: 6px; border-left: 2px solid var(--ok); border-bottom: 2px solid var(--ok); transform: rotate(-45deg); }
-.plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); align-items: stretch; }
-.plan { position: relative; display: grid; align-content: start; gap: var(--sp-2); min-width: 0; padding: clamp(24px, 2.6vw, 32px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--shadow-1); }
+.plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); align-items: stretch; }
+.plan { position: relative; display: flex; flex-direction: column; min-width: 0; padding: clamp(24px, 2.6vw, 32px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--shadow-1); }
 .plan.enamel { border-color: transparent; background: var(--plate); color: var(--plate-ink); box-shadow: var(--shadow-2); }
 .plan.enamel::after { content: ''; position: absolute; inset: 6px; border: 1.5px solid var(--plate-rule); border-radius: 15px; pointer-events: none; }
-.plan-label { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; color: var(--ink-3); font-size: var(--fs-xs); font-weight: 600; line-height: 1.2; letter-spacing: var(--track-caps); text-transform: uppercase; }
+.plan-label { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-height: 24px; color: var(--ink-3); font-size: var(--fs-xs); font-weight: 600; line-height: 1.2; letter-spacing: var(--track-caps); text-transform: uppercase; }
 .enamel .plan-label { color: rgb(255 255 255 / 0.86); }
 .plan-badge { display: inline-flex; align-items: center; padding: 4px 9px; border-radius: 999px; background: var(--ok-soft); color: var(--ok); font-size: var(--fs-xs); font-weight: 700; letter-spacing: 0.01em; text-transform: none; white-space: nowrap; }
 .enamel .plan-badge { background: var(--plate-ink); color: var(--plate); }
-.plan-amount { margin-top: var(--sp-2); font-family: var(--font-brand); font-size: clamp(38px, 2.4vw + 18px, 54px); font-weight: 700; line-height: 1; letter-spacing: 0.01em; font-variant-numeric: tabular-nums; }
+.plan-amount { margin-top: var(--sp-4); font-family: var(--font-brand); font-size: clamp(38px, 2.4vw + 18px, 54px); font-weight: 700; line-height: 1; letter-spacing: 0.01em; font-variant-numeric: tabular-nums; }
 .plan-amount small { margin-left: 0.3em; font-family: var(--font-ui); font-size: 0.32em; font-weight: 600; letter-spacing: 0.02em; }
-.plan-unit { color: var(--ink-2); font-size: var(--fs-body); }
+.plan-unit { margin-top: var(--sp-2); color: var(--ink-2); font-size: var(--fs-body); }
 .enamel .plan-unit { color: rgb(255 255 255 / 0.86); }
-.plan-pts { display: grid; gap: 10px; margin-top: var(--sp-4); padding-top: var(--sp-5); border-top: 1px solid var(--line); }
+.plan-pts { display: grid; gap: 10px; margin-top: var(--sp-5); margin-bottom: var(--sp-6); padding-top: var(--sp-5); border-top: 1px solid var(--line); }
 .plan-pts li { font-size: var(--fs-body); }
 .enamel .plan-pts { border-top-color: rgb(255 255 255 / 0.28); }
 .enamel .ticks li::before { border-color: currentColor; }
-.plan-cta { position: relative; z-index: 1; justify-self: start; display: inline-flex; align-items: center; height: 48px; margin-top: var(--sp-5); padding-inline: 22px; border-radius: var(--r-md); background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none; }
+.plan-cta { position: relative; z-index: 1; align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; height: 48px; margin-top: auto; padding-inline: 20px; border-radius: var(--r-md); background: var(--accent); color: var(--accent-ink); font-weight: 600; text-decoration: none; }
+.plan-cta svg { width: 16px; height: 16px; flex: none; }
 .plan-cta:hover { background: var(--accent-2); color: var(--accent-ink); }
 .enamel .plan-cta { background: var(--plate-ink); color: var(--plate); }
 .enamel .plan-cta:hover { background: #E8EDFB; color: var(--plate-2); }
-.incl { display: grid; align-content: start; gap: var(--sp-5); min-width: 0; padding: clamp(24px, 2.6vw, 32px); border: 1px solid var(--line-2); border-radius: var(--r-xl); }
+.incl { display: flex; flex-direction: column; gap: var(--sp-5); min-width: 0; padding: clamp(24px, 2.6vw, 32px); border: 1px solid var(--line-2); border-radius: var(--r-xl); }
 .incl ul { display: grid; gap: 12px; }
 .incl li { font-size: var(--fs-body); }
-@media (max-width: 1000px) { .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); } .incl { grid-column: 1 / -1; } .incl ul { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--sp-6); } }
+@media (max-width: 1000px) { .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); } .incl { grid-column: 1 / -1; } .incl ul { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gap); } }
 @media (max-width: 640px) { .plans { grid-template-columns: minmax(0, 1fr); } .incl ul { grid-template-columns: minmax(0, 1fr); } }
-.p-detail { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(24px, 3vw, 48px); align-items: start; margin-top: clamp(40px, 5vw, 64px); }
+.p-detail { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-10) var(--gap); align-items: start; margin-top: clamp(40px, 5vw, 64px); }
+.ptab { padding-right: clamp(0px, 2vw, 24px); }
 .ptab, .bills { min-width: 0; }
 .ptab-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--sp-1) var(--sp-4); }
-.ptab-head h3, .bills h3 { font-size: var(--fs-lg); font-weight: 600; }
+.ptab-head h3, .bills h3, .pfaq h3 { font-size: var(--fs-lg); font-weight: 600; line-height: 1.3; }
 .ptab-head p { color: var(--ink-3); font-size: var(--fs-sm); }
 .pt { width: 100%; margin-top: var(--sp-3); border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .pt thead th { padding: 0 0 10px 16px; border-bottom: 1px solid var(--line-2); color: var(--ink-3); font-size: var(--fs-xs); font-weight: 600; line-height: 1.2; letter-spacing: var(--track-caps); text-align: right; text-transform: uppercase; white-space: nowrap; }
@@ -540,12 +559,12 @@ font-size: 14px; line-height: 1.35; font-variant-numeric: tabular-nums;
 .pt tbody th[scope="row"] { padding: 12px 0; border-bottom: 1px solid var(--line); font-weight: 400; text-align: left; vertical-align: top; }
 .pt-n { display: block; font-size: var(--fs-body); font-weight: 600; line-height: 1.4; }
 .pt-d { display: block; margin-top: 2px; color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; }
-.pt td { padding: 12px 0 12px 16px; border-bottom: 1px solid var(--line); font-size: var(--fs-body); font-weight: 600; line-height: 1.4; text-align: right; vertical-align: top; white-space: nowrap; }
+.pt td { width: 6.5em; padding: 12px 0 12px 16px; border-bottom: 1px solid var(--line); font-size: var(--fs-body); font-weight: 600; line-height: 1.4; text-align: right; vertical-align: top; white-space: nowrap; }
 .pt td.pt-free { color: var(--ok); }
 .vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .bill-list { display: grid; gap: var(--sp-3); margin-top: var(--sp-3); }
-.bill { display: grid; gap: 4px; padding: var(--sp-5); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); font-variant-numeric: tabular-nums; }
-.bill h4 { font-size: var(--fs-md); font-weight: 600; line-height: 1.3; }
+.bill-card { display: grid; gap: 4px; padding: var(--sp-5); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); font-variant-numeric: tabular-nums; }
+.bill-card h4 { font-size: var(--fs-md); font-weight: 600; line-height: 1.3; }
 .bill-setup { color: var(--ink-3); font-size: var(--fs-sm); line-height: 1.45; }
 .bill-lines { display: grid; gap: 4px; margin-top: var(--sp-2); padding-top: var(--sp-3); border-top: 1px solid var(--line); font-size: var(--fs-sm); }
 .bill-lines li { display: flex; justify-content: space-between; gap: var(--sp-3); color: var(--ink-2); }
@@ -555,56 +574,71 @@ font-size: 14px; line-height: 1.35; font-variant-numeric: tabular-nums;
 .bill-sum span, .bill-year span { color: var(--ink-2); font-size: var(--fs-sm); }
 .bill-sum b { font-size: var(--fs-lg); font-weight: 700; white-space: nowrap; }
 .bill-year b { font-size: var(--fs-body); font-weight: 600; white-space: nowrap; }
-@media (max-width: 1000px) { .p-detail { grid-template-columns: minmax(0, 1fr); } .bill-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 1000px) { .p-detail { grid-template-columns: minmax(0, 1fr); } .bill-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); } }
 @media (max-width: 760px) { .bill-list { grid-template-columns: minmax(0, 1fr); } }
-@media (max-width: 480px) { .pt thead th, .pt td { padding-left: 10px; } .pt td { font-size: var(--fs-sm); } }
-.p-more { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(24px, 3vw, 48px); align-items: start; margin-top: clamp(40px, 5vw, 64px); }
-.calc { padding: clamp(20px, 2.5vw, 32px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); }
+@media (max-width: 480px) { .pt thead th, .pt td { padding-left: 10px; } .pt td { width: auto; font-size: var(--fs-sm); } }
+.calc { margin-top: clamp(40px, 5vw, 64px); padding: clamp(20px, 2.5vw, 32px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--shadow-1); }
 .calc[hidden] { display: none; }
-.calc-title { margin-bottom: var(--sp-5); font-size: var(--fs-lg); font-weight: 600; }
-.calc-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-8); }
-.calc-in { display: grid; align-content: start; gap: var(--sp-3); }
-.calc-sub, .calc-mods legend, .calc-k { color: var(--ink-3); font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--track-caps); text-transform: uppercase; }
-.calc-sub { margin-top: var(--sp-2); }
-.stp { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); }
-.stp label { min-width: 0; font-size: var(--fs-body); }
+.calc-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--sp-1) var(--sp-4); margin-bottom: var(--sp-6); padding-bottom: var(--sp-5); border-bottom: 1px solid var(--line); }
+.calc-title { font-size: var(--fs-lg); font-weight: 600; }
+.calc-vat { color: var(--ink-3); font-size: var(--fs-sm); }
+.calc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-6) clamp(24px, 3vw, 48px); align-items: start; }
+.calc-col { display: grid; align-content: start; gap: var(--sp-2); min-width: 0; margin: 0; padding: 0; border: 0; }
+.calc-k { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-height: 24px; color: var(--ink-3); font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--track-caps); text-transform: uppercase; }
+.calc-in .calc-k:not(:first-child) { margin-top: var(--sp-4); }
+.stp { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); min-height: 44px; }
+.stp label { min-width: 0; font-size: var(--fs-body); line-height: 1.3; }
+.stp label small { display: block; color: var(--ink-3); font-size: var(--fs-xs); }
 .stp-ctl { flex: none; display: inline-flex; align-items: center; border: 1px solid var(--line-2); border-radius: var(--r-md); background: var(--surface); }
 .stp-ctl button { width: 40px; height: 40px; border: 0; border-radius: var(--r-md); background: none; color: var(--ink); font: inherit; font-size: 20px; line-height: 1; cursor: pointer; }
 .stp-ctl button:hover { background: var(--bg-2); }
 .stp-ctl input { width: 3.4ch; border: 0; background: none; color: var(--ink); font: inherit; font-size: var(--fs-md); font-weight: 600; text-align: center; -moz-appearance: textfield; appearance: textfield; }
 .stp-ctl input::-webkit-outer-spin-button, .stp-ctl input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-.calc-mods { display: flex; flex-wrap: wrap; gap: var(--sp-2); min-width: 0; margin: var(--sp-2) 0 0; padding: 0; border: 0; }
+.calc-col.calc-mods { display: block; }
 .calc-mods legend { float: left; width: 100%; margin-bottom: var(--sp-2); padding: 0; }
-.chk { position: relative; display: inline-flex; }
-.chk input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
-.chk span { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 14px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--surface); font-size: var(--fs-sm); font-weight: 500; }
-.chk input:checked + span { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); box-shadow: inset 0 0 0 1px var(--accent); }
-.chk input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
-.calc-out { display: grid; align-content: start; gap: var(--sp-2); padding-left: var(--sp-8); border-left: 1px solid var(--line); }
-.calc-tots { display: grid; gap: var(--sp-4); }
+.mod-list { clear: both; display: grid; gap: var(--sp-2); }
+.mod { position: relative; display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; align-items: center; gap: var(--sp-3); min-height: 44px; padding: 6px var(--sp-3); border: 1px solid var(--line-2); border-radius: var(--r-md); background: var(--surface); cursor: pointer; }
+.mod input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.mod-box { position: relative; width: 20px; height: 20px; border: 1.5px solid var(--line-2); border-radius: 6px; background: var(--surface); }
+.mod input:checked ~ .mod-box { border-color: var(--accent); background: var(--accent); }
+.mod input:checked ~ .mod-box::after { content: ''; position: absolute; left: 5px; top: 5px; width: 8px; height: 4px; border-left: 2px solid var(--accent-ink); border-bottom: 2px solid var(--accent-ink); transform: rotate(-45deg); }
+.mod:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.mod input:focus-visible ~ .mod-box { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mod-n { min-width: 0; font-size: var(--fs-body); line-height: 1.3; }
+.mod-n small { display: block; color: var(--ink-3); font-size: var(--fs-xs); }
+.mod-p { color: var(--ink-2); font-size: var(--fs-sm); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.calc-out { padding-left: clamp(24px, 3vw, 48px); border-left: 1px solid var(--line); }
+@media (min-width: 641px) { .calc-out { position: sticky; top: var(--sp-6); } }
+.calc-tots { display: grid; gap: var(--sp-5); }
 .calc-tot { display: grid; gap: 4px; }
-.calc-k { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
 .calc-total { font-size: clamp(30px, 1.8vw + 18px, 40px); font-weight: 700; line-height: 1.05; letter-spacing: -0.025em; font-variant-numeric: tabular-nums; }
 .calc-total small { margin-left: 6px; color: var(--ink-3); font-size: 0.42em; font-weight: 600; letter-spacing: 0; }
-.calc-lines { display: grid; gap: 6px; margin-top: var(--sp-3); padding-top: var(--sp-3); border-top: 1px solid var(--line); font-size: var(--fs-sm); font-variant-numeric: tabular-nums; }
+.calc-lines { display: grid; gap: 6px; margin-top: var(--sp-4); padding-top: var(--sp-4); border-top: 1px solid var(--line); font-size: var(--fs-sm); font-variant-numeric: tabular-nums; }
 .calc-lines li { display: flex; justify-content: space-between; gap: var(--sp-3); color: var(--ink-2); }
 .calc-lines li span:last-child { color: var(--ink); font-weight: 600; white-space: nowrap; }
-.calc-vat { color: var(--ink-3); font-size: var(--fs-xs); }
-.p-how h3 { margin-bottom: var(--sp-4); font-size: var(--fs-lg); font-weight: 600; }
-.p-how ul { display: grid; gap: var(--sp-3); }
-.p-how li { color: var(--ink-2); }
-@media (max-width: 1000px) { .p-more { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 1100px) {
+.calc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.calc-in { grid-column: 1; grid-row: 1; }
+.calc-mods { grid-column: 1; grid-row: 2; }
+.calc-out { grid-column: 2; grid-row: 1 / span 2; }
+}
 @media (max-width: 640px) {
-.calc-grid { grid-template-columns: minmax(0, 1fr); gap: var(--sp-6); }
+.calc-grid { grid-template-columns: minmax(0, 1fr); }
+.calc-in, .calc-mods, .calc-out { grid-column: auto; grid-row: auto; }
 .calc-out { padding-left: 0; padding-top: var(--sp-5); border-left: 0; border-top: 1px solid var(--line); }
 }
-.equip { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: var(--sp-3) var(--sp-8); margin-top: clamp(40px, 5vw, 56px); padding: clamp(20px, 2.5vw, 28px); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface-2); }
+.pfaq { margin-top: clamp(40px, 5vw, 64px); }
+.pfaq-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--gap); margin: var(--sp-3) 0 0; border-top: 1px solid var(--line-2); }
+.pfaq-item { padding: var(--sp-5) clamp(0px, 2vw, 32px) var(--sp-5) 0; border-bottom: 1px solid var(--line); }
+.pfaq-item dt { font-size: var(--fs-md); font-weight: 600; line-height: 1.35; }
+.pfaq-item dd { margin: 6px 0 0; color: var(--ink-2); font-size: var(--fs-body); line-height: 1.55; }
+@media (max-width: 760px) { .pfaq-list { grid-template-columns: minmax(0, 1fr); } .pfaq-item { padding-right: 0; } }
+.equip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-3) var(--gap); margin-top: clamp(40px, 5vw, 56px); padding-top: var(--sp-6); border-top: 1px solid var(--line); }
 .equip h3 { font-size: var(--fs-lg); font-weight: 600; line-height: 1.3; }
-.equip ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px var(--sp-6); }
+.equip ul { grid-column: 2 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px var(--gap); }
 .equip li { font-size: var(--fs-body); }
-.equip p { grid-column: 2; color: var(--ink-3); font-size: var(--fs-sm); }
-.equip + .note { max-width: none; margin-top: var(--sp-4); }
-@media (max-width: 900px) { .equip { grid-template-columns: minmax(0, 1fr); } .equip p { grid-column: 1; } }
+.equip p { grid-column: 2 / -1; color: var(--ink-3); font-size: var(--fs-sm); }
+@media (max-width: 1000px) { .equip { grid-template-columns: repeat(2, minmax(0, 1fr)); } .equip h3, .equip ul, .equip p { grid-column: 1 / -1; } .equip ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .equip ul { grid-template-columns: minmax(0, 1fr); } }
 .top-cta { flex: none; display: inline-flex; align-items: center; height: 40px; padding-inline: 16px; border-radius: 10px; background: var(--accent); color: var(--accent-ink); font-size: var(--fs-sm); font-weight: 600; text-decoration: none; white-space: nowrap; }
 .top-cta:hover { background: var(--accent-2); color: var(--accent-ink); }
@@ -666,14 +700,20 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 .cf-steps { display: grid; gap: 8px; margin-block: var(--sp-3); padding-left: 1.4em; list-style: decimal; }
 .cf-steps li { padding-left: 4px; }
 .cf-note { color: var(--ink-2); font-size: var(--fs-sm); }
-.foot { padding-block: var(--sp-10) var(--sp-12); border-top: 1px solid var(--line); color: var(--ink-3); font-size: var(--fs-sm); }
-.foot-in { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: var(--sp-6) var(--sp-12); }
-.foot-co { display: grid; gap: var(--sp-3); justify-items: start; }
+.foot { padding-block: var(--sp-12) var(--sp-8); border-top: 1px solid var(--line); color: var(--ink-3); font-size: var(--fs-sm); }
+.foot-in { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-8) var(--gap); }
+.foot-co { display: grid; gap: var(--sp-3); justify-items: start; align-content: start; }
 .foot-co p { line-height: 1.6; }
-.foot-nav { display: grid; gap: var(--sp-2); justify-items: start; }
-.foot-nav ul { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-6); }
-.foot-nav a { color: var(--ink-2); }
-.foot-nav a[aria-current] { color: var(--ink); text-decoration: none; font-weight: 600; }
+.foot-cols { grid-column: 2 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-6) var(--gap); }
+.foot-col h2 { margin-bottom: var(--sp-3); color: var(--ink); font-size: var(--fs-sm); font-weight: 600; line-height: 1.3; letter-spacing: 0; }
+.foot-col ul { display: grid; gap: var(--sp-2); }
+.foot-col li { line-height: 1.5; overflow-wrap: anywhere; }
+.foot-col a { color: var(--ink-2); text-decoration: none; }
+.foot-col a:hover { color: var(--ink); text-decoration: underline; }
+.foot-col a[aria-current] { color: var(--ink); font-weight: 600; }
+.foot-base { margin-top: var(--sp-10); padding-top: var(--sp-5); border-top: 1px solid var(--line); line-height: 1.6; }
+@media (max-width: 760px) { .foot-in { grid-template-columns: minmax(0, 1fr); } .foot-cols { grid-column: 1; } }
+@media (max-width: 480px) { .foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } .foot-col:last-child { grid-column: 1 / -1; } }
 .doc { padding-block: clamp(16px, 3vw, 40px) var(--band); }
 .doc-in { max-width: 70ch; }
 .doc h1 { font-size: clamp(26px, 2.6vw + 18px, 46px); hyphens: auto; font-weight: 700; line-height: 1.08; letter-spacing: -0.024em; text-wrap: balance; }
@@ -707,7 +747,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <a class="skip" href="#main">Na sadržaj</a>
 <header class="top"><div class="wrap top-in">
 <a class="wordmark" href="./" aria-label="RUVO — Početna">RUVO</a>
-<nav class="nav" aria-label="Glavni meni"><a href="#features">Mogućnosti</a><a href="#examples">Primeri</a><a href="#pricing">Cene</a><a href="#start">Kako počinje</a><a href="#contact">Kontakt</a></nav>
+<nav class="nav" aria-label="Glavni meni"><a href="#features">Mogućnosti</a><a href="#examples">Primeri</a><a href="#who">Za koga</a><a href="#pricing">Cene</a><a href="#contact">Kontakt</a></nav>
 <a class="top-cta" href="demo/">Isprobajte demo</a>
 <nav class="langs" aria-label="Jezik"><a href="./" hreflang="sr" lang="sr-Latn" title="Srpski" aria-current="page">SR</a><a href="en/" hreflang="en" lang="en" title="English">EN</a><a href="ru/" hreflang="ru" lang="ru" title="Русский">RU</a></nav>
 </div></header>
@@ -718,7 +758,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <h1>Sala, kuhinja i magacin u jednom sistemu</h1>
 <p class="lead">RUVO prima porudžbine na <span class="nw">iPad-u</span> i <span class="nw">iPhone-u</span>, šalje ih na ekran kuhinje, otpisuje namirnice po normativima i pravi izveštaje. Za jedan objekat ili za celu mrežu.</p>
 <div class="cta-row"><a class="btn" href="demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Isprobajte demo</a><a class="btn ghost" href="mailto:hello@ruvo.ac"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>Pišite nam</a></div>
-<ul class="ticks checks"><li>30 dana besplatno</li><li><a href="#pricing">od 6.000 RSD mesečno</a></li><li>bez ugovorne obaveze</li></ul>
+<ul class="ticks checks"><li>30 dana besplatno</li><li><a href="#pricing">od 6.000 RSD mesečno</a></li><li>bez obaveze</li></ul>
 </div>
 <div class="scene" role="img" aria-label="Primer: porudžbina za stolom 12 na iPad-u i ista porudžbina na ekranu kuhinje">
 <div class="pad">
@@ -736,19 +776,18 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 </div>
 </div></section>
 <section class="band raised" id="features" aria-labelledby="features-h"><div class="wrap">
-<div class="sec-head"><h2 id="features-h">Šta RUVO radi</h2></div>
-<ul class="feats">
-<li class="feat"><span class="feat-tag">iPad</span><h3>Sala i porudžbine</h3><p>Plan sale sa stolovima, porudžbine po kursevima, deljenje računa i plaćanje po delovima.</p></li>
-<li class="feat"><span class="feat-tag">iPhone</span><h3>Konobar za stolom</h3><p>Porudžbina sa stola ide pravo u kuhinju, a račun i QR za plaćanje su na telefonu.</p></li>
-<li class="feat"><span class="feat-tag">Kuhinja</span><h3>Ekran kuhinje</h3><p>Porudžbine po stanicama — kuhinja i šank. Tajmer od poziva, sledeći kurs na „Pozovi”.</p></li>
-<li class="feat"><span class="feat-tag">Magacin</span><h3>Magacin i normativi</h3><p>Otpis po normativu pri svakoj prodaji, prijemnice, otpis, popis i prosečna nabavna cena.</p></li>
-<li class="feat"><span class="feat-tag">SEF</span><h3>Fakture dobavljača</h3><p>Ulazne <span class="nw">e-fakture</span> stižu same. Stavke dobavljača povežete sa proizvodima jednom, a prijemnica nastaje jednim dugmetom.</p></li>
-<li class="feat"><span class="feat-tag">Izveštaji</span><h3>Izveštaji i AI pomoćnik</h3><p>Promet, prosečan račun, food cost, konobari. Postavite pitanje rečima i dobijete izveštaj.</p></li>
-<li class="feat"><span class="feat-tag">Gosti</span><h3>Lojalnost</h3><p>Popusti i akcije po rasporedu, kartice gostiju sa nivoima i bodovima, uz pristanak gosta.</p></li>
-<li class="feat"><span class="feat-tag">Tim</span><h3>Smene i plate</h3><p>Početak i kraj smene <span class="nw">PIN-om</span> na <span class="nw">iPad-u</span>, evidencija i obračun: sati × satnica + procenat od prodaje.</p></li>
-<li class="feat"><span class="feat-tag">Mreža</span><h3>Više objekata</h3><p>Jedan nalog za sve objekte, svaki sa svojim magacinom i prometom. Lični PIN, uloge i dnevnik radnji.</p></li>
+<div class="sec-head"><h2 id="features-h">Sve što objektu treba</h2><p>Sala, kuhinja, magacin i tim u jednom sistemu — porudžbina stiže u kuhinju za sekundu.</p></div>
+<ul class="cards suite">
+<li class="card"><span class="suite-art" aria-hidden="true"><span class="glyph g-front"><span class="glyph-ui"></span></span></span><h3>Terminal sale</h3><p>Plan sale, porudžbine po kursevima, deljenje računa i naplata. Dostava na istom ekranu.</p></li>
+<li class="card"><span class="suite-art" aria-hidden="true"><span class="glyph g-waiter"><span class="glyph-ui"></span></span></span><h3>Uređaj konobara</h3><p>Porudžbina sa stola ide pravo u kuhinju; račun i IPS QR su kod konobara.</p></li>
+<li class="card"><span class="suite-art" aria-hidden="true"><span class="glyph g-kds"><span class="glyph-ui"></span></span></span><h3>Ekran kuhinje</h3><p>Tiketi po stanicama sa tajmerima; sledeći kurs čeka „Pozovi”.</p></li>
+<li class="card"><span class="suite-art" aria-hidden="true"><span class="glyph g-kiosk"><span class="glyph-ui"></span></span></span><h3>Kiosk</h3><p>Gosti sami poručuju po slikama, sa alergenima, i plaćaju na kasi po broju.</p></li>
+<li class="card"><span class="suite-art" aria-hidden="true"><span class="suite-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 7.5L12 3l8.5 4.5v9L12 21l-8.5-4.5zM3.5 7.5L12 12l8.5-4.5M12 12v9"/></svg></span></span><h3>Magacin i normativi</h3><p>Otpis po normativu pri svakoj prodaji, popis, prijemnice i fakture dobavljača iz <span class="nw">SEF-a</span>.</p></li>
+<li class="card"><span class="suite-art" aria-hidden="true"><span class="suite-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 3.5l1.9 5.1 5.1 1.9-5.1 1.9L11 17.5l-1.9-5.1L4 10.5l5.1-1.9zM18.5 14.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/></svg></span></span><h3>Izveštaji i AI pomoćnik</h3><p>Promet, food cost i konobari; pitate rečima, a RUVO pravi izveštaj.</p></li>
+<li class="card"><span class="suite-art" aria-hidden="true"><span class="suite-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5l2.6 5.5 6 .8-4.4 4.1 1.1 5.9L12 17l-5.3 2.8 1.1-5.9-4.4-4.1 6-.8z"/></svg></span></span><h3>Gosti i lojalnost</h3><p>Kartice gostiju sa nivoima i bodovima, popusti i akcije po rasporedu.</p></li>
+<li class="card"><span class="suite-art" aria-hidden="true"><span class="suite-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM3 19.5a6 6 0 0 1 12 0M16 5.3a3.4 3.4 0 0 1 0 6.4M18 13.6a6 6 0 0 1 3 5.9"/></svg></span></span><h3>Tim i smene</h3><p>Lični PIN, uloge i dnevnik radnji; smene <span class="nw">PIN-om</span> i obračun plata.</p></li>
 </ul>
-<div class="integr"><h3 class="integr-title">Povezivanja</h3><ul><li>IPS QR plaćanje</li><li>bankovni terminal</li><li>SEF</li><li>kiosk za samostalno naručivanje</li><li>dnevni izveštaj u Telegramu</li><li class="soon">Wolt i Glovo — uskoro</li></ul></div>
+<div class="integr"><h3 class="integr-title">Povezivanja</h3><ul><li>IPS QR plaćanje</li><li>bankovni terminal</li><li>SEF e-fakture</li><li>dnevni izveštaj u Telegramu</li><li>prenos iz drugog POS-a</li><li class="soon">Wolt i Glovo — uskoro</li></ul></div>
 </div></section>
 <section class="band" id="examples" aria-labelledby="examples-h"><div class="wrap">
 <div class="sec-head"><h2 id="examples-h">Kako izgleda u radu</h2><p>Pet ekrana iz <span class="nw">RUVO-a</span>, sa jelima i brojkama kao u pravom restoranu.</p></div>
@@ -816,72 +855,77 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <section class="band raised" id="rush" aria-labelledby="rush-h"><div class="wrap">
 <div class="sec-head"><h2 id="rush-h">Sitnice koje spasavaju smenu</h2><p>Ono što se dešava usred gužve, rešeno u samom sistemu.</p></div>
 <ul class="rush">
-<li><h3>Kursevi i „Pozovi”</h3><p>Drugi kurs čeka u kuhinji dok ga konobar ne pozove — tada tiket zazvoni i trepće.</p></li>
-<li><h3><span class="nw">Stop-lista</span> sa porcijama</h3><p>Jelo samo prelazi u stop kad se porcije potroše; više od ostatka ne može da se poruči.</p></li>
-<li><h3>Deljenje računa</h3><p>Plaćanje po stavkama ili u delovima, svaki deo svojim načinom plaćanja.</p></li>
-<li><h3>Kusur bez greške</h3><p>Unesete koliko je gost dao, a RUVO krupno pokaže kusur.</p></li>
-<li><h3>Otkazivanje uz PIN</h3><p>Poslato jelo otkazuje samo onaj ko ima pravo, uz razlog; ako je kuhinja počela, namirnice idu u otpis.</p></li>
-<li><h3>Popusti pod kontrolom</h3><p>Popust za osoblje i komplimenti samo uz PIN menadžera, i sve ostaje u dnevniku radnji.</p></li>
-<li><h3>„Vrati sto”</h3><p>Zatvoren sto se ponovo otvara uz PIN i razlog; magacin i promet se sami isprave.</p></li>
-<li><h3>Plan sale za minut</h3><p>Stolove, sale i oznake premeštate prevlačenjem na <span class="nw">iPad-u</span>.</p></li>
-<li><h3>Lični PIN</h3><p>Svako radi pod svojim imenom, a iPad se sam zaključa posle pet minuta.</p></li>
-<li><h3>Dostava na istom ekranu</h3><p>Porudžbine za Wolt i Glovo idu u kuhinju zajedno sa salom, sa vremenom dolaska kurira.</p></li>
-<li><h3>Radni dan do 5 ujutru</h3><p>Za lokale koji rade posle ponoći: promet ide u pravi dan.</p></li>
-<li><h3>Alergeni za goste</h3><p>14 alergena EU za svako jelo, iz normativa, u kiosku i kod konobara.</p></li>
+<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></svg></span><h3>Kursevi i „Pozovi”</h3><p>Drugi kurs čeka u kuhinji dok ga konobar ne pozove — tada tiket zazvoni i trepće.</p></li>
+<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM6 6l12 12"/></svg></span><h3><span class="nw">Stop-lista</span> sa porcijama</h3><p>Jelo samo prelazi u stop kad se porcije potroše; više od ostatka ne može da se poruči.</p></li>
+<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v18M5 7h4M5 12h4M5 17h4M15 7h4M15 12h4M15 17h4"/></svg></span><h3>Deljenje računa</h3><p>Plaćanje po stavkama ili u delovima, svaki deo svojim načinom plaćanja.</p></li>
+<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 7h18v10H3zM12 9.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM6 10v4M18 10v4"/></svg></span><h3>Kusur bez greške</h3><p>Unesete koliko je gost dao, a RUVO krupno pokaže kusur.</p></li>
+<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 11h12v9H6zM8 11V8a4 4 0 0 1 8 0v3"/></svg></span><h3>Otkazivanje uz PIN</h3><p>Poslato jelo otkazuje samo onaj ko ima pravo, uz razlog; ako je kuhinja počela, namirnice idu u otpis.</p></li>
+<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 12.6V4.5a1 1 0 0 1 1-1h8.1l8 8a1.5 1.5 0 0 1 0 2.1l-6.9 6.9a1.5 1.5 0 0 1-2.1 0zM8.2 7.2a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg></span><h3>Popusti pod kontrolom</h3><p>Popust za osoblje i komplimenti samo uz PIN menadžera, i sve ostaje u dnevniku radnji.</p></li>
+<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4v4.5H15"/></svg></span><h3>„Vrati sto”</h3><p>Zatvoren sto se ponovo otvara uz PIN i razlog; magacin i promet se sami isprave.</p></li>
+<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M15 8l4 4-4 4M9 8l-4 4 4 4"/></svg></span><h3>Plan sale za minut</h3><p>Stolove, sale i oznake premeštate prevlačenjem na terminalu sale.</p></li>
+<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM4.5 20a7.5 7.5 0 0 1 15 0"/></svg></span><h3>Lični PIN</h3><p>Svako radi pod svojim imenom, a terminal se sam zaključa posle pet minuta.</p></li>
+<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5.5 13a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM18.5 13a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM5.5 16.5L9 9h5l4.5 7.5M14 9l-2-4H9M12 5h3"/></svg></span><h3>Dostava na istom ekranu</h3><p>Porudžbine za Wolt i Glovo idu u kuhinju zajedno sa salom, sa vremenom dolaska kurira.</p></li>
+<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM12 7.5V12l3 2"/></svg></span><h3>Radni dan do 5 ujutru</h3><p>Za lokale koji rade posle ponoći: promet ide u pravi dan.</p></li>
+<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM12 11v5.5M12 7.5v.5"/></svg></span><h3>Alergeni za goste</h3><p>14 alergena EU za svako jelo, iz normativa, u kiosku i kod konobara.</p></li>
 </ul>
 </div></section>
 <section class="band" id="who" aria-labelledby="who-h"><div class="wrap">
-<div class="sec-head"><h2 id="who-h">Za koga je RUVO</h2><p>Jedan sistem, podešen za način na koji služite.</p></div>
-<ul class="who">
-<li><span class="who-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 3v18M4.5 3v4.5a2.5 2.5 0 0 0 5 0V3"/><path d="M17.5 21V3c-2 0-3.5 2.5-3.5 6v4.5h3.5"/></svg></span><h3>Restoran sa salom</h3><p>Plan sale, kursevi i konobari na <span class="nw">iPhone-u</span>; magacin i normativi za svako jelo.</p></li>
-<li><span class="who-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 10h12v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5v-4z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16M8 3.5c-.8 1 .8 2 0 3M12 3.5c-.8 1 .8 2 0 3"/></svg></span><h3>Kafić i bar</h3><p>Porudžbine za šankom na <span class="nw">iPad-u</span>, šank kao posebna stanica na ekranu, smene i plate.</p></li>
-<li><span class="who-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="2.5" width="12" height="15" rx="2"/><path d="M12 17.5V21M8.5 21h7M9 7h6M9 10.5h6M9 14h3"/></svg></span><h3>Brza hrana i pekara</h3><p>Kiosk za samostalno naručivanje, brojevi porudžbina i ekran kuhinje.</p></li>
-<li><span class="who-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 21h18M5 21V9.5l4.5-3.5L14 9.5V21M14 21V6.5L17 4l3 2.5V21M8 13h3M8 17h3M16.5 10h1M16.5 13.5h1M16.5 17h1"/></svg></span><h3>Mreža objekata</h3><p>Jedan nalog za sve objekte, poseban magacin svakog i izveštaji za celu mrežu.</p></li>
+<div class="sec-head"><h2 id="who-h">Za koga je RUVO</h2><p>Svuda gde se kuva i služi: od kafića do hotela i kuhinje samo za dostavu.</p></div>
+<ul class="cards who">
+<li class="card"><span class="who-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 3v18M4.5 3v4.5a2.5 2.5 0 0 0 5 0V3"/><path d="M17.5 21V3c-2 0-3.5 2.5-3.5 6v4.5h3.5"/></svg></span><h3>Restoran sa salom</h3><p>Plan sale, kursevi i konobari sa uređajima; magacin i normativi za svako jelo.</p></li>
+<li class="card"><span class="who-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 10h12v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5v-4z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16M8 3.5c-.8 1 .8 2 0 3M12 3.5c-.8 1 .8 2 0 3"/></svg></span><h3>Kafić i bar</h3><p>Plan sale sa šankom, šank kao posebna stanica na ekranu, smene i plate.</p></li>
+<li class="card"><span class="who-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="2.5" width="12" height="15" rx="2"/><path d="M12 17.5V21M8.5 21h7M9 7h6M9 10.5h6M9 14h3"/></svg></span><h3>Brza hrana</h3><p>Kiosk za samostalno naručivanje, brojevi porudžbina i ekran kuhinje.</p></li>
+<li class="card"><span class="who-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12a4 4 0 0 1 3.1-3.9A5 5 0 0 1 12 5.5a5 5 0 0 1 4.9 2.6A4 4 0 0 1 20 12v7H4z"/><path d="M9 12v3.5M12 11v4.5M15 12v3.5"/></svg></span><h3>Pekara i poslastičarnica</h3><p>Kiosk i brojevi porudžbina za pult, normativi za testa i kreme, minimalne zalihe.</p></li>
+<li class="card"><span class="who-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 19V6M3 15h18v4M21 15v-3a3 3 0 0 0-3-3h-7v6"/><path d="M7 9a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg></span><h3>Hotel</h3><p>Restoran, lobi bar i doručak kao zasebni objekti, sa izveštajima za ceo hotel.</p></li>
+<li class="card"><span class="who-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 18.5h18M5 18.5a7 7 0 0 1 14 0M12 8.5V6.5M10.5 6.5h3"/></svg></span><h3>Ketering i kantine</h3><p>Brza linija sa kioskom i brojevima porudžbina, normativi i magacin za velike količine.</p></li>
+<li class="card"><span class="who-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5.5 13a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM18.5 13a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM5.5 16.5L9 9h5l4.5 7.5M14 9l-2-4H9M12 5h3"/></svg></span><h3>Kuhinja za dostavu</h3><p>Porudžbine za Wolt i Glovo na ekranu kuhinje sa vremenom kurira i cenama po kanalu.</p></li>
+<li class="card"><span class="who-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 21h18M5 21V9.5l4.5-3.5L14 9.5V21M14 21V6.5L17 4l3 2.5V21M8 13h3M8 17h3M16.5 10h1M16.5 13.5h1M16.5 17h1"/></svg></span><h3>Mreža objekata</h3><p>Jedan nalog za sve objekte, svaki sa svojim magacinom, i izveštaji za celu mrežu.</p></li>
 </ul>
 </div></section>
 <section class="band raised" id="why" aria-labelledby="why-h"><div class="wrap">
 <div class="sec-head"><h2 id="why-h">Zašto RUVO</h2></div>
 <ul class="why">
-<li><span class="why-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4L6 21V3z"/><path d="M9 8h6M9 11.5h6M9 15h3.5"/></svg></span><h3>Fiskalna kasa ostaje vaša</h3><p>RUVO vodi salu, kuhinju i magacin, a račun i dalje izdaje kasa koju već imate. U fiskalizaciji ne menjate ništa.</p></li>
-<li><span class="why-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8.5 11V7.5a3.5 3.5 0 0 1 6.8-1.2M12 15v2"/></svg></span><h3>Bez ugovorne obaveze</h3><p>Plaćate mesečno ili godišnje, po objektu i uređaju. Pretplatu završavate kad želite.</p></li>
-<li><span class="why-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l7 2.8v5.4c0 4.4-3 8.2-7 9.8-4-1.6-7-5.4-7-9.8V5.8L12 3z"/><path d="m9 12 2.1 2.1L15.2 10"/></svg></span><h3>Podaci u Evropskoj uniji</h3><p>Serveri su u Nemačkoj, a podaci svakog restorana odvojeni su u samoj bazi.</p></li>
-<li><span class="why-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 16.5h10V21H7zM7 16.5c-2.4-.6-4-2.6-4-5a4 4 0 0 1 4.6-4A4.5 4.5 0 0 1 12 4.5a4.5 4.5 0 0 1 4.4 3A4 4 0 0 1 21 11.5c0 2.4-1.6 4.4-4 5"/></svg></span><h3>Nastao u restoranu</h3><p>RUVO pravimo za sopstvene restorane u Beogradu, pa ga prvo isprobavamo u svojoj sali i kuhinji.</p></li>
+<li><span class="why-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4L6 21V3z"/><path d="M9 8h6M9 11.5h6M9 15h3.5"/></svg></span><h3>Fiskalna kasa ostaje vaša</h3><p>RUVO vodi salu, kuhinju i magacin, a račun i dalje izdaje kasa koju već imate. U fiskalizaciji ne menjate ništa.</p></li>
+<li><span class="why-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8.5 11V7.5a3.5 3.5 0 0 1 6.8-1.2M12 15v2"/></svg></span><h3>Bez ugovorne obaveze</h3><p>Plaćate mesečno ili godišnje, objekat i licence uređaja. Pretplatu završavate kad želite.</p></li>
+<li><span class="why-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l7 2.8v5.4c0 4.4-3 8.2-7 9.8-4-1.6-7-5.4-7-9.8V5.8L12 3z"/><path d="m9 12 2.1 2.1L15.2 10"/></svg></span><h3>Podaci u Evropskoj uniji</h3><p>Serveri su u Nemačkoj, a podaci svakog restorana odvojeni su u samoj bazi.</p></li>
+<li><span class="why-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 16.5h10V21H7zM7 16.5c-2.4-.6-4-2.6-4-5a4 4 0 0 1 4.6-4A4.5 4.5 0 0 1 12 4.5a4.5 4.5 0 0 1 4.4 3A4 4 0 0 1 21 11.5c0 2.4-1.6 4.4-4 5"/></svg></span><h3>Nastao u restoranu</h3><p>RUVO pravimo za sopstvene restorane u Beogradu, pa ga prvo isprobavamo u svojoj sali i kuhinji.</p></li>
 </ul>
+<div class="why-cta"><a class="btn" href="#pricing">Pogledajte cene</a><a class="btn ghost" href="demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Isprobajte demo</a></div>
 </div></section>
 <section class="band" id="pricing" aria-labelledby="pricing-h"><div class="wrap">
-<div class="sec-head"><h2 id="pricing-h">Cene</h2><p>Plaćate po objektu i po uređajima koje povežete — mesečno ili godišnje. Prvih 30 dana besplatno.</p></div>
+<div class="sec-head"><h2 id="pricing-h">Cene</h2><p>Plaćate objekat i licencu za svaki uređaj koji povežete — mesečno ili godišnje. Prvih 30 dana besplatno.</p></div>
 <div class="plans">
 <article class="plan" aria-labelledby="plan-month">
 <h3 class="plan-label" id="plan-month">Mesečno</h3>
 <p class="plan-amount">6.000<small>RSD</small></p>
 <p class="plan-unit">po objektu, mesečno · bez PDV-a</p>
-<ul class="ticks plan-pts"><li>Faktura svakog meseca</li><li>Pretplatu završavate kad želite</li></ul>
+<ul class="ticks plan-pts"><li>Faktura svakog meseca</li><li>Bez plaćanja unapred</li><li>Pretplatu završavate kad želite</li></ul><a class="plan-cta" href="demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Isprobajte demo</a>
 </article>
 <article class="plan enamel" aria-labelledby="plan-year">
 <h3 class="plan-label" id="plan-year">Godišnje <span class="plan-badge">2 meseca besplatno</span></h3>
 <p class="plan-amount">60.000<small>RSD</small></p>
 <p class="plan-unit">po objektu, godišnje · bez PDV-a</p>
-<ul class="ticks plan-pts"><li>Izlazi 5.000 RSD mesečno</li><li>Ušteda 12.000 RSD po objektu</li><li>Jedna faktura unapred za 12 meseci</li></ul>
+<ul class="ticks plan-pts"><li>Izlazi 5.000 RSD mesečno</li><li>Ušteda 12.000 RSD po objektu</li><li>Jedna faktura unapred za 12 meseci</li></ul><a class="plan-cta" href="demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Isprobajte demo</a>
 </article>
-<div class="incl"><h3 class="plan-label">U ceni objekta</h3><ul class="ticks"><li>iPad za salu i kasu</li><li>Ekran kuhinje</li><li>Meni, magacin i normativi</li><li>Izveštaji i AI pomoćnik</li><li>Zaposleni, uloge i dnevnik radnji</li></ul></div>
+<div class="incl"><h3 class="plan-label">U ceni objekta</h3><ul class="ticks"><li>Terminal sale — porudžbine, sala i naplata</li><li>Ekran kuhinje</li><li>Meni, magacin i normativi</li><li>Izveštaji i AI pomoćnik</li><li>Zaposleni, uloge i dnevnik radnji</li></ul></div>
 </div>
 <div class="p-detail">
 <div class="ptab">
-<div class="ptab-head"><h3>Uređaji i moduli</h3><p>RSD, bez PDV-a</p></div>
+<div class="ptab-head"><h3>Licence i moduli</h3><p>RSD, bez PDV-a</p></div>
 <table class="pt">
-<thead><tr><th scope="col"><span class="vh">Uređaji i moduli</span></th><th scope="col">mesečno</th><th scope="col">godišnje</th></tr></thead>
+<thead><tr><th scope="col"><span class="vh">Licence i moduli</span></th><th scope="col">mesečno</th><th scope="col">godišnje</th></tr></thead>
 <tbody>
-<tr class="pt-g"><th colspan="3" scope="colgroup">Licence za uređaje — po uređaju</th></tr>
-<tr><th scope="row"><span class="pt-n">iPhone konobara</span><span class="pt-d">Porudžbina sa stola ide pravo u kuhinju; račun i QR su na telefonu.</span></th><td>1.000</td><td>10.000</td></tr>
-<tr><th scope="row"><span class="pt-n">Kiosk</span><span class="pt-d">Gosti sami biraju i poručuju, a plaćaju na kasi po broju.</span></th><td>5.000</td><td>50.000</td></tr>
-<tr><th scope="row"><span class="pt-n">Dodatni iPad</span><span class="pt-d">Drugi iPad za salu, šank ili kasu.</span></th><td>1.500</td><td>15.000</td></tr>
-<tr><th scope="row"><span class="pt-n">Dodatni ekran kuhinje</span><span class="pt-d">Za drugu stanicu — šank, roštilj ili poslastičarnicu.</span></th><td>1.200</td><td>12.000</td></tr>
+<tr class="pt-g"><th colspan="3" scope="colgroup">Licence — po uređaju</th></tr>
+<tr><th scope="row"><span class="pt-n">Dodatni terminal sale</span><span class="pt-d">Još jedan terminal za salu, šank ili naplatu. Radi na <span class="nw">iPad-u</span>.</span></th><td>1.500</td><td>15.000</td></tr>
+<tr><th scope="row"><span class="pt-n">Dodatni ekran kuhinje</span><span class="pt-d">Za drugu stanicu — šank, roštilj ili poslastičarnicu. Radi na tabletu.</span></th><td>1.200</td><td>12.000</td></tr>
+<tr><th scope="row"><span class="pt-n">Uređaj konobara</span><span class="pt-d">Porudžbina sa stola ide pravo u kuhinju; račun i QR su kod konobara. Radi na <span class="nw">iPhone-u</span>.</span></th><td>1.000</td><td>10.000</td></tr>
+<tr><th scope="row"><span class="pt-n">Kiosk</span><span class="pt-d">Gosti sami biraju i poručuju, a plaćaju na kasi po broju. Radi na <span class="nw">iPad-u</span>.</span></th><td>5.000</td><td>50.000</td></tr>
 </tbody>
 <tbody>
 <tr class="pt-g"><th colspan="3" scope="colgroup">Moduli — po objektu</th></tr>
 <tr><th scope="row"><span class="pt-n">IPS QR plaćanje</span><span class="pt-d">Gost plaća skeniranjem QR koda aplikacijom svoje banke.</span></th><td>1.000</td><td>10.000</td></tr>
 <tr><th scope="row"><span class="pt-n">Bankovni terminal</span><span class="pt-d">Iznos računa ide pravo na terminal, bez kucanja.</span></th><td>1.000</td><td>10.000</td></tr>
-<tr><th scope="row"><span class="pt-n">Smene i plate</span><span class="pt-d">Smene <span class="nw">PIN-om</span> na <span class="nw">iPad-u</span>, satnica i procenat od prodaje.</span></th><td>1.500</td><td>15.000</td></tr>
+<tr><th scope="row"><span class="pt-n">Smene i plate</span><span class="pt-d">Smene <span class="nw">PIN-om</span> na terminalu sale, satnica i procenat od prodaje.</span></th><td>1.500</td><td>15.000</td></tr>
 </tbody>
 <tbody>
 <tr class="pt-g"><th colspan="3" scope="colgroup">Za celu firmu</th></tr>
@@ -891,58 +935,74 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 </table>
 </div>
 <div class="bills"><h3>Primeri računa</h3><ul class="bill-list">
-<li class="bill"><h4>Kafić</h4><p class="bill-setup">1 iPad i ekran kuhinje</p><p class="bill-sum"><span>Mesečno</span><b>6.000 RSD</b></p><p class="bill-year"><span>Godišnje</span><b>60.000 RSD</b></p></li>
-<li class="bill"><h4>Restoran</h4><p class="bill-setup">2 <span class="nw">iPad-a</span>, 2 ekrana kuhinje, 4 <span class="nw">iPhone-a</span> konobara</p><ul class="bill-lines"><li><span>Objekat</span><span>6.000</span></li><li><span>Dodatni iPad</span><span>1.500</span></li><li><span>Dodatni ekran kuhinje</span><span>1.200</span></li><li><span>iPhone konobara × 4</span><span>4.000</span></li></ul><p class="bill-sum"><span>Mesečno</span><b>12.700 RSD</b></p><p class="bill-year"><span>Godišnje</span><b>127.000 RSD</b></p></li>
-<li class="bill"><h4>Mreža od 5 restorana</h4><p class="bill-setup">U svakom kao gore, i izveštaj u Telegramu</p><ul class="bill-lines"><li><span>Objekat × 5</span><span>30.000</span></li><li><span>Dodatni iPad × 5</span><span>7.500</span></li><li><span>Dodatni ekran kuhinje × 5</span><span>6.000</span></li><li><span>iPhone konobara × 20</span><span>20.000</span></li><li><span>Izveštaj u Telegramu</span><span>500</span></li></ul><p class="bill-sum"><span>Mesečno</span><b>64.000 RSD</b></p><p class="bill-year"><span>Godišnje</span><b>640.000 RSD</b></p></li>
+<li class="bill-card"><h4>Kafić</h4><p class="bill-setup">Terminal sale i ekran kuhinje</p><p class="bill-sum"><span>Mesečno</span><b>6.000 RSD</b></p><p class="bill-year"><span>Godišnje</span><b>60.000 RSD</b></p></li>
+<li class="bill-card"><h4>Restoran</h4><p class="bill-setup">2 terminala sale, 2 ekrana kuhinje, 4 uređaja konobara</p><ul class="bill-lines"><li><span>Objekat</span><span>6.000</span></li><li><span>Dodatni terminal sale</span><span>1.500</span></li><li><span>Dodatni ekran kuhinje</span><span>1.200</span></li><li><span>Uređaj konobara × 4</span><span>4.000</span></li></ul><p class="bill-sum"><span>Mesečno</span><b>12.700 RSD</b></p><p class="bill-year"><span>Godišnje</span><b>127.000 RSD</b></p></li>
+<li class="bill-card"><h4>Mreža od 5 restorana</h4><p class="bill-setup">U svakom kao gore, i izveštaj u Telegramu</p><ul class="bill-lines"><li><span>Objekat × 5</span><span>30.000</span></li><li><span>Dodatni terminal sale × 5</span><span>7.500</span></li><li><span>Dodatni ekran kuhinje × 5</span><span>6.000</span></li><li><span>Uređaj konobara × 20</span><span>20.000</span></li><li><span>Izveštaj u Telegramu</span><span>500</span></li></ul><p class="bill-sum"><span>Mesečno</span><b>64.000 RSD</b></p><p class="bill-year"><span>Godišnje</span><b>640.000 RSD</b></p></li>
 </ul></div>
 </div>
-<div class="p-more">
 <div class="calc" id="calc" hidden>
-<h3 class="calc-title">Izračunajte cenu</h3>
+<div class="calc-head"><h3 class="calc-title">Izračunajte cenu</h3><p class="calc-vat">Iznosi su bez PDV-a.</p></div>
 <div class="calc-grid">
-<div class="calc-in">
+<div class="calc-col calc-in">
+<p class="calc-k">Objekti</p>
 <div class="stp"><label for="c-venues">Objekata</label><span class="stp-ctl"><button type="button" data-d="-1" aria-label="Manje: Objekata">−</button><input id="c-venues" type="number" inputmode="numeric" min="1" max="50" step="1" value="1"><button type="button" data-d="1" aria-label="Više: Objekata">+</button></span></div>
-<p class="calc-sub">U svakom objektu</p>
-<div class="stp"><label for="c-ipad">iPad</label><span class="stp-ctl"><button type="button" data-d="-1" aria-label="Manje: iPad">−</button><input id="c-ipad" type="number" inputmode="numeric" min="1" max="10" step="1" value="1"><button type="button" data-d="1" aria-label="Više: iPad">+</button></span></div>
-<div class="stp"><label for="c-kds">Ekrana kuhinje</label><span class="stp-ctl"><button type="button" data-d="-1" aria-label="Manje: Ekrana kuhinje">−</button><input id="c-kds" type="number" inputmode="numeric" min="0" max="10" step="1" value="1"><button type="button" data-d="1" aria-label="Više: Ekrana kuhinje">+</button></span></div>
-<div class="stp"><label for="c-iphone">iPhone konobara</label><span class="stp-ctl"><button type="button" data-d="-1" aria-label="Manje: iPhone konobara">−</button><input id="c-iphone" type="number" inputmode="numeric" min="0" max="30" step="1" value="0"><button type="button" data-d="1" aria-label="Više: iPhone konobara">+</button></span></div>
-<div class="stp"><label for="c-kiosk">Kioska</label><span class="stp-ctl"><button type="button" data-d="-1" aria-label="Manje: Kioska">−</button><input id="c-kiosk" type="number" inputmode="numeric" min="0" max="10" step="1" value="0"><button type="button" data-d="1" aria-label="Više: Kioska">+</button></span></div>
-<fieldset class="calc-mods"><legend>Moduli</legend><label class="chk"><input type="checkbox" value="ips"><span>IPS QR plaćanje</span></label><label class="chk"><input type="checkbox" value="terminal"><span>Bankovni terminal</span></label><label class="chk"><input type="checkbox" value="shifts"><span>Smene i plate</span></label><label class="chk"><input type="checkbox" value="telegram"><span>Izveštaj u Telegramu</span></label></fieldset>
+<p class="calc-k">Licence u svakom objektu</p>
+<div class="stp"><label for="c-ipad">Terminali sale <small>1 u ceni</small></label><span class="stp-ctl"><button type="button" data-d="-1" aria-label="Manje: Terminali sale">−</button><input id="c-ipad" type="number" inputmode="numeric" min="1" max="10" step="1" value="1"><button type="button" data-d="1" aria-label="Više: Terminali sale">+</button></span></div>
+<div class="stp"><label for="c-kds">Ekrani kuhinje <small>1 u ceni</small></label><span class="stp-ctl"><button type="button" data-d="-1" aria-label="Manje: Ekrani kuhinje">−</button><input id="c-kds" type="number" inputmode="numeric" min="0" max="10" step="1" value="1"><button type="button" data-d="1" aria-label="Više: Ekrani kuhinje">+</button></span></div>
+<div class="stp"><label for="c-iphone">Uređaji konobara</label><span class="stp-ctl"><button type="button" data-d="-1" aria-label="Manje: Uređaji konobara">−</button><input id="c-iphone" type="number" inputmode="numeric" min="0" max="30" step="1" value="0"><button type="button" data-d="1" aria-label="Više: Uređaji konobara">+</button></span></div>
+<div class="stp"><label for="c-kiosk">Kiosci</label><span class="stp-ctl"><button type="button" data-d="-1" aria-label="Manje: Kiosci">−</button><input id="c-kiosk" type="number" inputmode="numeric" min="0" max="10" step="1" value="0"><button type="button" data-d="1" aria-label="Više: Kiosci">+</button></span></div>
 </div>
-<div class="calc-out">
+<fieldset class="calc-col calc-mods"><legend class="calc-k">Moduli</legend><div class="mod-list"><label class="mod"><input type="checkbox" value="ips"><span class="mod-box" aria-hidden="true"></span><span class="mod-n">IPS QR plaćanje</span><span class="mod-p">1.000</span></label><label class="mod"><input type="checkbox" value="terminal"><span class="mod-box" aria-hidden="true"></span><span class="mod-n">Bankovni terminal</span><span class="mod-p">1.000</span></label><label class="mod"><input type="checkbox" value="shifts"><span class="mod-box" aria-hidden="true"></span><span class="mod-n">Smene i plate</span><span class="mod-p">1.500</span></label><label class="mod"><input type="checkbox" value="telegram"><span class="mod-box" aria-hidden="true"></span><span class="mod-n">Izveštaj u Telegramu <small>za firmu</small></span><span class="mod-p">500</span></label></div></fieldset>
+<div class="calc-col calc-out">
 <div class="calc-tots" aria-live="polite">
 <div class="calc-tot"><p class="calc-k">Mesečno</p><p class="calc-total"><span data-o="month">6.000</span><small>RSD</small></p></div>
 <div class="calc-tot"><p class="calc-k">Godišnje <span class="plan-badge">2 meseca besplatno</span></p><p class="calc-total"><span data-o="year">60.000</span><small>RSD</small></p></div>
 </div>
 <ul class="calc-lines" data-o="lines"></ul>
-<p class="calc-vat">Iznosi su bez PDV-a.</p>
 </div>
 </div>
 </div>
-<div class="p-how"><h3>Kako se plaća</h3><ul><li>Prvih 30 dana besplatno — bez kartice i bez obaveze.</li><li>Mesečno: faktura firmi svakog meseca, plaćanje na račun.</li><li>Godišnje: jedna faktura unapred — plaćate 10 meseci umesto 12.</li><li>Cene su u dinarima, bez <span class="nw">PDV-a</span>; PDV od 20% dodaje se na fakturu.</li><li>Pretplatu završavate kad želite, a podatke vam šaljemo u standardnom formatu.</li><li>Ako plaćanje kasni, sala i kuhinja rade dalje — javljamo se pre bilo kakvog isključenja.</li></ul></div>
-</div>
-<script type="application/json" id="calc-data">{"currency":"RSD","venue":6000,"included":{"ipad":1,"kds":1},"device":{"ipad":1500,"kds":1200,"iphone":1000,"kiosk":5000},"modules":{"ips":1000,"terminal":1000,"shifts":1500,"telegram":500,"migrate":0},"yearMonths":10,"vat":20,"locale":"sr-Latn-RS","lines":{"venue":"Objekat","ipad":"Dodatni iPad","kds":"Dodatni ekran kuhinje","iphone":"iPhone konobara","kiosk":"Kiosk","ips":"IPS QR plaćanje","terminal":"Bankovni terminal","shifts":"Smene i plate","telegram":"Izveštaj u Telegramu"}}</script>
+<div class="pfaq"><h3>Pitanja o ceni</h3><dl class="pfaq-list">
+<div class="pfaq-item"><dt>Šta ulazi u cenu objekta?</dt><dd>Jedan terminal sale i jedan ekran kuhinje, meni, magacin i normativi, izveštaji sa AI pomoćnikom, zaposleni i uloge. Ostali uređaji i moduli — po cenovniku.</dd></div>
+<div class="pfaq-item"><dt>Kako se plaća?</dt><dd>Mesečno — faktura firmi svakog meseca, ili godišnje — jedna faktura unapred, 10 meseci umesto 12. Plaćanje na račun; cene su bez <span class="nw">PDV-a</span>, PDV od 20% dodaje se na fakturu.</dd></div>
+<div class="pfaq-item"><dt>Šta ako dodam uređaj usred godine?</dt><dd>Uređaj ili modul dodat usred plaćene godine plaća se mesečno, do kraja te godine. Na mesečnoj pretplati — od sledeće fakture.</dd></div>
+<div class="pfaq-item"><dt>Mogu li da koristim svoje uređaje?</dt><dd>Da. Terminal sale i kiosk rade na <span class="nw">iPad-u</span>, uređaj konobara na <span class="nw">iPhone-u</span>, ekran kuhinje na tabletu — odgovaraju i uređaji koje već imate.</dd></div>
+<div class="pfaq-item"><dt>Da li RUVO menja fiskalnu kasu?</dt><dd>Ne. Fiskalni račun i dalje izdaje vaša kasa, a RUVO beleži način plaćanja da bi se iznosi slagali.</dd></div>
+<div class="pfaq-item"><dt>Postoji li ugovorna obaveza?</dt><dd>Ne. Pretplatu završavate kad želite, a podatke vam šaljemo u standardnom formatu.</dd></div>
+<div class="pfaq-item"><dt>Šta ako plaćanje kasni?</dt><dd>Sala i kuhinja rade dalje — javljamo se pre bilo kakvog isključenja.</dd></div>
+<div class="pfaq-item"><dt>Kako dobijam podršku?</dt><dd>Pišite na <a href="mailto:hello@ruvo.ac">hello@ruvo.ac</a> — odgovaramo radnim danima.</dd></div>
+</dl></div>
+<script type="application/json" id="calc-data">{"currency":"RSD","venue":6000,"included":{"ipad":1,"kds":1},"device":{"ipad":1500,"kds":1200,"iphone":1000,"kiosk":5000},"modules":{"ips":1000,"terminal":1000,"shifts":1500,"telegram":500,"migrate":0},"yearMonths":10,"vat":20,"locale":"sr-Latn-RS","lines":{"venue":"Objekat","ipad":"Dodatni terminal sale","kds":"Dodatni ekran kuhinje","iphone":"Uređaj konobara","kiosk":"Kiosk","ips":"IPS QR plaćanje","terminal":"Bankovni terminal","shifts":"Smene i plate","telegram":"Izveštaj u Telegramu"}}</script>
 </div></section>
 <section class="band raised" id="start" aria-labelledby="start-h"><div class="wrap">
 <div class="sec-head"><h2 id="start-h">Kako počinje</h2></div>
 <ol class="steps">
 <li class="step"><span class="step-n" aria-hidden="true">1</span><h3>Pišete nam</h3><p>Na <a href="mailto:hello@ruvo.ac">hello@ruvo.ac</a>, ukratko o objektu: sale, stolovi, uređaji.</p></li>
 <li class="step"><span class="step-n" aria-hidden="true">2</span><h3>Otvaramo nalog</h3><p>Prenosimo meni, normative i stanje magacina iz vašeg dosadašnjeg sistema ili tabele.</p></li>
-<li class="step"><span class="step-n" aria-hidden="true">3</span><h3>Povezujete uređaje</h3><p>iPad, iPhone konobara i ekran kuhinje povezuju se jednokratnim kodom iz <span class="nw">back-office-a</span>.</p></li>
+<li class="step"><span class="step-n" aria-hidden="true">3</span><h3>Povezujete uređaje</h3><p>Terminal sale, uređaji konobara i ekran kuhinje povezuju se jednokratnim kodom iz <span class="nw">back-office-a</span>.</p></li>
 <li class="step"><span class="step-n" aria-hidden="true">4</span><h3>30 dana besplatno</h3><p>Zatim pretplata po cenovniku — mesečno ili godišnje.</p></li>
 </ol>
-<div class="equip"><h3>Šta vam treba</h3><ul class="ticks"><li>iPad za salu i kasu</li><li>iPhone za konobare — ako ih koristite</li><li>Tablet za kuhinju — po jedan na stanicu</li><li>Ruter sa rezervnom 4G vezom</li><li>Vaša fiskalna kasa; bankovni terminal po želji</li></ul><p><span class="nw">Back-office</span> radi u pregledaču na bilo kom računaru.</p></div>
-<p class="note"><span class="note-i" aria-hidden="true">i</span><span>Fiskalni račun izdaje vaša fiskalna kasa. RUVO vodi porudžbine, kuhinju, magacin i izveštaje, a način plaćanja beleži da bi se iznosi slagali sa kasom.</span></p>
+<div class="equip"><h3>Šta vam treba</h3><ul class="ticks"><li>iPad za terminal sale i kiosk</li><li>iPhone za konobare — ako ih koristite</li><li>Tablet za kuhinju — po jedan na stanicu</li><li>Ruter sa rezervnom 4G vezom</li><li>Vaša fiskalna kasa; bankovni terminal po želji</li></ul><p><span class="nw">Back-office</span> radi u pregledaču na bilo kom računaru.</p></div>
 </div></section>
 <section class="band" id="contact" aria-labelledby="contact-h"><div class="wrap contact-in">
-<div class="sec-head"><h2 id="contact-h">Kontakt</h2><p>Pišite nam — odgovaramo radnim danima.</p></div>
+<div class="sec-head"><h2 id="contact-h">Probajte RUVO na svom objektu</h2><p>Prvih 30 dana besplatno, bez kartice i bez obaveze. Ili prvo otvorite demo — radi u pregledaču.</p></div>
+<div class="cta-row"><a class="btn" href="demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Isprobajte demo</a><a class="btn ghost" href="mailto:hello@ruvo.ac"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>Pišite nam</a></div>
+<div class="contact-card">
 <div class="plates"><a class="plate" href="mailto:hello@ruvo.ac">hello@ruvo.ac</a><div class="house" aria-hidden="true"><span class="house-st">ЦАРА УРОША<br>CARA UROŠA</span><span class="house-no">19</span></div></div>
-<p class="addr"><b>TT DAILY KITCHEN DOO</b><br>Cara Uroša 19, 11000 Beograd</p>
+<p class="addr"><b>TT DAILY KITCHEN DOO</b><br>Cara Uroša 19, 11000 Beograd<br><span class="contact-note">Pišite nam — odgovaramo radnim danima.</span></p>
+</div>
 </div></section>
 </main>
-<footer class="foot"><div class="wrap foot-in">
-<div class="foot-co"><a class="wordmark sm" href="./" aria-label="RUVO — Početna">RUVO</a><p>TT DAILY KITCHEN DOO · PIB 113820680<br>Cara Uroša 19, 11000 Beograd</p></div>
-<nav class="foot-nav" aria-label="O firmi i dokumenti"><ul><li><a href="privatnost/">Privatnost</a></li><li><a href="podrska/">Podrška</a></li><li><a href="mailto:hello@ruvo.ac">hello@ruvo.ac</a></li></ul><p>Razvijeno u Beogradu. © 2026</p></nav>
+<footer class="foot"><div class="wrap">
+<div class="foot-in">
+<div class="foot-co"><a class="wordmark sm" href="./" aria-label="RUVO — Početna">RUVO</a><p>Razvijeno u Beogradu.</p></div>
+<nav class="foot-cols" aria-label="O firmi i dokumenti">
+<div class="foot-col"><h2>Proizvod</h2><ul><li><a href="#features">Mogućnosti</a></li><li><a href="#examples">Primeri</a></li><li><a href="#who">Za koga</a></li><li><a href="#pricing">Cene</a></li><li><a href="demo/">Demo</a></li></ul></div>
+<div class="foot-col"><h2>Dokumenti</h2><ul><li><a href="privatnost/">Privatnost</a></li><li><a href="podrska/">Podrška</a></li></ul></div>
+<div class="foot-col"><h2>Kontakt</h2><ul><li><a href="mailto:hello@ruvo.ac">hello@ruvo.ac</a></li><li>Cara Uroša 19, 11000 Beograd</li></ul></div>
+</nav>
+</div>
+<p class="foot-base">TT DAILY KITCHEN DOO · PIB 113820680 · © 2026</p>
 </div></footer>
 <script>
 (() => {

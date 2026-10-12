@@ -34,18 +34,45 @@ const FAVICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><re
 `;
 const MAIL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>';
 const PLAY_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>';
-// line icons, 24 × 24, drawn in currentColor: who RUVO is for, and why
+// line icons, 24 × 24, drawn in currentColor. ICONS are the app's own (app/src/ui/common.jsx), so the site and the
+// screens speak one language; WHO_ICONS and WHY_ICONS are drawn for the site in the same stroke.
 const icon = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${d}</svg>`;
-const WHO_ICONS = [
+const ICONS = Object.fromEntries(Object.entries({
+  bell: 'M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0',
+  stop: 'M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM6 6l12 12',
+  split: 'M12 3v18M5 7h4M5 12h4M5 17h4M15 7h4M15 12h4M15 17h4',
+  cash: 'M3 7h18v10H3zM12 9.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM6 10v4M18 10v4',
+  lock: 'M6 11h12v9H6zM8 11V8a4 4 0 0 1 8 0v3',
+  tag: 'M3.5 12.6V4.5a1 1 0 0 1 1-1h8.1l8 8a1.5 1.5 0 0 1 0 2.1l-6.9 6.9a1.5 1.5 0 0 1-2.1 0zM8.2 7.2a1 1 0 1 1 0 2 1 1 0 0 1 0-2z',
+  rotate: 'M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4v4.5H15',
+  move: 'M5 12h14M15 8l4 4-4 4M9 8l-4 4 4 4',
+  user: 'M12 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM4.5 20a7.5 7.5 0 0 1 15 0',
+  bike: 'M5.5 13a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM18.5 13a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM5.5 16.5L9 9h5l4.5 7.5M14 9l-2-4H9M12 5h3',
+  clock: 'M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM12 7.5V12l3 2',
+  info: 'M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM12 11v5.5M12 7.5v.5',
+  box: 'M3.5 7.5L12 3l8.5 4.5v9L12 21l-8.5-4.5zM3.5 7.5L12 12l8.5-4.5M12 12v9',
+  spark: 'M11 3.5l1.9 5.1 5.1 1.9-5.1 1.9L11 17.5l-1.9-5.1L4 10.5l5.1-1.9zM18.5 14.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z',
+  star: 'M12 3.5l2.6 5.5 6 .8-4.4 4.1 1.1 5.9L12 17l-5.3 2.8 1.1-5.9-4.4-4.1 6-.8z',
+  users: 'M9 5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM3 19.5a6 6 0 0 1 12 0M16 5.3a3.4 3.4 0 0 1 0 6.4M18 13.6a6 6 0 0 1 3 5.9',
+}).map(([k, d]) => [k, icon(`<path d="${d}"/>`)]));
+const WHO_ICONS = {
   // a restaurant with a dining room: fork and knife
-  icon('<path d="M7 3v18M4.5 3v4.5a2.5 2.5 0 0 0 5 0V3"/><path d="M17.5 21V3c-2 0-3.5 2.5-3.5 6v4.5h3.5"/>'),
+  restaurant: icon('<path d="M7 3v18M4.5 3v4.5a2.5 2.5 0 0 0 5 0V3"/><path d="M17.5 21V3c-2 0-3.5 2.5-3.5 6v4.5h3.5"/>'),
   // a café and bar: a cup with steam
-  icon('<path d="M4 10h12v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5v-4z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16M8 3.5c-.8 1 .8 2 0 3M12 3.5c-.8 1 .8 2 0 3"/>'),
-  // fast food and bakery: the self-order kiosk
-  icon('<rect x="6" y="2.5" width="12" height="15" rx="2"/><path d="M12 17.5V21M8.5 21h7M9 7h6M9 10.5h6M9 14h3"/>'),
+  cafe: icon('<path d="M4 10h12v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5v-4z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16M8 3.5c-.8 1 .8 2 0 3M12 3.5c-.8 1 .8 2 0 3"/>'),
+  // fast food: the self-order kiosk
+  kiosk: icon('<rect x="6" y="2.5" width="12" height="15" rx="2"/><path d="M12 17.5V21M8.5 21h7M9 7h6M9 10.5h6M9 14h3"/>'),
+  // a bakery and pastry shop: a loaf
+  bakery: icon('<path d="M4 12a4 4 0 0 1 3.1-3.9A5 5 0 0 1 12 5.5a5 5 0 0 1 4.9 2.6A4 4 0 0 1 20 12v7H4z"/><path d="M9 12v3.5M12 11v4.5M15 12v3.5"/>'),
+  // a hotel: a bed
+  hotel: icon('<path d="M3 19V6M3 15h18v4M21 15v-3a3 3 0 0 0-3-3h-7v6"/><path d="M7 9a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/>'),
+  // catering and canteens: a cloche
+  catering: icon('<path d="M3 18.5h18M5 18.5a7 7 0 0 1 14 0M12 8.5V6.5M10.5 6.5h3"/>'),
+  // a delivery kitchen: the courier
+  delivery: ICONS.bike,
   // a group of venues: two buildings
-  icon('<path d="M3 21h18M5 21V9.5l4.5-3.5L14 9.5V21M14 21V6.5L17 4l3 2.5V21M8 13h3M8 17h3M16.5 10h1M16.5 13.5h1M16.5 17h1"/>'),
-];
+  group: icon('<path d="M3 21h18M5 21V9.5l4.5-3.5L14 9.5V21M14 21V6.5L17 4l3 2.5V21M8 13h3M8 17h3M16.5 10h1M16.5 13.5h1M16.5 17h1"/>'),
+};
 const WHY_ICONS = [
   // the fiscal register stays: a receipt
   icon('<path d="M6 3h12v18l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4L6 21V3z"/><path d="M9 8h6M9 11.5h6M9 15h3.5"/>'),
@@ -155,7 +182,7 @@ function header(lang, key, file) {
   return `<a class="skip" href="#main">${esc(t.skip)}</a>
 <header class="top"><div class="wrap top-in">
 <a class="wordmark" href="${href(file, home)}" aria-label="RUVO — ${esc(t.nav.home)}">RUVO</a>
-<nav class="nav" aria-label="${esc(t.ui.menuLabel)}">${['features', 'examples', 'pricing', 'start', 'contact'].map((id) => section(id, t.nav[id])).join('')}</nav>
+<nav class="nav" aria-label="${esc(t.ui.menuLabel)}">${['features', 'examples', 'who', 'pricing', 'contact'].map((id) => section(id, t.nav[id])).join('')}</nav>
 ${SIGNUP_ON
     ? (key !== 'signup' && key !== 'confirm' ? `<a class="top-cta" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].nav.signup)}</a>` : '')
     : `<a class="top-cta" href="${href(file, DEMO[lang])}">${esc(t.home.demo.cta)}</a>`}
@@ -165,10 +192,20 @@ ${SIGNUP_ON
 
 function footer(lang, key, file) {
   const t = T[lang];
+  const home = fileOf(lang, 'home');
   const link = (p) => `<a href="${href(file, fileOf(lang, p))}"${p === key ? ' aria-current="page"' : ''}>${esc(t.nav[p] || SG[lang].nav[p])}</a>`;
-  return `<footer class="foot"><div class="wrap foot-in">
-<div class="foot-co"><a class="wordmark sm" href="${href(file, fileOf(lang, 'home'))}" aria-label="RUVO — ${esc(t.nav.home)}">RUVO</a><p>${esc(SITE.company)} · ${esc(t.tax)} ${SITE.pib}<br>${esc(SITE.address)}</p></div>
-<nav class="foot-nav" aria-label="${esc(t.ui.footLabel)}"><ul><li>${link('privacy')}</li>${SIGNUP_ON ? `<li>${link('terms')}</li>` : ''}<li>${link('support')}</li><li>${mail}</li></ul><p>${esc(t.home.made)} © ${SITE.updated.iso.slice(0, 4)}</p></nav>
+  const section = (id) => `<a href="${key === 'home' ? `#${id}` : href(file, home, `#${id}`)}">${esc(t.nav[id])}</a>`;
+  const col = (title, items) => `<div class="foot-col"><h2>${esc(title)}</h2><ul>${items.map((x) => `<li>${x}</li>`).join('')}</ul></div>`;
+  return `<footer class="foot"><div class="wrap">
+<div class="foot-in">
+<div class="foot-co"><a class="wordmark sm" href="${href(file, home)}" aria-label="RUVO — ${esc(t.nav.home)}">RUVO</a><p>${esc(t.home.made)}</p></div>
+<nav class="foot-cols" aria-label="${esc(t.ui.footLabel)}">
+${col(t.ui.foot.product, [...['features', 'examples', 'who', 'pricing'].map(section), `<a href="${href(file, DEMO[lang])}">${esc(t.nav.demo)}</a>`])}
+${col(t.ui.foot.docs, [link('privacy'), ...(SIGNUP_ON ? [link('terms')] : []), link('support')])}
+${col(t.ui.foot.contact, [mail, esc(SITE.address)])}
+</nav>
+</div>
+<p class="foot-base">${esc(SITE.company)} · ${esc(t.tax)} ${SITE.pib} · © ${SITE.updated.iso.slice(0, 4)}</p>
 </div></footer>`;
 }
 
@@ -335,13 +372,31 @@ function examples(lang, file) {
 </div></section>`;
 }
 
-// ---------- after Toast's example: the small things of a shift, who RUVO is for, why RUVO ----------
+// ---------- after Toast's home page: everything a venue needs, the small things of a shift, who RUVO is for, why ----------
+// The four devices are drawn as the app draws them on its start screen (CSS glyphs); the rest of the cards get an icon.
+const GLYPHS = { front: 'g-front', waiter: 'g-waiter', kds: 'g-kds', kiosk: 'g-kiosk' };
+function suite(lang) {
+  const x = T[lang].home.suite;
+  const h = T[lang].home;
+  const soon = h.integrations.length - 1;
+  const art = (key) => (GLYPHS[key]
+    ? `<span class="glyph ${GLYPHS[key]}"><span class="glyph-ui"></span></span>`
+    : `<span class="suite-i">${ICONS[key]}</span>`);
+  return `<section class="band raised" id="features" aria-labelledby="features-h"><div class="wrap">
+<div class="sec-head"><h2 id="features-h">${esc(x.title)}</h2><p>${txt(x.lead)}</p></div>
+<ul class="cards suite">${x.items.map(([key, title, text]) => `
+<li class="card"><span class="suite-art" aria-hidden="true">${art(key)}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
+</ul>
+<div class="integr"><h3 class="integr-title">${esc(h.integrationsTitle)}</h3><ul>${h.integrations.map((it, i) => `<li${i === soon ? ' class="soon"' : ''}>${esc(it)}</li>`).join('')}</ul></div>
+</div></section>`;
+}
+
 function rush(lang) {
   const r = T[lang].home.rush;
   return `<section class="band raised" id="rush" aria-labelledby="rush-h"><div class="wrap">
 <div class="sec-head"><h2 id="rush-h">${esc(r.title)}</h2><p>${txt(r.lead)}</p></div>
-<ul class="rush">${r.items.map(([title, text]) => `
-<li><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
+<ul class="rush">${r.items.map(([key, title, text]) => `
+<li><span class="rush-i" aria-hidden="true">${ICONS[key]}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
 </ul>
 </div></section>`;
 }
@@ -350,23 +405,45 @@ function who(lang) {
   const w = T[lang].home.who;
   return `<section class="band" id="who" aria-labelledby="who-h"><div class="wrap">
 <div class="sec-head"><h2 id="who-h">${esc(w.title)}</h2><p>${txt(w.lead)}</p></div>
-<ul class="who">${w.items.map(([title, text], i) => `
-<li><span class="who-i">${WHO_ICONS[i]}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
+<ul class="cards who">${w.items.map(([key, title, text]) => `
+<li class="card"><span class="who-i" aria-hidden="true">${WHO_ICONS[key]}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
 </ul>
 </div></section>`;
 }
 
-function why(lang) {
+function why(lang, file) {
   const w = T[lang].home.why;
+  const d = T[lang].home.demo;
   return `<section class="band raised" id="why" aria-labelledby="why-h"><div class="wrap">
 <div class="sec-head"><h2 id="why-h">${esc(w.title)}</h2></div>
 <ul class="why">${w.items.map(([title, text], i) => `
-<li><span class="why-i">${WHY_ICONS[i]}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
+<li><span class="why-i" aria-hidden="true">${WHY_ICONS[i]}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
 </ul>
+<div class="why-cta"><a class="btn" href="#pricing">${esc(w.cta)}</a><a class="btn ghost" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(d.cta)}</a></div>
 </div></section>`;
 }
 
-// ---------- «Cene»: monthly and yearly, what a venue includes, every device and module, example bills, a calculator ----------
+// the closing section: the call to try RUVO with its two buttons — the demo (or registration, once it is on) and a
+// letter —, then the address on the enamel plates
+function contact(lang, file) {
+  const t = T[lang];
+  const h = t.home;
+  const f = h.final;
+  const house = SITE.address.match(/\s(\d+[a-z]?),/i)[1];
+  const buttons = SIGNUP_ON
+    ? `<a class="btn" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].home.cta)}</a><a class="btn ghost" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(h.demo.cta)}</a>`
+    : `<a class="btn" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(h.demo.cta)}</a><a class="btn ghost" href="mailto:${SITE.email}">${MAIL_ICON}${esc(h.cta)}</a>`;
+  return `<section class="band" id="contact" aria-labelledby="contact-h"><div class="wrap contact-in">
+<div class="sec-head"><h2 id="contact-h">${txt(f.title)}</h2><p>${txt(f.text)}</p></div>
+<div class="cta-row">${buttons}</div>
+<div class="contact-card">
+<div class="plates"><a class="plate" href="mailto:${SITE.email}">${SITE.email}</a><div class="house" aria-hidden="true"><span class="house-st">${t.ui.plate.map(esc).join('<br>')}</span><span class="house-no">${house}</span></div></div>
+<p class="addr"><b>${esc(SITE.company)}</b><br>${esc(SITE.address)}<br><span class="contact-note">${esc(h.contactText)}</span></p>
+</div>
+</div></section>`;
+}
+
+// ---------- «Cene»: monthly and yearly, what a venue includes, every licence and module, example bills, a calculator ----------
 const priceOf = (key) => {
   const [kind, id] = key.split(':');
   const v = kind === 'd' ? PRICES.device[id] : PRICES.modules[id];
@@ -374,10 +451,10 @@ const priceOf = (key) => {
   return v;
 };
 
-// What a setup costs a month — the same sum as the app's billOf: the venue with one iPad and one kitchen screen, the
-// iPads and kitchen screens beyond those, a licence for every waiter's iPhone and every kiosk, the modules on in each
-// venue, Telegram once for the company. The example bills are counted with it here, and the calculator's script carries
-// its source text, so the two never differ. → { lines: [[key, qty, sum]], month }
+// What a setup costs a month — the same sum as the app's billOf: the venue with one front terminal and one kitchen
+// screen, the terminals and kitchen screens beyond those, a licence for every waiter device and every kiosk, the modules
+// on in each venue, Telegram once for the company. The example bills are counted with it here, and the calculator's
+// script carries its source text, so the two never differ. → { lines: [[key, qty, sum]], month }
 function billOf(D, s) {
   const n = s.venues || 1;
   const lines = [];
@@ -395,10 +472,14 @@ function billOf(D, s) {
 function pricing(lang, file) {
   const p = T[lang].home.pricing;
   const c = p.calc;
+  const d = T[lang].home.demo;
   const num = (v) => fmt(lang, v);
   const yearOf = (v) => v * PRICES.yearMonths;
   const lineName = (key, qty) => `${esc(c.lines[key])}${qty > 1 ? ` × ${qty}` : ''}`;
-  const cta = SIGNUP_ON ? `<a class="plan-cta" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].home.priceCta)}</a>` : '';
+  // each plan ends with the same button, so the two cards end on one line
+  const cta = SIGNUP_ON
+    ? `<a class="plan-cta" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].home.priceCta)}</a>`
+    : `<a class="plan-cta" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(d.cta)}</a>`;
   // {perMonth} — what the year comes to a month, {saving} — what it saves on a venue against twelve months
   const point = (x) => txt(x
     .replace('{perMonth}', rsd(lang, Math.round(yearOf(PRICES.venue) / 12)))
@@ -424,9 +505,11 @@ function pricing(lang, file) {
     const b = billOf(PRICES, s);
     const lines = b.lines.length > 1 ? `<ul class="bill-lines">${b.lines.map(([key, qty, sum]) => `<li><span>${lineName(key, qty)}</span><span>${num(sum)}</span></li>`).join('')}</ul>` : '';
     return `
-<li class="bill"><h4>${esc(name)}</h4><p class="bill-setup">${txt(setup)}</p>${lines}<p class="bill-sum"><span>${esc(p.plans.month.label)}</span><b>${rsd(lang, b.month)}</b></p><p class="bill-year"><span>${esc(p.plans.year.label)}</span><b>${rsd(lang, yearOf(b.month))}</b></p></li>`;
+<li class="bill-card"><h4>${esc(name)}</h4><p class="bill-setup">${txt(setup)}</p>${lines}<p class="bill-sum"><span>${esc(p.plans.month.label)}</span><b>${rsd(lang, b.month)}</b></p><p class="bill-year"><span>${esc(p.plans.year.label)}</span><b>${rsd(lang, yearOf(b.month))}</b></p></li>`;
   }).join('');
-  const stepper = (id, label, min, max, value) => `<div class="stp"><label for="c-${id}">${esc(label)}</label><span class="stp-ctl"><button type="button" data-d="-1" aria-label="${esc(c.less)}: ${esc(label)}">−</button><input id="c-${id}" type="number" inputmode="numeric" min="${min}" max="${max}" step="1" value="${value}"><button type="button" data-d="1" aria-label="${esc(c.more)}: ${esc(label)}">+</button></span></div>`;
+  // a row of the calculator: the name (with «1 included» where a venue includes one) and − value +
+  const stepper = (id, label, min, max, value, hint = '') => `<div class="stp"><label for="c-${id}">${esc(label)}${hint ? ` <small>${esc(hint)}</small>` : ''}</label><span class="stp-ctl"><button type="button" data-d="-1" aria-label="${esc(c.less)}: ${esc(label)}">−</button><input id="c-${id}" type="number" inputmode="numeric" min="${min}" max="${max}" step="1" value="${value}"><button type="button" data-d="1" aria-label="${esc(c.more)}: ${esc(label)}">+</button></span></div>`;
+  const mod = (m) => `<label class="mod"><input type="checkbox" value="${m}"><span class="mod-box" aria-hidden="true"></span><span class="mod-n">${esc(c.mods[m])}${m === 'telegram' ? ` <small>${esc(c.perCompany)}</small>` : ''}</span><span class="mod-p">${num(PRICES.modules[m])}</span></label>`;
   // what the calculator counts with: the price list and the names of its lines; «<» never ends the script early
   const data = JSON.stringify({ ...PRICES, locale: LOCALE[lang], lines: c.lines }).replace(/</g, '\\u003c');
   return `<section class="band" id="pricing" aria-labelledby="pricing-h"><div class="wrap">
@@ -447,31 +530,31 @@ ${groups}
 <div class="bills"><h3>${esc(p.billsTitle)}</h3><ul class="bill-list">${bills}
 </ul></div>
 </div>
-<div class="p-more">
 <div class="calc" id="calc" hidden>
-<h3 class="calc-title">${esc(c.title)}</h3>
+<div class="calc-head"><h3 class="calc-title">${esc(c.title)}</h3><p class="calc-vat">${esc(c.vat)}</p></div>
 <div class="calc-grid">
-<div class="calc-in">
+<div class="calc-col calc-in">
+<p class="calc-k">${esc(c.venuesTitle)}</p>
 ${stepper('venues', c.venues, 1, 50, 1)}
-<p class="calc-sub">${esc(c.perVenue)}</p>
-${stepper('ipad', c.ipad, 1, 10, 1)}
-${stepper('kds', c.kds, 0, 10, 1)}
+<p class="calc-k">${esc(c.perVenue)}</p>
+${stepper('ipad', c.ipad, 1, 10, 1, c.included)}
+${stepper('kds', c.kds, 0, 10, 1, c.included)}
 ${stepper('iphone', c.iphone, 0, 30, 0)}
 ${stepper('kiosk', c.kiosk, 0, 10, 0)}
-<fieldset class="calc-mods"><legend>${esc(c.modsTitle)}</legend>${['ips', 'terminal', 'shifts', 'telegram'].map((m) => `<label class="chk"><input type="checkbox" value="${m}"><span>${esc(c.mods[m])}</span></label>`).join('')}</fieldset>
 </div>
-<div class="calc-out">
+<fieldset class="calc-col calc-mods"><legend class="calc-k">${esc(c.modsTitle)}</legend><div class="mod-list">${['ips', 'terminal', 'shifts', 'telegram'].map(mod).join('')}</div></fieldset>
+<div class="calc-col calc-out">
 <div class="calc-tots" aria-live="polite">
 <div class="calc-tot"><p class="calc-k">${esc(c.month)}</p><p class="calc-total"><span data-o="month">${num(PRICES.venue)}</span><small>RSD</small></p></div>
 <div class="calc-tot"><p class="calc-k">${esc(c.year)} <span class="plan-badge">${esc(c.yearNote)}</span></p><p class="calc-total"><span data-o="year">${num(yearOf(PRICES.venue))}</span><small>RSD</small></p></div>
 </div>
 <ul class="calc-lines" data-o="lines"></ul>
-<p class="calc-vat">${esc(c.vat)}</p>
 </div>
 </div>
 </div>
-<div class="p-how"><h3>${esc(p.howTitle)}</h3><ul>${p.how.map((x) => `<li>${txt(x)}</li>`).join('')}</ul></div>
-</div>
+<div class="pfaq"><h3>${esc(p.faqTitle)}</h3><dl class="pfaq-list">${p.faq.map(([q, a]) => `
+<div class="pfaq-item"><dt>${txt(q)}</dt><dd>${txt(a)}</dd></div>`).join('')}
+</dl></div>
 <script type="application/json" id="calc-data">${data}</script>
 </div></section>`;
 }
@@ -562,8 +645,6 @@ function homePage(lang) {
   const t = T[lang];
   const h = t.home;
   const file = fileOf(lang, 'home');
-  const house = SITE.address.match(/\s(\d+[a-z]?),/i)[1];
-  const soon = h.integrations.length - 1;
   const body = `<div class="tiles" aria-hidden="true"></div>
 ${header(lang, 'home', file)}
 <main id="main">
@@ -581,17 +662,11 @@ ${header(lang, 'home', file)}
 </div>
 ${scene(lang)}
 </div></section>
-<section class="band raised" id="features" aria-labelledby="features-h"><div class="wrap">
-<div class="sec-head"><h2 id="features-h">${esc(h.featuresTitle)}</h2></div>
-<ul class="feats">${h.features.map(([tag, title, text]) => `
-<li class="feat"><span class="feat-tag">${esc(tag)}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
-</ul>
-<div class="integr"><h3 class="integr-title">${esc(h.integrationsTitle)}</h3><ul>${h.integrations.map((x, i) => `<li${i === soon ? ' class="soon"' : ''}>${esc(x)}</li>`).join('')}</ul></div>
-</div></section>
+${suite(lang)}
 ${examples(lang, file)}
 ${rush(lang)}
 ${who(lang)}
-${why(lang)}
+${why(lang, file)}
 ${pricing(lang, file)}
 <section class="band raised" id="start" aria-labelledby="start-h"><div class="wrap">
 <div class="sec-head"><h2 id="start-h">${esc(h.startTitle)}</h2></div>
@@ -599,13 +674,8 @@ ${pricing(lang, file)}
 <li class="step"><span class="step-n" aria-hidden="true">${i + 1}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
 </ol>
 <div class="equip"><h3>${esc(h.equip.title)}</h3><ul class="ticks">${h.equip.items.map((x) => `<li>${txt(x)}</li>`).join('')}</ul><p>${txt(h.equip.note)}</p></div>
-<p class="note"><span class="note-i" aria-hidden="true">i</span><span>${txt(h.fiscal)}</span></p>
 </div></section>
-<section class="band" id="contact" aria-labelledby="contact-h"><div class="wrap contact-in">
-<div class="sec-head"><h2 id="contact-h">${esc(h.contactTitle)}</h2><p>${esc(h.contactText)}</p></div>
-<div class="plates"><a class="plate" href="mailto:${SITE.email}">${SITE.email}</a><div class="house" aria-hidden="true"><span class="house-st">${t.ui.plate.map(esc).join('<br>')}</span><span class="house-no">${house}</span></div></div>
-<p class="addr"><b>${esc(SITE.company)}</b><br>${esc(SITE.address)}</p>
-</div></section>
+${contact(lang, file)}
 </main>
 ${footer(lang, 'home', file)}
 <script>
