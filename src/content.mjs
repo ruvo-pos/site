@@ -15,17 +15,19 @@ export const SITE = {
   app: 'https://app.ruvo.ac',
 };
 
-// The price list — the owner's choice of 12 October: the prototype's test prices (app/test/ruvo.mjs), RSD a month
-// without VAT (the company is in the VAT system: 20% goes on the invoice); a year paid in advance costs 10 months.
-// The same shape as the app's billing (app/src/billing.js, pricesOf): a venue includes one iPad and one kitchen screen;
-// devices beyond those are paid per device; modules per venue where they are on, Telegram and the move once a company.
-// SEF and Wolt/Glovo have no price yet, so they are not on the list.
+// The price list — the owner's choices of 12 October: the prototype's test prices (app/test/ruvo.mjs), then one licence
+// per device for the waiter's iPhone (1 000) and the kiosk (5 000) instead of a device price plus a module per venue
+// («единую лицензию на киоск и на устройство официанта»). RSD a month without VAT (the company is in the VAT system:
+// 20% goes on the invoice); paid monthly, or a year in advance for 10 months. The same shape as the app's billing
+// (app/src/billing.js, pricesOf): a venue includes one iPad and one kitchen screen; devices beyond those are paid per
+// device; modules per venue where they are on, Telegram and the move once a company. SEF and Wolt/Glovo have no price
+// yet, so they are not on the list.
 export const PRICES = {
   currency: 'RSD',
   venue: 6000,
   included: { ipad: 1, kds: 1 },
-  device: { ipad: 1500, kds: 1200, iphone: 600, kiosk: 2500 },
-  modules: { waiter: 2000, kiosk: 3000, ips: 1000, terminal: 1000, shifts: 1500, telegram: 500, migrate: 0 },
+  device: { ipad: 1500, kds: 1200, iphone: 1000, kiosk: 5000 },
+  modules: { ips: 1000, terminal: 1000, shifts: 1500, telegram: 500, migrate: 0 },
   yearMonths: 10,
   vat: 20,
 };
@@ -187,102 +189,155 @@ const EXAMPLES = {
   },
 };
 
-// «Cene»: the price list, how one pays and a calculator. A row's parts are prices from PRICES: d: — a device, m: — a module.
+// «Cene»: monthly and yearly, what a venue includes, every device and module with both prices and a line on what it is,
+// example bills and a calculator. A row's price is from PRICES: d: — a device, m: — a module. A bill's setup is counted
+// by build.mjs the way the calculator counts.
 const PRICING = {
   sr: {
     title: 'Cene',
-    lead: 'Plaćate po objektu, uz uređaje i dodatke koje uključite. Prvih 30 dana besplatno.',
-    venue: 'Objekat', month: 'mesečno', vat: 'bez PDV-a',
+    lead: 'Plaćate po objektu i po uređajima koje povežete — mesečno ili godišnje. Prvih 30 dana besplatno.',
+    vat: 'bez PDV-a',
+    plans: {
+      month: { label: 'Mesečno', unit: 'po objektu, mesečno', points: ['Faktura svakog meseca', 'Pretplatu završavate kad želite'] },
+      year: { label: 'Godišnje', badge: '2 meseca besplatno', unit: 'po objektu, godišnje', points: ['Izlazi {perMonth} mesečno', 'Ušteda {saving} po objektu', 'Jedna faktura unapred za 12 meseci'] },
+    },
+    includesTitle: 'U ceni objekta',
     includes: ['iPad za salu i kasu', 'Ekran kuhinje', 'Meni, magacin i normativi', 'Izveštaji i AI pomoćnik', 'Zaposleni, uloge i dnevnik radnji'],
-    addonsTitle: 'Uređaji i dodaci',
-    addonsUnit: 'RSD mesečno',
-    addons: [
-      ['Konobari na iPhone-u', [['m:waiter', 'po objektu'], ['d:iphone', 'po telefonu']]],
-      ['Kiosk za samostalno naručivanje', [['m:kiosk', 'po objektu'], ['d:kiosk', 'po kiosku']]],
-      ['Dodatni iPad', [['d:ipad', '']]],
-      ['Dodatni ekran kuhinje', [['d:kds', '']]],
-      ['IPS QR plaćanje', [['m:ips', 'po objektu']]],
-      ['Bankovni terminal', [['m:terminal', 'po objektu']]],
-      ['Smene i plate', [['m:shifts', 'po objektu']]],
-      ['Dnevni izveštaj u Telegramu', [['m:telegram', 'za celu firmu']]],
-      ['Prenos iz drugog POS-a', [['m:migrate', '']]],
+    tableTitle: 'Uređaji i moduli',
+    cols: ['mesečno', 'godišnje'],
+    groups: [
+      ['Licence za uređaje — po uređaju', [
+        ['d:iphone', 'iPhone konobara', 'Porudžbina sa stola ide pravo u kuhinju; račun i QR su na telefonu.'],
+        ['d:kiosk', 'Kiosk', 'Gosti sami biraju i poručuju, a plaćaju na kasi po broju.'],
+        ['d:ipad', 'Dodatni iPad', 'Drugi iPad za salu, šank ili kasu.'],
+        ['d:kds', 'Dodatni ekran kuhinje', 'Za drugu stanicu — šank, roštilj ili poslastičarnicu.'],
+      ]],
+      ['Moduli — po objektu', [
+        ['m:ips', 'IPS QR plaćanje', 'Gost plaća skeniranjem QR koda aplikacijom svoje banke.'],
+        ['m:terminal', 'Bankovni terminal', 'Iznos računa ide pravo na terminal, bez kucanja.'],
+        ['m:shifts', 'Smene i plate', 'Smene PIN-om na iPad-u, satnica i procenat od prodaje.'],
+      ]],
+      ['Za celu firmu', [
+        ['m:telegram', 'Dnevni izveštaj u Telegramu', 'Promet, popusti i otkazivanja svako veče.'],
+        ['m:migrate', 'Prenos iz drugog POS-a', 'Meni, normativi, stanje magacina i gosti iz vašeg sistema.'],
+      ]],
     ],
     free: 'besplatno',
+    billsTitle: 'Primeri računa',
+    bills: [
+      ['Kafić', '1 iPad i ekran kuhinje', { venues: 1, ipad: 1, kds: 1 }],
+      ['Restoran', '2 iPad-a, 2 ekrana kuhinje, 4 iPhone-a konobara', { venues: 1, ipad: 2, kds: 2, iphone: 4 }],
+      ['Mreža od 5 restorana', 'U svakom kao gore, i izveštaj u Telegramu', { venues: 5, ipad: 2, kds: 2, iphone: 4, telegram: true }],
+    ],
     howTitle: 'Kako se plaća',
     how: [
       'Prvih 30 dana besplatno — bez kartice i bez obaveze.',
-      'Zatim faktura firmi jednom mesečno, plaćanje na račun.',
-      'Godišnje unapred plaćate 10 meseci umesto 12.',
+      'Mesečno: faktura firmi svakog meseca, plaćanje na račun.',
+      'Godišnje: jedna faktura unapred — plaćate 10 meseci umesto 12.',
       'Cene su u dinarima, bez PDV-a; PDV od 20% dodaje se na fakturu.',
       'Pretplatu završavate kad želite, a podatke vam šaljemo u standardnom formatu.',
       'Ako plaćanje kasni, sala i kuhinja rade dalje — javljamo se pre bilo kakvog isključenja.',
     ],
     calc: {
       title: 'Izračunajte cenu', venues: 'Objekata', perVenue: 'U svakom objektu', ipad: 'iPad', kds: 'Ekrana kuhinje', iphone: 'iPhone konobara', kiosk: 'Kioska',
-      modsTitle: 'Dodaci', mods: { ips: 'IPS QR plaćanje', terminal: 'Bankovni terminal', shifts: 'Smene i plate', telegram: 'Izveštaj u Telegramu' },
-      month: 'Mesečno', year: 'Godišnje unapred', yearNote: '10 meseci umesto 12', vat: 'Iznosi su bez PDV-a.', less: 'Manje', more: 'Više',
-      lines: { venue: 'Objekat', ipad: 'Dodatni iPad', kds: 'Dodatni ekran kuhinje', iphone: 'iPhone konobara', waiter: 'Konobari na iPhone-u', kiosk: 'Kiosk', kioskMod: 'Kiosk za samostalno naručivanje', ips: 'IPS QR plaćanje', terminal: 'Bankovni terminal', shifts: 'Smene i plate', telegram: 'Izveštaj u Telegramu' },
+      modsTitle: 'Moduli', mods: { ips: 'IPS QR plaćanje', terminal: 'Bankovni terminal', shifts: 'Smene i plate', telegram: 'Izveštaj u Telegramu' },
+      month: 'Mesečno', year: 'Godišnje', yearNote: '2 meseca besplatno', vat: 'Iznosi su bez PDV-a.', less: 'Manje', more: 'Više',
+      lines: { venue: 'Objekat', ipad: 'Dodatni iPad', kds: 'Dodatni ekran kuhinje', iphone: 'iPhone konobara', kiosk: 'Kiosk', ips: 'IPS QR plaćanje', terminal: 'Bankovni terminal', shifts: 'Smene i plate', telegram: 'Izveštaj u Telegramu' },
     },
   },
   en: {
     title: 'Pricing',
-    lead: 'You pay per venue, plus the devices and add-ons you switch on. The first 30 days are free.',
-    venue: 'Venue', month: 'a month', vat: 'without VAT',
+    lead: 'You pay per venue and per device you connect — monthly or yearly. The first 30 days are free.',
+    vat: 'without VAT',
+    plans: {
+      month: { label: 'Monthly', unit: 'per venue, a month', points: ['An invoice every month', 'End the subscription whenever you like'] },
+      year: { label: 'Yearly', badge: '2 months free', unit: 'per venue, a year', points: ['Works out at {perMonth} a month', 'You save {saving} per venue', 'One invoice in advance for 12 months'] },
+    },
+    includesTitle: 'Included in a venue',
     includes: ['An iPad for the floor and the till', 'A kitchen screen', 'Menu, stock and recipes', 'Reports and the AI assistant', 'Staff, roles and the action log'],
-    addonsTitle: 'Devices and add-ons',
-    addonsUnit: 'RSD a month',
-    addons: [
-      ['Waiters on iPhone', [['m:waiter', 'per venue'], ['d:iphone', 'per phone']]],
-      ['Self-order kiosk', [['m:kiosk', 'per venue'], ['d:kiosk', 'per kiosk']]],
-      ['Extra iPad', [['d:ipad', '']]],
-      ['Extra kitchen screen', [['d:kds', '']]],
-      ['IPS QR payments', [['m:ips', 'per venue']]],
-      ['Bank terminal', [['m:terminal', 'per venue']]],
-      ['Shifts and pay', [['m:shifts', 'per venue']]],
-      ['Daily report in Telegram', [['m:telegram', 'for the whole company']]],
-      ['Moving from another POS', [['m:migrate', '']]],
+    tableTitle: 'Devices and modules',
+    cols: ['monthly', 'yearly'],
+    groups: [
+      ['Device licences — per device', [
+        ['d:iphone', 'Waiter’s iPhone', 'The order goes from the table straight to the kitchen; the bill and the QR are on the phone.'],
+        ['d:kiosk', 'Kiosk', 'Guests choose and order by themselves, and pay at the till by number.'],
+        ['d:ipad', 'Extra iPad', 'A second iPad for the floor, the bar or the till.'],
+        ['d:kds', 'Extra kitchen screen', 'For another station — the bar, the grill or the pastry.'],
+      ]],
+      ['Modules — per venue', [
+        ['m:ips', 'IPS QR payments', 'The guest pays by scanning the QR code with their bank’s app.'],
+        ['m:terminal', 'Bank terminal', 'The bill’s amount goes straight to the terminal, no typing.'],
+        ['m:shifts', 'Shifts and pay', 'Shifts by PIN on the iPad, hourly rates and a share of sales.'],
+      ]],
+      ['For the whole company', [
+        ['m:telegram', 'Daily report in Telegram', 'Sales, discounts and cancellations every evening.'],
+        ['m:migrate', 'Moving from another POS', 'Menu, recipes, stock and guests from your current system.'],
+      ]],
     ],
     free: 'free',
+    billsTitle: 'Example bills',
+    bills: [
+      ['Café', '1 iPad and a kitchen screen', { venues: 1, ipad: 1, kds: 1 }],
+      ['Restaurant', '2 iPads, 2 kitchen screens, 4 waiters’ iPhones', { venues: 1, ipad: 2, kds: 2, iphone: 4 }],
+      ['A group of 5 restaurants', 'Each as above, plus the report in Telegram', { venues: 5, ipad: 2, kds: 2, iphone: 4, telegram: true }],
+    ],
     howTitle: 'How you pay',
     how: [
       'The first 30 days are free — no card, no commitment.',
-      'Then an invoice to your company once a month, paid by bank transfer.',
-      'Paying a year in advance costs 10 months instead of 12.',
+      'Monthly: an invoice to your company every month, paid by bank transfer.',
+      'Yearly: one invoice in advance — you pay 10 months instead of 12.',
       'Prices are in dinars, without VAT; 20% VAT is added to the invoice.',
       'End the subscription whenever you like; we send you your data in a standard format.',
       'If a payment is late, the floor and the kitchen keep working — we call before anything is switched off.',
     ],
     calc: {
       title: 'Work out your price', venues: 'Venues', perVenue: 'In each venue', ipad: 'iPads', kds: 'Kitchen screens', iphone: 'Waiters’ iPhones', kiosk: 'Kiosks',
-      modsTitle: 'Add-ons', mods: { ips: 'IPS QR payments', terminal: 'Bank terminal', shifts: 'Shifts and pay', telegram: 'Report in Telegram' },
-      month: 'A month', year: 'A year in advance', yearNote: '10 months instead of 12', vat: 'Amounts without VAT.', less: 'Fewer', more: 'More',
-      lines: { venue: 'Venue', ipad: 'Extra iPad', kds: 'Extra kitchen screen', iphone: 'Waiter’s iPhone', waiter: 'Waiters on iPhone', kiosk: 'Kiosk', kioskMod: 'Self-order kiosk', ips: 'IPS QR payments', terminal: 'Bank terminal', shifts: 'Shifts and pay', telegram: 'Report in Telegram' },
+      modsTitle: 'Modules', mods: { ips: 'IPS QR payments', terminal: 'Bank terminal', shifts: 'Shifts and pay', telegram: 'Report in Telegram' },
+      month: 'A month', year: 'A year', yearNote: '2 months free', vat: 'Amounts without VAT.', less: 'Fewer', more: 'More',
+      lines: { venue: 'Venue', ipad: 'Extra iPad', kds: 'Extra kitchen screen', iphone: 'Waiter’s iPhone', kiosk: 'Kiosk', ips: 'IPS QR payments', terminal: 'Bank terminal', shifts: 'Shifts and pay', telegram: 'Report in Telegram' },
     },
   },
   ru: {
     title: 'Цены',
-    lead: 'Платите за заведение, плюс устройства и модули, которые включили. Первые 30 дней бесплатно.',
-    venue: 'Заведение', month: 'в месяц', vat: 'без ПДВ',
+    lead: 'Платите за заведение и за подключённые устройства — помесячно или за год. Первые 30 дней бесплатно.',
+    vat: 'без ПДВ',
+    plans: {
+      month: { label: 'Помесячно', unit: 'за заведение в месяц', points: ['Счёт каждый месяц', 'Подписку можно закончить в любой момент'] },
+      year: { label: 'За год', badge: '2 месяца бесплатно', unit: 'за заведение в год', points: ['Выходит {perMonth} в месяц', 'Экономия {saving} на заведении', 'Один счёт вперёд на 12 месяцев'] },
+    },
+    includesTitle: 'В цене заведения',
     includes: ['iPad для зала и кассы', 'Экран кухни', 'Меню, склад и техкарты', 'Отчёты и ИИ-помощник', 'Сотрудники, роли и журнал действий'],
-    addonsTitle: 'Устройства и модули',
-    addonsUnit: 'RSD в месяц',
-    addons: [
-      ['Официанты на iPhone', [['m:waiter', 'за заведение'], ['d:iphone', 'за телефон']]],
-      ['Киоск самообслуживания', [['m:kiosk', 'за заведение'], ['d:kiosk', 'за киоск']]],
-      ['Ещё один iPad', [['d:ipad', '']]],
-      ['Ещё один экран кухни', [['d:kds', '']]],
-      ['Оплата по QR (IPS)', [['m:ips', 'за заведение']]],
-      ['Банковский терминал', [['m:terminal', 'за заведение']]],
-      ['Смены и зарплата', [['m:shifts', 'за заведение']]],
-      ['Отчёт в Telegram каждый день', [['m:telegram', 'на всю компанию']]],
-      ['Перенос из другой POS', [['m:migrate', '']]],
+    tableTitle: 'Устройства и модули',
+    cols: ['в месяц', 'за год'],
+    groups: [
+      ['Лицензии на устройства — за устройство', [
+        ['d:iphone', 'iPhone официанта', 'Заказ со стола сразу уходит на кухню; счёт и QR — в телефоне.'],
+        ['d:kiosk', 'Киоск', 'Гости сами выбирают и заказывают, а платят на кассе по номеру.'],
+        ['d:ipad', 'Ещё один iPad', 'Второй iPad для зала, бара или кассы.'],
+        ['d:kds', 'Ещё один экран кухни', 'Для другого цеха — бара, гриля или кондитерской.'],
+      ]],
+      ['Модули — за заведение', [
+        ['m:ips', 'Оплата по QR (IPS)', 'Гость платит, отсканировав QR приложением своего банка.'],
+        ['m:terminal', 'Банковский терминал', 'Сумма счёта сразу уходит на терминал, без ручного ввода.'],
+        ['m:shifts', 'Смены и зарплата', 'Смены по PIN на iPad, ставка и процент с продаж.'],
+      ]],
+      ['На всю компанию', [
+        ['m:telegram', 'Отчёт в Telegram каждый день', 'Выручка, скидки и отмены каждый вечер.'],
+        ['m:migrate', 'Перенос из другой POS', 'Меню, техкарты, остатки и гости из вашей системы.'],
+      ]],
     ],
     free: 'бесплатно',
+    billsTitle: 'Примеры счетов',
+    bills: [
+      ['Кафе', '1 iPad и экран кухни', { venues: 1, ipad: 1, kds: 1 }],
+      ['Ресторан', '2 iPad, 2 экрана кухни, 4 iPhone официантов', { venues: 1, ipad: 2, kds: 2, iphone: 4 }],
+      ['Сеть из 5 ресторанов', 'В каждом как выше, плюс отчёт в Telegram', { venues: 5, ipad: 2, kds: 2, iphone: 4, telegram: true }],
+    ],
     howTitle: 'Как платить',
     how: [
       'Первые 30 дней бесплатно — без карты и обязательств.',
-      'Затем счёт на фирму раз в месяц, оплата переводом.',
-      'За год вперёд — 10 месяцев вместо 12.',
+      'Помесячно: счёт на фирму каждый месяц, оплата переводом.',
+      'За год: один счёт вперёд — 10 месяцев вместо 12.',
       'Цены в динарах, без ПДВ; ПДВ 20% добавляется в счёт.',
       'Подписку можно закончить в любой момент — ваши данные пришлём в стандартном формате.',
       'Если оплата задержалась, зал и кухня продолжают работать — перед любым отключением мы позвоним.',
@@ -290,8 +345,152 @@ const PRICING = {
     calc: {
       title: 'Посчитайте цену', venues: 'Заведений', perVenue: 'В каждом заведении', ipad: 'iPad', kds: 'Экранов кухни', iphone: 'iPhone официантов', kiosk: 'Киосков',
       modsTitle: 'Модули', mods: { ips: 'Оплата по QR (IPS)', terminal: 'Банковский терминал', shifts: 'Смены и зарплата', telegram: 'Отчёт в Telegram' },
-      month: 'В месяц', year: 'За год вперёд', yearNote: '10 месяцев вместо 12', vat: 'Суммы без ПДВ.', less: 'Меньше', more: 'Больше',
-      lines: { venue: 'Заведение', ipad: 'Ещё один iPad', kds: 'Ещё один экран кухни', iphone: 'iPhone официанта', waiter: 'Официанты на iPhone', kiosk: 'Киоск', kioskMod: 'Киоск самообслуживания', ips: 'Оплата по QR (IPS)', terminal: 'Банковский терминал', shifts: 'Смены и зарплата', telegram: 'Отчёт в Telegram' },
+      month: 'В месяц', year: 'За год', yearNote: '2 месяца бесплатно', vat: 'Суммы без ПДВ.', less: 'Меньше', more: 'Больше',
+      lines: { venue: 'Заведение', ipad: 'Ещё один iPad', kds: 'Ещё один экран кухни', iphone: 'iPhone официанта', kiosk: 'Киоск', ips: 'Оплата по QR (IPS)', terminal: 'Банковский терминал', shifts: 'Смены и зарплата', telegram: 'Отчёт в Telegram' },
+    },
+  },
+};
+
+// Sections after Toast's example (the owner's request of 12 October: «вдохновившись разделами на Тосте», not copied):
+// small things of a shift, who RUVO is for, why RUVO, what one needs; and the demo. Every line is something the app
+// does today (the prototype, version 24) — no reviews, figures or clients RUVO does not have yet.
+const MORE = {
+  sr: {
+    checks: ['30 dana besplatno', 'od {price} mesečno', 'bez ugovorne obaveze'],
+    demo: { cta: 'Isprobajte demo', note: 'Sve ovo možete da probate sami — demo restoran radi u vašem pregledaču.', link: 'Otvorite demo', page: { title: 'Demo restoran — RUVO', description: 'Isprobajte RUVO u pregledaču: iPad za salu, iPhone konobara, ekran kuhinje i kiosk, sa demo menijem.', noscript: 'Za demo je potreban JavaScript.' } },
+    rush: {
+      title: 'Sitnice koje spasavaju smenu',
+      lead: 'Ono što se dešava usred gužve, rešeno u samom sistemu.',
+      items: [
+        ['Kursevi i „Pozovi”', 'Drugi kurs čeka u kuhinji dok ga konobar ne pozove — tada tiket zazvoni i trepće.'],
+        ['Stop-lista sa porcijama', 'Jelo samo prelazi u stop kad se porcije potroše; više od ostatka ne može da se poruči.'],
+        ['Deljenje računa', 'Plaćanje po stavkama ili u delovima, svaki deo svojim načinom plaćanja.'],
+        ['Kusur bez greške', 'Unesete koliko je gost dao, a RUVO krupno pokaže kusur.'],
+        ['Otkazivanje uz PIN', 'Poslato jelo otkazuje samo onaj ko ima pravo, uz razlog; ako je kuhinja počela, namirnice idu u otpis.'],
+        ['Popusti pod kontrolom', 'Popust za osoblje i komplimenti samo uz PIN menadžera, i sve ostaje u dnevniku radnji.'],
+        ['„Vrati sto”', 'Zatvoren sto se ponovo otvara uz PIN i razlog; magacin i promet se sami isprave.'],
+        ['Plan sale za minut', 'Stolove, sale i oznake premeštate prevlačenjem na iPad-u.'],
+        ['Lični PIN', 'Svako radi pod svojim imenom, a iPad se sam zaključa posle pet minuta.'],
+        ['Dostava na istom ekranu', 'Porudžbine za Wolt i Glovo idu u kuhinju zajedno sa salom, sa vremenom dolaska kurira.'],
+        ['Radni dan do 5 ujutru', 'Za lokale koji rade posle ponoći: promet ide u pravi dan.'],
+        ['Alergeni za goste', '14 alergena EU za svako jelo, iz normativa, u kiosku i kod konobara.'],
+      ],
+    },
+    who: {
+      title: 'Za koga je RUVO',
+      lead: 'Jedan sistem, podešen za način na koji služite.',
+      items: [
+        ['Restoran sa salom', 'Plan sale, kursevi i konobari na iPhone-u; magacin i normativi za svako jelo.'],
+        ['Kafić i bar', 'Porudžbine za šankom na iPad-u, šank kao posebna stanica na ekranu, smene i plate.'],
+        ['Brza hrana i pekara', 'Kiosk za samostalno naručivanje, brojevi porudžbina i ekran kuhinje.'],
+        ['Mreža objekata', 'Jedan nalog za sve objekte, poseban magacin svakog i izveštaji za celu mrežu.'],
+      ],
+    },
+    why: {
+      title: 'Zašto RUVO',
+      items: [
+        ['Fiskalna kasa ostaje vaša', 'RUVO vodi salu, kuhinju i magacin, a račun i dalje izdaje kasa koju već imate. U fiskalizaciji ne menjate ništa.'],
+        ['Bez ugovorne obaveze', 'Plaćate mesečno ili godišnje, po objektu i uređaju. Pretplatu završavate kad želite.'],
+        ['Podaci u Evropskoj uniji', 'Serveri su u Nemačkoj, a podaci svakog restorana odvojeni su u samoj bazi.'],
+        ['Nastao u restoranu', 'RUVO pravimo za sopstvene restorane u Beogradu, pa ga prvo isprobavamo u svojoj sali i kuhinji.'],
+      ],
+    },
+    equip: {
+      title: 'Šta vam treba',
+      items: ['iPad za salu i kasu', 'iPhone za konobare — ako ih koristite', 'Tablet za kuhinju — po jedan na stanicu', 'Ruter sa rezervnom 4G vezom', 'Vaša fiskalna kasa; bankovni terminal po želji'],
+      note: 'Back-office radi u pregledaču na bilo kom računaru.',
+    },
+  },
+  en: {
+    checks: ['30 days free', 'from {price} a month', 'no lock-in contract'],
+    demo: { cta: 'Try the demo', note: 'You can try all of this yourself — the demo restaurant runs in your browser, in Serbian or Russian.', link: 'Open the demo' },
+    rush: {
+      title: 'Small things that save a shift',
+      lead: 'What happens mid-rush, handled in the system itself.',
+      items: [
+        ['Courses and “Fire”', 'The second course waits in the kitchen until the waiter fires it — then the ticket rings and flashes.'],
+        ['Stop list with portions', 'A dish goes on stop by itself when its portions run out; nobody can order more than is left.'],
+        ['Split bills', 'Pay by items or in parts, each part with its own payment method.'],
+        ['Change without mistakes', 'Type what the guest handed over, and RUVO shows the change in big digits.'],
+        ['Cancelling with a PIN', 'A sent dish is cancelled only by someone allowed to, with a reason; if the kitchen had started, the ingredients go to waste.'],
+        ['Discounts under control', 'Staff discounts and complimentary dishes only with a manager’s PIN, and all of it stays in the action log.'],
+        ['“Bring the table back”', 'A closed table reopens with a PIN and a reason; stock and sales correct themselves.'],
+        ['A floor plan in a minute', 'Move tables, rooms and labels by dragging on the iPad.'],
+        ['Personal PIN', 'Everyone works under their own name, and the iPad locks itself after five minutes.'],
+        ['Delivery on the same screen', 'Orders for Wolt and Glovo go to the kitchen together with the floor, with the courier’s arrival time.'],
+        ['A working day until 5 a.m.', 'For places open after midnight: sales land on the right day.'],
+        ['Allergens for guests', 'The 14 EU allergens for every dish, from its recipe, on the kiosk and for the waiter.'],
+      ],
+    },
+    who: {
+      title: 'Who RUVO is for',
+      lead: 'One system, set up for the way you serve.',
+      items: [
+        ['A restaurant with a dining room', 'Floor plan, courses and waiters on iPhone; stock and recipes for every dish.'],
+        ['Café and bar', 'Orders at the bar on the iPad, the bar as its own station on the screen, shifts and pay.'],
+        ['Fast food and bakery', 'A self-order kiosk, order numbers and the kitchen screen.'],
+        ['A group of venues', 'One account for all venues, each with its own stock, and reports for the whole group.'],
+      ],
+    },
+    why: {
+      title: 'Why RUVO',
+      items: [
+        ['Your fiscal register stays', 'RUVO runs the floor, the kitchen and stock, and the receipt still comes from the register you already have. Nothing changes in your fiscalization.'],
+        ['No lock-in contract', 'Pay monthly or yearly, per venue and device. End the subscription whenever you like.'],
+        ['Data in the European Union', 'The servers are in Germany, and each restaurant’s data is kept apart in the database itself.'],
+        ['Made in a restaurant', 'We build RUVO for our own restaurants in Belgrade, so we try it first in our own dining room and kitchen.'],
+      ],
+    },
+    equip: {
+      title: 'What you need',
+      items: ['An iPad for the floor and the till', 'iPhones for waiters — if you use them', 'A tablet for the kitchen — one per station', 'A router with a backup 4G connection', 'Your fiscal register; a bank terminal if you like'],
+      note: 'The back office runs in a browser on any computer.',
+    },
+  },
+  ru: {
+    checks: ['30 дней бесплатно', 'от {price} в месяц', 'без обязательств по договору'],
+    demo: { cta: 'Попробовать демо', note: 'Всё это можно попробовать самим — демо-ресторан работает прямо в вашем браузере.', link: 'Открыть демо', page: { title: 'Демо-ресторан — RUVO', description: 'Попробуйте RUVO в браузере: iPad для зала, iPhone официанта, экран кухни и киоск с демо-меню.', noscript: 'Для демо нужен JavaScript.' } },
+    rush: {
+      title: 'Мелочи, которые спасают смену',
+      lead: 'То, что случается в разгар смены, решено в самой системе.',
+      items: [
+        ['Курсы и «Вызвать»', 'Второй курс ждёт на кухне, пока официант его не вызовет, — тогда тикет звенит и мигает.'],
+        ['Стоп-лист с порциями', 'Блюдо само уходит в стоп, когда порции закончились; больше остатка не заказать.'],
+        ['Деление счёта', 'Оплата по позициям или частями, у каждой части свой способ оплаты.'],
+        ['Сдача без ошибок', 'Вводите, сколько дал гость, а RUVO крупно показывает сдачу.'],
+        ['Отмена по PIN', 'Отправленное блюдо отменяет только тот, у кого есть право, с причиной; если кухня начала готовить, продукты уходят в списание.'],
+        ['Скидки под контролем', 'Скидка персоналу и комплимент — только с PIN менеджера, и всё остаётся в журнале действий.'],
+        ['«Вернуть стол»', 'Закрытый стол открывается снова с PIN и причиной; склад и выручка исправляются сами.'],
+        ['План зала за минуту', 'Столы, залы и подписи перетаскиваются прямо на iPad.'],
+        ['Личный PIN', 'Каждый работает под своим именем, а iPad сам блокируется через пять минут.'],
+        ['Доставка на том же экране', 'Заказы для Wolt и Glovo идут на кухню вместе с залом — со временем приезда курьера.'],
+        ['Рабочий день до 5 утра', 'Для заведений, которые работают после полуночи: выручка попадает в нужный день.'],
+        ['Аллергены для гостей', '14 аллергенов ЕС у каждого блюда — по техкарте, в киоске и у официанта.'],
+      ],
+    },
+    who: {
+      title: 'Для кого RUVO',
+      lead: 'Одна система, настроенная под то, как вы обслуживаете.',
+      items: [
+        ['Ресторан с залом', 'План зала, курсы и официанты на iPhone; склад и техкарты на каждое блюдо.'],
+        ['Кафе и бар', 'Заказы у стойки на iPad, бар как отдельный цех на экране, смены и зарплата.'],
+        ['Фастфуд и пекарня', 'Киоск самообслуживания, номера заказов и экран кухни.'],
+        ['Сеть заведений', 'Один аккаунт на все заведения, у каждого свой склад, и отчёты по всей сети.'],
+      ],
+    },
+    why: {
+      title: 'Почему RUVO',
+      items: [
+        ['Фискальная касса остаётся вашей', 'RUVO ведёт зал, кухню и склад, а чек по-прежнему печатает ваша касса. В фискализации ничего не меняется.'],
+        ['Без обязательств по договору', 'Платите помесячно или за год, за заведение и устройство. Подписку можно закончить в любой момент.'],
+        ['Данные в Евросоюзе', 'Серверы в Германии, а данные каждого ресторана разделены в самой базе.'],
+        ['Сделан в ресторане', 'RUVO мы делаем для своих ресторанов в Белграде, поэтому сначала проверяем его в своём зале и на своей кухне.'],
+      ],
+    },
+    equip: {
+      title: 'Что нужно',
+      items: ['iPad для зала и кассы', 'iPhone для официантов — если они нужны', 'Планшет для кухни — по одному на цех', 'Роутер с резервным 4G', 'Ваша фискальная касса; банковский терминал — по желанию'],
+      note: 'Бэкофис работает в браузере на любом компьютере.',
     },
   },
 };
@@ -311,8 +510,7 @@ export const T = {
       h1: 'Sala, kuhinja i magacin u jednom sistemu',
       lead: 'RUVO prima porudžbine na iPad-u i iPhone-u, šalje ih na ekran kuhinje, otpisuje namirnice po normativima i pravi izveštaje. Za jedan objekat ili za celu mrežu.',
       cta: 'Pišite nam',
-      trial: 'Prvih 30 dana besplatno,',
-      from: 'zatim od {price} mesečno',
+      ...MORE.sr,
       ticket: TICKET.sr,
       examples: EXAMPLES.sr,
       pricing: PRICING.sr,
@@ -335,7 +533,7 @@ export const T = {
         ['Pišete nam', 'Na hello@ruvo.ac, ukratko o objektu: sale, stolovi, uređaji.'],
         ['Otvaramo nalog', 'Prenosimo meni, normative i stanje magacina iz vašeg dosadašnjeg sistema ili tabele.'],
         ['Povezujete uređaje', 'iPad, iPhone konobara i ekran kuhinje povezuju se jednokratnim kodom iz back-office-a.'],
-        ['30 dana besplatno', 'Zatim mesečna pretplata po cenovniku, faktura jednom mesečno.'],
+        ['30 dana besplatno', 'Zatim pretplata po cenovniku — mesečno ili godišnje.'],
       ],
       fiscal: 'Fiskalni račun izdaje vaša fiskalna kasa. RUVO vodi porudžbine, kuhinju, magacin i izveštaje, a način plaćanja beleži da bi se iznosi slagali sa kasom.',
       contactTitle: 'Kontakt',
@@ -406,8 +604,7 @@ export const T = {
       h1: 'Dining room, kitchen and stock in one system',
       lead: 'RUVO takes orders on iPad and iPhone, sends them to the kitchen screen, writes off ingredients by recipe and builds the reports. For one venue or a whole group.',
       cta: 'Write to us',
-      trial: 'First 30 days free,',
-      from: 'then from {price} a month',
+      ...MORE.en,
       ticket: TICKET.en,
       examples: EXAMPLES.en,
       pricing: PRICING.en,
@@ -430,7 +627,7 @@ export const T = {
         ['You write to us', 'At hello@ruvo.ac, briefly about the venue: rooms, tables, devices.'],
         ['We open the account', 'We move your menu, recipes and stock from your current system or a spreadsheet.'],
         ['You connect the devices', 'The iPad, the waiters’ iPhones and the kitchen screen join with a one-time code from the back office.'],
-        ['30 days free', 'Then a monthly subscription by the price list, invoiced once a month.'],
+        ['30 days free', 'Then a subscription by the price list — monthly or yearly.'],
       ],
       fiscal: 'Your fiscal cash register issues the fiscal receipt. RUVO runs orders, the kitchen, stock and reports, and records the payment method so the totals match the register.',
       contactTitle: 'Contact',
@@ -501,8 +698,7 @@ export const T = {
       h1: 'Зал, кухня и склад в одной системе',
       lead: 'RUVO принимает заказы на iPad и iPhone, отправляет их на экран кухни, списывает продукты по техкартам и строит отчёты. Для одного заведения или целой сети.',
       cta: 'Напишите нам',
-      trial: 'Первые 30 дней бесплатно,',
-      from: 'затем от {price} в месяц',
+      ...MORE.ru,
       ticket: TICKET.ru,
       examples: EXAMPLES.ru,
       pricing: PRICING.ru,
@@ -525,7 +721,7 @@ export const T = {
         ['Вы пишете нам', 'На hello@ruvo.ac — коротко о заведении: залы, столы, устройства.'],
         ['Мы открываем аккаунт', 'Переносим меню, техкарты и остатки из вашей нынешней системы или таблицы.'],
         ['Вы подключаете устройства', 'iPad, iPhone официантов и экран кухни подключаются одноразовым кодом из бэкофиса.'],
-        ['30 дней бесплатно', 'Затем ежемесячная подписка по прайсу, счёт раз в месяц.'],
+        ['30 дней бесплатно', 'Затем подписка по прайсу — помесячно или за год.'],
       ],
       fiscal: 'Фискальный чек печатает ваша фискальная касса. RUVO ведёт заказы, кухню, склад и отчёты и отмечает способ оплаты, чтобы суммы сходились с кассой.',
       contactTitle: 'Контакты',

@@ -16,7 +16,7 @@ export const SIGNUP = {
         ['Registrujete se', 'Na ruvo.ac, za dva minuta: restoran, ime i e-pošta. Link za potvrdu stiže odmah.'],
         ['Podešavate meni i tim', 'Sami u back-office-u, ili mi prenosimo meni, normative i stanje iz vašeg sistema ili tabele.'],
         ['Povezujete uređaje', 'iPad, iPhone konobara i ekran kuhinje povezuju se jednokratnim kodom iz back-office-a.'],
-        ['30 dana besplatno', 'Od prvog povezanog uređaja. Zatim pretplata po cenovniku, faktura jednom mesečno.'],
+        ['30 dana besplatno', 'Od prvog povezanog uređaja. Zatim pretplata po cenovniku — mesečno ili godišnje.'],
       ],
     },
     signup: {
@@ -110,7 +110,7 @@ export const SIGNUP = {
       sections: [
         ['Ko pruža uslugu', ['Uslugu RUVO pruža {company}, PIB {pib}, {address} („mi”). Ove uslove prihvatate kada otvorite nalog na ruvo.ac ili počnete da koristite RUVO. Pitanja: {email}.']],
         ['Šta je RUVO', [
-          'RUVO je sistem za restorane koji radi kao usluga preko interneta: aplikacija za iPad i iPhone, ekran kuhinje, kiosk i back-office (meni, magacin i normativi, izveštaji, zaposleni), sa dodacima koje uključite.',
+          'RUVO je sistem za restorane koji radi kao usluga preko interneta: aplikacija za iPad i iPhone, ekran kuhinje, kiosk i back-office (meni, magacin i normativi, izveštaji, zaposleni), sa modulima koje uključite.',
           'RUVO nije fiskalni uređaj. Fiskalni račun izdaje vaša fiskalna kasa, a za fiskalizaciju, poreze i evidencije koje zakon traži od ugostitelja odgovarate vi. RUVO beleži način plaćanja da bi se iznosi mogli uporediti sa kasom.',
         ]],
         ['Nalog', [[
@@ -118,12 +118,12 @@ export const SIGNUP = {
           'Podaci koje navedete pri registraciji treba da budu tačni; promene nam javite.',
           'Vi odlučujete ko od zaposlenih ima pristup i sa kojim pravima. Čuvajte PIN-ove i uređaje: izgubljen uređaj isključite u back-office-u, a sumnju na neovlašćen pristup javite nam odmah.',
         ]]],
-        ['Probni period', ['Prvih 30 dana je besplatno i računa se od povezivanja prvog uređaja; kartica nije potrebna. Pre isteka probnog perioda šaljemo fakturu za prvi mesec. Ako ne želite da nastavite, javite nam — fakturu poništavamo i zatvaramo nalog.']],
+        ['Probni period', ['Prvih 30 dana je besplatno i računa se od povezivanja prvog uređaja; kartica nije potrebna. Pre isteka probnog perioda šaljemo prvu fakturu — za mesec ili za godinu, kako izaberete. Ako ne želite da nastavite, javite nam — fakturu poništavamo i zatvaramo nalog.']],
         ['Cene i plaćanje', [[
-          'Plaćate po cenovniku objavljenom na ruvo.ac, u delu {pricing}: po objektu, za uređaje preko onih koji su u ceni objekta i za dodatke uključene u pojedinim objektima ili za celu firmu.',
-          'Fakturu šaljemo jednom mesečno, unapred za naredni mesec; plaća se na račun u roku navedenom na fakturi. Godišnje unapred plaćate 10 meseci umesto 12.',
+          'Plaćate po cenovniku objavljenom na ruvo.ac, u delu {pricing}: po objektu, za uređaje preko onih koji su u ceni objekta i za module uključene u pojedinim objektima ili za celu firmu.',
+          'Mesečno: fakturu šaljemo jednom mesečno, unapred za naredni mesec. Godišnje: jedna faktura unapred za 12 meseci, u iznosu od 10 meseci. Plaća se na račun u roku navedenom na fakturi.',
           'Cene su u dinarima, bez PDV-a; PDV se obračunava po zakonu.',
-          'Promene u broju objekata, uređaja i dodataka obračunavamo od sledeće fakture.',
+          'Promene u broju objekata, uređaja i modula obračunavamo od sledeće fakture.',
           'Cene možemo da promenimo uz najavu e-poštom najmanje 30 dana unapred; već plaćeni period se ne menja.',
         ]]],
         ['Ako plaćanje kasni', ['Sedam dana posle roka back-office prikazuje podsetnik; zatim back-office radi samo za čitanje, a sala, kuhinja i porudžbine rade dalje. Nalog isključujemo tek pošto vas kontaktiramo, a uključujemo ga čim se dug izmiri.']],
@@ -164,7 +164,7 @@ export const SIGNUP = {
         ['You sign up', 'On ruvo.ac, in two minutes: the restaurant, your name and email. The confirmation link arrives at once.'],
         ['You set up the menu and the team', 'Yourself in the back office, or we move your menu, recipes and stock from your current system or a spreadsheet.'],
         ['You connect the devices', 'The iPad, the waiters’ iPhones and the kitchen screen join with a one-time code from the back office.'],
-        ['30 days free', 'From the first device you connect. Then a subscription by the price list, invoiced once a month.'],
+        ['30 days free', 'From the first device you connect. Then a subscription by the price list — monthly or yearly.'],
       ],
     },
     signup: {
@@ -258,7 +258,7 @@ export const SIGNUP = {
       sections: [
         ['Who provides the service', ['RUVO is provided by {company}, Tax ID (PIB) {pib}, {address}, Serbia (“we”). You accept these terms when you open an account on ruvo.ac or start using RUVO. Questions: {email}.']],
         ['What RUVO is', [
-          'RUVO is a system for restaurants provided as a service over the internet: an app for iPad and iPhone, a kitchen screen, a kiosk and a back office (menu, stock and recipes, reports, staff), with the add-ons you switch on.',
+          'RUVO is a system for restaurants provided as a service over the internet: an app for iPad and iPhone, a kitchen screen, a kiosk and a back office (menu, stock and recipes, reports, staff), with the modules you switch on.',
           'RUVO is not a fiscal device. Your fiscal cash register issues the fiscal receipt, and you are responsible for fiscalization, taxes and the records the law requires of a restaurant. RUVO records the payment method so the totals can be compared with the register.',
         ]],
         ['The account', [[
@@ -266,12 +266,12 @@ export const SIGNUP = {
           'The details you give when signing up should be accurate; tell us when they change.',
           'You decide which staff have access and with which rights. Keep PINs and devices safe: switch a lost device off in the back office, and tell us at once if you suspect unauthorised access.',
         ]]],
-        ['The trial', ['The first 30 days are free and count from the first device you connect; no card is needed. Before the trial ends we send the invoice for the first month. If you do not want to continue, tell us — we cancel the invoice and close the account.']],
+        ['The trial', ['The first 30 days are free and count from the first device you connect; no card is needed. Before the trial ends we send the first invoice — for a month or for a year, as you choose. If you do not want to continue, tell us — we cancel the invoice and close the account.']],
         ['Prices and payment', [[
-          'You pay by the price list published on ruvo.ac, under {pricing}: per venue, for devices beyond those included in a venue, and for the add-ons switched on in particular venues or for the whole company.',
-          'We invoice once a month, in advance for the next month; you pay by bank transfer within the term stated on the invoice. Paying a year in advance costs 10 months instead of 12.',
+          'You pay by the price list published on ruvo.ac, under {pricing}: per venue, for devices beyond those included in a venue, and for the modules switched on in particular venues or for the whole company.',
+          'Monthly: we invoice once a month, in advance for the next month. Yearly: one invoice in advance for 12 months, for the amount of 10. You pay by bank transfer within the term stated on the invoice.',
           'Prices are in dinars, without VAT; VAT is charged as the law requires.',
-          'Changes in the number of venues, devices and add-ons are charged from the next invoice.',
+          'Changes in the number of venues, devices and modules are charged from the next invoice.',
           'We may change prices with at least 30 days’ notice by email; a period already paid does not change.',
         ]]],
         ['If a payment is late', ['Seven days after the due date the back office shows a reminder; then the back office becomes read-only, while the floor, the kitchen and orders keep working. We switch an account off only after we have contacted you, and switch it back on as soon as the debt is paid.']],
@@ -312,7 +312,7 @@ export const SIGNUP = {
         ['Вы регистрируетесь', 'На ruvo.ac за две минуты: ресторан, имя и почта. Ссылка для подтверждения приходит сразу.'],
         ['Настраиваете меню и команду', 'Сами в бэкофисе — или мы перенесём меню, техкарты и остатки из вашей системы или таблицы.'],
         ['Подключаете устройства', 'iPad, iPhone официантов и экран кухни подключаются одноразовым кодом из бэкофиса.'],
-        ['30 дней бесплатно', 'С подключения первого устройства. Затем подписка по прайсу, счёт раз в месяц.'],
+        ['30 дней бесплатно', 'С подключения первого устройства. Затем подписка по прайсу — помесячно или за год.'],
       ],
     },
     signup: {
@@ -414,10 +414,10 @@ export const SIGNUP = {
           'Данные, которые вы указываете при регистрации, должны быть верными; об изменениях сообщайте нам.',
           'Вы решаете, у кого из сотрудников есть доступ и с какими правами. Берегите PIN и устройства: потерянное устройство отключите в бэкофисе, а о подозрении на чужой доступ сообщите нам сразу.',
         ]]],
-        ['Пробный период', ['Первые 30 дней бесплатны и считаются с подключения первого устройства; карта не нужна. До конца пробного периода мы присылаем счёт за первый месяц. Если не хотите продолжать, сообщите нам — мы отменим счёт и закроем аккаунт.']],
+        ['Пробный период', ['Первые 30 дней бесплатны и считаются с подключения первого устройства; карта не нужна. До конца пробного периода мы присылаем первый счёт — за месяц или за год, как выберете. Если не хотите продолжать, сообщите нам — мы отменим счёт и закроем аккаунт.']],
         ['Цены и оплата', [[
           'Вы платите по прайсу, опубликованному на ruvo.ac в разделе {pricing}: за заведение, за устройства сверх включённых в цену заведения и за модули, включённые в отдельных заведениях или на всю компанию.',
-          'Счёт мы выставляем раз в месяц, заранее за следующий месяц; оплата — переводом в срок, указанный в счёте. За год вперёд — 10 месяцев вместо 12.',
+          'Помесячно: счёт раз в месяц, заранее за следующий месяц. За год: один счёт вперёд на 12 месяцев, на сумму 10 месяцев. Оплата — переводом в срок, указанный в счёте.',
           'Цены в динарах, без ПДВ; ПДВ начисляется по закону.',
           'Изменения в числе заведений, устройств и модулей учитываются со следующего счёта.',
           'Цены мы можем изменить, предупредив по почте не менее чем за 30 дней; уже оплаченный период не меняется.',
