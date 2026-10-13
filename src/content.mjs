@@ -505,7 +505,7 @@ export const PHOTOS = {
 
 const MORE = {
   sr: {
-    demo: { cta: 'Isprobajte demo', note: 'Sve ovo možete da probate sami — demo restoran radi u vašem pregledaču.', link: 'Otvorite demo', page: { title: 'Demo restoran — RUVO', description: 'Isprobajte RUVO u pregledaču: terminal sale, uređaj konobara, ekran kuhinje, kiosk i bekofis, sa demo menijem.', noscript: 'Za demo je potreban JavaScript.' } },
+    demo: { cta: 'Isprobajte demo', note: 'Sve ovo možete da probate sami — demo restoran radi u vašem pregledaču.', link: 'Otvorite demo', page: { title: 'Demo restoran — RUVO', description: 'Isprobajte RUVO u pregledaču: terminal sale, uređaj konobara, ekran kuhinje, kiosk, bekofis, aplikacija za goste i ekran za preuzimanje, sa demo menijem.', noscript: 'Za demo je potreban JavaScript.' } },
     suite: {
       title: 'Sve što objektu treba',
       lead: 'Sala, kuhinja, magacin i tim u jednom sistemu — porudžbina stiže u kuhinju za sekundu.',
@@ -637,7 +637,7 @@ const MORE = {
     final: { title: 'Try RUVO in your venue', text: 'The first 30 days are free — no card, no commitment. Or open the demo first: it runs in your browser.' },
   },
   ru: {
-    demo: { cta: 'Попробовать демо', note: 'Всё это можно попробовать самим — демо-ресторан работает прямо в вашем браузере.', link: 'Открыть демо', page: { title: 'Демо-ресторан — RUVO', description: 'Попробуйте RUVO в браузере: фронт, устройство официанта, экран кухни, киоск и бэкофис — с демо-меню.', noscript: 'Для демо нужен JavaScript.' } },
+    demo: { cta: 'Попробовать демо', note: 'Всё это можно попробовать самим — демо-ресторан работает прямо в вашем браузере.', link: 'Открыть демо', page: { title: 'Демо-ресторан — RUVO', description: 'Попробуйте RUVO в браузере: фронт, устройство официанта, экран кухни, киоск, бэкофис, приложение для гостей и табло выдачи — с демо-меню.', noscript: 'Для демо нужен JavaScript.' } },
     suite: {
       title: 'Всё, что нужно заведению',
       lead: 'Зал, кухня, склад и команда — в одной системе: заказ доходит до кухни за секунду.',
