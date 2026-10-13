@@ -334,8 +334,14 @@ overflow-wrap: anywhere;
 .hero-art.has-photo .photo { grid-area: 1 / 1; width: 76%; justify-self: end; }
 .hero-art.has-photo .scene { position: relative; grid-area: 1 / 1; display: block; }
 .hero-art.has-photo .pad { display: none; }
-.hero-art.has-photo .kds-t { position: absolute; top: 14%; right: 70%; width: 196px; margin: 0; }
-@media (max-width: 1279px) { .hero-art.has-photo .kds-t { width: 176px; } .hero-art.has-photo .kds-t .kl-n { font-size: var(--fs-sm); } }
+.hero-art.has-photo .kds-t { position: absolute; top: 14%; right: 67.5%; width: 196px; margin: 0; }
+@media (max-width: 1279px) {
+.hero-art.has-photo .kds-t { width: 186px; }
+.hero-art.has-photo .kds-t .kds-head { gap: 6px; padding-inline: 12px; }
+.hero-art.has-photo .kds-t .kds-no { font-size: var(--fs-md); }
+.hero-art.has-photo .kds-t .kds-time { font-size: var(--fs-sm); }
+.hero-art.has-photo .kds-t .kl-n { font-size: var(--fs-sm); }
+}
 @media (min-width: 1001px) {
 .hero-art .photo.slot { place-items: start end; }
 .hero-art .photo.slot .slot-in { justify-items: end; max-width: 27ch; padding: 24px 28px; text-align: right; }
