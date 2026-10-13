@@ -360,27 +360,27 @@ h2 { font-size: var(--fs-h2); font-weight: 700; line-height: 1.1; letter-spacing
 .slot-n { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-size: var(--fs-xs); font-weight: 700; letter-spacing: var(--track-caps); text-transform: uppercase; }
 .slot-n svg { width: 18px; height: 18px; flex: none; }
 .slot-in code { color: var(--ink-3); font-family: var(--font-timer); font-size: 11px; }
-/* the hero with its photo: the photo of a real service on the right, the order over its lower left corner and the
-   kitchen ticket over its upper right one; on a narrow screen the photo, then the order and the ticket under it */
+/* the hero with its photo: the front terminal at work, on the right — the order is on its own screen there, so the
+   drawn order goes — and the kitchen ticket over the photo's left edge, clear of the terminal; on a narrow screen the
+   photo alone, the terminal kept in the frame */
 .hero-art { position: relative; min-width: 0; }
-.hero-art.has-photo { display: grid; padding-bottom: 28px; }
+.hero-art.has-photo { display: grid; }
 .hero-art.has-photo .photo { grid-area: 1 / 1; width: 76%; justify-self: end; }
 .hero-art.has-photo .scene { position: relative; grid-area: 1 / 1; display: block; }
-.hero-art.has-photo .pad { position: absolute; left: 0; bottom: -28px; width: min(330px, 62%); }
-.hero-art.has-photo .kds-t { position: absolute; top: 40px; right: -16px; width: 196px; margin: 0; }
-/* the empty place in the preview: its words in the upper left corner, clear of the order and the ticket */
+.hero-art.has-photo .pad { display: none; }
+/* the photo takes the right 76%, the terminal on it starts a sixth of the way in: the ticket ends just before it,
+   sticking out into the gap before the text where the column is narrow */
+.hero-art.has-photo .kds-t { position: absolute; top: 16%; right: 65%; width: 196px; margin: 0; }
+/* the empty place in the preview: its words in the upper right corner, clear of the ticket */
 @media (min-width: 1001px) {
-  .hero-art .photo.slot { place-items: start; }
-  .hero-art .photo.slot .slot-in { justify-items: start; max-width: 27ch; padding: 24px 28px; text-align: left; }
+  .hero-art .photo.slot { place-items: start end; }
+  .hero-art .photo.slot .slot-in { justify-items: end; max-width: 27ch; padding: 24px 28px; text-align: right; }
 }
 @media (max-width: 1000px) {
-  .hero-art.has-photo { padding-bottom: 0; }
   .hero-art.has-photo .photo { width: 100%; aspect-ratio: 4 / 3; }
-  .hero-art.has-photo .scene { grid-area: auto; display: flex; margin-top: -48px; padding-inline: 12px; }
-  .hero-art.has-photo .pad, .hero-art.has-photo .kds-t { position: static; width: auto; }
-  .hero-art.has-photo .kds-t { margin-top: 88px; }
+  .hero-art.has-photo .photo img { object-position: 50% 72%; }
+  .hero-art.has-photo .scene { display: none; }
 }
-@media (max-width: 560px) { .hero-art.has-photo .kds-t { margin-top: -18px; } }
 /* the example's photo in real life, under its text */
 .ex-text .photo { margin-top: var(--sp-3); border-radius: var(--r-lg); }
 /* the kinds of venue: a row of photos above the cards */

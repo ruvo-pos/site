@@ -457,7 +457,9 @@ function photo(lang, file, id, caption = '') {
   const p = PHOTOS[id];
   const f = PHOTO_FILES[id];
   const style = ` style="--ratio: ${p.ratio}"`;
-  if (f) return `<figure class="photo"${style}><img src="${href(file, `img/${f}`)}" alt="${esc(p.alt[lang])}" loading="lazy" decoding="async">${caption ? `<figcaption>${esc(caption)}</figcaption>` : ''}</figure>`;
+  // the hero's photo is the first thing on the page: it loads at once, the rest as the page scrolls to them
+  const load = id === 'hero' ? 'fetchpriority="high"' : 'loading="lazy"';
+  if (f) return `<figure class="photo"${style}><img src="${href(file, `img/${f}`)}" alt="${esc(p.alt[lang])}" ${load} decoding="async">${caption ? `<figcaption>${esc(caption)}</figcaption>` : ''}</figure>`;
   if (!PREVIEW) return '';
   return `<figure class="photo slot"${style} aria-hidden="true"><span class="slot-in"><span class="slot-n">${CAMERA}Фото ${PHOTO_NO[id]}${caption ? ` · ${esc(caption)}` : ''}</span><span class="slot-t">${esc(p.shot)}</span><code>src/photos/${id}.jpg</code></span></figure>`;
 }

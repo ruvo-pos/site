@@ -478,7 +478,7 @@ const PRICING = {
 // without faces.
 export const PHOTOS = {
   hero: { ratio: '4 / 5', shot: 'Фронт на баре в разгар смены: на экране план зала, за ним зал с гостями. Вертикальное 4:5.',
-    alt: { sr: 'Terminal sale na šanku restorana tokom smene', en: 'The front terminal on a restaurant bar during service', ru: 'Фронт на баре ресторана во время смены' } },
+    alt: { sr: 'Terminal sale RUVO sa planom sale na pultu kafića, iza njega police sa hlebom', en: 'The RUVO front terminal showing the floor plan on a café counter, bread shelves behind it', ru: 'Фронт RUVO с планом зала на стойке кафе, за ним — полки с хлебом' } },
   'ex-floor': { ratio: '4 / 3', shot: 'Фронт на стойке крупно: рука касается стола на плане зала. Горизонтальное 4:3.',
     alt: { sr: 'Konobar dodiruje sto na planu sale na terminalu', en: 'A waiter taps a table on the floor plan of the front terminal', ru: 'Официант нажимает на стол на плане зала на фронте' } },
   'ex-waiter': { ratio: '4 / 3', shot: 'Официант у стола принимает заказ на iPhone; гости — с их согласия или без лиц. 4:3.',
