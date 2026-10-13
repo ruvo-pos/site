@@ -443,8 +443,6 @@ function guestsScene(lang, x) {
 }
 
 const SCENES = { floor: floorScene, waiter: waiterScene, kitchen: kitchenScene, delivery: deliveryScene, kiosk: kioskScene, guests: guestsScene, stock: stockScene, reports: reportsScene, sef: sefScene };
-// the photo of each example in real life, where there is one to take (PHOTOS)
-const EX_PHOTO = { floor: 'ex-floor', waiter: 'ex-waiter', kitchen: 'ex-kitchen', delivery: 'ex-delivery', kiosk: 'ex-kiosk', stock: 'ex-stock' };
 
 // ---------- live photos: a place shows once its file is in src/photos/ (PHOTOS in content.mjs); the preview shows each
 // empty one, numbered in the order of the page, with what to shoot — the live site never shows an empty frame ----------
@@ -479,7 +477,7 @@ function examples(lang, file) {
 <div class="ex-panels">${x.items.map((it) => `
 <div class="ex-panel" id="ex-p-${it.id}">
 <div class="ex-shot" role="img" aria-label="${esc(it.label)}">${SCENES[it.id](lang, it, file)}</div>
-<div class="ex-text"><h3>${txt(it.title)}</h3><p>${txt(it.text)}</p><ul>${it.points.map((p) => `<li>${txt(p)}</li>`).join('')}</ul>${EX_PHOTO[it.id] ? photo(lang, file, EX_PHOTO[it.id]) : ''}</div>
+<div class="ex-text"><h3>${txt(it.title)}</h3><p>${txt(it.text)}</p><ul>${it.points.map((p) => `<li>${txt(p)}</li>`).join('')}</ul></div>
 </div>`).join('')}
 </div>
 </div>
@@ -533,7 +531,6 @@ function why(lang, file) {
   const d = T[lang].home.demo;
   return `<section class="band raised" id="why" aria-labelledby="why-h"><div class="wrap">
 <div class="sec-head"><h2 id="why-h">${esc(w.title)}</h2></div>
-${photo(lang, file, 'why-team')}
 <ul class="why">${w.items.map(([title, text], i) => `
 <li><span class="why-i" aria-hidden="true">${WHY_ICONS[i]}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
 </ul>
@@ -795,7 +792,7 @@ ${pricing(lang, file)}
 <ol class="steps">${(SIGNUP_ON ? SG[lang].home.start : h.start).map(([title, text], i) => `
 <li class="step"><span class="step-n" aria-hidden="true">${i + 1}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
 </ol>
-<div class="equip"><div class="equip-h"><h3>${esc(h.equip.title)}</h3>${photo(lang, file, 'start-kit')}</div><ul>${h.equip.items.map((x) => `<li>${txt(x)}</li>`).join('')}</ul><p>${txt(h.equip.note)}</p></div>
+<div class="equip"><div class="equip-h"><h3>${esc(h.equip.title)}</h3></div><ul>${h.equip.items.map((x) => `<li>${txt(x)}</li>`).join('')}</ul><p>${txt(h.equip.note)}</p></div>
 </div></section>
 ${contact(lang, file)}
 </main>

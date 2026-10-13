@@ -346,23 +346,18 @@ overflow-wrap: anywhere;
 .slot-in code { color: var(--ink-3); font-family: var(--font-timer); font-size: 11px; }
 .hero-art { position: relative; min-width: 0; }
 .hero-art.has-photo { display: grid; }
-.hero-art.has-photo .photo { grid-area: 1 / 1; width: 76%; justify-self: end; }
-.hero-art.has-photo .scene { position: relative; grid-area: 1 / 1; display: block; }
-.hero-art.has-photo .pad { display: none; }
-.hero-art.has-photo .kds-t { position: absolute; top: 16%; right: 65%; width: 196px; margin: 0; }
+.hero-art.has-photo .photo { grid-area: 1 / 1; width: 88%; justify-self: end; }
+.hero-art.has-photo .scene { display: none; }
 @media (min-width: 1001px) {
 .hero-art .photo.slot { place-items: start end; }
 .hero-art .photo.slot .slot-in { justify-items: end; max-width: 27ch; padding: 24px 28px; text-align: right; }
 }
 @media (max-width: 1000px) {
 .hero-art.has-photo .photo { width: 100%; aspect-ratio: 4 / 3; }
-.hero-art.has-photo .photo img { object-position: 50% 72%; }
-.hero-art.has-photo .scene { display: none; }
+.hero-art.has-photo .photo img { object-position: 50% 62%; }
 }
-.ex-text .photo { margin-top: var(--sp-3); border-radius: var(--r-lg); }
 .who-photos { display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); gap: var(--gap); margin-bottom: var(--gap); }
 @media (max-width: 760px) { .who-photos { grid-template-columns: minmax(0, 1fr); } }
-#why .photo { margin-bottom: clamp(32px, 4vw, 48px); }
 .ex-tabs { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-bottom: clamp(24px, 3vw, 40px); }
 .ex-tabs[hidden] { display: none; }
 .ex-tabs button {
@@ -796,12 +791,11 @@ background: radial-gradient(circle, var(--line-2) 0.07em, transparent 0.08em) 0 
 @media (prefers-reduced-motion: reduce) { .pfaq-item summary::after { transition: none; } }
 .equip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-3) var(--gap); margin-top: clamp(40px, 5vw, 56px); padding-top: var(--sp-6); border-top: 1px solid var(--line); }
 .equip-h { display: grid; grid-row: 1 / span 2; gap: var(--sp-4); align-content: start; }
-.equip-h .photo { border-radius: var(--r-lg); }
 .equip h3 { font-size: var(--fs-lg); font-weight: 600; line-height: 1.3; }
 .equip ul { grid-column: 2 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px var(--gap); }
 .equip li { padding-top: 10px; border-top: 1px solid var(--line); font-size: var(--fs-body); line-height: 1.45; }
 .equip p { grid-column: 2 / -1; color: var(--ink-3); font-size: var(--fs-sm); }
-@media (max-width: 1000px) { .equip { grid-template-columns: repeat(2, minmax(0, 1fr)); } .equip-h, .equip ul, .equip p { grid-column: 1 / -1; } .equip-h { grid-row: auto; } .equip-h .photo { max-width: 460px; } .equip ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 1000px) { .equip { grid-template-columns: repeat(2, minmax(0, 1fr)); } .equip-h, .equip ul, .equip p { grid-column: 1 / -1; } .equip-h { grid-row: auto; } .equip ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .equip ul { grid-template-columns: minmax(0, 1fr); } }
 .top-cta { flex: none; display: inline-flex; align-items: center; height: 40px; padding-inline: 16px; border-radius: 10px; background: var(--accent); color: var(--accent-ink); font-size: var(--fs-sm); font-weight: 600; text-decoration: none; white-space: nowrap; }
 .top-cta:hover { background: var(--accent-2); color: var(--accent-ink); }
@@ -922,7 +916,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <p class="lead">RUVO принимает заказы на iPad и iPhone, отправляет их на экран кухни, списывает продукты по техкартам и строит отчёты. Для одного заведения или целой сети.</p>
 <div class="cta-row"><a class="btn" href="demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Попробовать демо</a><a class="btn ghost" href="mailto:hello@ruvo.ac"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>Напишите нам</a></div>
 </div>
-<div class="hero-art has-photo"><figure class="photo" style="--ratio: 4 / 5"><img src="../img/hero.jpg?v=21bf67e586" alt="Фронт RUVO с планом зала на стойке кафе, за ним — полки с хлебом" fetchpriority="high" decoding="async"></figure><div class="scene" role="img" aria-label="Пример: заказ стола 12 на iPad и тот же заказ на экране кухни">
+<div class="hero-art has-photo"><figure class="photo" style="--ratio: 4 / 5"><img src="../img/hero.jpg?v=4eaa5f8e77" alt="Фронт RUVO с планом зала на стальной стойке кафе" fetchpriority="high" decoding="async"></figure><div class="scene" role="img" aria-label="Пример: заказ стола 12 на iPad и тот же заказ на экране кухни">
 <div class="pad">
 <div class="pad-head"><span class="pad-title">Стол 12</span><span class="pad-meta">4 гостя · Marko</span></div>
 <div class="pad-lines"><div class="pl"><span class="pl-n">Чевапи, 10 шт</span><span class="pl-q">×2</span><span class="pl-p">2 580</span></div><div class="pl"><span class="pl-n">Шопский салат</span><span class="pl-q">×1</span><span class="pl-p">590</span></div><div class="pl"><span class="pl-n">Домашний лимонад</span><span class="pl-q">×3</span><span class="pl-p">1 050</span></div><div class="course">Курс 2 · ждёт вызова</div><div class="pl later"><span class="pl-n">Палачинки с шоколадом</span><span class="pl-q">×2</span><span class="pl-p">1 040</span></div></div>
@@ -1100,7 +1094,6 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 </div></section>
 <section class="band raised" id="why" aria-labelledby="why-h"><div class="wrap">
 <div class="sec-head"><h2 id="why-h">Почему RUVO</h2></div>
-
 <ul class="why">
 <li><span class="why-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4L6 21V3z"/><path d="M9 8h6M9 11.5h6M9 15h3.5"/></svg></span><h3>Фискальная касса остаётся вашей</h3><p>RUVO ведёт зал, кухню и склад, а чек <span class="nw">по-прежнему</span> печатает ваша касса. В фискализации ничего не меняется.</p></li>
 <li><span class="why-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8.5 11V7.5a3.5 3.5 0 0 1 6.8-1.2M12 15v2"/></svg></span><h3>Без обязательств по договору</h3><p>Платите помесячно или за год — за заведение и лицензии устройств. Подписку можно закончить в любой момент.</p></li>

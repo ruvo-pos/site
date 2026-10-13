@@ -470,37 +470,22 @@ const PRICING = {
 // и пересобирай»; not copied): everything a venue needs in cards, the small things of a shift, who RUVO is for — beyond
 // restaurants too —, why RUVO, a closing call; and the demo. Every line is something the app does today (the prototype,
 // version 24) — no reviews, figures or clients RUVO does not have yet. Icons are named in build.mjs (ICONS, WHO_ICONS).
-// Places for live photos (the owner, 13 October: «не хватает живых фото — давай под них оставим места, предложи куда»).
-// A photo goes into src/photos/<id>.jpg (.webp or .png also do); the site shows a place only once its photo is there,
-// so ruvo.ac never shows an empty frame. The preview build (--preview) shows each empty place, numbered in the order of
-// the page, with what to shoot (`shot`, for the owner — in Russian on every page). `alt` describes the photo for those
-// who do not see it; fix it to what the real photo shows when it arrives. Guests in a photo: with their consent or
+// Places for live photos (the owner, 13 October: «не хватает живых фото — давай под них оставим места, предложи куда»;
+// the same day, 18:35: «давай уменьшим их кол-во до четырех главных»): the first screen and the three kinds of venue in
+// «Za koga». A photo goes into src/photos/<id>.jpg (.webp or .png also do); the site shows a place only once its photo is
+// there, so ruvo.ac never shows an empty frame. The preview build (--preview) shows each empty place, numbered in the
+// order of the page, with what to shoot (`shot`, for the owner — in Russian on every page). `alt` describes the photo for
+// those who do not see it; fix it to what the real photo shows when it arrives. Guests in a photo: with their consent or
 // without faces.
 export const PHOTOS = {
-  hero: { ratio: '4 / 5', shot: 'Фронт на баре в разгар смены: на экране план зала, за ним зал с гостями. Вертикальное 4:5.',
-    alt: { sr: 'Terminal sale RUVO sa planom sale na pultu kafića, iza njega police sa hlebom', en: 'The RUVO front terminal showing the floor plan on a café counter, bread shelves behind it', ru: 'Фронт RUVO с планом зала на стойке кафе, за ним — полки с хлебом' } },
-  'ex-floor': { ratio: '4 / 3', shot: 'Фронт на стойке крупно: рука касается стола на плане зала. Горизонтальное 4:3.',
-    alt: { sr: 'Konobar dodiruje sto na planu sale na terminalu', en: 'A waiter taps a table on the floor plan of the front terminal', ru: 'Официант нажимает на стол на плане зала на фронте' } },
-  'ex-waiter': { ratio: '4 / 3', shot: 'Официант у стола принимает заказ на iPhone; гости — с их согласия или без лиц. 4:3.',
-    alt: { sr: 'Konobar prima porudžbinu za stolom na telefonu', en: 'A waiter takes an order at the table on the phone', ru: 'Официант принимает заказ у стола на телефоне' } },
-  'ex-kitchen': { ratio: '4 / 3', shot: 'Экран кухни над раздачей, повар отмечает блюдо касанием. 4:3.',
-    alt: { sr: 'Ekran kuhinje iznad pulta za izdavanje, kuvar označava jelo', en: 'The kitchen screen above the pass, a cook marks a dish', ru: 'Экран кухни над раздачей, повар отмечает блюдо' } },
-  'ex-delivery': { ratio: '4 / 3', shot: 'Стойка выдачи: пакеты Wolt и Glovo, курьер забирает заказ, рядом фронт. 4:3.',
-    alt: { sr: 'Kurir preuzima porudžbinu za dostavu na pultu', en: 'A courier picks up a delivery order at the counter', ru: 'Курьер забирает заказ доставки у стойки' } },
-  'ex-kiosk': { ratio: '4 / 3', shot: 'Гость выбирает блюда на киоске у входа или у кассы. 4:3.',
-    alt: { sr: 'Gost poručuje na kiosku', en: 'A guest orders at the kiosk', ru: 'Гость заказывает на киоске' } },
-  'ex-stock': { ratio: '4 / 3', shot: 'Приёмка товара: управляющий с планшетом у ящиков с продуктами или в холодильной камере. 4:3.',
-    alt: { sr: 'Prijem robe u magacin sa tabletom', en: 'Receiving goods into stock with a tablet', ru: 'Приёмка товара на склад с планшетом' } },
-  'who-restaurant': { ratio: '3 / 2', shot: 'Ваш ресторан вечером: зал с гостями. 3:2.',
+  hero: { ratio: '4 / 5', shot: 'Фронт RUVO крупно: планшет с планом зала на стойке, заведение за ним не в фокусе. Вертикальное 4:5.',
+    alt: { sr: 'Terminal sale RUVO sa planom sale na čeličnom pultu kafića', en: 'The RUVO front terminal with the floor plan on a steel café counter', ru: 'Фронт RUVO с планом зала на стальной стойке кафе' } },
+  'who-restaurant': { ratio: '3 / 2', shot: 'Ресторан вечером в разгар работы: зал с гостями, тёплый свет; RUVO в кадре — планшет на баре или телефон у официанта. 3:2.',
     alt: { sr: 'Sala restorana uveče, sa gostima', en: 'A restaurant’s dining room in the evening, with guests', ru: 'Зал ресторана вечером, с гостями' } },
-  'who-cafe': { ratio: '3 / 2', shot: 'Ваше кафе: стойка с кофемашиной, бариста и гости. 3:2.',
+  'who-cafe': { ratio: '3 / 2', shot: 'Кафе утром: стойка с кофемашиной и выпечкой, бариста за работой; планшет RUVO на стойке у кассы. 3:2.',
     alt: { sr: 'Šank kafića sa aparatom za kafu', en: 'A café counter with the coffee machine', ru: 'Стойка кафе с кофемашиной' } },
-  'who-hotel': { ratio: '3 / 2', shot: 'Ваш отель: завтрак в ресторане отеля или лобби-бар. 3:2.',
+  'who-hotel': { ratio: '3 / 2', shot: 'Ресторан отеля на завтраке или лобби-бар: шведская линия, гости; планшет RUVO на стойке хостес. 3:2.',
     alt: { sr: 'Doručak u restoranu hotela', en: 'Breakfast in a hotel restaurant', ru: 'Завтрак в ресторане отеля' } },
-  'why-team': { ratio: '21 / 9', shot: 'Команда в своём ресторане: повара и официанты на кухне или у раздачи — к тезису «Создан в ресторане». Широкое 21:9.',
-    alt: { sr: 'Tim restorana u kuhinji', en: 'The restaurant’s team in the kitchen', ru: 'Команда ресторана на кухне' } },
-  'start-kit': { ratio: '4 / 3', shot: 'Комплект на столе: iPad на подставке, iPhone, планшет для кухни, роутер, банковский терминал. 4:3.',
-    alt: { sr: 'Oprema za RUVO: iPad, iPhone, tablet za kuhinju i ruter', en: 'The kit for RUVO: an iPad, an iPhone, a kitchen tablet and a router', ru: 'Оборудование для RUVO: iPad, iPhone, планшет для кухни и роутер' } },
 };
 
 const MORE = {
