@@ -360,13 +360,17 @@ h2 { font-size: var(--fs-h2); font-weight: 700; line-height: 1.1; letter-spacing
 .slot-n { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-size: var(--fs-xs); font-weight: 700; letter-spacing: var(--track-caps); text-transform: uppercase; }
 .slot-n svg { width: 18px; height: 18px; flex: none; }
 .slot-in code { color: var(--ink-3); font-family: var(--font-timer); font-size: 11px; }
-/* the hero with its photo: the front terminal at work, on the right — the order and the kitchen are on its own screen
-   there, so the drawn order and ticket stay out of the way; on a narrow screen the photo is cut to 4:3, the terminal
-   kept in the frame */
+/* the hero with its photo: the front terminal at work, on the right — the order is on its own screen there, so the
+   drawn order goes — and the kitchen ticket by the photo's left edge (the owner, 13 October: «рядом раньше была
+   карточка — верни ее»). The terminal on the photo starts 9% of the way in: the ticket ends before it, sticking out
+   into the gap before the text. On a narrow screen the photo alone, cut to 4:3, the terminal kept in the frame. */
 .hero-art { position: relative; min-width: 0; }
 .hero-art.has-photo { display: grid; }
-.hero-art.has-photo .photo { grid-area: 1 / 1; width: 88%; justify-self: end; }
-.hero-art.has-photo .scene { display: none; }
+.hero-art.has-photo .photo { grid-area: 1 / 1; width: 76%; justify-self: end; }
+.hero-art.has-photo .scene { position: relative; grid-area: 1 / 1; display: block; }
+.hero-art.has-photo .pad { display: none; }
+.hero-art.has-photo .kds-t { position: absolute; top: 14%; right: 70%; width: 196px; margin: 0; }
+@media (max-width: 1279px) { .hero-art.has-photo .kds-t { width: 176px; } .hero-art.has-photo .kds-t .kl-n { font-size: var(--fs-sm); } }
 /* the empty place in the preview: its words in the upper right corner */
 @media (min-width: 1001px) {
   .hero-art .photo.slot { place-items: start end; }
@@ -375,6 +379,7 @@ h2 { font-size: var(--fs-h2); font-weight: 700; line-height: 1.1; letter-spacing
 @media (max-width: 1000px) {
   .hero-art.has-photo .photo { width: 100%; aspect-ratio: 4 / 3; }
   .hero-art.has-photo .photo img { object-position: 50% 62%; }
+  .hero-art.has-photo .scene { display: none; }
 }
 /* the kinds of venue: a row of photos above the cards */
 .who-photos { display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); gap: var(--gap); margin-bottom: var(--gap); }

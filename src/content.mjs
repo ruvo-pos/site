@@ -480,12 +480,15 @@ const PRICING = {
 export const PHOTOS = {
   hero: { ratio: '4 / 5', shot: 'Фронт RUVO крупно: планшет с планом зала на стойке, заведение за ним не в фокусе. Вертикальное 4:5.',
     alt: { sr: 'Terminal sale RUVO sa planom sale na čeličnom pultu kafića', en: 'The RUVO front terminal with the floor plan on a steel café counter', ru: 'Фронт RUVO с планом зала на стальной стойке кафе' } },
-  'who-restaurant': { ratio: '3 / 2', shot: 'Ресторан вечером в разгар работы: зал с гостями, тёплый свет; RUVO в кадре — планшет на баре или телефон у официанта. 3:2.',
-    alt: { sr: 'Sala restorana uveče, sa gostima', en: 'A restaurant’s dining room in the evening, with guests', ru: 'Зал ресторана вечером, с гостями' } },
-  'who-cafe': { ratio: '3 / 2', shot: 'Кафе утром: стойка с кофемашиной и выпечкой, бариста за работой; планшет RUVO на стойке у кассы. 3:2.',
-    alt: { sr: 'Šank kafića sa aparatom za kafu', en: 'A café counter with the coffee machine', ru: 'Стойка кафе с кофемашиной' } },
-  'who-hotel': { ratio: '3 / 2', shot: 'Ресторан отеля на завтраке или лобби-бар: шведская линия, гости; планшет RUVO на стойке хостес. 3:2.',
-    alt: { sr: 'Doručak u restoranu hotela', en: 'Breakfast in a hotel restaurant', ru: 'Завтрак в ресторане отеля' } },
+  // each of the three with another screen of RUVO (the owner, 13 October: «разные фото давай лучше с разными экранами —
+  // киоск, фронт, экран айфона и бэкофис»): the front is on the first screen; here the waiter's phone, the kiosk and
+  // the back office
+  'who-restaurant': { ratio: '3 / 2', shot: 'Ресторан вечером: официант у стола принимает заказ на iPhone, на экране — RUVO; гости не в фокусе. 3:2.',
+    alt: { sr: 'Konobar u restoranu prima porudžbinu na telefonu sa RUVO', en: 'A waiter in a restaurant takes an order on a phone with RUVO', ru: 'Официант в ресторане принимает заказ на телефоне с RUVO' } },
+  'who-cafe': { ratio: '3 / 2', shot: 'Кафе утром: гость заказывает на киоске RUVO; за ним стойка с кофемашиной и выпечкой. 3:2.',
+    alt: { sr: 'Gost u kafiću poručuje na RUVO kiosku', en: 'A guest orders at a RUVO kiosk in a café', ru: 'Гость в кафе заказывает на киоске RUVO' } },
+  'who-hotel': { ratio: '3 / 2', shot: 'Отель: управляющий в лобби-баре смотрит бэкофис RUVO на ноутбуке — сводку по ресторану, бару и завтракам. 3:2.',
+    alt: { sr: 'Menadžer hotela gleda RUVO bekofis na laptopu u lobi baru', en: 'A hotel manager looks at the RUVO back office on a laptop in the lobby bar', ru: 'Управляющий отеля смотрит бэкофис RUVO на ноутбуке в лобби-баре' } },
 };
 
 const MORE = {

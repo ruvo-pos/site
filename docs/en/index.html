@@ -346,8 +346,11 @@ overflow-wrap: anywhere;
 .slot-in code { color: var(--ink-3); font-family: var(--font-timer); font-size: 11px; }
 .hero-art { position: relative; min-width: 0; }
 .hero-art.has-photo { display: grid; }
-.hero-art.has-photo .photo { grid-area: 1 / 1; width: 88%; justify-self: end; }
-.hero-art.has-photo .scene { display: none; }
+.hero-art.has-photo .photo { grid-area: 1 / 1; width: 76%; justify-self: end; }
+.hero-art.has-photo .scene { position: relative; grid-area: 1 / 1; display: block; }
+.hero-art.has-photo .pad { display: none; }
+.hero-art.has-photo .kds-t { position: absolute; top: 14%; right: 70%; width: 196px; margin: 0; }
+@media (max-width: 1279px) { .hero-art.has-photo .kds-t { width: 176px; } .hero-art.has-photo .kds-t .kl-n { font-size: var(--fs-sm); } }
 @media (min-width: 1001px) {
 .hero-art .photo.slot { place-items: start end; }
 .hero-art .photo.slot .slot-in { justify-items: end; max-width: 27ch; padding: 24px 28px; text-align: right; }
@@ -355,6 +358,7 @@ overflow-wrap: anywhere;
 @media (max-width: 1000px) {
 .hero-art.has-photo .photo { width: 100%; aspect-ratio: 4 / 3; }
 .hero-art.has-photo .photo img { object-position: 50% 62%; }
+.hero-art.has-photo .scene { display: none; }
 }
 .who-photos { display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); gap: var(--gap); margin-bottom: var(--gap); }
 @media (max-width: 760px) { .who-photos { grid-template-columns: minmax(0, 1fr); } }
