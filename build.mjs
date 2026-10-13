@@ -452,6 +452,9 @@ const PHOTO_DIR = path.join(ROOT, 'src/photos');
 const PHOTO_FILES = Object.fromEntries(Object.keys(PHOTOS).map((id) => [id,
   ['jpg', 'jpeg', 'webp', 'png'].map((e) => `${id}.${e}`).find((f) => existsSync(path.join(PHOTO_DIR, f))) || null]));
 const PHOTO_NO = Object.fromEntries(Object.keys(PHOTOS).map((id, i) => [id, i + 1]));
+// a photo changed under the same name is a new address (?v=), so no browser keeps showing the old one
+const PHOTO_V = Object.fromEntries(Object.entries(PHOTO_FILES).filter(([, f]) => f)
+  .map(([id, f]) => [id, createHash('sha256').update(readFileSync(path.join(PHOTO_DIR, f))).digest('hex').slice(0, 10)]));
 const CAMERA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/></svg>';
 function photo(lang, file, id, caption = '') {
   const p = PHOTOS[id];
@@ -459,7 +462,7 @@ function photo(lang, file, id, caption = '') {
   const style = ` style="--ratio: ${p.ratio}"`;
   // the hero's photo is the first thing on the page: it loads at once, the rest as the page scrolls to them
   const load = id === 'hero' ? 'fetchpriority="high"' : 'loading="lazy"';
-  if (f) return `<figure class="photo"${style}><img src="${href(file, `img/${f}`)}" alt="${esc(p.alt[lang])}" ${load} decoding="async">${caption ? `<figcaption>${esc(caption)}</figcaption>` : ''}</figure>`;
+  if (f) return `<figure class="photo"${style}><img src="${href(file, `img/${f}`)}?v=${PHOTO_V[id]}" alt="${esc(p.alt[lang])}" ${load} decoding="async">${caption ? `<figcaption>${esc(caption)}</figcaption>` : ''}</figure>`;
   if (!PREVIEW) return '';
   return `<figure class="photo slot"${style} aria-hidden="true"><span class="slot-in"><span class="slot-n">${CAMERA}Фото ${PHOTO_NO[id]}${caption ? ` · ${esc(caption)}` : ''}</span><span class="slot-t">${esc(p.shot)}</span><code>src/photos/${id}.jpg</code></span></figure>`;
 }
