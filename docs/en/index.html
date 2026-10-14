@@ -288,6 +288,7 @@ background: var(--kds); color: var(--kds-ink); box-shadow: var(--shadow-2);
 .scene-side { flex-basis: auto; align-self: flex-end; width: 80%; margin-top: -18px; margin-right: -4px; position: relative; }
 }
 @media (prefers-reduced-motion: no-preference) {
+.scene.live :is(.pad-btn.go, .kds-t, .kl-ok, .kl-n, .kds-time, .kds-done, .stock-chip) { animation-delay: -6.2s !important; }
 .scene.live .pad-btn.go { animation: h-press 10s infinite; }
 .scene.live .kds-t { animation: h-ticket 10s infinite; }
 .scene.live .kl:nth-child(1) .kl-ok { animation: h-ok1 10s infinite; }

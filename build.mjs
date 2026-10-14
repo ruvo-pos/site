@@ -16,6 +16,9 @@ import { SIGNUP as SG } from './src/signup.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PREVIEW = process.argv.includes('--preview');
+// the empty places for photos, striped, with what to shoot — only on request (14 October the owner put photos aside:
+// «Убери пока вообще фото с лендинга»), so the preview shows the site as it is
+const SLOTS = PREVIEW && process.argv.includes('--slots');
 const OUT = path.join(ROOT, PREVIEW ? 'preview' : 'docs');
 const ORIGIN = `https://${SITE.domain}`;
 // registration on the site: on when SITE.signup is (the app works through the server), or asked for with --signup
@@ -447,7 +450,7 @@ function photo(lang, file, id, caption = '') {
   // the hero's photo is the first thing on the page: it loads at once, the rest as the page scrolls to them
   const load = id === 'hero' ? 'fetchpriority="high"' : 'loading="lazy"';
   if (f) return `<figure class="photo"${style}><img src="${href(file, `img/${f}`)}?v=${PHOTO_V[id]}" alt="${esc(p.alt[lang])}" ${load} decoding="async">${caption ? `<figcaption>${esc(caption)}</figcaption>` : ''}</figure>`;
-  if (!PREVIEW) return '';
+  if (!SLOTS) return '';
   return `<figure class="photo slot"${style} aria-hidden="true"><span class="slot-in"><span class="slot-n">${CAMERA}Фото ${PHOTO_NO[id]}${caption ? ` · ${esc(caption)}` : ''}</span><span class="slot-t">${esc(p.shot)}</span><code>src/photos/${id}.jpg</code></span></figure>`;
 }
 

@@ -291,8 +291,10 @@ a:hover { color: var(--accent-2); }
   .scene-side { flex-basis: auto; align-self: flex-end; width: 80%; margin-top: -18px; margin-right: -4px; position: relative; }
 }
 /* the loop (14 October): «U kuhinju» is pressed, the ticket comes, its dishes are done one by one, «Gotovo», then the
-   stock by the recipe; ten seconds round, only while the scene is in sight and motion is welcome */
+   stock by the recipe; ten seconds round, only while the scene is in sight and motion is welcome. It starts six
+   seconds in, so its first frame is the whole story at rest */
 @media (prefers-reduced-motion: no-preference) {
+  .scene.live :is(.pad-btn.go, .kds-t, .kl-ok, .kl-n, .kds-time, .kds-done, .stock-chip) { animation-delay: -6.2s !important; }
   .scene.live .pad-btn.go { animation: h-press 10s infinite; }
   .scene.live .kds-t { animation: h-ticket 10s infinite; }
   .scene.live .kl:nth-child(1) .kl-ok { animation: h-ok1 10s infinite; }
