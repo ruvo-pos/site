@@ -13,7 +13,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { APP, LANGS, MAINS, PHOTOS, PRICES, SITE, T } from './src/content.mjs';
 import { SIGNUP as SG } from './src/signup.mjs';
-import { VENUE_KEYS, VENUE_SETUP, VENUE_SLUGS, VENUES } from './src/venues.mjs';
+import { VENUE_KEYS, VENUE_SETUP, VENUE_SLUGS, VENUES, VENUE_SOON } from './src/venues.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PREVIEW = process.argv.includes('--preview');
@@ -24,8 +24,8 @@ const OUT = path.join(ROOT, PREVIEW ? 'preview' : 'docs');
 const ORIGIN = `https://${SITE.domain}`;
 // registration on the site: on when SITE.signup is (the app works through the server), or asked for with --signup
 const SIGNUP_ON = SITE.signup || process.argv.includes('--signup');
-// a kind of venue is a page of its own (src/venues.mjs): «v:cafe» → kafic/, en/cafe/, ru/cafe/
-const VPAGES = VENUE_KEYS.map((k) => `v:${k}`);
+// a kind of venue is a page of its own (src/venues.mjs): «v:cafe» → kafic/, en/cafe/, ru/cafe/ — but not those still to come
+const VPAGES = VENUE_KEYS.filter((k) => !VENUE_SOON.includes(k)).map((k) => `v:${k}`);
 const PAGES = ['home', ...VPAGES, 'privacy', 'support', ...(SIGNUP_ON ? ['signup', 'confirm', 'terms'] : [])];
 const LOCALE = { sr: 'sr-Latn-RS', en: 'en-GB', ru: 'ru-RU' };
 // The site's own text is set in the system's face — San Francisco on Apple's devices, after Apple's site (the owner,
@@ -84,7 +84,9 @@ const DEMO_JS = readFileSync(path.join(ROOT, 'src/demo/app.js'), 'utf8');
 const DEMO_CSS = readFileSync(path.join(ROOT, 'src/demo/app.css'), 'utf8');
 // a new bundle gets a new address, so no browser keeps running yesterday's
 const DEMO_V = createHash('sha256').update(DEMO_JS).update(DEMO_CSS).digest('hex').slice(0, 10);
-const APP_FONTS = 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600&amp;family=Onest:wght@400;500;600;700&amp;family=Unbounded:wght@600;700&amp;display=swap';
+// the app's faces, and Inter for its start page, which is set as the site is (the system's face; Inter where there is no
+// San Francisco)
+const APP_FONTS = 'https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&amp;family=JetBrains+Mono:wght@600&amp;family=Onest:wght@400;500;600;700&amp;family=Unbounded:wght@600;700&amp;display=swap';
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const mail = `<a href="mailto:${SITE.email}">${SITE.email}</a>`;
@@ -252,7 +254,10 @@ function venueMenu(lang, key, file) {
   const home = fileOf(lang, 'home');
   const items = VENUE_KEYS.map((k) => {
     const v = V.items[k];
-    return `<li><a href="${href(file, fileOf(lang, `v:${k}`))}"${k === cur ? ' aria-current="page"' : ''}><span class="vm-ic">${VICON[k]}</span><span class="vm-t"><b>${esc(v.name)}</b><small>${esc(v.line)}</small></span></a></li>`;
+    const inner = `<span class="vm-ic">${VICON[k]}</span><span class="vm-t"><b>${esc(v.name)}</b><small>${esc(v.line)}</small></span>`;
+    // still to come: greyed, «Uskoro», no link
+    if (VENUE_SOON.includes(k)) return `<li class="soon"><span class="vm-a" aria-disabled="true">${inner}<span class="vm-soon">${esc(V.menu.soon)}</span></span></li>`;
+    return `<li><a class="vm-a" href="${href(file, fileOf(lang, `v:${k}`))}"${k === cur ? ' aria-current="page"' : ''}>${inner}</a></li>`;
   }).join('');
   const label = cur ? `${VICON[cur]}<span class="vm-l">${esc(V.items[cur].short)}</span>` : `<span class="vm-l">${esc(V.menu.label)}</span>`;
   const section = (id) => `<a href="${isLanding(key) ? `#${id}` : href(file, home, `#${id}`)}">${esc(t.nav[id])}</a>`;
@@ -298,7 +303,9 @@ function footer(lang, key, file) {
   const section = (id) => `<a href="${isLanding(key) ? `#${id}` : href(file, home, `#${id}`)}">${esc(t.nav[id])}</a>`;
   const col = (title, items) => `<div class="foot-col"><h2>${esc(title)}</h2><ul>${items.map((x) => `<li>${x}</li>`).join('')}</ul></div>`;
   const V = VENUES[lang];
-  const venue = (k) => `<a href="${href(file, fileOf(lang, `v:${k}`))}"${key === `v:${k}` ? ' aria-current="page"' : ''}>${esc(V.items[k].name)}</a>`;
+  const venue = (k) => (VENUE_SOON.includes(k)
+    ? `<span class="foot-soon">${esc(V.items[k].name)} · ${esc(V.menu.soon.toLowerCase())}</span>`
+    : `<a href="${href(file, fileOf(lang, `v:${k}`))}"${key === `v:${k}` ? ' aria-current="page"' : ''}>${esc(V.items[k].name)}</a>`);
   // Apple's foot: small grey words on the light grey, the columns, a hairline, the company
   return `<footer class="foot"><div class="wrap">
 <div class="foot-in">
@@ -442,8 +449,36 @@ function sceneOf(lang, key) {
   const s = VENUES[lang].items[key.slice(2)].scene;
   return s.ticket12 ? { ...ticket12(lang), ...(s.label ? { label: s.label } : {}), ...(s.chip ? { chip: s.chip } : {}) } : s;
 }
+// The home page's (and the restaurant's) first screen goes on through an evening (the owner, 14 October, 15:53: «как
+// будто там кипит работа»): four acts of eight seconds on the same iPad — table 12 to the kitchen (as before); the floor,
+// table 5 ready and served from the waiter's iPhone; delivery, a new Wolt order to its courier; table 12 paid by IPS QR,
+// its stock written off and the day's sales up — and a notice every four seconds over the corner of the iPad (LIVE in
+// content.mjs). At rest (less motion, no JavaScript, out of sight) it is the first act, whole, as before.
+function heroLive(lang, file, s) {
+  const L = T[lang].home.live;
+  const ex = (id) => T[lang].home.examples.items.find((it) => it.id === id);
+  const total = [...s.pad.lines, ...(s.pad.later || [])].reduce((sum, l) => sum + l[2], 0);
+  const f = ex('floor').floor;
+  const shift = (sales, open, extra) => chipCard(lang, { title: L.shift.title, rows: [[L.shift.open, String(open)], [L.shift.sales, sales, extra ? 'ok' : '']], note: extra ? `+${money(total)} RSD · ${L.written.split(' · ')[1]}` : L.shift.staff }, 'clock');
+  const ready = `<div class="nc rd"><p class="nc-h">${IC('device-mobile')}<span>${esc(L.ready.who)}</span><em>${esc(L.now)}</em></p><p class="rd-t">${IC('bell')}${esc(L.ready.title)}</p>${L.ready.lines.map(([q, n]) => `<div class="nc-r"><span>${q}× ${esc(n)}</span><b class="rd-ok">${IC('check')}</b></div>`).join('')}<span class="rd-b">${IC('check')}${esc(L.ready.done)}</span></div>`;
+  const stock = s.chip;
+  const written = chipCard(lang, { title: stock.title, rows: stock.rows.map(([n, v]) => [n, v]), note: L.written }, 'package').replace('<p class="nc-note">', `<p class="nc-note ok">${IC('check')}`);
+  const pay = `<div class="hl-pay"><div class="pay-sh"><p class="pay-t">${esc(L.pay.title)}</p><p class="pay-sum">${money(total)}<small>RSD</small></p><span class="seg pay-seg">${L.pay.methods.map((m, i) => `<span${i === L.pay.methods.length - 1 ? ' class="on"' : ''}>${esc(m)}</span>`).join('')}</span><div class="pay-qr">${qrSvg(20261014)}<span class="pay-ok">${IC('check')}${esc(L.pay.paid)}</span></div><p class="pay-cap">${esc(L.pay.scan)}</p></div></div>`;
+  const screen = dev('pad', `${sbPad(lang)}${frontBar(lang, { tab: s.pad.tab, place: s.pad.place })}${orderScreen(lang, s.pad)}<div class="hl hl-2">${floorScreen(lang, ex('floor'))}</div><div class="hl hl-3">${deliveryScreen(lang, ex('delivery'))}</div>${pay}`);
+  const events = `<div class="evs">${L.events.map(([icon, title, text]) => `<div class="ev"><span class="ev-ic">${IC(icon)}</span><span class="ev-t"><b>${esc(title)}</b><small>${esc(text.replace('{sum}', money(total)))}</small></span><span class="ev-now">${esc(L.now)}</span></div>`).join('')}</div>`;
+  return `<div class="stage multi" role="img" aria-label="${esc(L.label)}" data-live>
+<div class="stage-dev">${screen}${events}</div>
+<div class="stage-side">
+<div class="sg sg-1">${ticketCard(lang, s.ticket)}${chipCard(lang, s.chip, CHIP_ICON.home)}</div>
+<div class="sg sg-2">${ready}${shift(f.revenue, f.open)}</div>
+<div class="sg sg-3">${ticketCard(lang, { ...L.wolt, station: s.ticket.station })}${chipCard(lang, L.courier, 'moped')}</div>
+<div class="sg sg-4">${written}${shift(f.revenue + total, f.open - 1, true)}</div>
+</div>
+</div>`;
+}
 function heroArt(lang, file, key) {
   const s = sceneOf(lang, key);
+  if (!s.kiosk && !s.plan && (key === 'home' || VENUES[lang].items[key.slice(2)].scene.ticket12)) return heroLive(lang, file, s);
   const screen = s.kiosk
     ? dev('port', kioskScreen(lang, s.kiosk, file, false))
     : dev('pad', `${sbPad(lang)}${frontBar(lang, { tab: s.pad.tab, place: s.pad.place })}${orderScreen(lang, s.pad)}`);
@@ -766,7 +801,7 @@ function features(lang, file, v = null, tabs = null) {
 }
 
 // The small things of a shift (14 October): a dark band like the kitchen screen; instead of an icon each shows its
-// piece of the app's own screen, in the app's own words. On a phone the tiles are a strip that scrolls sideways.
+// piece of the app's own screen, in the app's own words.
 function micro(lang, key, u) {
   const n = (v) => fmt(lang, v);
   const line = (a, b = '', cls = '') => `<div class="mu-line${cls}"><span>${a}</span>${b}</div>`;
@@ -783,19 +818,35 @@ function micro(lang, key, u) {
     bike: () => line('<span class="pf wolt">Wolt</span>', `<b>${esc(u.code)}</b>`, ' start') + line(esc(u.item), '', ' dim') + `<span class="mu-tag ok">${esc(u.courier)}</span>`,
     clock: () => `<div class="mu-line bare"><span class="mu-t">${esc(u.day)}</span><span class="mu-tag now">${esc(u.now)} 01:30</span></div><span class="mu-day"><i class="d-fill"></i><i class="d-mid"></i><i class="d-now"></i></span><span class="mu-times"><span>05:00</span><span>00:00</span><span>05:00</span></span>`,
     info: () => `<span class="mu-t">${esc(u.dish)}</span><span class="mu-tags">${u.tags.map((t) => `<span class="mu-tag">${esc(t)}</span>`).join('')}</span><span class="mu-note">${esc(u.note)}</span>`,
+    queue: () => line(esc(u.label), `<b>${esc(u.load)}</b>`) + `<span class="mu-warn">${IC('clock')}<span>${esc(u.note)}</span></span>`,
+    norm: () => `<div class="mu-big"><span>${esc(u.label)}</span><b>${u.pct}%</b></div>${u.rows.map(([a, b], i) => line(esc(a), `<b>${esc(b)}</b>`, i ? ' dim' : '')).join('')}`,
+    pair: () => u.rows.map(([a, v]) => line(esc(a), `<b>${n(v)}</b>`)).join('') + `<div class="mu-line bare"><span class="mu-tag gold">${IC('tag')}${esc(u.disc)}</span><b class="mu-minus">−${n(u.minus)}</b></div>`,
+    board: () => `<div class="mu-bd">${[[u.cooking, u.wait, ''], [u.ready, u.done, ' ok']].map(([h, list, c]) => `<div class="mb-col${c}"><span class="mb-h">${esc(h)}</span><span class="mb-ns">${list.map(([no, nm]) => `<span class="mb-n">${esc(no)}${nm ? `<small>${esc(nm)}</small>` : ''}</span>`).join('')}</span></div>`).join('')}</div>`,
   };
   return `<div class="mu mu--${key}" aria-hidden="true">${M[key]()}</div>`;
 }
-// a kind of venue shows its eight (VENUE_SETUP.rush), in its order
+// Two rows from edge to edge of the page (the owner, 14 October: «две строки от края до края страницы — должно казаться,
+// что их много и мы всё учли»), drifting slowly in opposite directions while they are in sight: each row carries a second,
+// hidden copy of itself that closes the loop. A button stops them; for those who asked for less motion, and without
+// JavaScript, they stand still and each row scrolls sideways. A kind of venue puts its own first (VENUE_SETUP.rush).
 function rush(lang, keys = null) {
   const r = T[lang].home.rush;
-  const items = keys ? keys.map((k) => r.items.find((it) => it[0] === k)) : r.items;
+  const items = keys ? [...keys.map((k) => r.items.find((it) => it[0] === k)), ...r.items.filter((it) => !keys.includes(it[0]))] : r.items;
+  const half = Math.ceil(items.length / 2);
+  const tiles = (list) => list.map(([key, title, text, ui]) => `
+<li>${micro(lang, key, ui)}<h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('');
+  const row = (list, n) => `<div class="rush-row r${n}"><div class="rush-track"><ul class="rush">${tiles(list)}
+</ul><ul class="rush rush-copy" aria-hidden="true">${tiles(list)}
+</ul></div></div>`;
   return `<section class="band night" id="rush" aria-labelledby="rush-h"><div class="wrap">
 <div class="sec-head"><h2 id="rush-h">${esc(r.title)}</h2><p>${txt(r.lead)}</p></div>
-<ul class="rush">${items.map(([key, title, text, ui]) => `
-<li>${micro(lang, key, ui)}<h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
-</ul>
-</div></section>`;
+</div>
+<div class="rush-rows" data-live data-rush>
+${row(items.slice(0, half), 1)}
+${row(items.slice(half), 2)}
+</div>
+<div class="wrap rush-foot"><button type="button" class="rush-pp" data-rush-pp aria-label="${esc(r.pause)}" data-pause="${esc(r.pause)}" data-play="${esc(r.play)}" hidden>${IC('pause-fill', 'rp-pause')}${IC('play-fill', 'rp-play')}</button></div>
+</section>`;
 }
 
 // Why RUVO: four statements, each under its icon, as Apple's «Why Apple» — then the way to the prices and the demo
@@ -1042,6 +1093,21 @@ const HOME_JS = `(() => {
   }
   // what moves on the page moves only while it is in sight, and not at all for those who asked for less motion
   const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  // the small things drift in two rows; the button under them stops them and starts them again
+  const rr = document.querySelector('[data-rush]');
+  const pp = document.querySelector('[data-rush-pp]');
+  if (rr && !still.matches) {
+    rr.classList.add('marquee');
+    if (pp) {
+      pp.hidden = false;
+      pp.addEventListener('click', () => {
+        const stop = !rr.classList.contains('paused');
+        rr.classList.toggle('paused', stop);
+        pp.dataset.state = stop ? 'paused' : '';
+        pp.setAttribute('aria-label', stop ? pp.dataset.play : pp.dataset.pause);
+      });
+    }
+  }
   const live = [...document.querySelectorAll('[data-live]')];
   if (live.length && 'IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
@@ -1410,6 +1476,7 @@ function demoPage(lang) {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="${APP_FONTS}">
 <link rel="stylesheet" href="${asset('app.css')}">
+${THEME_EARLY}
 </head>
 <body>
 <div id="app"><noscript><p style="padding:24px;font-family:system-ui,sans-serif">${esc(d.noscript)}</p></noscript></div>

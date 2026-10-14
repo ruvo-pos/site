@@ -8,6 +8,10 @@
 // something the app does today: no reviews, figures or clients RUVO does not have yet.
 
 export const VENUE_KEYS = ['restaurant', 'cafe', 'fastfood', 'bakery', 'hotel', 'catering', 'delivery', 'group'];
+// Not yet (the owner, 14 October, 15:34: «Отель и кейтеринг и столовые давай сделаем недоступными и напишем скоро»): in
+// «Za koga ▾» and in the foot they stand greyed with «Uskoro», no link; their pages are not built (their words stay here
+// for when they open).
+export const VENUE_SOON = ['hotel', 'catering'];
 
 // Serbian addresses for the Serbian pages, English for the English and Russian ones (as privatnost / privacy)
 export const VENUE_SLUGS = {
@@ -17,7 +21,7 @@ export const VENUE_SLUGS = {
 };
 
 // What a kind of venue shows: its icon (Phosphor regular, src/icons/), the product's tabs in its order (ids of EXAMPLES
-// in content.mjs), its small things of a shift (keys of «Sitnice»: eight in two rows of four; the restaurant all twelve),
+// in content.mjs), its small things of a shift (keys of «Sitnice» it puts first; the rest of the sixteen follow them),
 // its example setup for the calculator (the same fields as the calculator's presets) and the icon of each line of what it
 // needs (`equip`, in the order of its lines; the icons are named in build.mjs, EQUIP_ICON).
 export const VENUE_SETUP = {
@@ -43,7 +47,7 @@ const HOTEL_SALES = [184200, 61400, 42300];
 
 export const VENUES = {
   sr: {
-    menu: { label: 'Za koga', title: 'Za koga je RUVO', all: 'Sve o RUVO-u na jednoj strani' },
+    menu: { label: 'Za koga', title: 'Za koga je RUVO', all: 'Sve o RUVO-u na jednoj strani', soon: 'Uskoro' },
     items: {
       restaurant: {
         short: 'Restoran', name: 'Restoran sa salom', line: 'Plan sale, sledovi i konobari sa uređajima',
@@ -178,7 +182,7 @@ export const VENUES = {
     },
   },
   en: {
-    menu: { label: 'Who it’s for', title: 'Who RUVO is for', all: 'All of RUVO on one page' },
+    menu: { label: 'Who it’s for', title: 'Who RUVO is for', all: 'All of RUVO on one page', soon: 'Soon' },
     items: {
       restaurant: {
         short: 'Restaurant', name: 'Restaurant with a dining room', line: 'Floor plan, courses and waiters with devices',
@@ -313,7 +317,7 @@ export const VENUES = {
     },
   },
   ru: {
-    menu: { label: 'Для кого', title: 'Для кого RUVO', all: 'Всё о RUVO на одной странице' },
+    menu: { label: 'Для кого', title: 'Для кого RUVO', all: 'Всё о RUVO на одной странице', soon: 'Скоро' },
     items: {
       restaurant: {
         short: 'Ресторан', name: 'Ресторан с залом', line: 'План зала, курсы и официанты с устройствами',

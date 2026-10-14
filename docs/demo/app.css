@@ -695,23 +695,239 @@ h1, h2, h3, p, ul, ol, dl, dd { margin: 0; }
 .module-off { align-items: center; justify-content: center; padding: var(--sp-6) var(--sp-4); }
 .mo-box { display: flex; flex-direction: column; align-items: center; gap: var(--sp-4); max-width: 440px; text-align: center; }
 
-/* ---------- the demo on the website: a badge, a lead, the devices, how to try them, the way back ---------- */
-.l-intro { display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-3); }
-.l-badge {
-  display: inline-flex; align-items: center; height: 26px; padding: 0 var(--sp-3); border-radius: var(--r-pill);
-  background: var(--accent-soft); color: var(--accent); font-size: var(--fs-xs); font-weight: var(--fw-semibold);
-  letter-spacing: var(--track-caps); text-transform: uppercase;
+/* ---------- the demo on the website (ruvo.ac/demo): its start page in the website's look — white and Apple's grey,
+   the system's face (San Francisco on Apple's devices, Inter elsewhere), a thin frosted bar, large centred words, tiles
+   with the devices drawn to their points (demo-art.jsx); the screens themselves keep the app's look ---------- */
+.launcher.demo {
+  --d-bg: #FFFFFF;
+  --d-tile: #F5F5F7;
+  --d-fill: #E8E8ED;
+  --d-seg-on: #FFFFFF;
+  --d-ink: #1D1D1F;
+  --d-ink-2: #424245;
+  --d-ink-3: #6E6E73;
+  --d-line: #D2D2D7;
+  --d-line-2: #BDBDC2;
+  --d-link: #1E44B0;
+  --d-danger: #C2412D;
+  --d-nav-bg: rgb(255 255 255 / 0.78);
+  --d-nav-line: rgb(0 0 0 / 0.1);
+  /* the devices: graphite glass in a silver edge, an aluminium base and stand */
+  --d-glass: #0C0C0E;
+  --d-edge: #B8BAC0;
+  --d-alu: #C3C5CB;
+  --d-alu-2: #9C9EA5;
+  --d-drop: drop-shadow(0 22px 20px rgb(0 0 0 / 0.15)) drop-shadow(0 5px 7px rgb(0 0 0 / 0.08));
+  --d-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --d-gutter: clamp(16px, 4.2vw, 44px);
+  display: block;
+  overflow: auto;
+  background: var(--d-bg);
+  color: var(--d-ink);
+  font-family: var(--d-font);
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.012em;
+  font-variant-numeric: normal;
 }
-.l-lead { max-width: 64ch; margin: 0; color: var(--ink-2); font-size: var(--fs-md); line-height: 1.5; text-wrap: pretty; }
-.l-back { text-decoration: none; }
-.l-try { display: flex; flex-direction: column; gap: var(--sp-3); padding: var(--sp-4) var(--sp-5); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); }
-.l-try h2 { margin: 0; }
-.l-try ol { display: grid; gap: var(--sp-2); margin: 0; padding-left: 1.3em; font-size: var(--fs-sm); line-height: 1.5; }
-.l-try ol li { padding-left: var(--sp-1); }
-.l-try p { margin: 0; color: var(--ink-3); font-size: var(--fs-sm); line-height: 1.5; }
-.l-demo-foot { justify-content: space-between; }
-.l-demo-foot .btn { margin-left: 0; margin-right: calc(-1 * var(--sp-4)); }
-@media (max-width: 520px) { .l-back .btn-label { display: none; } }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .launcher.demo {
+    --d-bg: #000000; --d-tile: #161617; --d-fill: #2C2C2E; --d-seg-on: #636366;
+    --d-ink: #F5F5F7; --d-ink-2: #D2D2D7; --d-ink-3: #98989D; --d-line: #38383A; --d-line-2: #4A4A4D;
+    --d-link: #7D97F0; --d-danger: #E5604C; --d-nav-bg: rgb(22 22 23 / 0.78); --d-nav-line: rgb(255 255 255 / 0.12);
+    --d-glass: #0A0A0B; --d-edge: #55565B; --d-alu: #4B4C51; --d-alu-2: #2F3034;
+    --d-drop: drop-shadow(0 22px 22px rgb(0 0 0 / 0.75));
+  }
+}
+:root[data-theme="dark"] .launcher.demo {
+  --d-bg: #000000; --d-tile: #161617; --d-fill: #2C2C2E; --d-seg-on: #636366;
+  --d-ink: #F5F5F7; --d-ink-2: #D2D2D7; --d-ink-3: #98989D; --d-line: #38383A; --d-line-2: #4A4A4D;
+  --d-link: #7D97F0; --d-danger: #E5604C; --d-nav-bg: rgb(22 22 23 / 0.78); --d-nav-line: rgb(255 255 255 / 0.12);
+  --d-glass: #0A0A0B; --d-edge: #55565B; --d-alu: #4B4C51; --d-alu-2: #2F3034;
+  --d-drop: drop-shadow(0 22px 22px rgb(0 0 0 / 0.75));
+}
+/* under the page (where a phone overscrolls) the same white or black */
+body:has(.launcher.demo) { background: #FFFFFF; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body:has(.launcher.demo) { background: #000000; } }
+:root[data-theme="dark"] body:has(.launcher.demo) { background: #000000; }
+
+.dl-in { width: 100%; max-width: 1180px; margin-inline: auto; padding-inline: var(--d-gutter); }
+.launcher.demo a { color: var(--d-link); text-decoration: none; }
+.launcher.demo a:hover { text-decoration: underline; text-underline-offset: 0.16em; text-decoration-thickness: 1px; }
+.launcher.demo :focus-visible { outline: 2px solid var(--d-link); outline-offset: 3px; }
+
+/* the bar: Apple's global navigation — thin, frosted, staying at the top */
+.dl-top {
+  position: sticky; top: 0; z-index: 20; padding-top: env(safe-area-inset-top, 0px);
+  background: var(--d-nav-bg); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--d-nav-line);
+}
+.dl-top-in { display: flex; align-items: center; gap: 12px; height: 52px; }
+.dl-brand { display: inline-flex; align-items: center; gap: 10px; min-width: 0; }
+.dl-brand .wordmark { padding: 7px 10px 6px calc(10px + 0.08em); border-radius: 6px; font-size: 13px; }
+.dl-brand .wordmark::after { inset: 2px; border-width: 1.2px; border-radius: 4.5px; }
+.dl-brand-l { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
+.dl-top-r { display: flex; align-items: center; gap: 16px; margin-left: auto; }
+.launcher.demo .dl-back { display: inline-flex; align-items: center; gap: 3px; color: var(--d-ink); font-size: 13px; letter-spacing: -0.01em; white-space: nowrap; opacity: 0.86; }
+.launcher.demo .dl-back:hover { opacity: 1; text-decoration: none; }
+/* the language, as the website's: two letters in a pill */
+.launcher.demo .lang { gap: 2px; padding: 2px; border: 0; border-radius: 999px; background: var(--d-fill); }
+.launcher.demo .lang-btn {
+  min-width: 34px; min-height: 26px; padding: 0 8px; border-radius: 999px;
+  color: var(--d-ink-3); font-size: 12px; font-weight: 600; letter-spacing: 0.02em;
+}
+.launcher.demo .lang-btn:hover { color: var(--d-ink); }
+.launcher.demo .lang-btn.on { background: var(--d-seg-on); color: var(--d-ink); box-shadow: 0 1px 3px rgb(0 0 0 / 0.12); }
+@media (max-width: 380px) { .dl-brand-l { display: none; } }
+
+/* the first words: centred, large, the lead in grey */
+.dl-hero { display: grid; justify-items: center; padding-block: clamp(44px, 6vw, 96px) clamp(40px, 5vw, 76px); text-align: center; }
+.dl-eyebrow { color: var(--d-link); font-size: clamp(19px, 0.5vw + 16px, 21px); font-weight: 600; letter-spacing: -0.016em; }
+.dl-title { margin-top: 10px; font-size: clamp(40px, 3.4vw + 20px, 72px); font-weight: 600; line-height: 1.05; letter-spacing: -0.032em; text-wrap: balance; }
+.dl-lead { max-width: 40em; margin-top: 22px; color: var(--d-ink-3); font-size: clamp(17px, 0.5vw + 15px, 21px); line-height: 1.42; letter-spacing: -0.018em; text-wrap: pretty; }
+
+/* the screens: tiles of Apple's grey — who it is for, the name, a note, «Otvori ›», the device under them */
+.dl-group { padding-bottom: clamp(56px, 7vw, 104px); }
+.dl-h2 { margin-bottom: clamp(20px, 2.2vw, 28px); font-size: clamp(28px, 1.4vw + 22px, 40px); font-weight: 600; line-height: 1.1; letter-spacing: -0.026em; text-wrap: balance; }
+.dl-h2.dl-c { text-align: center; }
+.dl-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 20px); }
+.dl-tile {
+  --art: 240px;
+  display: flex; flex-direction: column; min-width: 0; overflow: hidden;
+  padding: clamp(26px, 2.6vw, 36px) clamp(22px, 2.4vw, 34px) clamp(22px, 2.4vw, 30px);
+  border: 0; border-radius: 28px; background: var(--d-tile); color: var(--d-ink);
+  font: inherit; letter-spacing: inherit; text-align: left; cursor: pointer;
+}
+.dl-tile.wide { grid-column: span 2; }
+.dl-tile.t-ipad, .dl-tile.t-iphone { --art: 360px; }
+.dl-tile.t-guest, .dl-tile.t-board { --art: 330px; }
+.dl-text { display: flex; flex-direction: column; align-items: flex-start; }
+.dl-for { color: var(--d-ink-3); font-size: 14px; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
+.dl-name { margin-top: 4px; font-size: clamp(24px, 0.7vw + 19px, 30px); font-weight: 600; line-height: 1.12; letter-spacing: -0.024em; text-wrap: balance; }
+.dl-desc { max-width: 30em; margin-top: 8px; color: var(--d-ink-2); font-size: 17px; line-height: 1.42; text-wrap: pretty; }
+.dl-note { margin-top: 6px; color: var(--d-ink-3); font-size: 14px; line-height: 1.35; }
+.dl-go { display: inline-flex; align-items: center; gap: 1px; margin-top: 14px; color: var(--d-link); font-size: 17px; }
+.dl-go .ic { width: 0.8em; height: 0.8em; margin-top: 1px; }
+.dl-tile:hover .dl-go { text-decoration: underline; text-underline-offset: 0.16em; text-decoration-thickness: 1px; }
+.dl-art { display: block; margin-top: auto; padding-top: clamp(26px, 3vw, 40px); }
+.dla { display: block; width: 100%; height: var(--art); overflow: visible; filter: var(--d-drop); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+@media (hover: hover) { .dl-tile:hover .dla { transform: translateY(-4px) scale(1.012); } }
+.dl-tile:active .dla { transform: scale(0.99); }
+@media (max-width: 1000px) {
+  .dl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dl-tile.wide { grid-column: auto; }
+  .dl-tile.t-ipad { grid-column: span 2; }
+  .dl-tile { --art: 250px; }
+  .dl-tile.t-ipad { --art: 360px; }
+  .dl-tile.t-iphone, .dl-tile.t-guest { --art: 300px; }
+  .dl-tile.t-board { --art: 300px; }
+}
+@media (max-width: 640px) {
+  .dl-grid { grid-template-columns: minmax(0, 1fr); }
+  .dl-tile.t-ipad { grid-column: auto; }
+  .dl-tile, .dl-tile.t-ipad, .dl-tile.t-board { --art: 220px; }
+  .dl-tile.t-iphone, .dl-tile.t-guest, .dl-tile.t-kiosk { --art: 290px; }
+  .dl-tile { border-radius: 22px; }
+}
+
+/* the drawings: the app's colours on the screens (they follow the theme), bars standing for words */
+.dla .k-edge { fill: var(--d-edge); }
+.dla .k-glass { fill: var(--d-glass); }
+.dla .k-cam { fill: #1B2633; }
+.dla .k-stand, .dla .k-alu { fill: var(--d-alu); }
+.dla .k-alu-2 { fill: var(--d-alu-2); }
+.dla .k-bg { fill: var(--bg); }
+.dla .k-sf { fill: var(--surface); }
+.dla .k-s2 { fill: var(--surface-2); }
+.dla .k-s3 { fill: var(--surface-3); }
+.dla .k-ln { fill: var(--line); }
+.dla .k-ink { fill: var(--ink); }
+.dla .k-i2 { fill: var(--ink-2); }
+.dla .k-i3 { fill: var(--ink-3); opacity: 0.55; }
+.dla .k-ac, .dla .k-acf { fill: var(--accent); }
+.dla .k-acs { fill: var(--accent-soft); }
+.dla .k-ok { fill: var(--ok); }
+.dla .k-oki { fill: var(--ok-ink); }
+.dla .k-oks { fill: var(--ok-soft); }
+.dla .k-wn { fill: var(--warn); }
+.dla .k-wns { fill: var(--warn-soft); }
+.dla .k-bad { fill: var(--bad); }
+.dla .k-c1 { fill: var(--s1); }
+.dla .k-c2 { fill: var(--s2); }
+.dla .k-c3 { fill: var(--s3); }
+.dla .k-plate { fill: #1E44B0; }
+.dla .k-rule { fill: none; stroke: rgb(255 255 255 / 0.92); stroke-width: 1.6; }
+.dla .k-w { fill: #FFFFFF; }
+.dla .k-w-15 { fill: rgb(255 255 255 / 0.16); }
+.dla .k-w-7 { fill: rgb(255 255 255 / 0.72); }
+.dla .k-o { fill: none; stroke: var(--line-2); stroke-width: 2; }
+.dla .k-dash { fill: none; stroke: var(--line-2); stroke-width: 2; stroke-dasharray: 7 6; }
+.dla .k-okl { fill: none; stroke: var(--ok); stroke-width: 3; }
+.dla .k-okl-1 { fill: none; stroke: var(--ok); stroke-width: 2; }
+.dla .k-inkl { fill: none; stroke: var(--ink); stroke-width: 3; }
+.dla .k-gl rect { fill: none; stroke: var(--ink-2); stroke-width: 2; }
+.dla .k-acl rect { fill: none; stroke: var(--accent); stroke-width: 2.4; }
+.dla .k-ico { fill: none; stroke: var(--ink-3); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.dla .k-ico-ac { stroke: var(--accent); }
+.dla .k-chev { fill: none; stroke: var(--ink-3); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.dla .k-arrow { fill: none; stroke: #FFFFFF; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.dla .k-tick { fill: none; stroke: var(--ok); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.dla .k-tick-d { fill: none; stroke: var(--ok-ink); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.dla .k-flame { fill: none; stroke: var(--warn); stroke-width: 2.6; stroke-linejoin: round; }
+.dla .k-wifi { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
+.dla .k-bat { fill: none; stroke: var(--ink); stroke-width: 1.6; opacity: 0.5; }
+.dla .k-plate-sh { fill: rgb(0 0 0 / 0.06); }
+.dla .k-gs0 { stop-color: var(--ok-soft); stop-opacity: 0.7; }
+.dla .k-gs1 { stop-color: var(--ok-soft); stop-opacity: 0; }
+.dla text { font-family: var(--font-ui); font-weight: 700; letter-spacing: -0.02em; }
+.dla .k-time { fill: var(--ink); font-family: var(--d-font); font-size: 17px; font-weight: 600; letter-spacing: 0; }
+.dla .k-num { fill: var(--ink); font-size: 36px; }
+.dla .k-big { fill: var(--ink-2); font-size: 50px; }
+.dla .k-big-ok { fill: var(--ok); }
+/* the kitchen and the board are dark in both themes, as in the app */
+.dla .k-dark {
+  --bg: #0E1113; --surface: #171B1E; --surface-2: #1E2327; --surface-3: #2A3238;
+  --ink: #EEF1F2; --ink-2: #B3BBC1; --ink-3: #85909A; --line: #2B3339; --line-2: #3D474E;
+  --accent: #7D97F0; --accent-soft: #1C2647; --ok: #4CC788; --ok-ink: #06140C; --ok-soft: #13301F;
+  --warn: #F0A93E; --warn-soft: #3A2A10; --bad: #F2725F;
+}
+
+/* how to try: a path of six steps — a large thin numeral, a line on to the next (as the website's «Kako počinje») */
+.dl-try { padding-block: clamp(64px, 8vw, 120px); background: var(--d-tile); }
+.dl-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px 0; margin: clamp(28px, 3.4vw, 48px) 0 0; padding: 0; list-style: none; }
+.dl-step { display: grid; align-content: start; gap: 14px; min-width: 0; padding-right: clamp(16px, 1.8vw, 26px); }
+.dl-n { display: flex; align-items: center; gap: 16px; color: var(--d-link); font-size: clamp(48px, 2.4vw + 26px, 64px); font-weight: 200; line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.dl-n::after { content: ''; flex: 1; height: 1px; background: var(--d-line-2); }
+.dl-step:nth-child(3n) .dl-n::after { background: linear-gradient(90deg, var(--d-line-2), transparent); }
+.dl-step p { color: var(--d-ink-2); font-size: 17px; line-height: 1.47; text-wrap: pretty; }
+.dl-mail { max-width: 40em; margin: clamp(44px, 4.4vw, 64px) auto 0; color: var(--d-ink-3); text-align: center; text-wrap: balance; }
+@media (max-width: 1000px) {
+  .dl-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dl-step:nth-child(3n) .dl-n::after { background: var(--d-line-2); }
+  .dl-step:nth-child(2n) .dl-n::after { background: linear-gradient(90deg, var(--d-line-2), transparent); }
+}
+@media (max-width: 560px) {
+  .dl-steps { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .dl-step { grid-template-columns: auto minmax(0, 1fr); column-gap: 20px; padding: 0; }
+  .dl-n { flex-direction: column; align-self: stretch; gap: 12px; font-size: 44px; }
+  .dl-step .dl-n::after, .dl-step:nth-child(3n) .dl-n::after, .dl-step:nth-child(2n) .dl-n::after { width: 1px; height: auto; background: var(--d-line-2); }
+  .dl-step:last-child .dl-n::after { background: linear-gradient(180deg, var(--d-line-2), transparent); }
+  .dl-step p { padding: 4px 0 28px; }
+}
+
+/* the foot: Apple's — small, on the grey; what stays where, and «Počni ispočetka» */
+.dl-foot { padding-block: 0 calc(28px + env(safe-area-inset-bottom, 0px)); background: var(--d-tile); color: var(--d-ink-3); font-size: 12px; line-height: 1.5; }
+.dl-foot-in { position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-block: 22px; }
+.dl-foot-in::before { content: ''; position: absolute; top: 0; left: var(--d-gutter); right: var(--d-gutter); height: 1px; background: var(--d-line); }
+.dl-foot-in p { font-size: 14px; }
+.dl-reset {
+  display: inline-flex; align-items: center; gap: 7px; min-height: 36px; padding: 0 16px; border: 0; border-radius: 999px;
+  background: var(--d-fill); color: var(--d-ink); font: inherit; font-size: 14px; letter-spacing: -0.01em; cursor: pointer;
+}
+.dl-reset:hover { background: var(--d-line); }
+.dl-reset.sure { background: var(--d-danger); color: #FFFFFF; }
+.dl-foot-base { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding-top: 4px; }
+.dl-foot-base .wordmark { font-size: 11px; }
 
 /* ---------- top bar (iPad and kitchen) ---------- */
 .topbar, .kds-top {
@@ -1821,7 +2037,6 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 .gu-star { display: grid; place-items: center; width: 52px; height: 52px; border: 0; border-radius: 50%; background: none; color: var(--line-2); cursor: pointer; transition: transform 0.12s, color 0.12s; }
 .gu-star:active { transform: scale(0.9); }
 .gu-star.on { color: #E6A700; }
-.gu-star.on svg { fill: currentColor; }
 .gu-star-l { margin: 0 0 4px; font-size: 15px; font-weight: var(--fw-semibold); text-align: center; }
 .gu-rate .gu-note { margin: 0 0 4px; text-align: center; }
 .gu-rate-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; }

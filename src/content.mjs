@@ -83,6 +83,73 @@ const TICKET = {
   ru: { table: 'Стол 12', guests: 4, meta: 'Зал · Marko · открыт 20:14', lines: [['Чевапи, 10 шт', 2, 2580], ['Шопский салат', 1, 590], ['Домашний лимонад', 3, 1050]], later: [['Палачинки с шоколадом', 2, 1040]], grid: MAINS.ru, kitchen: 'Кухня', no: '4032', time: '04:12', waits: 'Курс 2 ждёт вызова', stock: { title: 'Склад · по техкарте', note: 'спишется при оплате', rows: [['Фарш', '0,50 кг'], ['Лепиня', '2 шт'], ['Каймак', '0,08 кг']] }, label: 'Пример: заказ стола 12 на iPad, тот же заказ на экране кухни и списание продуктов по техкарте' },
 };
 
+// The hero goes on (the owner, 14 October, 15:53: «первый блок снабдить большим кол-ом демо-вариантов, как будто там
+// кипит работа»): after table 12 — the floor with table 5 ready and served, a Wolt order to its courier, table 12 paid
+// by IPS QR and its stock written off; meanwhile notices come one by one, as they do on a busy evening. Every one is
+// something RUVO does (the kiosk, Wolt, the waiter's iPhone, the stop list with portions, the pickup screen, IPS QR).
+const LIVE = {
+  sr: {
+    label: 'Jedno veče u RUVO-u: porudžbina stola 12 ide u kuhinju, sala sa stolom 5 spremnim za serviranje, dostava za Wolt i naplata IPS QR kodom; okolo — obaveštenja sa kioska, od kurira i iz kuhinje',
+    now: 'sada',
+    events: [
+      ['hand-tap', 'Kiosk', 'Nova porudžbina 48 · plaćanje na kasi'],
+      ['moped', 'Wolt', 'Nova porudžbina W-7F3A · 2× Ćevapi'],
+      ['bell', 'Sto 5', 'Spremno za serviranje · 3 jela'],
+      ['device-mobile', 'Sto 9 · Jovana', 'Poslato u kuhinju i šank · 6 stavki'],
+      ['prohibit', 'Stop-lista', 'Ćevapi, 10 kom — ostalo 3'],
+      ['moped', 'Wolt W-7F3A', 'Kurir stiže u 21:52'],
+      ['qr-code', 'Sto 12 · IPS QR', 'Plaćeno {sum} RSD'],
+      ['monitor', 'Ekran za preuzimanje', 'A5 · Stefan — spremno'],
+    ],
+    ready: { who: 'Marko · iPhone', title: 'Sto 5 — spremno', lines: [[2, 'Ćevapi, 10 kom'], [1, 'Šopska salata']], done: 'Servirano' },
+    shift: { title: 'Smena · sala', open: 'Otvorenih stolova', sales: 'Promet danas', staff: 'Marko, Jovana, Nikola' },
+    wolt: { src: 'Wolt W-7F3A', time: '06:40', lines: [[2, 'Ćevapi, 10 kom'], [1, 'Šopska salata']], note: 'Kurir 21:52', no: '4036' },
+    courier: { title: 'Kurir · Wolt W-7F3A', rows: [['Stiže', '21:52'], ['Kuhinja spremna', '21:48']], note: 'vreme iz porudžbine platforme' },
+    pay: { title: 'Naplata · Sto 12', methods: ['Kartica', 'Gotovina', 'IPS QR'], scan: 'Gost skenira aplikacijom banke', paid: 'Plaćeno' },
+    written: 'otpisano · Sto 12',
+  },
+  en: {
+    label: 'An evening in RUVO: table 12’s order goes to the kitchen, the floor with table 5 ready to serve, a Wolt delivery and an IPS QR payment; around them, notices from the kiosk, the couriers and the kitchen',
+    now: 'now',
+    events: [
+      ['hand-tap', 'Kiosk', 'New order 48 · pay at the counter'],
+      ['moped', 'Wolt', 'New order W-7F3A · 2× Ćevapi'],
+      ['bell', 'Table 5', 'Ready to serve · 3 dishes'],
+      ['device-mobile', 'Table 9 · Jovana', 'Sent to the kitchen and bar · 6 items'],
+      ['prohibit', 'Stop list', 'Ćevapi, 10 pcs — 3 left'],
+      ['moped', 'Wolt W-7F3A', 'The courier arrives at 21:52'],
+      ['qr-code', 'Table 12 · IPS QR', 'Paid {sum} RSD'],
+      ['monitor', 'Pickup screen', 'A5 · Stefan — ready'],
+    ],
+    ready: { who: 'Marko · iPhone', title: 'Table 5 — ready', lines: [[2, 'Ćevapi, 10 pcs'], [1, 'Shopska salad']], done: 'Served' },
+    shift: { title: 'Shift · floor', open: 'Open tables', sales: 'Sales today', staff: 'Marko, Jovana, Nikola' },
+    wolt: { src: 'Wolt W-7F3A', time: '06:40', lines: [[2, 'Ćevapi, 10 pcs'], [1, 'Shopska salad']], note: 'Courier 21:52', no: '4036' },
+    courier: { title: 'Courier · Wolt W-7F3A', rows: [['Arrives', '21:52'], ['Kitchen ready', '21:48']], note: 'the time from the platform’s order' },
+    pay: { title: 'Payment · Table 12', methods: ['Card', 'Cash', 'IPS QR'], scan: 'The guest scans with their bank’s app', paid: 'Paid' },
+    written: 'written off · Table 12',
+  },
+  ru: {
+    label: 'Вечер в RUVO: заказ стола 12 уходит на кухню, зал со столом 5, готовым к подаче, доставка Wolt и оплата по IPS QR; вокруг — уведомления с киоска, от курьеров и с кухни',
+    now: 'сейчас',
+    events: [
+      ['hand-tap', 'Киоск', 'Новый заказ 48 · оплата на кассе'],
+      ['moped', 'Wolt', 'Новый заказ W-7F3A · 2× Чевапи'],
+      ['bell', 'Стол 5', 'Готово к подаче · 3 блюда'],
+      ['device-mobile', 'Стол 9 · Jovana', 'Отправлено на кухню и бар · 6 позиций'],
+      ['prohibit', 'Стоп-лист', 'Чевапи, 10 шт — осталось 3'],
+      ['moped', 'Wolt W-7F3A', 'Курьер приедет в 21:52'],
+      ['qr-code', 'Стол 12 · IPS QR', 'Оплачено {sum} RSD'],
+      ['monitor', 'Табло выдачи', 'A5 · Stefan — готово'],
+    ],
+    ready: { who: 'Marko · iPhone', title: 'Стол 5 — готово', lines: [[2, 'Чевапи, 10 шт'], [1, 'Шопский салат']], done: 'Подано' },
+    shift: { title: 'Смена · зал', open: 'Открыто столов', sales: 'Выручка сегодня', staff: 'Marko, Jovana, Nikola' },
+    wolt: { src: 'Wolt W-7F3A', time: '06:40', lines: [[2, 'Чевапи, 10 шт'], [1, 'Шопский салат']], note: 'Курьер 21:52', no: '4036' },
+    courier: { title: 'Курьер · Wolt W-7F3A', rows: [['Приедет', '21:52'], ['Кухня готова', '21:48']], note: 'время из заказа площадки' },
+    pay: { title: 'Оплата · Стол 12', methods: ['Карта', 'Наличные', 'IPS QR'], scan: 'Гость сканирует приложением банка', paid: 'Оплачено' },
+    written: 'списано · Стол 12',
+  },
+};
+
 // «Kako izgleda u radu»: nine screens of RUVO drawn from the app's own parts, with the dishes and figures of one
 // restaurant (the owner, 13 October: «Как это выглядит в работе — надо больше примеров»). The figures add up: the tech
 // card's cost and food cost, the week's sales and its change, the guest's discounts and points are counted by build.mjs
@@ -568,7 +635,12 @@ const MORE = {
         ['bike', 'Dostava na istom ekranu', 'Porudžbine za Wolt i Glovo idu u kuhinju zajedno sa salom, sa vremenom dolaska kurira.', { code: 'W-7F3A', item: '2× Ćevapi, 10 kom', courier: 'Kurir 21:52' }],
         ['clock', 'Radni dan do 5 ujutru', 'Za lokale koji rade posle ponoći: promet ide u pravi dan.', { day: 'Radni dan', now: 'sada' }],
         ['info', 'Alergeni za goste', '14 alergena EU za svako jelo, iz normativa, u kiosku i kod konobara.', { dish: 'Palačinke sa čokoladom', tags: ['Gluten', 'Mleko', 'Jaja'], note: '14 alergena EU' }],
+        ['queue', 'Gužva, unapred', 'RUVO zna koliko kuhinja ima posla i koliko joj treba; aplikacija za goste upozori na gužvu i ponudi kasnije vreme.', { label: 'Red kuhinje', load: '12 porcija · ~18 min', note: 'Kuhinja je zauzeta — najranije preuzimanje u 21:59' }],
+        ['norm', 'Norma za svako jelo', 'Svako jelo ima svoju normu vremena; kuhinja vidi koliko je danas izdato u normi i koliko u proseku traje.', { label: 'u normi danas', pct: 67, rows: [['Prosečno', '8 min'], ['Norma · Ćevapi', '12 min']] }],
+        ['pair', 'Parovi sa popustom', 'Kafa uz doručak −30%: RUVO sam primeni popust kad su oba na računu — niko ne mora da pamti.', { rows: [['Sirnici', 690], ['Espreso', 220]], disc: 'Kafa uz doručak −30%', minus: 66 }],
+        ['board', 'Ekran za preuzimanje', 'Broj i ime iznad pulta: „Spremamo“, pa „Spremno — preuzmite“ — za kiosk i prednarudžbine.', { cooking: 'Spremamo', ready: 'Spremno', wait: [['A4', 'Ivana'], ['2', '']], done: [['1', ''], ['A5', 'Stefan']] }],
       ],
+      pause: 'Zaustavi kretanje', play: 'Pokreni kretanje',
     },
     why: {
       title: 'Zašto RUVO',
@@ -605,7 +677,12 @@ const MORE = {
         ['bike', 'Delivery on the same screen', 'Orders for Wolt and Glovo go to the kitchen together with the floor, with the courier’s arrival time.', { code: 'W-7F3A', item: '2× Ćevapi, 10 pcs', courier: 'Courier 21:52' }],
         ['clock', 'A working day until 5 a.m.', 'For places open after midnight: sales land on the right day.', { day: 'Working day', now: 'now' }],
         ['info', 'Allergens for guests', 'The 14 EU allergens for every dish, from its recipe, on the kiosk and for the waiter.', { dish: 'Pancakes with chocolate', tags: ['Gluten', 'Milk', 'Eggs'], note: '14 EU allergens' }],
+        ['queue', 'A rush, told ahead', 'RUVO knows how much the kitchen has on and how long it will take; the guest app warns of the rush and offers a later time.', { label: 'Kitchen queue', load: '12 portions · ~18 min', note: 'The kitchen is busy — earliest pickup at 21:59' }],
+        ['norm', 'A time norm for every dish', 'Every dish has its own time norm; the kitchen sees how much went out within it today and how long it takes on average.', { label: 'within the norm today', pct: 67, rows: [['Average', '8 min'], ['Norm · Ćevapi', '12 min']] }],
+        ['pair', 'Pairs at a discount', 'Coffee with breakfast −30%: RUVO applies the discount itself when both are on the bill — nobody has to remember.', { rows: [['Cheese pancakes', 690], ['Espresso', 220]], disc: 'Coffee with breakfast −30%', minus: 66 }],
+        ['board', 'A pickup screen', 'The number and the name over the counter: “Preparing”, then “Ready — pick up” — for the kiosk and pre-orders.', { cooking: 'Preparing', ready: 'Ready', wait: [['A4', 'Ivana'], ['2', '']], done: [['1', ''], ['A5', 'Stefan']] }],
       ],
+      pause: 'Pause the motion', play: 'Play the motion',
     },
     why: {
       title: 'Why RUVO',
@@ -642,7 +719,12 @@ const MORE = {
         ['bike', 'Доставка на том же экране', 'Заказы для Wolt и Glovo идут на кухню вместе с залом — со временем приезда курьера.', { code: 'W-7F3A', item: '2× Чевапи, 10 шт', courier: 'Курьер 21:52' }],
         ['clock', 'Рабочий день до 5 утра', 'Для заведений, которые работают после полуночи: выручка попадает в нужный день.', { day: 'Рабочий день', now: 'сейчас' }],
         ['info', 'Аллергены для гостей', '14 аллергенов ЕС у каждого блюда — по техкарте, в киоске и у официанта.', { dish: 'Палачинки с шоколадом', tags: ['Глютен', 'Молоко', 'Яйца'], note: '14 аллергенов ЕС' }],
+        ['queue', 'Загрузка кухни — заранее', 'RUVO знает, сколько у кухни работы и сколько ей нужно времени; приложение для гостей предупредит о загрузке и предложит время позже.', { label: 'Очередь кухни', load: '12 порций · ~18 мин', note: 'Кухня загружена — ближайшее время выдачи 21:59' }],
+        ['norm', 'Норма на каждое блюдо', 'У каждого блюда своя норма времени; кухня видит, сколько сегодня отдано в норму и сколько в среднем это занимает.', { label: 'в норме сегодня', pct: 67, rows: [['В среднем', '8 мин'], ['Норма · Чевапи', '12 мин']] }],
+        ['pair', 'Пары со скидкой', 'Кофе к завтраку −30%: RUVO сам применит скидку, когда оба блюда в счёте, — помнить не нужно.', { rows: [['Сырники', 690], ['Эспрессо', 220]], disc: 'Кофе к завтраку −30%', minus: 66 }],
+        ['board', 'Табло выдачи', 'Номер и имя над стойкой: «Готовим», потом «Готово — заберите» — для киоска и предзаказов.', { cooking: 'Готовим', ready: 'Готово', wait: [['A4', 'Ivana'], ['2', '']], done: [['1', ''], ['A5', 'Stefan']] }],
       ],
+      pause: 'Остановить движение', play: 'Запустить движение',
     },
     why: {
       title: 'Почему RUVO',
@@ -680,6 +762,7 @@ export const T = {
       cta: 'Pišite nam',
       ...MORE.sr,
       ticket: TICKET.sr,
+      live: LIVE.sr,
       examples: EXAMPLES.sr,
       pricing: PRICING.sr,
       integrationsTitle: 'Povezivanja',
@@ -761,6 +844,7 @@ export const T = {
       cta: 'Write to us',
       ...MORE.en,
       ticket: TICKET.en,
+      live: LIVE.en,
       examples: EXAMPLES.en,
       pricing: PRICING.en,
       integrationsTitle: 'Connections',
@@ -842,6 +926,7 @@ export const T = {
       cta: 'Напишите нам',
       ...MORE.ru,
       ticket: TICKET.ru,
+      live: LIVE.ru,
       examples: EXAMPLES.ru,
       pricing: PRICING.ru,
       integrationsTitle: 'Подключения',
