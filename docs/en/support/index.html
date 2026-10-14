@@ -58,6 +58,7 @@
 --kds-warn: #F0A93E;
 --kds-warn-soft: #3A2A10;
 --kds-late: #F0705F;
+--kds-plan: #8FA6F5;
 --night: #13171A;
 --night-2: #1C2226;
 --night-line: rgb(255 255 255 / 0.09);
@@ -210,11 +211,68 @@ color: var(--ink-2); font-size: var(--fs-sm); font-weight: 600; letter-spacing: 
 .nav { display: none; }
 .top-in > .langs { margin-left: auto; }
 }
-@media (max-width: 760px) { .top-in { min-height: 68px; } }
+@media (max-width: 760px) { .top-in { min-height: 68px; gap: var(--sp-3); } }
+@media (max-width: 480px) {
+.top-in { gap: var(--sp-2); }
+.langs a { min-width: 34px; padding-inline: 6px; }
+}
+.top-in { position: relative; }
+.vm { position: relative; flex: none; }
+.vm-btn {
+display: inline-flex; align-items: center; gap: 8px;
+height: 40px; padding-inline: 12px 10px; border-radius: 10px;
+background: var(--bg-2); color: var(--ink);
+font-size: var(--fs-body); font-weight: 600; white-space: nowrap;
+cursor: pointer; list-style: none; user-select: none;
+}
+.vm-btn::-webkit-details-marker { display: none; }
+.vm-btn::marker { content: ''; }
+.vm-btn > svg { flex: none; width: 22px; height: 22px; }
+.vm-btn:hover { background: var(--line); }
+.vm-chev { display: inline-flex; color: var(--ink-3); }
+.vm-chev svg { width: 14px; height: 14px; transition: transform 0.2s ease; }
+.vm[open] > .vm-btn { background: var(--surface); box-shadow: var(--shadow-1); }
+.vm[open] .vm-chev svg { transform: rotate(180deg); }
+.vm-panel {
+position: absolute; z-index: 30; top: calc(100% + 10px); left: 0;
+width: min(700px, calc(100vw - 2 * var(--gutter)));
+padding: 8px; border: 1px solid var(--line); border-radius: var(--r-xl);
+background: var(--surface); box-shadow: var(--shadow-2);
+}
+.vm-k { padding: 10px 12px 6px; color: var(--ink-3); font-size: var(--fs-xs); font-weight: 600; line-height: 1.2; letter-spacing: var(--track-caps); text-transform: uppercase; }
+.vm-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; }
+.vm-list a { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px; border-radius: var(--r-md); color: var(--ink); text-decoration: none; }
+.vm-list a:hover { background: var(--surface-2); color: var(--ink); }
+.vm-list a[aria-current] { background: var(--accent-soft); }
+.vm-ic { flex: none; display: inline-flex; }
+.vm-ic svg { width: 28px; height: 28px; }
+.vm-t { display: grid; gap: 2px; min-width: 0; }
+.vm-t b { font-size: var(--fs-body); font-weight: 600; line-height: 1.3; }
+.vm-t small { color: var(--ink-3); font-size: var(--fs-sm); line-height: 1.35; }
+.vm-all { display: flex; align-items: center; gap: 6px; margin: 6px 4px 2px; padding: 12px 8px 8px; border-top: 1px solid var(--line); font-size: var(--fs-sm); font-weight: 600; text-decoration: none; }
+.vm-all svg { flex: none; width: 14px; height: 14px; }
+.vm-all[aria-current] { color: var(--ink); }
+@media (prefers-reduced-motion: no-preference) { .vm[open] .vm-panel { animation: vm-in 0.18s ease-out both; } }
+@keyframes vm-in { from { opacity: 0; transform: translateY(-6px); } }
+@media (max-width: 1000px) {
+.vm { position: static; }
+.vm-panel { left: 0; right: 0; width: auto; max-height: calc(100dvh - 92px); overflow-y: auto; overscroll-behavior: contain; margin-inline: var(--gutter); }
+}
+@media (max-width: 640px) { .vm-list { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 480px) {
+.vm-btn { gap: 6px; padding-inline: 10px 8px; font-size: var(--fs-sm); }
+.vm-btn > svg { display: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+@view-transition { navigation: auto; }
+}
+.top { position: relative; z-index: 10; view-transition-name: top; }
 .hero { padding-block: clamp(24px, 4vw, 64px) var(--band); }
 .hero-in { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: clamp(40px, 5vw, 80px); align-items: center; }
 .hero-text { min-width: 0; }
 .eyebrow { color: var(--accent); }
+.hero .eyebrow svg { flex: none; width: 22px; height: 22px; }
+.hero .eyebrow:has(svg) { display: flex; align-items: center; gap: 8px; }
 .hero h1 { margin-top: var(--sp-4); font-size: var(--fs-h1); font-weight: 700; line-height: 1.04; letter-spacing: -0.028em; text-wrap: balance; }
 .lead { margin-top: var(--sp-6); max-width: 33em; color: var(--ink-2); font-size: var(--fs-lead); line-height: 1.5; text-wrap: pretty; }
 .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3); margin-top: var(--sp-8); }
@@ -255,7 +313,10 @@ background: var(--surface); box-shadow: var(--shadow-2);
 .pad-btn { display: flex; align-items: center; justify-content: center; height: 44px; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 600; }
 .pad-btn.go { background: var(--accent); color: var(--accent-ink); }
 .pad-btn.bill { border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); }
-.scene-side { flex: 0 1 204px; min-width: 0; display: grid; gap: var(--sp-3); margin-top: 88px; }
+.pad-btns.one { grid-template-columns: minmax(0, 1fr); }
+.pad-title { display: inline-flex; align-items: center; gap: 8px; min-width: 0; }
+.pad-title .pf { font-size: 13px; padding: 3px 9px; }
+.scene-side { flex: 0 0 204px; min-width: 0; display: grid; gap: var(--sp-3); margin-top: 88px; }
 .kds-t {
 min-width: 0; overflow: hidden;
 border: 1px solid var(--kds-line); border-radius: var(--r-lg);
@@ -272,6 +333,13 @@ background: var(--kds); color: var(--kds-ink); box-shadow: var(--shadow-2);
 .kl-q { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 30px; border: 1px solid var(--kds-line); border-radius: var(--r-sm); background: var(--kds-2); font-size: var(--fs-sm); }
 .kl-n { min-width: 0; overflow-wrap: anywhere; }
 .kds-wait { margin: 0 14px 14px; padding: 8px 10px; border-radius: var(--r-sm); background: var(--kds-warn-soft); color: var(--kds-warn); font-size: var(--fs-sm); font-weight: 600; }
+.kds-wait.note { background: var(--kds-2); color: var(--kds-ink-2); }
+.kds-t.fcast::before { background: var(--kds-plan); }
+.kp-rows { display: grid; gap: 8px; padding: 10px 14px 4px; }
+.kp { display: flex; justify-content: space-between; gap: 10px; font-size: var(--fs-body); font-weight: 600; }
+.kp span { min-width: 0; overflow-wrap: anywhere; }
+.kp b { flex: none; color: var(--kds-plan); font-weight: 700; }
+.kp-note { padding: 6px 14px 14px; color: var(--kds-ink-2); font-size: var(--fs-xs); line-height: 1.4; }
 .kl-ok { position: absolute; top: 50%; left: 0; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; margin-top: -15px; padding: 7px; border-radius: var(--r-sm); background: var(--kds-ok); color: #0B2416; opacity: 0; }
 .kl-ok svg, .kds-done svg { width: 100%; height: 100%; }
 .kds-done { position: absolute; top: 50%; right: 12px; display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px 3px 7px; border-radius: 999px; background: var(--kds-ok); color: #0B2416; font-size: var(--fs-xs); font-weight: 700; white-space: nowrap; opacity: 0; transform: translateY(-50%); }
@@ -281,15 +349,21 @@ background: var(--kds); color: var(--kds-ink); box-shadow: var(--shadow-2);
 .sc-r { display: flex; justify-content: space-between; gap: 10px; padding-block: 3px; }
 .sc-r span { min-width: 0; overflow-wrap: anywhere; }
 .sc-r b { font-weight: 600; white-space: nowrap; }
+.sc-r b.ok { color: var(--ok); }
 .sc-note { margin-top: 6px; color: var(--ink-3); font-size: var(--fs-xs); }
+.scene--kiosk .kio { font-size: clamp(11px, 1.05vw, 15px); }
+.scene--kiosk .scene-side { margin-top: 120px; }
+@media (max-width: 1000px) { .scene--kiosk .kio { font-size: 15px; } }
 @media (max-width: 560px) {
 .scene { flex-direction: column; align-items: stretch; gap: 0; }
 .pad { flex-basis: auto; }
 .scene-side { flex-basis: auto; align-self: flex-end; width: 80%; margin-top: -18px; margin-right: -4px; position: relative; }
+.scene--kiosk .kio { align-self: center; font-size: min(14px, calc((100vw - 2 * var(--gutter)) / 22.2)); }
+.scene--kiosk .scene-side { margin-top: var(--sp-3); }
 }
 @media (prefers-reduced-motion: no-preference) {
-.scene.live :is(.pad-btn.go, .kds-t, .kl-ok, .kl-n, .kds-time, .kds-done, .stock-chip) { animation-delay: -6.2s !important; }
-.scene.live .pad-btn.go { animation: h-press 10s infinite; }
+.scene.live :is(.pad-btn.go, .kio-go, .kds-t, .kl-ok, .kl-n, .kds-time, .kds-done, .stock-chip) { animation-delay: -6.2s !important; }
+.scene.live :is(.pad-btn.go, .kio-go) { animation: h-press 10s infinite; }
 .scene.live .kds-t { animation: h-ticket 10s infinite; }
 .scene.live .kl:nth-child(1) .kl-ok { animation: h-ok1 10s infinite; }
 .scene.live .kl:nth-child(2) .kl-ok { animation: h-ok2 10s infinite; }
@@ -393,8 +467,6 @@ overflow-wrap: anywhere;
 .hero-art.has-photo .photo img { object-position: 50% 62%; }
 .hero-art.has-photo .scene { display: none; }
 }
-.who-photos { display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); gap: var(--gap); margin-bottom: var(--gap); }
-@media (max-width: 760px) { .who-photos { grid-template-columns: minmax(0, 1fr); } }
 .ex-tabs { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-bottom: clamp(24px, 3vw, 40px); }
 .ex-tabs[hidden] { display: none; }
 .ex-tabs button {
@@ -834,31 +906,6 @@ font-size: 13px; line-height: 1.3; font-variant-numeric: tabular-nums;
 .mu-tag.now { background: #E2E8F8; color: var(--m-accent); }
 .mu-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .mu-note { color: var(--m-ink-3); font-size: 12px; }
-.who { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 64px); align-items: start; }
-.who-tabs { display: flex; flex-wrap: wrap; align-content: start; gap: 10px; }
-.who-tabs[hidden] { display: none; }
-.who-tabs button { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 20px 0 14px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--surface); color: var(--ink); font: inherit; font-size: var(--fs-md); font-weight: 600; cursor: pointer; }
-.who-tabs button svg { flex: none; width: 26px; height: 26px; }
-.who-tabs button:hover { border-color: var(--ink-3); }
-.who-tabs button[aria-selected="true"] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
-.who-tabs button[aria-selected="true"] .duo { fill: var(--bg); opacity: 0.35; }
-.who-panels { display: grid; }
-.who.js .who-panel { grid-area: 1 / 1; }
-.who.js .who-panel:not(.on) { visibility: hidden; }
-.who-panel { display: grid; align-content: start; gap: var(--sp-3); min-width: 0; padding: clamp(24px, 3vw, 36px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--shadow-1); }
-.who-ic svg { display: block; width: 56px; height: 56px; color: var(--ink); }
-.who-panel h3 { margin-top: var(--sp-2); font-size: var(--fs-xl); font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
-.who-panel p { color: var(--ink-2); font-size: var(--fs-lead); line-height: 1.55; text-wrap: pretty; }
-.who:not(.js) { display: block; }
-.who:not(.js) .who-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
-@media (prefers-reduced-motion: no-preference) { .who.js .who-panel.on { animation: s-in 0.35s both; } }
-@media (max-width: 900px) { .who { grid-template-columns: minmax(0, 1fr); } }
-@media (max-width: 560px) {
-.who-tabs { gap: 8px; }
-.who-tabs button { height: 44px; padding: 0 16px 0 11px; font-size: var(--fs-body); }
-.who-tabs button svg { width: 22px; height: 22px; }
-.who:not(.js) .who-panels { grid-template-columns: minmax(0, 1fr); }
-}
 .why { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(36px, 4vw, 56px) clamp(32px, 5vw, 80px); }
 .why li { display: grid; align-content: start; gap: var(--sp-3); padding-top: var(--sp-6); border-top: 1px solid var(--line-2); }
 .why h3 { font-size: clamp(24px, 1.3vw + 15px, 34px); font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; text-wrap: balance; }
@@ -1053,7 +1100,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 .foot-in { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-8) var(--gap); }
 .foot-co { display: grid; gap: var(--sp-3); justify-items: start; align-content: start; }
 .foot-co p { line-height: 1.6; }
-.foot-cols { grid-column: 2 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-6) var(--gap); }
+.foot-cols { grid-column: 2 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-6) var(--gap); }
 .foot-col h2 { margin-bottom: var(--sp-3); color: var(--ink); font-size: var(--fs-sm); font-weight: 600; line-height: 1.3; letter-spacing: 0; }
 .foot-col ul { display: grid; gap: var(--sp-2); }
 .foot-col li { line-height: 1.5; overflow-wrap: anywhere; }
@@ -1062,7 +1109,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 .foot-col a[aria-current] { color: var(--ink); font-weight: 600; }
 .foot-base { margin-top: var(--sp-10); padding-top: var(--sp-5); border-top: 1px solid var(--line); line-height: 1.6; }
 @media (max-width: 760px) { .foot-in { grid-template-columns: minmax(0, 1fr); } .foot-cols { grid-column: 1; } }
-@media (max-width: 480px) { .foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } .foot-col:last-child { grid-column: 1 / -1; } }
+@media (max-width: 480px) { .foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .doc { padding-block: clamp(16px, 3vw, 40px) var(--band); }
 .doc-in { max-width: 70ch; }
 .doc h1 { font-size: clamp(26px, 2.6vw + 18px, 46px); hyphens: auto; font-weight: 700; line-height: 1.08; letter-spacing: -0.024em; text-wrap: balance; }
@@ -1096,7 +1143,15 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <a class="skip" href="#main">Skip to content</a>
 <header class="top"><div class="wrap top-in">
 <a class="wordmark" href="../" aria-label="RUVO — Home">RUVO</a>
-<nav class="nav" aria-label="Main menu"><a href="../#features">Features</a><a href="../#who">Who it’s for</a><a href="../#pricing">Pricing</a><a href="../#contact">Contact</a></nav>
+<details class="vm" data-vm>
+<summary class="vm-btn" aria-label="Who it’s for"><span class="vm-l">Who it’s for</span><span class="vm-chev"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z"/></svg></span></summary>
+<div class="vm-panel">
+<p class="vm-k">Who RUVO is for</p>
+<ul class="vm-list"><li><a href="../restaurant/"><span class="vm-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,40V168H152S152,64,208,40Z" class="duo"/><path d="M72,88V40a8,8,0,0,1,16,0V88a8,8,0,0,1-16,0ZM216,40V224a8,8,0,0,1-16,0V176H152a8,8,0,0,1-8-8,268.75,268.75,0,0,1,7.22-56.88c9.78-40.49,28.32-67.63,53.63-78.47A8,8,0,0,1,216,40ZM200,53.9c-32.17,24.57-38.47,84.42-39.7,106.1H200ZM119.89,38.69a8,8,0,1,0-15.78,2.63L112,88.63a32,32,0,0,1-64,0l7.88-47.31a8,8,0,1,0-15.78-2.63l-8,48A8.17,8.17,0,0,0,32,88a48.07,48.07,0,0,0,40,47.32V224a8,8,0,0,0,16,0V135.32A48.07,48.07,0,0,0,128,88a8.17,8.17,0,0,0-.11-1.31Z"/></svg></span><span class="vm-t"><b>Restaurant with a dining room</b><small>Floor plan, courses and waiters with devices</small></span></a></li><li><a href="../cafe/"><span class="vm-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,88v48a88,88,0,0,1-51.3,80H83.3A88,88,0,0,1,32,136V88Z" class="duo"/><path d="M80,56V24a8,8,0,0,1,16,0V56a8,8,0,0,1-16,0Zm40,8a8,8,0,0,0,8-8V24a8,8,0,0,0-16,0V56A8,8,0,0,0,120,64Zm32,0a8,8,0,0,0,8-8V24a8,8,0,0,0-16,0V56A8,8,0,0,0,152,64Zm96,56v8a40,40,0,0,1-37.51,39.91,96.59,96.59,0,0,1-27,40.09H208a8,8,0,0,1,0,16H32a8,8,0,0,1,0-16H56.54A96.3,96.3,0,0,1,24,136V88a8,8,0,0,1,8-8H208A40,40,0,0,1,248,120ZM200,96H40v40a80.27,80.27,0,0,0,45.12,72h69.76A80.27,80.27,0,0,0,200,136Zm32,24a24,24,0,0,0-16-22.62V136a95.78,95.78,0,0,1-1.2,15A24,24,0,0,0,232,128Z"/></svg></span><span class="vm-t"><b>Café and bar</b><small>The bar, happy hours and stock to the gram of coffee</small></span></a></li><li><a href="../fast-food/"><span class="vm-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M188,176l20-7.27V184a32,32,0,0,1-32,32H80a32,32,0,0,1-32-32V167.27L68,160l40,16,40-16Zm27.82-89.72C209.32,55.55,172.48,32,128,32S46.68,55.55,40.18,86.28A8,8,0,0,0,48.07,96H207.93A8,8,0,0,0,215.82,86.28Z" class="duo"/><path d="M48.07,104H207.93a16,16,0,0,0,15.72-19.38C216.22,49.5,176,24,128,24S39.78,49.5,32.35,84.62A16,16,0,0,0,48.07,104ZM128,40c39.82,0,74.21,20.61,79.93,48H48.07L48,87.93C53.79,60.61,88.18,40,128,40ZM229.26,152.48l-41.13,15L151,152.57a8,8,0,0,0-5.94,0l-37,14.81L71,152.57a8,8,0,0,0-5.7-.09l-44,16a8,8,0,0,0,5.47,15L40,178.69V184a40,40,0,0,0,40,40h96a40,40,0,0,0,40-40v-9.67l18.73-6.81a8,8,0,1,0-5.47-15ZM200,184a24,24,0,0,1-24,24H80a24,24,0,0,1-24-24V172.88l11.87-4.32L105,183.43a8,8,0,0,0,5.94,0l37-14.81,37,14.81a8,8,0,0,0,5.7.09l9.27-3.37ZM16,128a8,8,0,0,1,8-8H232a8,8,0,0,1,0,16H24A8,8,0,0,1,16,128Z"/></svg></span><span class="vm-t"><b>Fast food</b><small>Kiosk, order numbers and the pickup screen</small></span></a></li><li><a href="../bakery/"><span class="vm-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,111v89a8,8,0,0,1-8,8H144a8,8,0,0,0,8-8V111a32,32,0,0,0-8-63h56a32,32,0,0,1,8,63Z" class="duo"/><path d="M240,80a40,40,0,0,0-40-40H48a40,40,0,0,0-16,76.65V200a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V116.65A40.06,40.06,0,0,0,240,80ZM48,120a8,8,0,0,0,0-16,24,24,0,0,1,0-48h96a24,24,0,0,1,0,48,8,8,0,0,0,0,16v80H48Zm152-16a8,8,0,0,0,0,16v80H160V116.65A40,40,0,0,0,176,56h24a24,24,0,0,1,0,48Z"/></svg></span><span class="vm-t"><b>Bakery and pastry shop</b><small>Recipes for doughs and creams, tomorrow’s forecast</small></span></a></li><li><a href="../hotel/"><span class="vm-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M248,112v56H112V80H216A32,32,0,0,1,248,112Z" class="duo"/><path d="M216,72H32V48a8,8,0,0,0-16,0V208a8,8,0,0,0,16,0V176H240v32a8,8,0,0,0,16,0V112A40,40,0,0,0,216,72ZM32,88h72v72H32Zm88,72V88h96a24,24,0,0,1,24,24v48Z"/></svg></span><span class="vm-t"><b>Hotel</b><small>Restaurant, lobby bar and breakfast in one report</small></span></a></li><li><a href="../catering/"><span class="vm-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M216,80V184a24,24,0,0,1-24,24H64a24,24,0,0,1-24-24V80Z" class="duo"/><path d="M88,48V16a8,8,0,0,1,16,0V48a8,8,0,0,1-16,0Zm40,8a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0V48A8,8,0,0,0,128,56Zm32,0a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0V48A8,8,0,0,0,160,56Zm92.8,46.4L224,124v60a32,32,0,0,1-32,32H64a32,32,0,0,1-32-32V124L3.2,102.4a8,8,0,0,1,9.6-12.8L32,104V80a8,8,0,0,1,8-8H216a8,8,0,0,1,8,8v24l19.2-14.4a8,8,0,0,1,9.6,12.8ZM208,88H48v96a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16Z"/></svg></span><span class="vm-t"><b>Catering and canteens</b><small>Banquets and large quantities by recipe</small></span></a></li><li><a href="../delivery/"><span class="vm-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M131,168H8a48,48,0,0,1,32-45.27V96h64Z" class="duo"/><path d="M216,128a39.3,39.3,0,0,0-6.27.5L175.49,37.19A8,8,0,0,0,168,32H136a8,8,0,0,0,0,16h26.46l32.3,86.13a40.13,40.13,0,0,0-18,25.87H136.54l-25-66.81A8,8,0,0,0,104,88H24a8,8,0,0,0,0,16h8v13.39A56.12,56.12,0,0,0,0,168a8,8,0,0,0,8,8h8.8a40,40,0,0,0,78.4,0h81.6A40,40,0,1,0,216,128ZM56,192a24,24,0,0,1-22.62-16H78.62A24,24,0,0,1,56,192ZM16.81,160a40.07,40.07,0,0,1,25.86-29.73A8,8,0,0,0,48,122.73V104H98.46l21,56ZM216,192a24,24,0,0,1-15.43-42.36l7.94,21.17a8,8,0,0,0,15-5.62L215.55,144H216a24,24,0,0,1,0,48Z"/></svg></span><span class="vm-t"><b>Delivery kitchen</b><small>Wolt and Glovo on the kitchen screen, with courier times</small></span></a></li><li><a href="../group/"><span class="vm-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M136,32V216H40V85.35a8,8,0,0,1,3.56-6.66l80-53.33A8,8,0,0,1,136,32Z" class="duo"/><path d="M240,208H224V96a16,16,0,0,0-16-16H144V32a16,16,0,0,0-24.88-13.32L39.12,72A16,16,0,0,0,32,85.34V208H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM208,96V208H144V96ZM48,85.34,128,32V208H48ZM112,112v16a8,8,0,0,1-16,0V112a8,8,0,1,1,16,0Zm-32,0v16a8,8,0,0,1-16,0V112a8,8,0,1,1,16,0Zm0,56v16a8,8,0,0,1-16,0V168a8,8,0,0,1,16,0Zm32,0v16a8,8,0,0,1-16,0V168a8,8,0,0,1,16,0Z"/></svg></span><span class="vm-t"><b>A group of venues</b><small>All venues in one account, reports for the whole group</small></span></a></li></ul>
+<a class="vm-all" href="../">All of RUVO on one page<svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M224.49,136.49l-72,72a12,12,0,0,1-17-17L187,140H40a12,12,0,0,1,0-24H187L135.51,64.48a12,12,0,0,1,17-17l72,72A12,12,0,0,1,224.49,136.49Z"/></svg></a>
+</div>
+</details>
+<nav class="nav" aria-label="Main menu"><a href="../#features">Features</a><a href="../#pricing">Pricing</a><a href="../#contact">Contact</a></nav>
 <a class="top-cta" href="../../demo/">Try the demo</a>
 <nav class="langs" aria-label="Language"><a href="../../podrska/" hreflang="sr" lang="sr-Latn" title="Srpski">SR</a><a href="./" hreflang="en" lang="en" title="English" aria-current="page">EN</a><a href="../../ru/support/" hreflang="ru" lang="ru" title="Русский">RU</a></nav>
 </div></header>
@@ -1118,12 +1173,25 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <div class="foot-in">
 <div class="foot-co"><a class="wordmark sm" href="../" aria-label="RUVO — Home">RUVO</a><p>Made in Belgrade.</p></div>
 <nav class="foot-cols" aria-label="Company and documents">
-<div class="foot-col"><h2>Product</h2><ul><li><a href="../#features">Features</a></li><li><a href="../#who">Who it’s for</a></li><li><a href="../#pricing">Pricing</a></li><li><a href="../../demo/">Demo</a></li></ul></div>
+<div class="foot-col"><h2>Product</h2><ul><li><a href="../#features">Features</a></li><li><a href="../#pricing">Pricing</a></li><li><a href="../../demo/">Demo</a></li></ul></div>
+<div class="foot-col"><h2>Who it’s for</h2><ul><li><a href="../restaurant/">Restaurant with a dining room</a></li><li><a href="../cafe/">Café and bar</a></li><li><a href="../fast-food/">Fast food</a></li><li><a href="../bakery/">Bakery and pastry shop</a></li><li><a href="../hotel/">Hotel</a></li><li><a href="../catering/">Catering and canteens</a></li><li><a href="../delivery/">Delivery kitchen</a></li><li><a href="../group/">A group of venues</a></li></ul></div>
 <div class="foot-col"><h2>Documents</h2><ul><li><a href="../privacy/">Privacy</a></li><li><a href="./" aria-current="page">Support</a></li></ul></div>
 <div class="foot-col"><h2>Contact</h2><ul><li><a href="mailto:hello@ruvo.ac">hello@ruvo.ac</a></li><li>Cara Uroša 19, 11000 Beograd</li></ul></div>
 </nav>
 </div>
 <p class="foot-base">TT DAILY KITCHEN DOO · Tax ID (PIB) 113820680 · © 2026</p>
 </div></footer>
+<script>
+(() => {
+  const vm = document.querySelector('[data-vm]');
+  if (!vm) return;
+  document.addEventListener('click', (e) => { if (vm.open && !vm.contains(e.target)) vm.open = false; });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || !vm.open) return;
+    vm.open = false;
+    vm.querySelector('summary').focus();
+  });
+})();
+</script>
 </body>
 </html>

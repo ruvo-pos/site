@@ -22,6 +22,174 @@
     <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/"/>
   </url>
   <url>
+    <loc>https://ruvo.ac/restoran/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/restoran/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/restaurant/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/restaurant/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/en/restaurant/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/restoran/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/restaurant/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/restaurant/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/ru/restaurant/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/restoran/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/restaurant/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/restaurant/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/kafic/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/kafic/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/cafe/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/cafe/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/en/cafe/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/kafic/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/cafe/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/cafe/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/ru/cafe/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/kafic/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/cafe/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/cafe/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/brza-hrana/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/brza-hrana/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/fast-food/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/fast-food/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/en/fast-food/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/brza-hrana/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/fast-food/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/fast-food/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/ru/fast-food/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/brza-hrana/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/fast-food/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/fast-food/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/pekara/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/pekara/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/bakery/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/bakery/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/en/bakery/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/pekara/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/bakery/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/bakery/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/ru/bakery/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/pekara/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/bakery/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/bakery/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/hotel/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/hotel/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/hotel/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/hotel/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/en/hotel/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/hotel/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/hotel/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/hotel/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/ru/hotel/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/hotel/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/hotel/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/hotel/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/ketering/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/ketering/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/catering/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/catering/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/en/catering/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/ketering/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/catering/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/catering/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/ru/catering/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/ketering/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/catering/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/catering/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/dostava/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/dostava/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/delivery/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/delivery/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/en/delivery/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/dostava/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/delivery/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/delivery/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/ru/delivery/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/dostava/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/delivery/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/delivery/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/mreza/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/mreza/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/group/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/group/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/en/group/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/mreza/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/group/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/group/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/ru/group/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/mreza/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/group/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/group/"/>
+  </url>
+  <url>
     <loc>https://ruvo.ac/privatnost/</loc>
     <lastmod>2026-10-12</lastmod>
     <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/privatnost/"/>

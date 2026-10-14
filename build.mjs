@@ -13,6 +13,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { LANGS, PHOTOS, PRICES, SITE, T } from './src/content.mjs';
 import { SIGNUP as SG } from './src/signup.mjs';
+import { VENUE_KEYS, VENUE_SETUP, VENUE_SLUGS, VENUES } from './src/venues.mjs';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PREVIEW = process.argv.includes('--preview');
@@ -23,7 +24,9 @@ const OUT = path.join(ROOT, PREVIEW ? 'preview' : 'docs');
 const ORIGIN = `https://${SITE.domain}`;
 // registration on the site: on when SITE.signup is (the app works through the server), or asked for with --signup
 const SIGNUP_ON = SITE.signup || process.argv.includes('--signup');
-const PAGES = ['home', 'privacy', 'support', ...(SIGNUP_ON ? ['signup', 'confirm', 'terms'] : [])];
+// a kind of venue is a page of its own (src/venues.mjs): «v:cafe» → kafic/, en/cafe/, ru/cafe/
+const VPAGES = VENUE_KEYS.map((k) => `v:${k}`);
+const PAGES = ['home', ...VPAGES, 'privacy', 'support', ...(SIGNUP_ON ? ['signup', 'confirm', 'terms'] : [])];
 const LOCALE = { sr: 'sr-Latn-RS', en: 'en-GB', ru: 'ru-RU' };
 const FONTS = 'https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&amp;family=Unbounded:wght@700&amp;family=JetBrains+Mono:wght@600&amp;display=swap';
 const CSS = readFileSync(path.join(ROOT, 'src/site.css'), 'utf8')
@@ -45,8 +48,10 @@ const PH = (name) => readFileSync(path.join(ROOT, 'src/icons', `${name}.svg`), '
 const MAIL_ICON = PH('envelope-simple-bold');
 const PLAY_ICON = PH('play-fill');
 const CHECK = PH('check-bold');
+const CARET = PH('caret-down-bold');
+const ARROW = PH('arrow-right-bold');
 // the kinds of venue
-const WHO_ICONS = { restaurant: PH('fork-knife-duotone'), cafe: PH('coffee-duotone'), kiosk: PH('hamburger-duotone'), bakery: PH('bread-duotone'), hotel: PH('bed-duotone'), catering: PH('cooking-pot-duotone'), delivery: PH('moped-duotone'), group: PH('buildings-duotone') };
+const VICON = Object.fromEntries(VENUE_KEYS.map((k) => [k, PH(VENUE_SETUP[k].icon)]));
 // the demo: one page per language of the app (Serbian, Russian); English links to the Serbian one, where the app's
 // own switch turns it into Russian
 const DEMO = { sr: 'demo/index.html', en: 'demo/index.html', ru: 'ru/demo/index.html' };
@@ -77,7 +82,12 @@ const fill = (s) => keep(s)
   .replace(/\{address\}/g, esc(SITE.address))
   .replace(/\{email\}/g, mail);
 
-const fileOf = (lang, page) => T[lang].paths[page] || SG[lang].paths[page];
+const LANG_DIR = { sr: '', en: 'en/', ru: 'ru/' };
+const fileOf = (lang, page) => (page.startsWith('v:')
+  ? `${LANG_DIR[lang]}${VENUE_SLUGS[lang][page.slice(2)]}/index.html`
+  : T[lang].paths[page] || SG[lang].paths[page]);
+// the pages made of the home page's sections: the home page and every kind of venue
+const isLanding = (key) => key === 'home' || key.startsWith('v:');
 // a link from one page to another, relative, so the pages work anywhere they are served
 function href(from, to, hash = '') {
   let r = path.posix.relative(path.posix.dirname(from), to);
@@ -114,7 +124,20 @@ function head(lang, page, file, title, description, { noindex = false } = {}) {
   ].join('\n');
 }
 
+// «Za koga ▾» closes when a click lands elsewhere or on Escape; without the script it still opens and closes by itself
+const MENU_JS = `(() => {
+  const vm = document.querySelector('[data-vm]');
+  if (!vm) return;
+  document.addEventListener('click', (e) => { if (vm.open && !vm.contains(e.target)) vm.open = false; });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || !vm.open) return;
+    vm.open = false;
+    vm.querySelector('summary').focus();
+  });
+})();`;
+
 function page(lang, key, file, title, description, body, opts = {}) {
+  if (body.includes('data-vm')) body += `\n<script>\n${MENU_JS}\n</script>`;
   if (PREVIEW && file === 'index.html') {
     return `<title>${esc(T.ru.ui.preview)}</title>
 <link rel="stylesheet" href="${FONTS}">
@@ -138,15 +161,39 @@ ${body}
 `;
 }
 
+// «Za koga ▾» beside the wordmark (the owner, 14 October: the kinds of venue go up into the menu, «с выпадающим
+// списком»): on a venue's page it names that venue with its icon; the list opens under it — every kind with a line of
+// what RUVO does for it, the one shown marked, and at the foot the way back to the page about everything. A <details>,
+// so it opens without JavaScript too.
+function venueMenu(lang, key, file) {
+  const V = VENUES[lang];
+  const cur = key.startsWith('v:') ? key.slice(2) : null;
+  const items = VENUE_KEYS.map((k) => {
+    const v = V.items[k];
+    return `<li><a href="${href(file, fileOf(lang, `v:${k}`))}"${k === cur ? ' aria-current="page"' : ''}><span class="vm-ic">${VICON[k]}</span><span class="vm-t"><b>${esc(v.name)}</b><small>${esc(v.line)}</small></span></a></li>`;
+  }).join('');
+  const label = cur ? `${VICON[cur]}<span class="vm-l">${esc(V.items[cur].short)}</span>` : `<span class="vm-l">${esc(V.menu.label)}</span>`;
+  return `<details class="vm" data-vm>
+<summary class="vm-btn" aria-label="${esc(V.menu.label)}${cur ? `: ${esc(V.items[cur].name)}` : ''}">${label}<span class="vm-chev">${CARET}</span></summary>
+<div class="vm-panel">
+<p class="vm-k">${esc(V.menu.title)}</p>
+<ul class="vm-list">${items}</ul>
+<a class="vm-all" href="${href(file, fileOf(lang, 'home'))}"${key === 'home' ? ' aria-current="page"' : ''}>${esc(V.menu.all)}${ARROW}</a>
+</div>
+</details>`;
+}
+
 function header(lang, key, file) {
   const t = T[lang];
   const home = fileOf(lang, 'home');
-  const section = (id, label) => `<a href="${key === 'home' ? `#${id}` : href(file, home, `#${id}`)}">${esc(label)}</a>`;
+  // a venue's page has the sections too, so its links stay on it
+  const section = (id, label) => `<a href="${isLanding(key) ? `#${id}` : href(file, home, `#${id}`)}">${esc(label)}</a>`;
   const langs = LANGS.map((l) => `<a href="${href(file, fileOf(l, key))}" hreflang="${l}" lang="${T[l].ui.lang}" title="${esc(T[l].name)}"${l === lang ? ' aria-current="page"' : ''}>${l.toUpperCase()}</a>`);
   return `<a class="skip" href="#main">${esc(t.skip)}</a>
 <header class="top"><div class="wrap top-in">
 <a class="wordmark" href="${href(file, home)}" aria-label="RUVO — ${esc(t.nav.home)}">RUVO</a>
-<nav class="nav" aria-label="${esc(t.ui.menuLabel)}">${['features', 'who', 'pricing', 'contact'].map((id) => section(id, t.nav[id])).join('')}</nav>
+${venueMenu(lang, key, file)}
+<nav class="nav" aria-label="${esc(t.ui.menuLabel)}">${['features', 'pricing', 'contact'].map((id) => section(id, t.nav[id])).join('')}</nav>
 ${SIGNUP_ON
     ? (key !== 'signup' && key !== 'confirm' ? `<a class="top-cta" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].nav.signup)}</a>` : '')
     : `<a class="top-cta" href="${href(file, DEMO[lang])}">${esc(t.home.demo.cta)}</a>`}
@@ -158,13 +205,16 @@ function footer(lang, key, file) {
   const t = T[lang];
   const home = fileOf(lang, 'home');
   const link = (p) => `<a href="${href(file, fileOf(lang, p))}"${p === key ? ' aria-current="page"' : ''}>${esc(t.nav[p] || SG[lang].nav[p])}</a>`;
-  const section = (id) => `<a href="${key === 'home' ? `#${id}` : href(file, home, `#${id}`)}">${esc(t.nav[id])}</a>`;
+  const section = (id) => `<a href="${isLanding(key) ? `#${id}` : href(file, home, `#${id}`)}">${esc(t.nav[id])}</a>`;
   const col = (title, items) => `<div class="foot-col"><h2>${esc(title)}</h2><ul>${items.map((x) => `<li>${x}</li>`).join('')}</ul></div>`;
+  const V = VENUES[lang];
+  const venue = (k) => `<a href="${href(file, fileOf(lang, `v:${k}`))}"${key === `v:${k}` ? ' aria-current="page"' : ''}>${esc(V.items[k].name)}</a>`;
   return `<footer class="foot"><div class="wrap">
 <div class="foot-in">
 <div class="foot-co"><a class="wordmark sm" href="${href(file, home)}" aria-label="RUVO — ${esc(t.nav.home)}">RUVO</a><p>${esc(t.home.made)}</p></div>
 <nav class="foot-cols" aria-label="${esc(t.ui.footLabel)}">
-${col(t.ui.foot.product, [...['features', 'who', 'pricing'].map(section), `<a href="${href(file, DEMO[lang])}">${esc(t.nav.demo)}</a>`])}
+${col(t.ui.foot.product, [...['features', 'pricing'].map(section), `<a href="${href(file, DEMO[lang])}">${esc(t.nav.demo)}</a>`])}
+${col(V.menu.label, VENUE_KEYS.map(venue))}
 ${col(t.ui.foot.docs, [link('privacy'), ...(SIGNUP_ON ? [link('terms')] : []), link('support')])}
 ${col(t.ui.foot.contact, [mail, esc(SITE.address)])}
 </nav>
@@ -173,38 +223,81 @@ ${col(t.ui.foot.contact, [mail, esc(SITE.address)])}
 </div></footer>`;
 }
 
-// The order for table 12 on the iPad, and the kitchen's part of it on the kitchen screen; under it what the recipes take
-// from the stock (written off when the bill is paid). With the page in sight it plays as a loop (14 October, «Первый
-// экран оставить нарисованным, но оживить»): «U kuhinju» → the ticket → its dishes done → «Gotovo» → the stock. Without
-// motion (or without JavaScript) the scene stands still with the ticket and the stock in place.
-function scene(lang) {
+// The first screen's drawn scene. On the home page: the order for table 12 on the iPad, the kitchen's part of it on the
+// kitchen screen, under it what the recipes take from the stock (written off when the bill is paid). A kind of venue
+// draws its own (src/venues.mjs): the bar's coffee, the kiosk and the pickup screen, tomorrow's forecast, the hotel's or
+// the group's day. With the page in sight it plays as a loop (14 October, «Первый экран оставить нарисованным, но
+// оживить»): the button → the ticket → its lines done → «Gotovo» → the card under it. Without motion (or without
+// JavaScript) the scene stands still, whole.
+// The home page's table 12 in the scene's own shape (`over` changes a part of it — the group's venue and its day)
+function ticket12(lang, over = {}) {
   const k = T[lang].home.ticket;
-  const num = (v) => new Intl.NumberFormat(LOCALE[lang]).format(v);
-  const total = [...k.lines, ...k.later].reduce((sum, l) => sum + l[2], 0);
+  return {
+    label: over.label || k.label,
+    pad: { title: k.table, meta: over.meta || k.meta, lines: k.lines, course: k.course, later: k.later, total: k.total, send: k.send, bill: k.bill },
+    ticket: { no: '#17', src: k.table, time: '04:12', station: k.kitchen, lines: k.lines.slice(0, 2).map(([name, qty]) => [qty, name]), done: k.done, waits: k.waits },
+    chip: over.chip || { title: k.stock.title, rows: k.stock.rows, note: k.stock.note },
+  };
+}
+function sceneOf(lang, key) {
+  if (key === 'home') return ticket12(lang);
+  const s = VENUES[lang].items[key.slice(2)].scene;
+  return s.ticket12 ? ticket12(lang, s) : s;
+}
+function scene(lang, s, file) {
+  const num = (v) => fmt(lang, v);
   const line = ([name, qty, price], cls = '') => `<div class="pl${cls}"><span class="pl-n">${esc(name)}</span><span class="pl-q">×${qty}</span><span class="pl-p">${num(price)}</span></div>`;
-  return `<div class="scene" role="img" aria-label="${esc(k.label)}" data-live>
-<div class="pad">
-<div class="pad-head"><span class="pad-title">${esc(k.table)}</span><span class="pad-meta">${esc(k.meta)}</span></div>
-<div class="pad-lines">${k.lines.map((l) => line(l)).join('')}<div class="course">${esc(k.course)}</div>${k.later.map((l) => line(l, ' later')).join('')}</div>
-<div class="pad-total"><span>${esc(k.total)}</span><span>${num(total)}<small>RSD</small></span></div>
-<div class="pad-btns"><span class="pad-btn go">${esc(k.send)}</span><span class="pad-btn bill">${esc(k.bill)}</span></div>
-</div>
+  let main;
+  if (s.kiosk) {
+    main = kioskDevice(lang, s.kiosk, file, false);
+  } else {
+    const p = s.pad;
+    const later = p.later || [];
+    const total = [...p.lines, ...later].reduce((sum, l) => sum + l[2], 0);
+    const badge = p.badge ? `<span class="pf ${p.badge.toLowerCase()}">${esc(p.badge)}</span>` : '';
+    main = `<div class="pad">
+<div class="pad-head"><span class="pad-title">${badge}${esc(p.title)}</span><span class="pad-meta">${esc(p.meta)}</span></div>
+<div class="pad-lines">${p.lines.map((l) => line(l)).join('')}${p.course ? `<div class="course">${esc(p.course)}</div>${later.map((l) => line(l, ' later')).join('')}` : ''}</div>
+<div class="pad-total"><span>${esc(p.total)}</span><span>${num(total)}<small>RSD</small></span></div>
+<div class="pad-btns${p.bill ? '' : ' one'}"><span class="pad-btn go">${esc(p.send)}</span>${p.bill ? `<span class="pad-btn bill">${esc(p.bill)}</span>` : ''}</div>
+</div>`;
+  }
+  let card;
+  if (s.plan) {
+    // tomorrow's forecast: what to prepare, by the recipes, from the same weekdays' sales
+    const q = s.plan;
+    card = `<div class="kds-t fcast">
+<div class="kds-head"><span class="kds-no">${esc(q.title)}</span><span class="kds-tbl">${esc(q.when)}</span></div>
+<div class="kds-station">${esc(q.station)}</div>
+<div class="kp-rows">${q.rows.map(([name, v]) => `<div class="kp"><span>${esc(name)}</span><b>${esc(v)}</b></div>`).join('')}</div>
+<div class="kp-note">${esc(q.note)}</div>
+</div>`;
+  } else {
+    const k = s.ticket;
+    card = `<div class="kds-t">
+<div class="kds-head"><span class="kds-no">${esc(k.no)}</span><span class="kds-tbl">${esc(k.src)}</span><span class="kds-time">${esc(k.time)}</span><span class="kds-done">${CHECK}${esc(k.done)}</span></div>
+<div class="kds-station">${esc(k.station)}</div>
+<div class="kds-lines">${k.lines.map(([qty, name]) => `<div class="kl"><span class="kl-q">${qty}</span><span class="kl-n">${esc(name)}</span><span class="kl-ok">${CHECK}</span></div>`).join('')}</div>
+${k.waits ? `<div class="kds-wait">${esc(k.waits)}</div>` : ''}${k.note ? `<div class="kds-wait note">${esc(k.note)}</div>` : ''}
+</div>`;
+  }
+  // the card under it: rows of a name and a value (numbers in the page's way, summed into the note's {sum})
+  const c = s.chip;
+  const sum = c.rows.reduce((total, r) => total + (typeof r[1] === 'number' ? r[1] : 0), 0);
+  const chip = `<div class="stock-chip"><div class="sc-h">${esc(c.title)}</div>${c.rows.map(([name, v, tone]) => `<div class="sc-r"><span>${esc(name)}</span><b${tone ? ` class="${tone}"` : ''}>${esc(typeof v === 'number' ? num(v) : v)}</b></div>`).join('')}<div class="sc-note">${esc(c.note.replace('{sum}', num(sum)))}</div></div>`;
+  return `<div class="scene${s.kiosk ? ' scene--kiosk' : ''}" role="img" aria-label="${esc(s.label)}" data-live>
+${main}
 <div class="scene-side">
-<div class="kds-t">
-<div class="kds-head"><span class="kds-no">#17</span><span class="kds-tbl">${esc(k.table)}</span><span class="kds-time">04:12</span><span class="kds-done">${CHECK}${esc(k.done)}</span></div>
-<div class="kds-station">${esc(k.kitchen)}</div>
-<div class="kds-lines">${k.lines.slice(0, 2).map(([name, qty]) => `<div class="kl"><span class="kl-q">${qty}</span><span class="kl-n">${esc(name)}</span><span class="kl-ok">${CHECK}</span></div>`).join('')}</div>
-<div class="kds-wait">${esc(k.waits)}</div>
-</div>
-<div class="stock-chip"><div class="sc-h">${esc(k.stock.title)}</div>${k.stock.rows.map(([n, q]) => `<div class="sc-r"><span>${esc(n)}</span><b>${esc(q)}</b></div>`).join('')}<div class="sc-note">${esc(k.stock.note)}</div></div>
+${card}
+${chip}
 </div>
 </div>`;
 }
 
-// the hero's picture: the order and the kitchen ticket, over the photo of a real service once there is one
-function heroArt(lang, file) {
-  const ph = photo(lang, file, 'hero');
-  return `<div class="hero-art${ph ? ' has-photo' : ''}">${ph}${scene(lang)}</div>`;
+// the hero's picture: the drawn scene, over the photo of a real service once there is one (the home page's)
+function heroArt(lang, file, key) {
+  const ph = key === 'home' ? photo(lang, file, 'hero') : '';
+  return `<div class="hero-art${ph ? ' has-photo' : ''}">${ph}${scene(lang, sceneOf(lang, key), file)}</div>`;
 }
 
 // ---------- «Kako izgleda u radu»: five screens of the app, drawn in em so each scales with its column ----------
@@ -366,18 +459,21 @@ function deliveryScene(lang, x) {
 
 // the guests' kiosk with the app's own pictures of the dishes (src/dishes/), two of them in the basket; beside it the
 // number the guest says at the till
-function kioskScene(lang, x, file) {
-  const k = x.kiosk;
+function kioskDevice(lang, k, file, lazy = true) {
   const price = Object.fromEntries(k.dishes);
   const sum = k.basket.reduce((total, id) => total + price[id], 0);
-  return `<div class="scn scn-kiosk">
-<div class="kio"><div class="kio-scr">
+  return `<div class="kio"><div class="kio-scr">
 <div class="kio-top"><span class="kio-brand">RUVO</span><span class="kio-place">${esc(k.place)}</span><span class="kio-lang">${k.langs.map((l, i) => `<span${(lang === 'ru' ? i === 1 : i === 0) ? ' class="on"' : ''}>${esc(l)}</span>`).join('')}</span></div>
 <div class="kio-cats">${k.cats.map((c, i) => `<span${i === k.on ? ' class="on"' : ''}>${esc(c)}</span>`).join('')}</div>
 <div class="kio-sec">${esc(k.section)}</div>
-<div class="kio-grid">${k.dishes.map(([id, p]) => `<div class="kd${k.basket.includes(id) ? ' in' : ''}"><span class="kd-img"><img src="${href(file, `assets/dishes/${id}.svg`)}" alt="" loading="lazy" decoding="async"></span><span class="kd-n">${esc(k.names[id])}</span><span class="kd-p">${fmt(lang, p)}<small>RSD</small></span></div>`).join('')}</div>
+<div class="kio-grid">${k.dishes.map(([id, p]) => `<div class="kd${k.basket.includes(id) ? ' in' : ''}"><span class="kd-img"><img src="${href(file, `assets/dishes/${id}.svg`)}" alt=""${lazy ? ' loading="lazy"' : ''} decoding="async"></span><span class="kd-n">${esc(k.names[id])}</span><span class="kd-p">${fmt(lang, p)}<small>RSD</small></span></div>`).join('')}</div>
 <div class="kio-cart"><span class="kio-b"><b>${esc(k.basketTitle)}</b><small>${esc(k.items)} · ${rsd(lang, sum)}</small></span><span class="kio-go">${esc(k.checkout)}</span></div>
-</div></div>
+</div></div>`;
+}
+function kioskScene(lang, x, file) {
+  const k = x.kiosk;
+  return `<div class="scn scn-kiosk">
+${kioskDevice(lang, k, file)}
 <div class="ui kio-no"><span class="ui-caps">${esc(k.yourNo)}</span><span class="kio-num">${k.no}</span><span class="kio-pay">${esc(k.payAt)}</span></div>
 </div>`;
 }
@@ -458,16 +554,18 @@ function photo(lang, file, id, caption = '') {
 // app's screens drawn from its own parts, one per tab; under them the connections and the way into the demo. Without
 // JavaScript the screens stand one under another; the script turns them into tabs (one shown, the rest kept in the same
 // grid cell, so switching does not move the page), and a shown screen plays a moment of its work once it is in sight.
-function features(lang, file) {
+// A kind of venue shows its own tabs in its own order (VENUE_SETUP.tabs), under its own title.
+function features(lang, file, v = null, tabs = null) {
   const x = T[lang].home.examples;
   const h = T[lang].home;
   const d = h.demo;
   const soon = h.integrations.length - 1;
+  const items = tabs ? tabs.map((id) => x.items.find((it) => it.id === id)) : x.items;
   return `<section class="band raised" id="features" aria-labelledby="features-h"><span class="anchor" id="examples"></span><div class="wrap">
-<div class="sec-head"><h2 id="features-h">${esc(x.title)}</h2><p>${txt(x.lead)}</p></div>
+<div class="sec-head"><h2 id="features-h">${esc(v ? v.featuresTitle : x.title)}</h2><p>${txt(v ? v.featuresLead : x.lead)}</p></div>
 <div class="ex" data-tabs data-live>
-<div class="ex-tabs" aria-label="${esc(x.tabsLabel)}" hidden>${x.items.map((it, i) => `<button type="button" id="ex-t-${it.id}" aria-controls="ex-p-${it.id}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''}>${esc(it.tab)}</button>`).join('')}</div>
-<div class="ex-panels">${x.items.map((it) => `
+<div class="ex-tabs" aria-label="${esc(x.tabsLabel)}" hidden>${items.map((it, i) => `<button type="button" id="ex-t-${it.id}" aria-controls="ex-p-${it.id}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''}>${esc(it.tab)}</button>`).join('')}</div>
+<div class="ex-panels">${items.map((it) => `
 <div class="ex-panel" id="ex-p-${it.id}">
 <div class="ex-shot" role="img" aria-label="${esc(it.label)}">${SCENES[it.id](lang, it, file)}</div>
 <div class="ex-text"><h3>${txt(it.title)}</h3><p>${txt(it.text)}</p><ul>${it.points.map((p) => `<li>${txt(p)}</li>`).join('')}</ul></div>
@@ -500,30 +598,15 @@ function micro(lang, key, u) {
   };
   return `<div class="mu mu--${key}" aria-hidden="true">${M[key]()}</div>`;
 }
-function rush(lang) {
+// a kind of venue shows its eight (VENUE_SETUP.rush), in its order
+function rush(lang, keys = null) {
   const r = T[lang].home.rush;
+  const items = keys ? keys.map((k) => r.items.find((it) => it[0] === k)) : r.items;
   return `<section class="band night" id="rush" aria-labelledby="rush-h"><div class="wrap">
 <div class="sec-head"><h2 id="rush-h">${esc(r.title)}</h2><p>${txt(r.lead)}</p></div>
-<ul class="rush">${r.items.map(([key, title, text, ui]) => `
+<ul class="rush">${items.map(([key, title, text, ui]) => `
 <li>${micro(lang, key, ui)}<h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
 </ul>
-</div></section>`;
-}
-
-// Who RUVO is for (14 October): the kinds of venue as a row of buttons, one description at a time beside them (like
-// Toast's «We help build businesses that last»); without JavaScript every description shows, in two columns.
-function who(lang, file) {
-  const w = T[lang].home.who;
-  const shots = ['who-restaurant', 'who-cafe', 'who-hotel'].map((id, i) => photo(lang, file, id, w.photoCaps[i])).filter(Boolean);
-  return `<section class="band" id="who" aria-labelledby="who-h"><div class="wrap">
-<div class="sec-head"><h2 id="who-h">${esc(w.title)}</h2><p>${txt(w.lead)}</p></div>
-${shots.length ? `<div class="who-photos" style="--n: ${shots.length}">${shots.join('')}</div>` : ''}
-<div class="who" data-tabs>
-<div class="who-tabs" aria-label="${esc(w.tabsLabel)}" hidden>${w.items.map(([key, title], i) => `<button type="button" id="who-t-${key}" aria-controls="who-p-${key}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''}>${WHO_ICONS[key]}${esc(title)}</button>`).join('')}</div>
-<div class="who-panels">${w.items.map(([key, title, text]) => `
-<div class="who-panel" id="who-p-${key}"><span class="who-ic">${WHO_ICONS[key]}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></div>`).join('')}
-</div>
-</div>
 </div></section>`;
 }
 
@@ -542,10 +625,10 @@ function why(lang, file) {
 
 // The closing section: one big enamel plate in the brand's blue — the call to try RUVO with its two buttons (the demo,
 // or registration once it is on, and a letter), and under a rule the address on its plates
-function contact(lang, file) {
+function contact(lang, file, title = null) {
   const t = T[lang];
   const h = t.home;
-  const f = h.final;
+  const f = title ? { ...h.final, title } : h.final;
   const house = SITE.address.match(/\s(\d+[a-z]?),/i)[1];
   const buttons = SIGNUP_ON
     ? `<a class="btn inv" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].home.cta)}</a><a class="btn inv ghost" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(h.demo.cta)}</a>`
@@ -587,8 +670,9 @@ function billOf(D, s) {
   return { lines, month: lines.reduce((sum, l) => sum + l[2], 0) };
 }
 
-function pricing(lang, file) {
-  const p = T[lang].home.pricing;
+// `bills` — the calculator's examples, the first pressed at the start: a kind of venue puts its own first
+function pricing(lang, file, bills = null) {
+  const p = { ...T[lang].home.pricing, ...(bills ? { bills } : {}) };
   const c = p.calc;
   const d = T[lang].home.demo;
   const num = (v) => fmt(lang, v);
@@ -715,6 +799,8 @@ const HOME_JS = `(() => {
       for (const k of ['venues', 'ipad', 'kds', 'iphone', 'kiosk']) $('#c-' + k).value = s[k] || (k === 'venues' || k === 'ipad' ? 1 : 0);
       for (const m of ['ips', 'terminal', 'shifts', 'telegram']) $('input[value="' + m + '"]').checked = !!s[m];
     };
+    // the first example is the page's own (a kind of venue puts its setup first): it fills the calculator in at the start
+    if (chips.length) { preset(D.presets[0]); press(0); }
     calc.addEventListener('input', () => { press(-1); update(); });
     calc.addEventListener('change', (e) => { if (e.target.type === 'number') e.target.value = val(e.target.id.slice(2)); update(); });
     calc.addEventListener('click', (e) => {
@@ -730,7 +816,7 @@ const HOME_JS = `(() => {
     calc.hidden = false;
     update();
   }
-  // tabs: the product's screens and the kinds of venue
+  // tabs: the product's screens
   for (const box of document.querySelectorAll('[data-tabs]')) {
     const list = box.querySelector('[aria-controls]').parentNode;
     const tabs = [...list.querySelectorAll('button')];
@@ -777,43 +863,52 @@ const HOME_JS = `(() => {
   }
 })();`;
 
-function homePage(lang) {
+// The home page, and the page of each kind of venue (`key` «v:cafe»…): the same sections; a venue's has its own first
+// screen (words and scene), its tabs, its small things, what it needs, its example price first and its closing call.
+// Old links to «Za koga» (#who) land on the first screen, where the menu that replaced it is.
+function landing(lang, key) {
   const t = T[lang];
   const h = t.home;
-  const file = fileOf(lang, 'home');
+  const file = fileOf(lang, key);
+  const vk = key === 'home' ? null : key.slice(2);
+  const v = vk ? VENUES[lang].items[vk] : null;
+  const setup = vk ? VENUE_SETUP[vk] : null;
+  // the calculator's examples: the venue's own first, then the general ones that are not the same setup
+  const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  const bills = setup ? [[v.preset, setup.preset], ...h.pricing.bills.filter(([, s]) => !same(s, setup.preset))] : null;
+  const equip = v ? v.equip : h.equip.items;
   const body = `<div class="tiles" aria-hidden="true"></div>
-${header(lang, 'home', file)}
+${header(lang, key, file)}
 <main id="main">
-<section class="hero"><div class="wrap hero-in">
+<section class="hero"><span class="anchor" id="who"></span><div class="wrap hero-in">
 <div class="hero-text">
-<p class="eyebrow">${esc(h.eyebrow)}</p>
-<h1>${txt(h.h1)}</h1>
-<p class="lead">${txt(h.lead)}</p>
+<p class="eyebrow">${v ? `${VICON[vk]}${esc(v.eyebrow)}` : esc(h.eyebrow)}</p>
+<h1>${txt(v ? v.h1 : h.h1)}</h1>
+<p class="lead">${txt(v ? v.lead : h.lead)}</p>
 <div class="cta-row">${SIGNUP_ON
     ? `<a class="btn" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].home.cta)}</a><a class="btn ghost" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(h.demo.cta)}</a>`
     : `<a class="btn" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(h.demo.cta)}</a><a class="btn ghost" href="mailto:${SITE.email}">${MAIL_ICON}${esc(h.cta)}</a>`}</div>
 </div>
-${heroArt(lang, file)}
+${heroArt(lang, file, key)}
 </div></section>
-${features(lang, file)}
-${rush(lang)}
-${who(lang, file)}
+${features(lang, file, v, setup && setup.tabs)}
+${rush(lang, setup && setup.rush)}
 ${why(lang, file)}
-${pricing(lang, file)}
+${pricing(lang, file, bills)}
 <section class="band raised" id="start" aria-labelledby="start-h"><div class="wrap">
 <div class="sec-head"><h2 id="start-h">${esc(h.startTitle)}</h2></div>
 <ol class="steps">${(SIGNUP_ON ? SG[lang].home.start : h.start).map(([title, text], i) => `
 <li class="step"><span class="path-n" aria-hidden="true">${i + 1}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
 </ol>
-<div class="equip"><div class="equip-h"><h3>${esc(h.equip.title)}</h3></div><ul>${h.equip.items.map((x) => `<li>${txt(x)}</li>`).join('')}</ul><p>${txt(h.equip.note)}</p></div>
+<div class="equip"><div class="equip-h"><h3>${esc(h.equip.title)}</h3></div><ul>${equip.map((x) => `<li>${txt(x)}</li>`).join('')}</ul><p>${txt(h.equip.note)}</p></div>
 </div></section>
-${contact(lang, file)}
+${contact(lang, file, v && v.final)}
 </main>
-${footer(lang, 'home', file)}
+${footer(lang, key, file)}
 <script>
 ${HOME_JS}
 </script>`;
-  return page(lang, 'home', file, h.title, h.description, body);
+  return page(lang, key, file, v ? v.title : h.title, v ? v.description : h.description, body);
 }
 
 function privacyPage(lang) {
@@ -1195,7 +1290,8 @@ const put = (rel, text) => {
   written.push(rel);
 };
 for (const lang of LANGS) {
-  put(fileOf(lang, 'home'), homePage(lang));
+  put(fileOf(lang, 'home'), landing(lang, 'home'));
+  for (const key of VPAGES) put(fileOf(lang, key), landing(lang, key));
   put(fileOf(lang, 'privacy'), privacyPage(lang));
   put(fileOf(lang, 'support'), supportPage(lang));
   if (SIGNUP_ON) {

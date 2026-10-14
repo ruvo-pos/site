@@ -490,28 +490,21 @@ const PRICING = {
 };
 
 // The home page after Toast's (the owner, 12 October: «вдохновившись разделами на Тосте», then «ещё раз смотри на тост
-// и пересобирай»; not copied): everything a venue needs in cards, the small things of a shift, who RUVO is for — beyond
-// restaurants too —, why RUVO, a closing call; and the demo. Every line is something the app does today (the prototype,
-// version 24) — no reviews, figures or clients RUVO does not have yet. Icons are named in build.mjs (ICONS, WHO_ICONS).
+// и пересобирай»; not copied): everything a venue needs, the small things of a shift, why RUVO, a closing call; and the
+// demo. Who RUVO is for is no longer a section: since 14 October it is the menu «Za koga ▾» and a page for each kind of
+// venue (src/venues.mjs). Every line is something the app does today (the prototype, version 24) — no reviews, figures
+// or clients RUVO does not have yet. Icons are named in build.mjs.
 // Places for live photos (the owner, 13 October: «не хватает живых фото — давай под них оставим места, предложи куда»;
-// the same day, 18:35: «давай уменьшим их кол-во до четырех главных»): the first screen and the three kinds of venue in
-// «Za koga». A photo goes into src/photos/<id>.jpg (.webp or .png also do); the site shows a place only once its photo is
-// there, so ruvo.ac never shows an empty frame. The preview build (--preview) shows each empty place, numbered in the
-// order of the page, with what to shoot (`shot`, for the owner — in Russian on every page). `alt` describes the photo for
-// those who do not see it; fix it to what the real photo shows when it arrives. Guests in a photo: with their consent or
-// without faces.
+// 18:35: «давай уменьшим их кол-во до четырех главных»; 14 October: «Убери пока вообще фото с лендинга»): the home page's
+// first screen. The three places of «Za koga» (who-restaurant, who-cafe, who-hotel) went with that section; a venue's
+// page can get a photo of its own later. A photo goes into src/photos/<id>.jpg (.webp or .png also do); the site shows
+// a place only once its photo is there, so ruvo.ac never shows an empty frame. The preview build (--preview --slots)
+// shows each empty place with what to shoot (`shot`, for the owner — in Russian on every page). `alt` describes the
+// photo for those who do not see it; fix it to what the real photo shows when it arrives. Guests in a photo: with their
+// consent or without faces.
 export const PHOTOS = {
   hero: { ratio: '4 / 5', shot: 'Фронт RUVO крупно: планшет с планом зала на стойке, заведение за ним не в фокусе. Вертикальное 4:5.',
     alt: { sr: 'Terminal sale RUVO sa planom sale na čeličnom pultu kafića', en: 'The RUVO front terminal with the floor plan on a steel café counter', ru: 'Фронт RUVO с планом зала на стальной стойке кафе' } },
-  // each of the three with another screen of RUVO (the owner, 13 October: «разные фото давай лучше с разными экранами —
-  // киоск, фронт, экран айфона и бэкофис»): the front is on the first screen; here the waiter's phone, the kiosk and
-  // the back office
-  'who-restaurant': { ratio: '3 / 2', shot: 'Ресторан вечером: официант у стола принимает заказ на iPhone, на экране — RUVO; гости не в фокусе. 3:2.',
-    alt: { sr: 'Konobar u restoranu prima porudžbinu na telefonu sa RUVO', en: 'A waiter in a restaurant takes an order on a phone with RUVO', ru: 'Официант в ресторане принимает заказ на телефоне с RUVO' } },
-  'who-cafe': { ratio: '3 / 2', shot: 'Кафе утром: гость заказывает на киоске RUVO; за ним стойка с кофемашиной и выпечкой. 3:2.',
-    alt: { sr: 'Gost u kafiću poručuje na RUVO kiosku', en: 'A guest orders at a RUVO kiosk in a café', ru: 'Гость в кафе заказывает на киоске RUVO' } },
-  'who-hotel': { ratio: '3 / 2', shot: 'Отель: управляющий в лобби-баре смотрит бэкофис RUVO на ноутбуке — сводку по ресторану, бару и завтракам. 3:2.',
-    alt: { sr: 'Menadžer hotela gleda RUVO bekofis na laptopu u lobi baru', en: 'A hotel manager looks at the RUVO back office on a laptop in the lobby bar', ru: 'Управляющий отеля смотрит бэкофис RUVO на ноутбуке в лобби-баре' } },
 };
 
 const MORE = {
@@ -533,22 +526,6 @@ const MORE = {
         ['bike', 'Dostava na istom ekranu', 'Porudžbine za Wolt i Glovo idu u kuhinju zajedno sa salom, sa vremenom dolaska kurira.', { code: 'W-7F3A', item: '2× Ćevapi, 10 kom', courier: 'Kurir 21:52' }],
         ['clock', 'Radni dan do 5 ujutru', 'Za lokale koji rade posle ponoći: promet ide u pravi dan.', { day: 'Radni dan', now: 'sada' }],
         ['info', 'Alergeni za goste', '14 alergena EU za svako jelo, iz normativa, u kiosku i kod konobara.', { dish: 'Palačinke sa čokoladom', tags: ['Gluten', 'Mleko', 'Jaja'], note: '14 alergena EU' }],
-      ],
-    },
-    who: {
-      tabsLabel: 'Vrste objekata',
-      title: 'Za koga je RUVO',
-      photoCaps: ['Restoran', 'Kafić', 'Hotel'],
-      lead: 'Svuda gde se kuva i služi: od kafića do hotela i kuhinje samo za dostavu.',
-      items: [
-        ['restaurant', 'Restoran sa salom', 'Plan sale, kursevi i konobari sa uređajima; magacin i normativi za svako jelo.'],
-        ['cafe', 'Kafić i bar', 'Plan sale sa šankom, šank kao posebna stanica na ekranu, smene i plate.'],
-        ['kiosk', 'Brza hrana', 'Kiosk za samostalno naručivanje, brojevi porudžbina i ekran kuhinje.'],
-        ['bakery', 'Pekara i poslastičarnica', 'Kiosk i brojevi porudžbina za pult, normativi za testa i kreme, minimalne zalihe.'],
-        ['hotel', 'Hotel', 'Restoran, lobi bar i doručak kao zasebni objekti, sa izveštajima za ceo hotel.'],
-        ['catering', 'Ketering i kantine', 'Brza linija sa kioskom i brojevima porudžbina, normativi i magacin za velike količine.'],
-        ['delivery', 'Kuhinja za dostavu', 'Porudžbine za Wolt i Glovo na ekranu kuhinje sa vremenom kurira i cenama po kanalu.'],
-        ['group', 'Mreža objekata', 'Jedan nalog za sve objekte, svaki sa svojim magacinom, i izveštaji za celu mrežu.'],
       ],
     },
     why: {
@@ -588,22 +565,6 @@ const MORE = {
         ['info', 'Allergens for guests', 'The 14 EU allergens for every dish, from its recipe, on the kiosk and for the waiter.', { dish: 'Pancakes with chocolate', tags: ['Gluten', 'Milk', 'Eggs'], note: '14 EU allergens' }],
       ],
     },
-    who: {
-      tabsLabel: 'Kinds of venue',
-      title: 'Who RUVO is for',
-      photoCaps: ['Restaurant', 'Café', 'Hotel'],
-      lead: 'Wherever food is cooked and served: from a café to a hotel and a delivery-only kitchen.',
-      items: [
-        ['restaurant', 'Restaurant with a dining room', 'Floor plan, courses and waiters with their devices; stock and recipes for every dish.'],
-        ['cafe', 'Café and bar', 'A floor plan with the bar, the bar as its own station on the screen, shifts and pay.'],
-        ['kiosk', 'Fast food', 'A self-order kiosk, order numbers and the kitchen screen.'],
-        ['bakery', 'Bakery and pastry shop', 'A kiosk and order numbers at the counter, recipes for doughs and creams, minimum stock levels.'],
-        ['hotel', 'Hotel', 'The restaurant, the lobby bar and breakfast as separate venues, with reports for the whole hotel.'],
-        ['catering', 'Catering and canteens', 'A fast line with the kiosk and order numbers, recipes and stock for large quantities.'],
-        ['delivery', 'Delivery kitchen', 'Wolt and Glovo orders on the kitchen screen with the courier’s time, and prices per channel.'],
-        ['group', 'A group of venues', 'One account for all venues, each with its own stock, and reports for the whole group.'],
-      ],
-    },
     why: {
       title: 'Why RUVO',
       items: [
@@ -639,22 +600,6 @@ const MORE = {
         ['bike', 'Доставка на том же экране', 'Заказы для Wolt и Glovo идут на кухню вместе с залом — со временем приезда курьера.', { code: 'W-7F3A', item: '2× Чевапи, 10 шт', courier: 'Курьер 21:52' }],
         ['clock', 'Рабочий день до 5 утра', 'Для заведений, которые работают после полуночи: выручка попадает в нужный день.', { day: 'Рабочий день', now: 'сейчас' }],
         ['info', 'Аллергены для гостей', '14 аллергенов ЕС у каждого блюда — по техкарте, в киоске и у официанта.', { dish: 'Палачинки с шоколадом', tags: ['Глютен', 'Молоко', 'Яйца'], note: '14 аллергенов ЕС' }],
-      ],
-    },
-    who: {
-      tabsLabel: 'Виды заведений',
-      title: 'Для кого RUVO',
-      photoCaps: ['Ресторан', 'Кафе', 'Отель'],
-      lead: 'Везде, где готовят и подают: от кафе до отеля и кухни, которая работает только на доставку.',
-      items: [
-        ['restaurant', 'Ресторан с залом', 'План зала, курсы и официанты с устройствами; склад и техкарты на каждое блюдо.'],
-        ['cafe', 'Кафе и бар', 'План зала с баром, бар как отдельный цех на экране, смены и зарплата.'],
-        ['kiosk', 'Фастфуд', 'Киоск самообслуживания, номера заказов и экран кухни.'],
-        ['bakery', 'Пекарня и кондитерская', 'Киоск и номера заказов у прилавка, техкарты для теста и кремов, минимальные остатки.'],
-        ['hotel', 'Отель', 'Ресторан, лобби-бар и завтраки — отдельными заведениями, с отчётами по всему отелю.'],
-        ['catering', 'Кейтеринг и столовые', 'Быстрая линия с киоском и номерами заказов, техкарты и склад для больших объёмов.'],
-        ['delivery', 'Кухня доставки', 'Заказы Wolt и Glovo на экране кухни со временем курьера и ценами по каналам.'],
-        ['group', 'Сеть заведений', 'Один аккаунт на все заведения, у каждого свой склад, и отчёты по всей сети.'],
       ],
     },
     why: {

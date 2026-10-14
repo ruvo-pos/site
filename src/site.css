@@ -38,6 +38,7 @@
   --kds-warn: #F0A93E;
   --kds-warn-soft: #3A2A10;
   --kds-late: #F0705F;
+  --kds-plan: #8FA6F5;
   /* the dark band: the kitchen's colour, the page's darkest */
   --night: #13171A;
   --night-2: #1C2226;
@@ -206,13 +207,79 @@ a:hover { color: var(--accent-2); }
   .nav { display: none; }
   .top-in > .langs { margin-left: auto; }
 }
-@media (max-width: 760px) { .top-in { min-height: 68px; } }
+@media (max-width: 760px) { .top-in { min-height: 68px; gap: var(--sp-3); } }
+@media (max-width: 480px) {
+  .top-in { gap: var(--sp-2); }
+  .langs a { min-width: 34px; padding-inline: 6px; }
+}
+
+/* «Za koga ▾» beside the wordmark (14 October): the kind of venue the page is for — its icon and short name — on a
+   chip of the languages' ground; the list under it in two columns: an icon, the name, a line of what RUVO does there;
+   the page shown on the accent's tint; at the foot the way back to the page about everything. On a phone the list is a
+   sheet across the screen, one column. */
+.top-in { position: relative; }
+.vm { position: relative; flex: none; }
+.vm-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 40px; padding-inline: 12px 10px; border-radius: 10px;
+  background: var(--bg-2); color: var(--ink);
+  font-size: var(--fs-body); font-weight: 600; white-space: nowrap;
+  cursor: pointer; list-style: none; user-select: none;
+}
+.vm-btn::-webkit-details-marker { display: none; }
+.vm-btn::marker { content: ''; }
+.vm-btn > svg { flex: none; width: 22px; height: 22px; }
+.vm-btn:hover { background: var(--line); }
+.vm-chev { display: inline-flex; color: var(--ink-3); }
+.vm-chev svg { width: 14px; height: 14px; transition: transform 0.2s ease; }
+.vm[open] > .vm-btn { background: var(--surface); box-shadow: var(--shadow-1); }
+.vm[open] .vm-chev svg { transform: rotate(180deg); }
+.vm-panel {
+  position: absolute; z-index: 30; top: calc(100% + 10px); left: 0;
+  width: min(700px, calc(100vw - 2 * var(--gutter)));
+  padding: 8px; border: 1px solid var(--line); border-radius: var(--r-xl);
+  background: var(--surface); box-shadow: var(--shadow-2);
+}
+.vm-k { padding: 10px 12px 6px; color: var(--ink-3); font-size: var(--fs-xs); font-weight: 600; line-height: 1.2; letter-spacing: var(--track-caps); text-transform: uppercase; }
+.vm-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; }
+.vm-list a { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px; border-radius: var(--r-md); color: var(--ink); text-decoration: none; }
+.vm-list a:hover { background: var(--surface-2); color: var(--ink); }
+.vm-list a[aria-current] { background: var(--accent-soft); }
+.vm-ic { flex: none; display: inline-flex; }
+.vm-ic svg { width: 28px; height: 28px; }
+.vm-t { display: grid; gap: 2px; min-width: 0; }
+.vm-t b { font-size: var(--fs-body); font-weight: 600; line-height: 1.3; }
+.vm-t small { color: var(--ink-3); font-size: var(--fs-sm); line-height: 1.35; }
+.vm-all { display: flex; align-items: center; gap: 6px; margin: 6px 4px 2px; padding: 12px 8px 8px; border-top: 1px solid var(--line); font-size: var(--fs-sm); font-weight: 600; text-decoration: none; }
+.vm-all svg { flex: none; width: 14px; height: 14px; }
+.vm-all[aria-current] { color: var(--ink); }
+@media (prefers-reduced-motion: no-preference) { .vm[open] .vm-panel { animation: vm-in 0.18s ease-out both; } }
+@keyframes vm-in { from { opacity: 0; transform: translateY(-6px); } }
+/* without the section links the menu is a sheet across the header's width; on a phone, one column */
+@media (max-width: 1000px) {
+  .vm { position: static; }
+  .vm-panel { left: 0; right: 0; width: auto; max-height: calc(100dvh - 92px); overflow-y: auto; overscroll-behavior: contain; margin-inline: var(--gutter); }
+}
+@media (max-width: 640px) { .vm-list { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 480px) {
+  .vm-btn { gap: 6px; padding-inline: 10px 8px; font-size: var(--fs-sm); }
+  .vm-btn > svg { display: none; }
+}
+/* going from one kind of venue to another (or to any page of the site): the page fades over, the header stays */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+/* the header stands above the page (its menu opens over the first screen) */
+.top { position: relative; z-index: 10; view-transition-name: top; }
 
 /* ---------- hero ---------- */
 .hero { padding-block: clamp(24px, 4vw, 64px) var(--band); }
 .hero-in { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: clamp(40px, 5vw, 80px); align-items: center; }
 .hero-text { min-width: 0; }
 .eyebrow { color: var(--accent); }
+/* a kind of venue's page names it with its icon */
+.hero .eyebrow svg { flex: none; width: 22px; height: 22px; }
+.hero .eyebrow:has(svg) { display: flex; align-items: center; gap: 8px; }
 .hero h1 { margin-top: var(--sp-4); font-size: var(--fs-h1); font-weight: 700; line-height: 1.04; letter-spacing: -0.028em; text-wrap: balance; }
 .lead { margin-top: var(--sp-6); max-width: 33em; color: var(--ink-2); font-size: var(--fs-lead); line-height: 1.5; text-wrap: pretty; }
 .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3); margin-top: var(--sp-8); }
@@ -255,9 +322,14 @@ a:hover { color: var(--accent-2); }
 .pad-btn { display: flex; align-items: center; justify-content: center; height: 44px; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 600; }
 .pad-btn.go { background: var(--accent); color: var(--accent-ink); }
 .pad-btn.bill { border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); }
+/* one button only (a counter's «Naplati», a delivery's «U kuhinju»); a platform's order says whose it is */
+.pad-btns.one { grid-template-columns: minmax(0, 1fr); }
+.pad-title { display: inline-flex; align-items: center; gap: 8px; min-width: 0; }
+.pad-title .pf { font-size: 13px; padding: 3px 9px; }
 
 /* the kitchen's side of the scene: the ticket and, under it, what the recipes take from the stock */
-.scene-side { flex: 0 1 204px; min-width: 0; display: grid; gap: var(--sp-3); margin-top: 88px; }
+/* the ticket keeps its width (its head holds the number, the place and «Gotovo»); the order gives way first */
+.scene-side { flex: 0 0 204px; min-width: 0; display: grid; gap: var(--sp-3); margin-top: 88px; }
 .kds-t {
   min-width: 0; overflow: hidden;
   border: 1px solid var(--kds-line); border-radius: var(--r-lg);
@@ -274,6 +346,14 @@ a:hover { color: var(--accent-2); }
 .kl-q { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 30px; border: 1px solid var(--kds-line); border-radius: var(--r-sm); background: var(--kds-2); font-size: var(--fs-sm); }
 .kl-n { min-width: 0; overflow-wrap: anywhere; }
 .kds-wait { margin: 0 14px 14px; padding: 8px 10px; border-radius: var(--r-sm); background: var(--kds-warn-soft); color: var(--kds-warn); font-size: var(--fs-sm); font-weight: 600; }
+.kds-wait.note { background: var(--kds-2); color: var(--kds-ink-2); }
+/* a bakery's: tomorrow's forecast, what to prepare by the recipes — under a blue rule instead of the kitchen's green */
+.kds-t.fcast::before { background: var(--kds-plan); }
+.kp-rows { display: grid; gap: 8px; padding: 10px 14px 4px; }
+.kp { display: flex; justify-content: space-between; gap: 10px; font-size: var(--fs-body); font-weight: 600; }
+.kp span { min-width: 0; overflow-wrap: anywhere; }
+.kp b { flex: none; color: var(--kds-plan); font-weight: 700; }
+.kp-note { padding: 6px 14px 14px; color: var(--kds-ink-2); font-size: var(--fs-xs); line-height: 1.4; }
 /* a dish the kitchen has made, and the whole ticket done: shown while the scene plays */
 .kl-ok { position: absolute; top: 50%; left: 0; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; margin-top: -15px; padding: 7px; border-radius: var(--r-sm); background: var(--kds-ok); color: #0B2416; opacity: 0; }
 .kl-ok svg, .kds-done svg { width: 100%; height: 100%; }
@@ -284,18 +364,26 @@ a:hover { color: var(--accent-2); }
 .sc-r { display: flex; justify-content: space-between; gap: 10px; padding-block: 3px; }
 .sc-r span { min-width: 0; overflow-wrap: anywhere; }
 .sc-r b { font-weight: 600; white-space: nowrap; }
+.sc-r b.ok { color: var(--ok); }
 .sc-note { margin-top: 6px; color: var(--ink-3); font-size: var(--fs-xs); }
+/* fast food's: the guests' kiosk itself (drawn as in «Sve što objektu treba», in em), the ticket and the pickup screen
+   beside it; it keeps its shape and grows with the column */
+.scene--kiosk .kio { font-size: clamp(11px, 1.05vw, 15px); }
+.scene--kiosk .scene-side { margin-top: 120px; }
+@media (max-width: 1000px) { .scene--kiosk .kio { font-size: 15px; } }
 @media (max-width: 560px) {
   .scene { flex-direction: column; align-items: stretch; gap: 0; }
   .pad { flex-basis: auto; }
   .scene-side { flex-basis: auto; align-self: flex-end; width: 80%; margin-top: -18px; margin-right: -4px; position: relative; }
+  .scene--kiosk .kio { align-self: center; font-size: min(14px, calc((100vw - 2 * var(--gutter)) / 22.2)); }
+  .scene--kiosk .scene-side { margin-top: var(--sp-3); }
 }
 /* the loop (14 October): «U kuhinju» is pressed, the ticket comes, its dishes are done one by one, «Gotovo», then the
    stock by the recipe; ten seconds round, only while the scene is in sight and motion is welcome. It starts six
    seconds in, so its first frame is the whole story at rest */
 @media (prefers-reduced-motion: no-preference) {
-  .scene.live :is(.pad-btn.go, .kds-t, .kl-ok, .kl-n, .kds-time, .kds-done, .stock-chip) { animation-delay: -6.2s !important; }
-  .scene.live .pad-btn.go { animation: h-press 10s infinite; }
+  .scene.live :is(.pad-btn.go, .kio-go, .kds-t, .kl-ok, .kl-n, .kds-time, .kds-done, .stock-chip) { animation-delay: -6.2s !important; }
+  .scene.live :is(.pad-btn.go, .kio-go) { animation: h-press 10s infinite; }
   .scene.live .kds-t { animation: h-ticket 10s infinite; }
   .scene.live .kl:nth-child(1) .kl-ok { animation: h-ok1 10s infinite; }
   .scene.live .kl:nth-child(2) .kl-ok { animation: h-ok2 10s infinite; }
@@ -422,10 +510,6 @@ h2 { font-size: var(--fs-h2); font-weight: 700; line-height: 1.1; letter-spacing
   .hero-art.has-photo .photo img { object-position: 50% 62%; }
   .hero-art.has-photo .scene { display: none; }
 }
-/* the kinds of venue: a row of photos above the cards */
-.who-photos { display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); gap: var(--gap); margin-bottom: var(--gap); }
-@media (max-width: 760px) { .who-photos { grid-template-columns: minmax(0, 1fr); } }
-
 /* ---------- examples: nine screens of the app ---------- */
 .ex-tabs { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-bottom: clamp(24px, 3vw, 40px); }
 .ex-tabs[hidden] { display: none; }
@@ -900,34 +984,6 @@ h2 { font-size: var(--fs-h2); font-weight: 700; line-height: 1.1; letter-spacing
 .mu-tag.now { background: #E2E8F8; color: var(--m-accent); }
 .mu-tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .mu-note { color: var(--m-ink-3); font-size: 12px; }
-/* who RUVO is for (14 October): the kinds of venue as buttons with their icons, one description beside them; without
-   JavaScript all the descriptions, in two columns */
-.who { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 64px); align-items: start; }
-.who-tabs { display: flex; flex-wrap: wrap; align-content: start; gap: 10px; }
-.who-tabs[hidden] { display: none; }
-.who-tabs button { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 20px 0 14px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--surface); color: var(--ink); font: inherit; font-size: var(--fs-md); font-weight: 600; cursor: pointer; }
-.who-tabs button svg { flex: none; width: 26px; height: 26px; }
-.who-tabs button:hover { border-color: var(--ink-3); }
-.who-tabs button[aria-selected="true"] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
-.who-tabs button[aria-selected="true"] .duo { fill: var(--bg); opacity: 0.35; }
-.who-panels { display: grid; }
-.who.js .who-panel { grid-area: 1 / 1; }
-.who.js .who-panel:not(.on) { visibility: hidden; }
-.who-panel { display: grid; align-content: start; gap: var(--sp-3); min-width: 0; padding: clamp(24px, 3vw, 36px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--shadow-1); }
-.who-ic svg { display: block; width: 56px; height: 56px; color: var(--ink); }
-.who-panel h3 { margin-top: var(--sp-2); font-size: var(--fs-xl); font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
-.who-panel p { color: var(--ink-2); font-size: var(--fs-lead); line-height: 1.55; text-wrap: pretty; }
-.who:not(.js) { display: block; }
-.who:not(.js) .who-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
-@media (prefers-reduced-motion: no-preference) { .who.js .who-panel.on { animation: s-in 0.35s both; } }
-@media (max-width: 900px) { .who { grid-template-columns: minmax(0, 1fr); } }
-@media (max-width: 560px) {
-  .who-tabs { gap: 8px; }
-  .who-tabs button { height: 44px; padding: 0 16px 0 11px; font-size: var(--fs-body); }
-  .who-tabs button svg { width: 22px; height: 22px; }
-  .who:not(.js) .who-panels { grid-template-columns: minmax(0, 1fr); }
-}
-
 /* why RUVO (14 October): four statements, large, each under a hairline — no icons; then the way to the prices and the demo */
 .why { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(36px, 4vw, 56px) clamp(32px, 5vw, 80px); }
 .why li { display: grid; align-content: start; gap: var(--sp-3); padding-top: var(--sp-6); border-top: 1px solid var(--line-2); }
@@ -1155,7 +1211,7 @@ h2 { font-size: var(--fs-h2); font-weight: 700; line-height: 1.1; letter-spacing
 .foot-in { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-8) var(--gap); }
 .foot-co { display: grid; gap: var(--sp-3); justify-items: start; align-content: start; }
 .foot-co p { line-height: 1.6; }
-.foot-cols { grid-column: 2 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-6) var(--gap); }
+.foot-cols { grid-column: 2 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-6) var(--gap); }
 .foot-col h2 { margin-bottom: var(--sp-3); color: var(--ink); font-size: var(--fs-sm); font-weight: 600; line-height: 1.3; letter-spacing: 0; }
 .foot-col ul { display: grid; gap: var(--sp-2); }
 .foot-col li { line-height: 1.5; overflow-wrap: anywhere; }
@@ -1164,7 +1220,7 @@ h2 { font-size: var(--fs-h2); font-weight: 700; line-height: 1.1; letter-spacing
 .foot-col a[aria-current] { color: var(--ink); font-weight: 600; }
 .foot-base { margin-top: var(--sp-10); padding-top: var(--sp-5); border-top: 1px solid var(--line); line-height: 1.6; }
 @media (max-width: 760px) { .foot-in { grid-template-columns: minmax(0, 1fr); } .foot-cols { grid-column: 1; } }
-@media (max-width: 480px) { .foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } .foot-col:last-child { grid-column: 1 / -1; } }
+@media (max-width: 480px) { .foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* ---------- documents: privacy policy and support ---------- */
 .doc { padding-block: clamp(16px, 3vw, 40px) var(--band); }
