@@ -231,33 +231,10 @@ function scene(lang) {
 </div>`;
 }
 
-// The first screen without a photo (14 October, the owner: «Убери пока вообще фото с лендинга», then «Заполни первый
-// блок чем-то другим»): RUVO itself on its devices — the kitchen screen behind, the front's floor plan on an iPad, the
-// waiter's iPhone in front. Real screens of the demo at 12:20 (src/screens/, how they are made — README); the English
-// page shows the Serbian ones, the app has no English.
-const SCREEN_DIR = path.join(ROOT, 'src/screens');
-const SCREEN_FILES = readdirSync(SCREEN_DIR).filter((x) => x.endsWith('.webp'));
-const SCREEN_V = Object.fromEntries(SCREEN_FILES.map((f) => [f, createHash('sha256').update(readFileSync(path.join(SCREEN_DIR, f))).digest('hex').slice(0, 10)]));
-const SCREEN_LANG = { sr: 'sr', en: 'sr', ru: 'ru' };
-const SCREENS = { kds: [1100, 688], front: [1400, 978], phone: [480, 1043] };
-function devices(lang, file) {
-  const img = (name, extra = '') => {
-    const f = `${name}-${SCREEN_LANG[lang]}.webp`;
-    const [w, h] = SCREENS[name];
-    return `<img src="${href(file, `assets/screens/${f}`)}?v=${SCREEN_V[f]}" alt="" width="${w}" height="${h}" decoding="async"${extra}>`;
-  };
-  return `<div class="devices" role="img" aria-label="${esc(T[lang].home.devices.label)}">
-<div class="dev dev-kds">${img('kds')}</div>
-<div class="dev dev-pad">${img('front', ' fetchpriority="high"')}</div>
-<div class="dev dev-phone">${img('phone')}</div>
-</div>`;
-}
-
-// the hero's picture: RUVO on its devices; once src/photos/ has the hero's photo of a real service (none for now) —
-// the photo and the kitchen ticket beside it (the preview, too, shows the devices: it is the site as it is)
+// the hero's picture: the order and the kitchen ticket, over the photo of a real service once there is one
 function heroArt(lang, file) {
-  if (!PHOTO_FILES.hero) return `<div class="hero-art">${devices(lang, file)}</div>`;
-  return `<div class="hero-art has-photo">${photo(lang, file, 'hero')}${scene(lang)}</div>`;
+  const ph = photo(lang, file, 'hero');
+  return `<div class="hero-art${ph ? ' has-photo' : ''}">${ph}${scene(lang)}</div>`;
 }
 
 // ---------- «Kako izgleda u radu»: five screens of the app, drawn in em so each scales with its column ----------
@@ -1218,8 +1195,6 @@ put('assets/favicon.svg', FAVICON);
 // the kiosk example's dishes: the app's own drawings (taken from its kiosk), one file each
 for (const f of readdirSync(path.join(ROOT, 'src/dishes')).filter((x) => x.endsWith('.svg'))) put(`assets/dishes/${f}`, readFileSync(path.join(ROOT, 'src/dishes', f)));
 for (const f of Object.values(PHOTO_FILES).filter(Boolean)) put(`img/${f}`, readFileSync(path.join(PHOTO_DIR, f)));
-// the real screens of the first screen
-for (const f of SCREEN_FILES) put(`assets/screens/${f}`, readFileSync(path.join(SCREEN_DIR, f)));
 put(DEMO.sr, demoPage('sr'));
 put(DEMO.ru, demoPage('ru'));
 put('demo/app.js', DEMO_JS);

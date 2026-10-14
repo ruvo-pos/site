@@ -60,8 +60,6 @@
 --kds-late: #F0705F;
 --shadow-1: 0 1px 2px rgb(19 23 26 / 0.06), 0 2px 10px rgb(19 23 26 / 0.05);
 --shadow-2: 0 22px 56px rgb(19 23 26 / 0.16), 0 2px 8px rgb(19 23 26 / 0.06);
---dev: #0D0F12;
---dev-edge: rgb(19 23 26 / 0.10);
 --font-ui: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 --font-brand: "Unbounded", "Onest", system-ui, sans-serif;
 --font-timer: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -102,7 +100,6 @@ color-scheme: light;
 --bill: #B88DF0; --bill-soft: #2B2140; --gold: #EAC761; --gold-soft: #3A2F12;
 --kds: #1A1F23; --kds-2: #252C33; --kds-line: #353F46;
 --shadow-1: 0 1px 2px rgb(0 0 0 / 0.45); --shadow-2: 0 22px 56px rgb(0 0 0 / 0.55), 0 2px 8px rgb(0 0 0 / 0.4);
---dev: #050607; --dev-edge: rgb(255 255 255 / 0.13);
 color-scheme: dark;
 }
 }
@@ -114,7 +111,6 @@ color-scheme: dark;
 --bill: #B88DF0; --bill-soft: #2B2140; --gold: #EAC761; --gold-soft: #3A2F12;
 --kds: #1A1F23; --kds-2: #252C33; --kds-line: #353F46;
 --shadow-1: 0 1px 2px rgb(0 0 0 / 0.45); --shadow-2: 0 22px 56px rgb(0 0 0 / 0.55), 0 2px 8px rgb(0 0 0 / 0.4);
---dev: #050607; --dev-edge: rgb(255 255 255 / 0.13);
 color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -349,16 +345,6 @@ overflow-wrap: anywhere;
 .slot-n svg { width: 18px; height: 18px; flex: none; }
 .slot-in code { color: var(--ink-3); font-family: var(--font-timer); font-size: 11px; }
 .hero-art { position: relative; min-width: 0; }
-.devices { position: relative; container-type: inline-size; aspect-ratio: 100 / 84; }
-.dev { position: absolute; background: var(--dev); box-shadow: 0 0 0 1px var(--dev-edge), var(--shadow-2); }
-.dev img { display: block; width: 100%; height: auto; }
-.dev-kds { top: 0; right: 0; width: 62%; padding: 1.4cqw; border-radius: 2.2cqw; }
-.dev-kds img { border-radius: 0.9cqw; }
-.dev-pad { top: 23cqw; left: 0; width: 78%; padding: 2.3cqw; border-radius: 4.4cqw; }
-.dev-pad img { border-radius: 2.2cqw; }
-.dev-phone { right: 7%; bottom: 0; width: 21%; padding: 1.05cqw; border-radius: 4.3cqw; }
-.dev-phone img { border-radius: 3.3cqw; }
-@media (max-width: 1000px) { .devices { max-width: 680px; margin-inline: auto; } }
 .hero-art.has-photo { display: grid; }
 .hero-art.has-photo .photo { grid-area: 1 / 1; width: 76%; justify-self: end; }
 .hero-art.has-photo .scene { position: relative; grid-area: 1 / 1; display: block; }
@@ -940,10 +926,19 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <p class="lead">RUVO takes orders on iPad and iPhone, sends them to the kitchen screen, writes off ingredients by recipe and builds the reports. For one venue or a whole group.</p>
 <div class="cta-row"><a class="btn" href="../demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Try the demo</a><a class="btn ghost" href="mailto:hello@ruvo.ac"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>Write to us</a></div>
 </div>
-<div class="hero-art"><div class="devices" role="img" aria-label="RUVO on its devices: the floor plan on an iPad, the kitchen screen with the orders, and a waiter adding dishes for table 6 on an iPhone">
-<div class="dev dev-kds"><img src="../assets/screens/kds-sr.webp?v=3110d3718b" alt="" width="1100" height="688" decoding="async"></div>
-<div class="dev dev-pad"><img src="../assets/screens/front-sr.webp?v=99c0e1a8a5" alt="" width="1400" height="978" decoding="async" fetchpriority="high"></div>
-<div class="dev dev-phone"><img src="../assets/screens/phone-sr.webp?v=5af3c43543" alt="" width="480" height="1043" decoding="async"></div>
+<div class="hero-art"><div class="scene" role="img" aria-label="Example: the order for table 12 on the iPad and the same order on the kitchen screen">
+<div class="pad">
+<div class="pad-head"><span class="pad-title">Table 12</span><span class="pad-meta">4 guests · Marko</span></div>
+<div class="pad-lines"><div class="pl"><span class="pl-n">Ćevapi, 10 pcs</span><span class="pl-q">×2</span><span class="pl-p">2,580</span></div><div class="pl"><span class="pl-n">Shopska salad</span><span class="pl-q">×1</span><span class="pl-p">590</span></div><div class="pl"><span class="pl-n">Homemade lemonade</span><span class="pl-q">×3</span><span class="pl-p">1,050</span></div><div class="course">Course 2 · waits for the call</div><div class="pl later"><span class="pl-n">Pancakes with chocolate</span><span class="pl-q">×2</span><span class="pl-p">1,040</span></div></div>
+<div class="pad-total"><span>Total</span><span>5,260<small>RSD</small></span></div>
+<div class="pad-btns"><span class="pad-btn go">To kitchen</span><span class="pad-btn bill">Bill</span></div>
+</div>
+<div class="kds-t">
+<div class="kds-head"><span class="kds-no">#17</span><span class="kds-tbl">Table 12</span><span class="kds-time">04:12</span></div>
+<div class="kds-station">Kitchen</div>
+<div class="kds-lines"><div class="kl"><span class="kl-q">2</span><span class="kl-n">Ćevapi, 10 pcs</span></div><div class="kl"><span class="kl-q">1</span><span class="kl-n">Shopska salad</span></div></div>
+<div class="kds-wait">course 2 waits</div>
+</div>
 </div></div>
 </div></section>
 <section class="band raised" id="features" aria-labelledby="features-h"><div class="wrap">
