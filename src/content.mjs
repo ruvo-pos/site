@@ -36,9 +36,9 @@ export const LANGS = ['sr', 'en', 'ru'];
 
 // the order on the iPad and the kitchen ticket in the hero: dishes and prices of the demo menu (RSD)
 const TICKET = {
-  sr: { table: 'Sto 12', meta: '4 gosta · Marko', lines: [['Ćevapi, 10 kom', 2, 2580], ['Šopska salata', 1, 590], ['Domaća limunada', 3, 1050]], course: 'Kurs 2 · čeka poziv', later: [['Palačinke sa čokoladom', 2, 1040]], total: 'Ukupno', send: 'U kuhinju', bill: 'Račun', kitchen: 'Kuhinja', waits: 'kurs 2 čeka', label: 'Primer: porudžbina za stolom 12 na iPad-u i ista porudžbina na ekranu kuhinje' },
-  en: { table: 'Table 12', meta: '4 guests · Marko', lines: [['Ćevapi, 10 pcs', 2, 2580], ['Shopska salad', 1, 590], ['Homemade lemonade', 3, 1050]], course: 'Course 2 · waits for the call', later: [['Pancakes with chocolate', 2, 1040]], total: 'Total', send: 'To kitchen', bill: 'Bill', kitchen: 'Kitchen', waits: 'course 2 waits', label: 'Example: the order for table 12 on the iPad and the same order on the kitchen screen' },
-  ru: { table: 'Стол 12', meta: '4 гостя · Marko', lines: [['Чевапи, 10 шт', 2, 2580], ['Шопский салат', 1, 590], ['Домашний лимонад', 3, 1050]], course: 'Курс 2 · ждёт вызова', later: [['Палачинки с шоколадом', 2, 1040]], total: 'Итого', send: 'На кухню', bill: 'Счёт', kitchen: 'Кухня', waits: 'курс 2 ждёт', label: 'Пример: заказ стола 12 на iPad и тот же заказ на экране кухни' },
+  sr: { table: 'Sto 12', meta: '4 gosta · Marko', lines: [['Ćevapi, 10 kom', 2, 2580], ['Šopska salata', 1, 590], ['Domaća limunada', 3, 1050]], course: 'Kurs 2 · čeka poziv', later: [['Palačinke sa čokoladom', 2, 1040]], total: 'Ukupno', send: 'U kuhinju', bill: 'Račun', kitchen: 'Kuhinja', waits: 'kurs 2 čeka', done: 'Gotovo', stock: { title: 'Magacin · po normativu', note: 'otpis pri naplati', rows: [['Mleveno meso', '0,50 kg'], ['Lepinja', '2 kom'], ['Kajmak', '0,08 kg']] }, label: 'Primer: porudžbina za stolom 12 na iPad-u i ista porudžbina na ekranu kuhinje' },
+  en: { table: 'Table 12', meta: '4 guests · Marko', lines: [['Ćevapi, 10 pcs', 2, 2580], ['Shopska salad', 1, 590], ['Homemade lemonade', 3, 1050]], course: 'Course 2 · waits for the call', later: [['Pancakes with chocolate', 2, 1040]], total: 'Total', send: 'To kitchen', bill: 'Bill', kitchen: 'Kitchen', waits: 'course 2 waits', done: 'Done', stock: { title: 'Stock · by recipe', note: 'written off at payment', rows: [['Minced meat', '0.50 kg'], ['Lepinja (flatbread)', '2 pcs'], ['Kajmak', '0.08 kg']] }, label: 'Example: the order for table 12 on the iPad and the same order on the kitchen screen' },
+  ru: { table: 'Стол 12', meta: '4 гостя · Marko', lines: [['Чевапи, 10 шт', 2, 2580], ['Шопский салат', 1, 590], ['Домашний лимонад', 3, 1050]], course: 'Курс 2 · ждёт вызова', later: [['Палачинки с шоколадом', 2, 1040]], total: 'Итого', send: 'На кухню', bill: 'Счёт', kitchen: 'Кухня', waits: 'курс 2 ждёт', done: 'Готово', stock: { title: 'Склад · по техкарте', note: 'спишется при оплате', rows: [['Фарш', '0,50 кг'], ['Лепиня', '2 шт'], ['Каймак', '0,08 кг']] }, label: 'Пример: заказ стола 12 на iPad и тот же заказ на экране кухни' },
 };
 
 // «Kako izgleda u radu»: nine screens of RUVO drawn from the app's own parts, with the dishes and figures of one
@@ -60,11 +60,13 @@ const FLOOR = {
 // the biggest; points: 3 for every 100 RSD paid (the app's loyalty programme)
 const LOYAL = { levelPct: 10, promoPct: 20, earn: 3, points: 1840 };
 // the kiosk's dishes: the app's own pictures (src/dishes/, taken from the kiosk) and prices; two in the basket
+// the team on shift and a waiter's week (the app's pay: hours × the hourly rate + 1.5% of the waiter's sales)
+const TEAM = { people: [['Marko', 'waiter', '16:02'], ['Jovana', 'waiter', '16:10'], ['Stefan', 'cook', '15:45'], ['Luka', 'bar', '17:00']], pay: { name: 'Marko', hours: 38, rate: 650, pct: 1.5, sales: 412000 } };
 const KIOSK = { dishes: [['cevapi', 1290], ['pljeskavica', 1190], ['burger', 1290], ['carbonara', 990]], basket: ['cevapi', 'pljeskavica'], no: 47 };
 const EXAMPLES = {
   sr: {
-    title: 'Kako izgleda u radu',
-    lead: 'Devet ekrana iz RUVO-a — od sale i kuhinje do magacina i izveštaja, sa jelima i brojkama kao u pravom restoranu.',
+    title: 'Sve što objektu treba',
+    lead: 'Deset ekrana iz RUVO-a — sa jelima i brojkama kao u pravom restoranu.',
     tabsLabel: 'Primeri ekrana',
     items: [
       {
@@ -139,11 +141,18 @@ const EXAMPLES = {
         label: 'Primer: ulazna faktura mlekare iz SEF-a, stavke povezane sa proizvodima magacina',
         sef: { inbox: 'Fakture dobavljača', tabs: ['Nove · 2', 'Obrađene', 'Sve'], supplier: 'Mlekara Primer d.o.o.', meta: 'Faktura 2026-01183 · 9. okt', due: 'Odgovor do 24. okt', head: ['Stavka dobavljača', 'Naš proizvod'], rows: [['Mleko 2,8% 1 l', '24 kom', 'Mleko', '1 kom = 1 l'], ['Kajmak 500 g', '6 kom', 'Kajmak', '1 kom = 0,5 kg'], ['Pavlaka 20% 400 g', '10 kom', 'Pavlaka', '1 kom = 0,4 kg']], remembered: 'zapamćeno', accept: 'Prihvati i primi u magacin', reject: 'Odbij' },
       },
+      {
+        id: 'team', tab: 'Tim', title: 'Tim i smene',
+        text: 'Svako radi pod svojim PIN-om i sa svojom ulogom. Smena počinje i završava se PIN-om na terminalu sale, a plata se računa sama — po satima i procentu od prodaje.',
+        points: ['Uloge: vlasnik, menadžer, konobar, kuvar, šank', 'Dnevnik radnji — ko je šta uradio i kada', 'Zaboravljena smena se ispravlja uz razlog'],
+        label: 'Primer: ko je sada na smeni i obračun plate konobara za nedelju',
+        team: { ...TEAM, title: 'Na smeni', count: '4 osobe', since: 'od', roles: { waiter: 'konobar', cook: 'kuvar', bar: 'šank' }, payTitle: 'Plata · 6–12. okt', hours: 'Sati', rate: 'Satnica', share: '{pct}% od prodaje', total: 'Ukupno' },
+      },
     ],
   },
   en: {
-    title: 'See it at work',
-    lead: 'Nine screens of RUVO — from the floor and the kitchen to stock and reports, with the dishes and figures of a real restaurant.',
+    title: 'Everything a venue needs',
+    lead: 'Ten screens of RUVO, with the dishes and figures of a real restaurant.',
     tabsLabel: 'Example screens',
     items: [
       {
@@ -218,11 +227,18 @@ const EXAMPLES = {
         label: 'Example: a dairy’s incoming invoice from SEF, its items matched to stock products',
         sef: { inbox: 'Supplier invoices', tabs: ['New · 2', 'Done', 'All'], supplier: 'Mlekara Primer d.o.o.', meta: 'Invoice 2026-01183 · 9 Oct', due: 'Reply by 24 Oct', head: ['Supplier’s item', 'Our product'], rows: [['Mleko 2,8% 1 l', '24 kom', 'Milk', '1 pc = 1 l'], ['Kajmak 500 g', '6 kom', 'Kajmak', '1 pc = 0.5 kg'], ['Pavlaka 20% 400 g', '10 kom', 'Sour cream', '1 pc = 0.4 kg']], remembered: 'remembered', accept: 'Accept and receive into stock', reject: 'Reject' },
       },
+      {
+        id: 'team', tab: 'Team', title: 'Team and shifts',
+        text: 'Everyone works under their own PIN and role. A shift starts and ends with a PIN on the front terminal, and pay counts itself — by the hours and a share of the sales.',
+        points: ['Roles: owner, manager, waiter, cook, bar', 'The action log — who did what and when', 'A forgotten shift is corrected with a reason'],
+        label: 'Example: who is on shift now, and a waiter’s pay for the week',
+        team: { ...TEAM, title: 'On shift', count: '4 people', since: 'since', roles: { waiter: 'waiter', cook: 'cook', bar: 'bar' }, payTitle: 'Pay · 6–12 Oct', hours: 'Hours', rate: 'Hourly rate', share: '{pct}% of sales', total: 'Total' },
+      },
     ],
   },
   ru: {
-    title: 'Как это выглядит в работе',
-    lead: 'Девять экранов RUVO — от зала и кухни до склада и отчётов, с блюдами и цифрами, как в настоящем ресторане.',
+    title: 'Всё, что нужно заведению',
+    lead: 'Десять экранов RUVO — с блюдами и цифрами как в настоящем ресторане.',
     tabsLabel: 'Примеры экранов',
     items: [
       {
@@ -296,6 +312,13 @@ const EXAMPLES = {
         points: ['Принять или отклонить счёт из RUVO', 'Срок ответа всегда на виду', 'Несколько фирм (ПИБ) в одном аккаунте'],
         label: 'Пример: входящий счёт молочного поставщика из SEF, позиции связаны с продуктами склада',
         sef: { inbox: 'Счета поставщиков', tabs: ['Новые · 2', 'Обработанные', 'Все'], supplier: 'Mlekara Primer d.o.o.', meta: 'Счёт 2026-01183 · 9 окт', due: 'Ответить до 24 окт', head: ['Позиция поставщика', 'Наш продукт'], rows: [['Mleko 2,8% 1 l', '24 kom', 'Молоко', '1 шт = 1 л'], ['Kajmak 500 g', '6 kom', 'Каймак', '1 шт = 0,5 кг'], ['Pavlaka 20% 400 g', '10 kom', 'Сметана', '1 шт = 0,4 кг']], remembered: 'запомнено', accept: 'Принять и оприходовать', reject: 'Отклонить' },
+      },
+      {
+        id: 'team', tab: 'Команда', title: 'Команда и смены',
+        text: 'Каждый работает под своим PIN и со своей ролью. Смена начинается и заканчивается по PIN на фронте, а зарплата считается сама — по часам и проценту с продаж.',
+        points: ['Роли: владелец, управляющий, официант, повар, бар', 'Журнал действий — кто что сделал и когда', 'Забытая смена исправляется с причиной'],
+        label: 'Пример: кто сейчас на смене и зарплата официанта за неделю',
+        team: { ...TEAM, title: 'На смене', count: '4 человека', since: 'с', roles: { waiter: 'официант', cook: 'повар', bar: 'бармен' }, payTitle: 'Зарплата · 6–12 окт', hours: 'Часы', rate: 'Ставка в час', share: '{pct}% с продаж', total: 'Итого' },
       },
     ],
   },
@@ -494,39 +517,26 @@ export const PHOTOS = {
 const MORE = {
   sr: {
     demo: { cta: 'Isprobajte demo', note: 'Sve ovo možete da probate sami — demo restoran radi u vašem pregledaču.', link: 'Otvorite demo', page: { title: 'Demo restoran — RUVO', description: 'Isprobajte RUVO u pregledaču: terminal sale, uređaj konobara, ekran kuhinje, kiosk, bekofis, aplikacija za goste i ekran za preuzimanje, sa demo menijem.', noscript: 'Za demo je potreban JavaScript.' } },
-    suite: {
-      title: 'Sve što objektu treba',
-      lead: 'Sala, kuhinja, magacin i tim u jednom sistemu — porudžbina stiže u kuhinju za sekundu.',
-      items: [
-        ['front', 'Terminal sale', 'Plan sale, porudžbine po kursevima, deljenje računa i naplata. Dostava na istom ekranu.'],
-        ['waiter', 'Uređaj konobara', 'Porudžbina sa stola ide pravo u kuhinju; račun i IPS QR su kod konobara.'],
-        ['kds', 'Ekran kuhinje', 'Tiketi po stanicama sa tajmerima; sledeći kurs čeka „Pozovi”.'],
-        ['kiosk', 'Kiosk', 'Gosti sami poručuju po slikama, sa alergenima, i plaćaju na kasi po broju.'],
-        ['box', 'Magacin i normativi', 'Otpis po normativu pri svakoj prodaji, popis, prijemnice i fakture dobavljača iz SEF-a.'],
-        ['spark', 'Izveštaji i AI pomoćnik', 'Promet, food cost i konobari; pitate rečima, a RUVO pravi izveštaj.'],
-        ['star', 'Gosti i lojalnost', 'Kartice gostiju sa nivoima i bodovima, popusti i akcije po rasporedu.'],
-        ['users', 'Tim i smene', 'Lični PIN, uloge i dnevnik radnji; smene PIN-om i obračun plata.'],
-      ],
-    },
     rush: {
       title: 'Sitnice koje spasavaju smenu',
       lead: 'Ono što se dešava usred gužve, rešeno u samom sistemu.',
       items: [
-        ['bell', 'Kursevi i „Pozovi”', 'Drugi kurs čeka u kuhinji dok ga konobar ne pozove — tada tiket zazvoni i trepće.'],
-        ['stop', 'Stop-lista sa porcijama', 'Jelo samo prelazi u stop kad se porcije potroše; više od ostatka ne može da se poruči.'],
-        ['split', 'Deljenje računa', 'Plaćanje po stavkama ili u delovima, svaki deo svojim načinom plaćanja.'],
-        ['cash', 'Kusur bez greške', 'Unesete koliko je gost dao, a RUVO krupno pokaže kusur.'],
-        ['lock', 'Otkazivanje uz PIN', 'Poslato jelo otkazuje samo onaj ko ima pravo, uz razlog; ako je kuhinja počela, namirnice idu u otpis.'],
-        ['tag', 'Popusti pod kontrolom', 'Popust za osoblje i komplimenti samo uz PIN menadžera, i sve ostaje u dnevniku radnji.'],
-        ['rotate', '„Vrati sto”', 'Zatvoren sto se ponovo otvara uz PIN i razlog; magacin i promet se sami isprave.'],
-        ['move', 'Plan sale za minut', 'Stolove, sale i oznake premeštate prevlačenjem na terminalu sale.'],
-        ['user', 'Lični PIN', 'Svako radi pod svojim imenom, a terminal se sam zaključa posle pet minuta.'],
-        ['bike', 'Dostava na istom ekranu', 'Porudžbine za Wolt i Glovo idu u kuhinju zajedno sa salom, sa vremenom dolaska kurira.'],
-        ['clock', 'Radni dan do 5 ujutru', 'Za lokale koji rade posle ponoći: promet ide u pravi dan.'],
-        ['info', 'Alergeni za goste', '14 alergena EU za svako jelo, iz normativa, u kiosku i kod konobara.'],
+        ['bell', 'Kursevi i „Pozovi”', 'Drugi kurs čeka u kuhinji dok ga konobar ne pozove — tada tiket zazvoni i trepće.', { course: 'Kurs 2 · čeka poziv', dish: 'Palačinke sa čokoladom', qty: 2, btn: 'Pozovi' }],
+        ['stop', 'Stop-lista sa porcijama', 'Jelo samo prelazi u stop kad se porcije potroše; više od ostatka ne može da se poruči.', { rows: [['Ćevapi, 10 kom', 'ostalo 3'], ['Rib-aj stek, 300 g', 'Nema']] }],
+        ['split', 'Deljenje računa', 'Plaćanje po stavkama ili u delovima, svaki deo svojim načinom plaćanja.', { seg: ['Ceo račun', 'Po stavkama'], parts: [['Deo 1 · kartica', 1290], ['Deo 2 · gotovina', 940]] }],
+        ['cash', 'Kusur bez greške', 'Unesete koliko je gost dao, a RUVO krupno pokaže kusur.', { due: 'Za naplatu', got: 'Primljeno', change: 'Kusur', sum: 3730, paid: 5000 }],
+        ['lock', 'Otkazivanje uz PIN', 'Poslato jelo otkazuje samo onaj ko ima pravo, uz razlog; ako je kuhinja počela, namirnice idu u otpis.', { title: 'Potvrdite svojim PIN-om', reason: 'Gost se predomislio' }],
+        ['tag', 'Popusti pod kontrolom', 'Popust za osoblje i komplimenti samo uz PIN menadžera, i sve ostaje u dnevniku radnji.', { disc: 'Osoblje −30%', ok: 'odobreno · Dragana' }],
+        ['rotate', '„Vrati sto”', 'Zatvoren sto se ponovo otvara uz PIN i razlog; magacin i promet se sami isprave.', { row: 'Sto 4 · zatvoren 21:40', btn: 'Vrati sto' }],
+        ['move', 'Plan sale za minut', 'Stolove, sale i oznake premeštate prevlačenjem na terminalu sale.', { btn: 'Uredi salu' }],
+        ['user', 'Lični PIN', 'Svako radi pod svojim imenom, a terminal se sam zaključa posle pet minuta.', { title: 'Unesite svoj PIN', name: 'Marko' }],
+        ['bike', 'Dostava na istom ekranu', 'Porudžbine za Wolt i Glovo idu u kuhinju zajedno sa salom, sa vremenom dolaska kurira.', { code: 'W-7F3A', item: '2× Ćevapi, 10 kom', courier: 'Kurir 21:52' }],
+        ['clock', 'Radni dan do 5 ujutru', 'Za lokale koji rade posle ponoći: promet ide u pravi dan.', { day: 'Radni dan', now: 'sada' }],
+        ['info', 'Alergeni za goste', '14 alergena EU za svako jelo, iz normativa, u kiosku i kod konobara.', { dish: 'Palačinke sa čokoladom', tags: ['Gluten', 'Mleko', 'Jaja'], note: '14 alergena EU' }],
       ],
     },
     who: {
+      tabsLabel: 'Vrste objekata',
       title: 'Za koga je RUVO',
       photoCaps: ['Restoran', 'Kafić', 'Hotel'],
       lead: 'Svuda gde se kuva i služi: od kafića do hotela i kuhinje samo za dostavu.',
@@ -560,39 +570,26 @@ const MORE = {
   },
   en: {
     demo: { cta: 'Try the demo', note: 'You can try all of this yourself — the demo restaurant runs in your browser, in Serbian or Russian.', link: 'Open the demo' },
-    suite: {
-      title: 'Everything a venue needs',
-      lead: 'The floor, the kitchen, stock and the team in one system — an order reaches the kitchen in a second.',
-      items: [
-        ['front', 'Front terminal', 'Floor plan, orders by course, split bills and payments. Delivery on the same screen.'],
-        ['waiter', 'Waiter device', 'The order goes from the table straight to the kitchen; the bill and the IPS QR are with the waiter.'],
-        ['kds', 'Kitchen screen', 'Tickets by station with timers; the next course waits for “Fire”.'],
-        ['kiosk', 'Kiosk', 'Guests order by pictures, with allergens, and pay at the till by number.'],
-        ['box', 'Stock and recipes', 'Every sale writes off ingredients by recipe; stocktakes, receipts and supplier invoices from SEF.'],
-        ['spark', 'Reports and AI assistant', 'Sales, food cost and waiters; ask in plain words and RUVO builds the report.'],
-        ['star', 'Guests and loyalty', 'Guest cards with levels and points, discounts and scheduled promotions.'],
-        ['users', 'Team and shifts', 'Personal PINs, roles and the action log; shifts by PIN and pay.'],
-      ],
-    },
     rush: {
       title: 'Small things that save a shift',
       lead: 'What happens mid-rush, handled in the system itself.',
       items: [
-        ['bell', 'Courses and “Fire”', 'The second course waits in the kitchen until the waiter fires it — then the ticket rings and flashes.'],
-        ['stop', 'Stop list with portions', 'A dish goes on stop by itself when its portions run out; nobody can order more than is left.'],
-        ['split', 'Split bills', 'Pay by items or in parts, each part with its own payment method.'],
-        ['cash', 'Change without mistakes', 'Type what the guest handed over, and RUVO shows the change in big digits.'],
-        ['lock', 'Cancelling with a PIN', 'A sent dish is cancelled only by someone allowed to, with a reason; if the kitchen had started, the ingredients go to waste.'],
-        ['tag', 'Discounts under control', 'Staff discounts and complimentary dishes only with a manager’s PIN, and all of it stays in the action log.'],
-        ['rotate', '“Bring the table back”', 'A closed table reopens with a PIN and a reason; stock and sales correct themselves.'],
-        ['move', 'A floor plan in a minute', 'Move tables, rooms and labels by dragging on the front terminal.'],
-        ['user', 'Personal PIN', 'Everyone works under their own name, and the terminal locks itself after five minutes.'],
-        ['bike', 'Delivery on the same screen', 'Orders for Wolt and Glovo go to the kitchen together with the floor, with the courier’s arrival time.'],
-        ['clock', 'A working day until 5 a.m.', 'For places open after midnight: sales land on the right day.'],
-        ['info', 'Allergens for guests', 'The 14 EU allergens for every dish, from its recipe, on the kiosk and for the waiter.'],
+        ['bell', 'Courses and “Fire”', 'The second course waits in the kitchen until the waiter fires it — then the ticket rings and flashes.', { course: 'Course 2 · waits for the call', dish: 'Pancakes with chocolate', qty: 2, btn: 'Fire' }],
+        ['stop', 'Stop list with portions', 'A dish goes on stop by itself when its portions run out; nobody can order more than is left.', { rows: [['Ćevapi, 10 pcs', '3 left'], ['Rib-eye steak, 300 g', 'Out']] }],
+        ['split', 'Split bills', 'Pay by items or in parts, each part with its own payment method.', { seg: ['Whole bill', 'By items'], parts: [['Part 1 · card', 1290], ['Part 2 · cash', 940]] }],
+        ['cash', 'Change without mistakes', 'Type what the guest handed over, and RUVO shows the change in big digits.', { due: 'To pay', got: 'Received', change: 'Change', sum: 3730, paid: 5000 }],
+        ['lock', 'Cancelling with a PIN', 'A sent dish is cancelled only by someone allowed to, with a reason; if the kitchen had started, the ingredients go to waste.', { title: 'Confirm with your PIN', reason: 'Guest changed their mind' }],
+        ['tag', 'Discounts under control', 'Staff discounts and complimentary dishes only with a manager’s PIN, and all of it stays in the action log.', { disc: 'Staff −30%', ok: 'approved · Dragana' }],
+        ['rotate', '“Bring the table back”', 'A closed table reopens with a PIN and a reason; stock and sales correct themselves.', { row: 'Table 4 · closed 21:40', btn: 'Bring back' }],
+        ['move', 'A floor plan in a minute', 'Move tables, rooms and labels by dragging on the front terminal.', { btn: 'Edit floor' }],
+        ['user', 'Personal PIN', 'Everyone works under their own name, and the terminal locks itself after five minutes.', { title: 'Enter your PIN', name: 'Marko' }],
+        ['bike', 'Delivery on the same screen', 'Orders for Wolt and Glovo go to the kitchen together with the floor, with the courier’s arrival time.', { code: 'W-7F3A', item: '2× Ćevapi, 10 pcs', courier: 'Courier 21:52' }],
+        ['clock', 'A working day until 5 a.m.', 'For places open after midnight: sales land on the right day.', { day: 'Working day', now: 'now' }],
+        ['info', 'Allergens for guests', 'The 14 EU allergens for every dish, from its recipe, on the kiosk and for the waiter.', { dish: 'Pancakes with chocolate', tags: ['Gluten', 'Milk', 'Eggs'], note: '14 EU allergens' }],
       ],
     },
     who: {
+      tabsLabel: 'Kinds of venue',
       title: 'Who RUVO is for',
       photoCaps: ['Restaurant', 'Café', 'Hotel'],
       lead: 'Wherever food is cooked and served: from a café to a hotel and a delivery-only kitchen.',
@@ -626,39 +623,26 @@ const MORE = {
   },
   ru: {
     demo: { cta: 'Попробовать демо', note: 'Всё это можно попробовать самим — демо-ресторан работает прямо в вашем браузере.', link: 'Открыть демо', page: { title: 'Демо-ресторан — RUVO', description: 'Попробуйте RUVO в браузере: фронт, устройство официанта, экран кухни, киоск, бэкофис, приложение для гостей и табло выдачи — с демо-меню.', noscript: 'Для демо нужен JavaScript.' } },
-    suite: {
-      title: 'Всё, что нужно заведению',
-      lead: 'Зал, кухня, склад и команда — в одной системе: заказ доходит до кухни за секунду.',
-      items: [
-        ['front', 'Фронт', 'План зала, заказы по курсам, деление счёта и расчёт. Доставка на том же экране.'],
-        ['waiter', 'Устройство официанта', 'Заказ со стола сразу уходит на кухню; счёт и QR (IPS) — у официанта.'],
-        ['kds', 'Экран кухни', 'Тикеты по цехам с таймерами; следующий курс ждёт «Вызвать».'],
-        ['kiosk', 'Киоск', 'Гости заказывают сами по фото, с аллергенами, и платят на кассе по номеру.'],
-        ['box', 'Склад и техкарты', 'Списание по техкарте при каждой продаже, инвентаризация, приход и счета поставщиков из SEF.'],
-        ['spark', 'Отчёты и ИИ-помощник', 'Выручка, фудкост и официанты; спросите словами — RUVO построит отчёт.'],
-        ['star', 'Гости и лояльность', 'Карты гостей с уровнями и баллами, скидки и акции по расписанию.'],
-        ['users', 'Команда и смены', 'Личный PIN, роли и журнал действий; смены по PIN и расчёт зарплаты.'],
-      ],
-    },
     rush: {
       title: 'Мелочи, которые спасают смену',
       lead: 'То, что случается в разгар смены, решено в самой системе.',
       items: [
-        ['bell', 'Курсы и «Вызвать»', 'Второй курс ждёт на кухне, пока официант его не вызовет, — тогда тикет звенит и мигает.'],
-        ['stop', 'Стоп-лист с порциями', 'Блюдо само уходит в стоп, когда порции закончились; больше остатка не заказать.'],
-        ['split', 'Деление счёта', 'Оплата по позициям или частями, у каждой части свой способ оплаты.'],
-        ['cash', 'Сдача без ошибок', 'Вводите, сколько дал гость, а RUVO крупно показывает сдачу.'],
-        ['lock', 'Отмена по PIN', 'Отправленное блюдо отменяет только тот, у кого есть право, с причиной; если кухня начала готовить, продукты уходят в списание.'],
-        ['tag', 'Скидки под контролем', 'Скидка персоналу и комплимент — только с PIN менеджера, и всё остаётся в журнале действий.'],
-        ['rotate', '«Вернуть стол»', 'Закрытый стол открывается снова с PIN и причиной; склад и выручка исправляются сами.'],
-        ['move', 'План зала за минуту', 'Столы, залы и подписи перетаскиваются прямо на фронте.'],
-        ['user', 'Личный PIN', 'Каждый работает под своим именем, а фронт сам блокируется через пять минут.'],
-        ['bike', 'Доставка на том же экране', 'Заказы для Wolt и Glovo идут на кухню вместе с залом — со временем приезда курьера.'],
-        ['clock', 'Рабочий день до 5 утра', 'Для заведений, которые работают после полуночи: выручка попадает в нужный день.'],
-        ['info', 'Аллергены для гостей', '14 аллергенов ЕС у каждого блюда — по техкарте, в киоске и у официанта.'],
+        ['bell', 'Курсы и «Вызвать»', 'Второй курс ждёт на кухне, пока официант его не вызовет, — тогда тикет звенит и мигает.', { course: 'Курс 2 · ждёт вызова', dish: 'Палачинки с шоколадом', qty: 2, btn: 'Вызвать' }],
+        ['stop', 'Стоп-лист с порциями', 'Блюдо само уходит в стоп, когда порции закончились; больше остатка не заказать.', { rows: [['Чевапи, 10 шт', 'осталось 3'], ['Стейк рибай, 300 г', 'Стоп']] }],
+        ['split', 'Деление счёта', 'Оплата по позициям или частями, у каждой части свой способ оплаты.', { seg: ['Весь счёт', 'По позициям'], parts: [['Часть 1 · карта', 1290], ['Часть 2 · наличные', 940]] }],
+        ['cash', 'Сдача без ошибок', 'Вводите, сколько дал гость, а RUVO крупно показывает сдачу.', { due: 'К оплате', got: 'Получено', change: 'Сдача', sum: 3730, paid: 5000 }],
+        ['lock', 'Отмена по PIN', 'Отправленное блюдо отменяет только тот, у кого есть право, с причиной; если кухня начала готовить, продукты уходят в списание.', { title: 'Подтвердите своим PIN', reason: 'Гость передумал' }],
+        ['tag', 'Скидки под контролем', 'Скидка персоналу и комплимент — только с PIN менеджера, и всё остаётся в журнале действий.', { disc: 'Персонал −30%', ok: 'одобрено · Dragana' }],
+        ['rotate', '«Вернуть стол»', 'Закрытый стол открывается снова с PIN и причиной; склад и выручка исправляются сами.', { row: 'Стол 4 · закрыт 21:40', btn: 'Вернуть стол' }],
+        ['move', 'План зала за минуту', 'Столы, залы и подписи перетаскиваются прямо на фронте.', { btn: 'Изменить зал' }],
+        ['user', 'Личный PIN', 'Каждый работает под своим именем, а фронт сам блокируется через пять минут.', { title: 'Введите свой PIN', name: 'Marko' }],
+        ['bike', 'Доставка на том же экране', 'Заказы для Wolt и Glovo идут на кухню вместе с залом — со временем приезда курьера.', { code: 'W-7F3A', item: '2× Чевапи, 10 шт', courier: 'Курьер 21:52' }],
+        ['clock', 'Рабочий день до 5 утра', 'Для заведений, которые работают после полуночи: выручка попадает в нужный день.', { day: 'Рабочий день', now: 'сейчас' }],
+        ['info', 'Аллергены для гостей', '14 аллергенов ЕС у каждого блюда — по техкарте, в киоске и у официанта.', { dish: 'Палачинки с шоколадом', tags: ['Глютен', 'Молоко', 'Яйца'], note: '14 аллергенов ЕС' }],
       ],
     },
     who: {
+      tabsLabel: 'Виды заведений',
       title: 'Для кого RUVO',
       photoCaps: ['Ресторан', 'Кафе', 'Отель'],
       lead: 'Везде, где готовят и подают: от кафе до отеля и кухни, которая работает только на доставку.',

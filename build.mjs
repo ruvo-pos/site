@@ -22,7 +22,7 @@ const ORIGIN = `https://${SITE.domain}`;
 const SIGNUP_ON = SITE.signup || process.argv.includes('--signup');
 const PAGES = ['home', 'privacy', 'support', ...(SIGNUP_ON ? ['signup', 'confirm', 'terms'] : [])];
 const LOCALE = { sr: 'sr-Latn-RS', en: 'en-GB', ru: 'ru-RU' };
-const FONTS = 'https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;family=Unbounded:wght@700&amp;family=JetBrains+Mono:wght@600&amp;display=swap';
+const FONTS = 'https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&amp;family=Unbounded:wght@700&amp;family=JetBrains+Mono:wght@600&amp;display=swap';
 const CSS = readFileSync(path.join(ROOT, 'src/site.css'), 'utf8')
   .replace(/\/\*[\s\S]*?\*\//g, '')
   .replace(/\n\s*\n/g, '\n')
@@ -32,57 +32,18 @@ const CSS = readFileSync(path.join(ROOT, 'src/site.css'), 'utf8')
 // the enamel plate with an R, for the browser tab
 const FAVICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect x="1" y="1" width="30" height="30" rx="7" fill="#1E44B0"/><rect x="3.25" y="3.25" width="25.5" height="25.5" rx="5" fill="none" stroke="#fff" stroke-width="1.5"/><path d="M12 23.5V9h4.6a4.1 4.1 0 0 1 0 8.2H12m4.3 0 4.6 6.3" fill="none" stroke="#fff" stroke-width="2.7"/></svg>
 `;
-const MAIL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>';
-const PLAY_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>';
-// line icons, 24 × 24, drawn in currentColor. ICONS are the app's own (app/src/ui/common.jsx), so the site and the
-// screens speak one language; WHO_ICONS and WHY_ICONS are drawn for the site in the same stroke.
-const icon = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${d}</svg>`;
-const ICONS = Object.fromEntries(Object.entries({
-  bell: 'M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0',
-  stop: 'M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM6 6l12 12',
-  split: 'M12 3v18M5 7h4M5 12h4M5 17h4M15 7h4M15 12h4M15 17h4',
-  cash: 'M3 7h18v10H3zM12 9.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM6 10v4M18 10v4',
-  lock: 'M6 11h12v9H6zM8 11V8a4 4 0 0 1 8 0v3',
-  tag: 'M3.5 12.6V4.5a1 1 0 0 1 1-1h8.1l8 8a1.5 1.5 0 0 1 0 2.1l-6.9 6.9a1.5 1.5 0 0 1-2.1 0zM8.2 7.2a1 1 0 1 1 0 2 1 1 0 0 1 0-2z',
-  rotate: 'M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4v4.5H15',
-  move: 'M5 12h14M15 8l4 4-4 4M9 8l-4 4 4 4',
-  user: 'M12 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM4.5 20a7.5 7.5 0 0 1 15 0',
-  bike: 'M5.5 13a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM18.5 13a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM5.5 16.5L9 9h5l4.5 7.5M14 9l-2-4H9M12 5h3',
-  clock: 'M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM12 7.5V12l3 2',
-  info: 'M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM12 11v5.5M12 7.5v.5',
-  box: 'M3.5 7.5L12 3l8.5 4.5v9L12 21l-8.5-4.5zM3.5 7.5L12 12l8.5-4.5M12 12v9',
-  spark: 'M11 3.5l1.9 5.1 5.1 1.9-5.1 1.9L11 17.5l-1.9-5.1L4 10.5l5.1-1.9zM18.5 14.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z',
-  star: 'M12 3.5l2.6 5.5 6 .8-4.4 4.1 1.1 5.9L12 17l-5.3 2.8 1.1-5.9-4.4-4.1 6-.8z',
-  users: 'M9 5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM3 19.5a6 6 0 0 1 12 0M16 5.3a3.4 3.4 0 0 1 0 6.4M18 13.6a6 6 0 0 1 3 5.9',
-}).map(([k, d]) => [k, icon(`<path d="${d}"/>`)]));
-const WHO_ICONS = {
-  // a restaurant with a dining room: fork and knife
-  restaurant: icon('<path d="M7 3v18M4.5 3v4.5a2.5 2.5 0 0 0 5 0V3"/><path d="M17.5 21V3c-2 0-3.5 2.5-3.5 6v4.5h3.5"/>'),
-  // a café and bar: a cup with steam
-  cafe: icon('<path d="M4 10h12v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5v-4z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16M8 3.5c-.8 1 .8 2 0 3M12 3.5c-.8 1 .8 2 0 3"/>'),
-  // fast food: the self-order kiosk
-  kiosk: icon('<rect x="6" y="2.5" width="12" height="15" rx="2"/><path d="M12 17.5V21M8.5 21h7M9 7h6M9 10.5h6M9 14h3"/>'),
-  // a bakery and pastry shop: a loaf
-  bakery: icon('<path d="M4 12a4 4 0 0 1 3.1-3.9A5 5 0 0 1 12 5.5a5 5 0 0 1 4.9 2.6A4 4 0 0 1 20 12v7H4z"/><path d="M9 12v3.5M12 11v4.5M15 12v3.5"/>'),
-  // a hotel: a bed
-  hotel: icon('<path d="M3 19V6M3 15h18v4M21 15v-3a3 3 0 0 0-3-3h-7v6"/><path d="M7 9a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/>'),
-  // catering and canteens: a cloche
-  catering: icon('<path d="M3 18.5h18M5 18.5a7 7 0 0 1 14 0M12 8.5V6.5M10.5 6.5h3"/>'),
-  // a delivery kitchen: the courier
-  delivery: ICONS.bike,
-  // a group of venues: two buildings
-  group: icon('<path d="M3 21h18M5 21V9.5l4.5-3.5L14 9.5V21M14 21V6.5L17 4l3 2.5V21M8 13h3M8 17h3M16.5 10h1M16.5 13.5h1M16.5 17h1"/>'),
-};
-const WHY_ICONS = [
-  // the fiscal register stays: a receipt
-  icon('<path d="M6 3h12v18l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4L6 21V3z"/><path d="M9 8h6M9 11.5h6M9 15h3.5"/>'),
-  // no lock-in: an open padlock
-  icon('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8.5 11V7.5a3.5 3.5 0 0 1 6.8-1.2M12 15v2"/>'),
-  // data in the EU: a shield with a tick
-  icon('<path d="M12 3l7 2.8v5.4c0 4.4-3 8.2-7 9.8-4-1.6-7-5.4-7-9.8V5.8L12 3z"/><path d="m9 12 2.1 2.1L15.2 10"/>'),
-  // made in a restaurant: a chef's hat
-  icon('<path d="M7 16.5h10V21H7zM7 16.5c-2.4-.6-4-2.6-4-5a4 4 0 0 1 4.6-4A4.5 4.5 0 0 1 12 4.5a4.5 4.5 0 0 1 4.4 3A4 4 0 0 1 21 11.5c0 2.4-1.6 4.4-4 5"/>'),
-];
+// Icons (14 October, the owner: «иконки слишком несовременные»): Phosphor (phosphoricons.com, MIT — src/icons/
+// LICENSE-phosphor), the few the page uses, copied into src/icons/. A duotone icon's light layer takes the accent
+// colour (".duo" in site.css). The drawn screens keep the app's own pictograms.
+const PH = (name) => readFileSync(path.join(ROOT, 'src/icons', `${name}.svg`), 'utf8')
+  .replace(' xmlns="http://www.w3.org/2000/svg"', ' aria-hidden="true" focusable="false"')
+  .replace('opacity="0.2"', 'class="duo"')
+  .trim();
+const MAIL_ICON = PH('envelope-simple-bold');
+const PLAY_ICON = PH('play-fill');
+const CHECK = PH('check-bold');
+// the kinds of venue
+const WHO_ICONS = { restaurant: PH('fork-knife-duotone'), cafe: PH('coffee-duotone'), kiosk: PH('hamburger-duotone'), bakery: PH('bread-duotone'), hotel: PH('bed-duotone'), catering: PH('cooking-pot-duotone'), delivery: PH('moped-duotone'), group: PH('buildings-duotone') };
 // the demo: one page per language of the app (Serbian, Russian); English links to the Serbian one, where the app's
 // own switch turns it into Russian
 const DEMO = { sr: 'demo/index.html', en: 'demo/index.html', ru: 'ru/demo/index.html' };
@@ -182,7 +143,7 @@ function header(lang, key, file) {
   return `<a class="skip" href="#main">${esc(t.skip)}</a>
 <header class="top"><div class="wrap top-in">
 <a class="wordmark" href="${href(file, home)}" aria-label="RUVO — ${esc(t.nav.home)}">RUVO</a>
-<nav class="nav" aria-label="${esc(t.ui.menuLabel)}">${['features', 'examples', 'who', 'pricing', 'contact'].map((id) => section(id, t.nav[id])).join('')}</nav>
+<nav class="nav" aria-label="${esc(t.ui.menuLabel)}">${['features', 'who', 'pricing', 'contact'].map((id) => section(id, t.nav[id])).join('')}</nav>
 ${SIGNUP_ON
     ? (key !== 'signup' && key !== 'confirm' ? `<a class="top-cta" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].nav.signup)}</a>` : '')
     : `<a class="top-cta" href="${href(file, DEMO[lang])}">${esc(t.home.demo.cta)}</a>`}
@@ -200,7 +161,7 @@ function footer(lang, key, file) {
 <div class="foot-in">
 <div class="foot-co"><a class="wordmark sm" href="${href(file, home)}" aria-label="RUVO — ${esc(t.nav.home)}">RUVO</a><p>${esc(t.home.made)}</p></div>
 <nav class="foot-cols" aria-label="${esc(t.ui.footLabel)}">
-${col(t.ui.foot.product, [...['features', 'examples', 'who', 'pricing'].map(section), `<a href="${href(file, DEMO[lang])}">${esc(t.nav.demo)}</a>`])}
+${col(t.ui.foot.product, [...['features', 'who', 'pricing'].map(section), `<a href="${href(file, DEMO[lang])}">${esc(t.nav.demo)}</a>`])}
 ${col(t.ui.foot.docs, [link('privacy'), ...(SIGNUP_ON ? [link('terms')] : []), link('support')])}
 ${col(t.ui.foot.contact, [mail, esc(SITE.address)])}
 </nav>
@@ -209,24 +170,30 @@ ${col(t.ui.foot.contact, [mail, esc(SITE.address)])}
 </div></footer>`;
 }
 
-// the order for table 12 on the iPad, and the kitchen's part of it on the kitchen screen
+// The order for table 12 on the iPad, and the kitchen's part of it on the kitchen screen; under it what the recipes take
+// from the stock (written off when the bill is paid). With the page in sight it plays as a loop (14 October, «Первый
+// экран оставить нарисованным, но оживить»): «U kuhinju» → the ticket → its dishes done → «Gotovo» → the stock. Without
+// motion (or without JavaScript) the scene stands still with the ticket and the stock in place.
 function scene(lang) {
   const k = T[lang].home.ticket;
   const num = (v) => new Intl.NumberFormat(LOCALE[lang]).format(v);
   const total = [...k.lines, ...k.later].reduce((sum, l) => sum + l[2], 0);
   const line = ([name, qty, price], cls = '') => `<div class="pl${cls}"><span class="pl-n">${esc(name)}</span><span class="pl-q">×${qty}</span><span class="pl-p">${num(price)}</span></div>`;
-  return `<div class="scene" role="img" aria-label="${esc(k.label)}">
+  return `<div class="scene" role="img" aria-label="${esc(k.label)}" data-live>
 <div class="pad">
 <div class="pad-head"><span class="pad-title">${esc(k.table)}</span><span class="pad-meta">${esc(k.meta)}</span></div>
 <div class="pad-lines">${k.lines.map((l) => line(l)).join('')}<div class="course">${esc(k.course)}</div>${k.later.map((l) => line(l, ' later')).join('')}</div>
 <div class="pad-total"><span>${esc(k.total)}</span><span>${num(total)}<small>RSD</small></span></div>
 <div class="pad-btns"><span class="pad-btn go">${esc(k.send)}</span><span class="pad-btn bill">${esc(k.bill)}</span></div>
 </div>
+<div class="scene-side">
 <div class="kds-t">
-<div class="kds-head"><span class="kds-no">#17</span><span class="kds-tbl">${esc(k.table)}</span><span class="kds-time">04:12</span></div>
+<div class="kds-head"><span class="kds-no">#17</span><span class="kds-tbl">${esc(k.table)}</span><span class="kds-time">04:12</span><span class="kds-done">${CHECK}${esc(k.done)}</span></div>
 <div class="kds-station">${esc(k.kitchen)}</div>
-<div class="kds-lines">${k.lines.slice(0, 2).map(([name, qty]) => `<div class="kl"><span class="kl-q">${qty}</span><span class="kl-n">${esc(name)}</span></div>`).join('')}</div>
+<div class="kds-lines">${k.lines.slice(0, 2).map(([name, qty]) => `<div class="kl"><span class="kl-q">${qty}</span><span class="kl-n">${esc(name)}</span><span class="kl-ok">${CHECK}</span></div>`).join('')}</div>
 <div class="kds-wait">${esc(k.waits)}</div>
+</div>
+<div class="stock-chip"><div class="sc-h">${esc(k.stock.title)}</div>${k.stock.rows.map(([n, q]) => `<div class="sc-r"><span>${esc(n)}</span><b>${esc(q)}</b></div>`).join('')}<div class="sc-note">${esc(k.stock.note)}</div></div>
 </div>
 </div>`;
 }
@@ -442,7 +409,26 @@ function guestsScene(lang, x) {
 </div>`;
 }
 
-const SCENES = { floor: floorScene, waiter: waiterScene, kitchen: kitchenScene, delivery: deliveryScene, kiosk: kioskScene, guests: guestsScene, stock: stockScene, reports: reportsScene, sef: sefScene };
+// the team: who is on shift now (the last came a moment ago), and a waiter's week counted as the app counts pay —
+// hours × the hourly rate + a share of the sales
+function teamScene(lang, x) {
+  const t = x.team;
+  const pay = t.pay;
+  const share = Math.round((pay.sales * pay.pct) / 100);
+  const sum = pay.hours * pay.rate + share;
+  const pct = fmt(lang, pay.pct, { minimumFractionDigits: 1 });
+  const row = ([name, role, since], i) => `<div class="tm-row${i === t.people.length - 1 ? ' tm-new' : ''}"><span class="tm-av">${esc(name[0])}</span><span class="tm-n"><b>${esc(name)}</b><small>${esc(t.roles[role])}</small></span><span class="tm-since"><i></i>${esc(t.since)} ${esc(since)}</span></div>`;
+  return `<div class="scn scn-team">
+<div class="ui tm"><div class="tm-head"><span class="tm-title">${esc(t.title)}</span><span class="ui-meta">${esc(t.count)}</span></div><div class="tm-rows">${t.people.map(row).join('')}</div></div>
+<div class="ui pay"><span class="ui-caps">${esc(t.payTitle)}</span>
+<div class="pay-who"><span class="tm-av">${esc(pay.name[0])}</span><b>${esc(pay.name)}</b><small>${esc(t.roles.waiter)}</small></div>
+<div class="pay-rows"><div><span>${esc(t.hours)}</span><span>${pay.hours} h</span></div><div><span>${esc(t.rate)}</span><span>${rsd(lang, pay.rate)}</span></div><div><span>${esc(t.share.replace('{pct}', pct))}<small>${rsd(lang, pay.sales)}</small></span><span>${rsd(lang, share)}</span></div></div>
+<div class="pay-total"><span>${esc(t.total)}</span><b>${rsd(lang, sum)}</b></div>
+</div>
+</div>`;
+}
+
+const SCENES = { team: teamScene, floor: floorScene, waiter: waiterScene, kitchen: kitchenScene, delivery: deliveryScene, kiosk: kioskScene, guests: guestsScene, stock: stockScene, reports: reportsScene, sef: sefScene };
 
 // ---------- live photos: a place shows once its file is in src/photos/ (PHOTOS in content.mjs); the preview shows each
 // empty one, numbered in the order of the page, with what to shoot — the live site never shows an empty frame ----------
@@ -465,14 +451,18 @@ function photo(lang, file, id, caption = '') {
   return `<figure class="photo slot"${style} aria-hidden="true"><span class="slot-in"><span class="slot-n">${CAMERA}Фото ${PHOTO_NO[id]}${caption ? ` · ${esc(caption)}` : ''}</span><span class="slot-t">${esc(p.shot)}</span><code>src/photos/${id}.jpg</code></span></figure>`;
 }
 
-// Without JavaScript the examples stand one under another; the script turns them into tabs (one shown, the rest
-// kept in the same grid cell, so switching does not move the page)
-function examples(lang, file) {
+// Everything a venue needs — one section (14 October: the card grid and «Kako izgleda u radu» told the same twice): the
+// app's screens drawn from its own parts, one per tab; under them the connections and the way into the demo. Without
+// JavaScript the screens stand one under another; the script turns them into tabs (one shown, the rest kept in the same
+// grid cell, so switching does not move the page), and a shown screen plays a moment of its work once it is in sight.
+function features(lang, file) {
   const x = T[lang].home.examples;
-  const d = T[lang].home.demo;
-  return `<section class="band" id="examples" aria-labelledby="examples-h"><div class="wrap">
-<div class="sec-head"><h2 id="examples-h">${esc(x.title)}</h2><p>${txt(x.lead)}</p></div>
-<div class="ex" data-tabs>
+  const h = T[lang].home;
+  const d = h.demo;
+  const soon = h.integrations.length - 1;
+  return `<section class="band raised" id="features" aria-labelledby="features-h"><span class="anchor" id="examples"></span><div class="wrap">
+<div class="sec-head"><h2 id="features-h">${esc(x.title)}</h2><p>${txt(x.lead)}</p></div>
+<div class="ex" data-tabs data-live>
 <div class="ex-tabs" aria-label="${esc(x.tabsLabel)}" hidden>${x.items.map((it, i) => `<button type="button" id="ex-t-${it.id}" aria-controls="ex-p-${it.id}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''}>${esc(it.tab)}</button>`).join('')}</div>
 <div class="ex-panels">${x.items.map((it) => `
 <div class="ex-panel" id="ex-p-${it.id}">
@@ -481,79 +471,89 @@ function examples(lang, file) {
 </div>`).join('')}
 </div>
 </div>
+<div class="integr"><h3 class="integr-title">${esc(h.integrationsTitle)}</h3><ul>${h.integrations.map((it, i) => `<li${i === soon ? ' class="soon"' : ''}>${esc(it)}</li>`).join('')}</ul></div>
 <div class="ex-demo"><p>${txt(d.note)}</p><a class="btn ghost" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(d.link)}</a></div>
 </div></section>`;
 }
 
-// ---------- after Toast's home page: everything a venue needs, the small things of a shift, who RUVO is for, why ----------
-// The four devices are drawn as the app draws them on its start screen (CSS glyphs); the rest of the cards get an icon.
-const GLYPHS = { front: 'g-front', waiter: 'g-waiter', kds: 'g-kds', kiosk: 'g-kiosk' };
-function suite(lang) {
-  const x = T[lang].home.suite;
-  const h = T[lang].home;
-  const soon = h.integrations.length - 1;
-  const art = (key) => (GLYPHS[key]
-    ? `<span class="glyph ${GLYPHS[key]}"><span class="glyph-ui"></span></span>`
-    : `<span class="suite-i">${ICONS[key]}</span>`);
-  return `<section class="band raised" id="features" aria-labelledby="features-h"><div class="wrap">
-<div class="sec-head"><h2 id="features-h">${esc(x.title)}</h2><p>${txt(x.lead)}</p></div>
-<ul class="cards suite">${x.items.map(([key, title, text]) => `
-<li class="card"><span class="suite-art" aria-hidden="true">${art(key)}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
-</ul>
-<div class="integr"><h3 class="integr-title">${esc(h.integrationsTitle)}</h3><ul>${h.integrations.map((it, i) => `<li${i === soon ? ' class="soon"' : ''}>${esc(it)}</li>`).join('')}</ul></div>
-</div></section>`;
+// The small things of a shift (14 October): a dark band like the kitchen screen; instead of an icon each shows its
+// piece of the app's own screen, in the app's own words. On a phone the tiles are a strip that scrolls sideways.
+function micro(lang, key, u) {
+  const n = (v) => fmt(lang, v);
+  const line = (a, b = '', cls = '') => `<div class="mu-line${cls}"><span>${a}</span>${b}</div>`;
+  const M = {
+    bell: () => `<div class="mu-div">${esc(u.course)}</div>${line(esc(u.dish), `<span class="mu-q">×${u.qty}</span>`, ' dim')}<span class="mu-btn go">${esc(u.btn)}</span>`,
+    stop: () => line(esc(u.rows[0][0]), `<span class="mu-tag warn">${esc(u.rows[0][1])}</span>`) + line(esc(u.rows[1][0]), `<span class="mu-tag late">${esc(u.rows[1][1])}</span>`, ' dim'),
+    split: () => `<span class="mu-seg"><span>${esc(u.seg[0])}</span><span class="on">${esc(u.seg[1])}</span></span>${u.parts.map(([a, v]) => line(esc(a), `<b>${n(v)}</b>`)).join('')}`,
+    cash: () => line(esc(u.due), `<b>${n(u.sum)}</b>`, ' dim') + line(esc(u.got), `<b>${n(u.paid)}</b>`) + `<div class="mu-big"><span>${esc(u.change)}</span><b>${n(u.paid - u.sum)}</b></div>`,
+    lock: () => `<span class="mu-t">${esc(u.title)}</span><span class="mu-dots"><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span><span class="mu-tag">${esc(u.reason)}</span>`,
+    tag: () => `<span class="mu-tag gold big">${esc(u.disc)}</span><span class="mu-ok">${CHECK}${esc(u.ok)}</span>`,
+    rotate: () => line(esc(u.row)) + `<span class="mu-btn">${esc(u.btn)}</span>`,
+    move: () => `<div class="mu-floor"><span class="mf">1</span><span class="mf">2</span><span class="mf ghost"></span><span class="mf lift">3</span></div><span class="mu-btn sm">${esc(u.btn)}</span>`,
+    user: () => `<span class="mu-who"><span class="mu-av">${esc(u.name[0])}</span>${esc(u.name)}</span><span class="mu-t">${esc(u.title)}</span><span class="mu-keys">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((k) => `<i>${k}</i>`).join('')}</span>`,
+    bike: () => line('<span class="pf wolt">Wolt</span>', `<b>${esc(u.code)}</b>`, ' start') + line(esc(u.item), '', ' dim') + `<span class="mu-tag ok">${esc(u.courier)}</span>`,
+    clock: () => `<div class="mu-line bare"><span class="mu-t">${esc(u.day)}</span><span class="mu-tag now">${esc(u.now)} 01:30</span></div><span class="mu-day"><i class="d-fill"></i><i class="d-mid"></i><i class="d-now"></i></span><span class="mu-times"><span>05:00</span><span>00:00</span><span>05:00</span></span>`,
+    info: () => `<span class="mu-t">${esc(u.dish)}</span><span class="mu-tags">${u.tags.map((t) => `<span class="mu-tag">${esc(t)}</span>`).join('')}</span><span class="mu-note">${esc(u.note)}</span>`,
+  };
+  return `<div class="mu mu--${key}" aria-hidden="true">${M[key]()}</div>`;
 }
-
 function rush(lang) {
   const r = T[lang].home.rush;
-  return `<section class="band raised" id="rush" aria-labelledby="rush-h"><div class="wrap">
+  return `<section class="band night" id="rush" aria-labelledby="rush-h"><div class="wrap">
 <div class="sec-head"><h2 id="rush-h">${esc(r.title)}</h2><p>${txt(r.lead)}</p></div>
-<ul class="rush">${r.items.map(([key, title, text]) => `
-<li><span class="rush-i" aria-hidden="true">${ICONS[key]}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
+<ul class="rush">${r.items.map(([key, title, text, ui]) => `
+<li>${micro(lang, key, ui)}<h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
 </ul>
 </div></section>`;
 }
 
+// Who RUVO is for (14 October): the kinds of venue as a row of buttons, one description at a time beside them (like
+// Toast's «We help build businesses that last»); without JavaScript every description shows, in two columns.
 function who(lang, file) {
   const w = T[lang].home.who;
   const shots = ['who-restaurant', 'who-cafe', 'who-hotel'].map((id, i) => photo(lang, file, id, w.photoCaps[i])).filter(Boolean);
   return `<section class="band" id="who" aria-labelledby="who-h"><div class="wrap">
 <div class="sec-head"><h2 id="who-h">${esc(w.title)}</h2><p>${txt(w.lead)}</p></div>
 ${shots.length ? `<div class="who-photos" style="--n: ${shots.length}">${shots.join('')}</div>` : ''}
-<ul class="cards who">${w.items.map(([key, title, text]) => `
-<li class="card"><span class="who-i" aria-hidden="true">${WHO_ICONS[key]}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
-</ul>
+<div class="who" data-tabs>
+<div class="who-tabs" aria-label="${esc(w.tabsLabel)}" hidden>${w.items.map(([key, title], i) => `<button type="button" id="who-t-${key}" aria-controls="who-p-${key}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''}>${WHO_ICONS[key]}${esc(title)}</button>`).join('')}</div>
+<div class="who-panels">${w.items.map(([key, title, text]) => `
+<div class="who-panel" id="who-p-${key}"><span class="who-ic">${WHO_ICONS[key]}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></div>`).join('')}
+</div>
+</div>
 </div></section>`;
 }
 
+// Why RUVO: four statements, large, without icons; then the way to the prices and the demo
 function why(lang, file) {
   const w = T[lang].home.why;
   const d = T[lang].home.demo;
   return `<section class="band raised" id="why" aria-labelledby="why-h"><div class="wrap">
 <div class="sec-head"><h2 id="why-h">${esc(w.title)}</h2></div>
-<ul class="why">${w.items.map(([title, text], i) => `
-<li><span class="why-i" aria-hidden="true">${WHY_ICONS[i]}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
+<ul class="why">${w.items.map(([title, text]) => `
+<li><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
 </ul>
 <div class="why-cta"><a class="btn" href="#pricing">${esc(w.cta)}</a><a class="btn ghost" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(d.cta)}</a></div>
 </div></section>`;
 }
 
-// the closing section: the call to try RUVO with its two buttons — the demo (or registration, once it is on) and a
-// letter —, then the address on the enamel plates
+// The closing section: one big enamel plate in the brand's blue — the call to try RUVO with its two buttons (the demo,
+// or registration once it is on, and a letter), and under a rule the address on its plates
 function contact(lang, file) {
   const t = T[lang];
   const h = t.home;
   const f = h.final;
   const house = SITE.address.match(/\s(\d+[a-z]?),/i)[1];
   const buttons = SIGNUP_ON
-    ? `<a class="btn" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].home.cta)}</a><a class="btn ghost" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(h.demo.cta)}</a>`
-    : `<a class="btn" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(h.demo.cta)}</a><a class="btn ghost" href="mailto:${SITE.email}">${MAIL_ICON}${esc(h.cta)}</a>`;
-  return `<section class="band" id="contact" aria-labelledby="contact-h"><div class="wrap contact-in">
-<div class="sec-head"><h2 id="contact-h">${txt(f.title)}</h2><p>${txt(f.text)}</p></div>
-<div class="cta-row">${buttons}</div>
+    ? `<a class="btn inv" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].home.cta)}</a><a class="btn inv ghost" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(h.demo.cta)}</a>`
+    : `<a class="btn inv" href="${href(file, DEMO[lang])}">${PLAY_ICON}${esc(h.demo.cta)}</a><a class="btn inv ghost" href="mailto:${SITE.email}">${MAIL_ICON}${esc(h.cta)}</a>`;
+  return `<section class="band" id="contact" aria-labelledby="contact-h"><div class="wrap">
+<div class="final">
+<div class="final-head"><h2 id="contact-h">${txt(f.title)}</h2><p>${txt(f.text)}</p><div class="cta-row">${buttons}</div></div>
 <div class="contact-card">
 <div class="plates"><a class="plate" href="mailto:${SITE.email}">${SITE.email}</a><div class="house" aria-hidden="true"><span class="house-st">${t.ui.plate.map(esc).join('<br>')}</span><span class="house-no">${house}</span></div></div>
 <p class="addr"><b>${esc(SITE.company)}</b><br>${esc(SITE.address)}<br><span class="contact-note">${esc(h.contactText)}</span></p>
+</div>
 </div>
 </div></section>`;
 }
@@ -727,9 +727,9 @@ const HOME_JS = `(() => {
     calc.hidden = false;
     update();
   }
-  const ex = document.querySelector('[data-tabs]');
-  if (ex) {
-    const list = ex.querySelector('.ex-tabs');
+  // tabs: the product's screens and the kinds of venue
+  for (const box of document.querySelectorAll('[data-tabs]')) {
+    const list = box.querySelector('[aria-controls]').parentNode;
     const tabs = [...list.querySelectorAll('button')];
     const panels = tabs.map((t) => document.getElementById(t.getAttribute('aria-controls')));
     list.setAttribute('role', 'tablist');
@@ -747,6 +747,8 @@ const HOME_JS = `(() => {
         panels[j].inert = !on;
       });
       if (focus) tabs[i].focus();
+      // a tab row that scrolls sideways keeps the chosen one in view
+      if (list.scrollWidth > list.clientWidth) list.scrollTo({ left: tabs[i].offsetLeft - 16, behavior: 'smooth' });
     };
     tabs.forEach((t, i) => {
       t.addEventListener('click', () => show(i));
@@ -758,8 +760,17 @@ const HOME_JS = `(() => {
       });
     });
     list.hidden = false;
-    ex.classList.add('js');
+    box.classList.add('js');
     show(0);
+  }
+  // what moves on the page moves only while it is in sight, and not at all for those who asked for less motion
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const live = [...document.querySelectorAll('[data-live]')];
+  if (live.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) e.target.classList.toggle('live', e.isIntersecting && !still.matches);
+    }, { threshold: 0.35 });
+    live.forEach((el) => io.observe(el));
   }
 })();`;
 
@@ -781,8 +792,7 @@ ${header(lang, 'home', file)}
 </div>
 ${heroArt(lang, file)}
 </div></section>
-${suite(lang)}
-${examples(lang, file)}
+${features(lang, file)}
 ${rush(lang)}
 ${who(lang, file)}
 ${why(lang, file)}
@@ -790,7 +800,7 @@ ${pricing(lang, file)}
 <section class="band raised" id="start" aria-labelledby="start-h"><div class="wrap">
 <div class="sec-head"><h2 id="start-h">${esc(h.startTitle)}</h2></div>
 <ol class="steps">${(SIGNUP_ON ? SG[lang].home.start : h.start).map(([title, text], i) => `
-<li class="step"><span class="step-n" aria-hidden="true">${i + 1}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
+<li class="step"><span class="path-n" aria-hidden="true">${i + 1}</span><h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
 </ol>
 <div class="equip"><div class="equip-h"><h3>${esc(h.equip.title)}</h3></div><ul>${h.equip.items.map((x) => `<li>${txt(x)}</li>`).join('')}</ul><p>${txt(h.equip.note)}</p></div>
 </div></section>

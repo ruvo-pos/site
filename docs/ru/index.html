@@ -22,7 +22,7 @@
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;family=Unbounded:wght@700&amp;family=JetBrains+Mono:wght@600&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&amp;family=Unbounded:wght@700&amp;family=JetBrains+Mono:wght@600&amp;display=swap">
 <style>
 :root {
 --bg: #E8EBE7;
@@ -58,6 +58,11 @@
 --kds-warn: #F0A93E;
 --kds-warn-soft: #3A2A10;
 --kds-late: #F0705F;
+--night: #13171A;
+--night-2: #1C2226;
+--night-line: rgb(255 255 255 / 0.09);
+--night-ink: #F1F4F5;
+--night-ink-2: #A9B2B9;
 --shadow-1: 0 1px 2px rgb(19 23 26 / 0.06), 0 2px 10px rgb(19 23 26 / 0.05);
 --shadow-2: 0 22px 56px rgb(19 23 26 / 0.16), 0 2px 8px rgb(19 23 26 / 0.06);
 --font-ui: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -70,7 +75,7 @@
 --fs-lg: 18px;
 --fs-xl: 22px;
 --fs-lead: clamp(17px, 0.7vw + 13.5px, 20px);
---fs-h2: clamp(26px, 1.4vw + 19px, 38px);
+--fs-h2: clamp(30px, 2.3vw + 17px, 52px);
 --fs-h1: clamp(34px, 3.4vw + 18px, 60px);
 --track-caps: 0.06em;
 --sp-1: 4px;
@@ -100,6 +105,7 @@ color-scheme: light;
 --bill: #B88DF0; --bill-soft: #2B2140; --gold: #EAC761; --gold-soft: #3A2F12;
 --kds: #1A1F23; --kds-2: #252C33; --kds-line: #353F46;
 --shadow-1: 0 1px 2px rgb(0 0 0 / 0.45); --shadow-2: 0 22px 56px rgb(0 0 0 / 0.55), 0 2px 8px rgb(0 0 0 / 0.4);
+--night: #07090A; --night-2: #12171A; --night-line: rgb(255 255 255 / 0.08);
 color-scheme: dark;
 }
 }
@@ -111,6 +117,7 @@ color-scheme: dark;
 --bill: #B88DF0; --bill-soft: #2B2140; --gold: #EAC761; --gold-soft: #3A2F12;
 --kds: #1A1F23; --kds-2: #252C33; --kds-line: #353F46;
 --shadow-1: 0 1px 2px rgb(0 0 0 / 0.45); --shadow-2: 0 22px 56px rgb(0 0 0 / 0.55), 0 2px 8px rgb(0 0 0 / 0.4);
+--night: #07090A; --night-2: #12171A; --night-line: rgb(255 255 255 / 0.08);
 color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -248,79 +255,97 @@ background: var(--surface); box-shadow: var(--shadow-2);
 .pad-btn { display: flex; align-items: center; justify-content: center; height: 44px; border-radius: var(--r-md); font-size: var(--fs-body); font-weight: 600; }
 .pad-btn.go { background: var(--accent); color: var(--accent-ink); }
 .pad-btn.bill { border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); }
+.scene-side { flex: 0 1 204px; min-width: 0; display: grid; gap: var(--sp-3); margin-top: 88px; }
 .kds-t {
-flex: 0 1 204px; min-width: 0; margin-top: 88px; overflow: hidden;
+min-width: 0; overflow: hidden;
 border: 1px solid var(--kds-line); border-radius: var(--r-lg);
 background: var(--kds); color: var(--kds-ink); box-shadow: var(--shadow-2);
 }
 .kds-t::before { content: ''; display: block; height: 4px; background: var(--kds-ok); }
-.kds-head { display: flex; align-items: center; gap: var(--sp-2); padding: 12px 14px 10px; border-bottom: 1px solid var(--kds-line); }
+.kds-head { position: relative; display: flex; align-items: center; gap: var(--sp-2); padding: 12px 14px 10px; border-bottom: 1px solid var(--kds-line); }
 .kds-no { font-size: var(--fs-lg); font-weight: 700; }
 .kds-tbl { color: var(--kds-ink-2); font-size: var(--fs-sm); white-space: nowrap; }
 .kds-time { margin-left: auto; color: var(--kds-ok); font-family: var(--font-timer); font-size: var(--fs-md); font-weight: 600; letter-spacing: 0; }
 .kds-station { padding: 12px 14px 0; color: var(--kds-ink-2); }
 .kds-lines { display: grid; gap: 10px; padding: 10px 14px 14px; }
-.kl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: center; font-size: var(--fs-body); font-weight: 600; }
+.kl { position: relative; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: center; font-size: var(--fs-body); font-weight: 600; }
 .kl-q { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 30px; border: 1px solid var(--kds-line); border-radius: var(--r-sm); background: var(--kds-2); font-size: var(--fs-sm); }
 .kl-n { min-width: 0; overflow-wrap: anywhere; }
 .kds-wait { margin: 0 14px 14px; padding: 8px 10px; border-radius: var(--r-sm); background: var(--kds-warn-soft); color: var(--kds-warn); font-size: var(--fs-sm); font-weight: 600; }
+.kl-ok { position: absolute; top: 50%; left: 0; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; margin-top: -15px; padding: 7px; border-radius: var(--r-sm); background: var(--kds-ok); color: #0B2416; opacity: 0; }
+.kl-ok svg, .kds-done svg { width: 100%; height: 100%; }
+.kds-done { position: absolute; top: 50%; right: 12px; display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px 3px 7px; border-radius: 999px; background: var(--kds-ok); color: #0B2416; font-size: var(--fs-xs); font-weight: 700; white-space: nowrap; opacity: 0; transform: translateY(-50%); }
+.kds-done svg { width: 12px; height: 12px; }
+.stock-chip { padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); box-shadow: var(--shadow-2); font-size: var(--fs-sm); font-variant-numeric: tabular-nums; }
+.sc-h { margin-bottom: 6px; color: var(--accent); font-size: var(--fs-xs); font-weight: 700; line-height: 1.3; letter-spacing: var(--track-caps); text-transform: uppercase; }
+.sc-r { display: flex; justify-content: space-between; gap: 10px; padding-block: 3px; }
+.sc-r span { min-width: 0; overflow-wrap: anywhere; }
+.sc-r b { font-weight: 600; white-space: nowrap; }
+.sc-note { margin-top: 6px; color: var(--ink-3); font-size: var(--fs-xs); }
 @media (max-width: 560px) {
 .scene { flex-direction: column; align-items: stretch; gap: 0; }
 .pad { flex-basis: auto; }
-.kds-t { flex-basis: auto; align-self: flex-end; width: 80%; margin-top: -18px; margin-right: -4px; position: relative; }
+.scene-side { flex-basis: auto; align-self: flex-end; width: 80%; margin-top: -18px; margin-right: -4px; position: relative; }
 }
+@media (prefers-reduced-motion: no-preference) {
+.scene.live .pad-btn.go { animation: h-press 10s infinite; }
+.scene.live .kds-t { animation: h-ticket 10s infinite; }
+.scene.live .kl:nth-child(1) .kl-ok { animation: h-ok1 10s infinite; }
+.scene.live .kl:nth-child(2) .kl-ok { animation: h-ok2 10s infinite; }
+.scene.live .kl:nth-child(1) .kl-n { animation: h-dim1 10s infinite; }
+.scene.live .kl:nth-child(2) .kl-n { animation: h-dim2 10s infinite; }
+.scene.live .kds-time { animation: h-time 10s infinite; }
+.scene.live .kds-done { animation: h-done 10s infinite; }
+.scene.live .stock-chip { animation: h-stock 10s infinite; }
+}
+@keyframes h-press { 0%, 5% { transform: none; filter: none; } 8% { transform: scale(0.95); filter: brightness(0.82); } 11%, 100% { transform: none; filter: none; } }
+@keyframes h-ticket { 0%, 11% { opacity: 0; transform: translateY(12px); } 15%, 93% { opacity: 1; transform: none; } 98%, 100% { opacity: 0; transform: translateY(12px); } }
+@keyframes h-ok1 { 0%, 27% { opacity: 0; transform: scale(0.4); } 30%, 93% { opacity: 1; transform: none; } 98%, 100% { opacity: 0; } }
+@keyframes h-ok2 { 0%, 37% { opacity: 0; transform: scale(0.4); } 40%, 93% { opacity: 1; transform: none; } 98%, 100% { opacity: 0; } }
+@keyframes h-dim1 { 0%, 28% { opacity: 1; } 31%, 95% { opacity: 0.5; } 100% { opacity: 1; } }
+@keyframes h-dim2 { 0%, 38% { opacity: 1; } 41%, 95% { opacity: 0.5; } 100% { opacity: 1; } }
+@keyframes h-time { 0%, 45% { opacity: 1; } 48%, 95% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes h-done { 0%, 46% { opacity: 0; } 50%, 93% { opacity: 1; } 98%, 100% { opacity: 0; } }
+@keyframes h-stock { 0%, 55% { opacity: 0; transform: translateY(-10px); } 60%, 93% { opacity: 1; transform: none; } 98%, 100% { opacity: 0; transform: translateY(-10px); } }
+.duo { fill: var(--accent); opacity: 0.28; }
 .band { padding-block: var(--band); }
 .band.raised { background: var(--surface); border-block: 1px solid var(--line); }
-.sec-head { display: grid; gap: var(--sp-3); max-width: 44em; margin-bottom: clamp(32px, 4vw, 56px); }
+.sec-head { display: grid; gap: var(--sp-4); max-width: 54em; margin-bottom: clamp(32px, 4vw, 56px); }
 h2 { font-size: var(--fs-h2); font-weight: 700; line-height: 1.1; letter-spacing: -0.022em; text-wrap: balance; }
 .sec-head p { color: var(--ink-2); font-size: var(--fs-lead); text-wrap: pretty; }
-.cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
-.card { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; padding: clamp(20px, 2vw, 28px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); }
-.band.raised .card { background: var(--surface-2); }
-.card h3 { font-size: var(--fs-lg); font-weight: 600; line-height: 1.3; }
-.card p { color: var(--ink-2); font-size: var(--fs-body); line-height: 1.55; }
-@media (max-width: 1000px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .cards { grid-template-columns: minmax(0, 1fr); } }
-.suite-art { display: flex; align-items: flex-end; height: 84px; margin-bottom: var(--sp-3); }
-.suite-i { display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: var(--r-md); background: var(--accent-soft); color: var(--accent); }
-.suite-i svg { width: 28px; height: 28px; }
-.glyph { position: relative; display: block; padding: 6px; border: 2.5px solid var(--ink); background: var(--surface); }
-.glyph-ui { display: block; width: 100%; height: 100%; border-radius: 3px; }
-.g-front { width: 112px; height: 78px; border-radius: 12px; }
-.g-front .glyph-ui { background: linear-gradient(90deg, var(--line) 0 62%, transparent 62% 66%, var(--accent-soft) 66%); }
-.g-waiter { width: 42px; height: 80px; padding: 5px 4px; border-radius: 12px; }
-.g-waiter .glyph-ui { background: repeating-linear-gradient(180deg, var(--line) 0 9px, transparent 9px 13px); }
-.g-kds { width: 124px; height: 70px; border-radius: 6px; background: #171B1E; }
-.g-kds .glyph-ui { background: linear-gradient(90deg, #2E8F5C 0 30%, transparent 30% 35%, #B57A1F 35% 65%, transparent 65% 70%, #2E8F5C 70%); opacity: 0.85; }
-.g-kiosk { width: 50px; height: 66px; margin-bottom: 14px; padding: 5px; border-radius: 7px; }
-.g-kiosk .glyph-ui {
-background:
-linear-gradient(var(--accent) 0 0) 0 0 / 46% 6px no-repeat,
-linear-gradient(var(--line) 0 0) 0 11px / 45% 40% no-repeat,
-linear-gradient(var(--line) 0 0) 100% 11px / 45% 40% no-repeat,
-linear-gradient(var(--line) 0 0) 0 100% / 45% 34% no-repeat,
-linear-gradient(var(--line) 0 0) 100% 100% / 45% 34% no-repeat;
-}
-.g-kiosk::after { content: ''; position: absolute; bottom: -14px; left: 50%; width: 8px; height: 12px; margin-left: -4px; border-radius: 0 0 2px 2px; background: var(--ink); }
 .integr { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3) var(--sp-5); margin-top: clamp(40px, 5vw, 64px); padding-top: var(--sp-6); border-top: 1px solid var(--line); }
 .integr ul { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 .integr li { padding: 7px 13px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--ink); font-size: var(--fs-sm); font-weight: 500; }
 .integr li.soon { border-style: dashed; background: transparent; color: var(--ink-3); }
-.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-8) var(--gap); }
-.step { display: grid; align-content: start; gap: var(--sp-2); min-width: 0; }
-.step-n { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; margin-bottom: var(--sp-3); border-radius: 9px; font-size: var(--fs-lg); }
-.step-n::after { inset: 2px; border-radius: 7px; }
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-8) 0; }
+.step { display: grid; align-content: start; gap: var(--sp-2); min-width: 0; padding-right: var(--gap); }
+.path-n { display: flex; align-items: center; gap: var(--sp-4); margin-bottom: var(--sp-4); color: var(--accent); font-size: clamp(48px, 3vw + 20px, 68px); font-weight: 300; line-height: 1; font-variant-numeric: tabular-nums; }
+.path-n::after { content: ''; flex: 1; height: 1px; background: var(--line-2); }
+.step:last-child .path-n::after { background: linear-gradient(90deg, var(--line-2), transparent); }
 .step h3 { font-size: var(--fs-lg); font-weight: 600; line-height: 1.3; }
 .step p { color: var(--ink-2); font-size: var(--fs-body); line-height: 1.55; }
 @media (max-width: 1000px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .steps { grid-template-columns: minmax(0, 1fr); gap: var(--sp-6); } }
-.contact-in { display: grid; gap: var(--sp-8); justify-items: start; }
-.contact-in .sec-head { margin-bottom: 0; }
-.contact-in .cta-row { margin-top: calc(-1 * var(--sp-2)); }
-.contact-card { display: grid; gap: var(--sp-5); justify-items: start; max-width: 100%; margin-top: var(--sp-4); }
+@media (max-width: 560px) {
+.steps { grid-template-columns: minmax(0, 1fr); gap: 0; }
+.step { grid-template-columns: auto minmax(0, 1fr); column-gap: var(--sp-5); padding: 0 0 var(--sp-6); }
+.path-n { grid-row: span 2; flex-direction: column; align-self: stretch; gap: var(--sp-3); margin: 0; font-size: 44px; }
+.path-n::after { width: 1px; height: auto; }
+.step:last-child .path-n::after { background: linear-gradient(180deg, var(--line-2), transparent); }
+}
+.final { position: relative; display: grid; gap: clamp(28px, 4vw, 48px); padding: clamp(28px, 5vw, 64px); border-radius: clamp(20px, 2.4vw, 32px); background: var(--plate); color: var(--plate-ink); box-shadow: var(--shadow-2); }
+.final::after { content: ''; position: absolute; inset: clamp(6px, 0.7vw, 10px); border: 1.5px solid var(--plate-rule); border-radius: clamp(14px, 1.8vw, 23px); pointer-events: none; }
+.final-head { display: grid; gap: var(--sp-4); max-width: 46em; }
+.final h2 { color: var(--plate-ink); }
+.final-head p { color: rgb(255 255 255 / 0.86); font-size: var(--fs-lead); text-wrap: pretty; }
+.final .cta-row { position: relative; z-index: 1; margin-top: var(--sp-3); }
+.btn.inv { background: var(--plate-ink); color: var(--plate); }
+.btn.inv:hover { background: #E8EDFB; color: var(--plate-2); }
+.btn.inv.ghost { border: 1px solid rgb(255 255 255 / 0.55); background: transparent; color: var(--plate-ink); }
+.btn.inv.ghost:hover { border-color: #fff; background: rgb(255 255 255 / 0.1); color: var(--plate-ink); }
+.contact-card { position: relative; z-index: 1; display: grid; gap: var(--sp-5); justify-items: start; max-width: 100%; padding-top: clamp(24px, 3vw, 40px); border-top: 1px solid rgb(255 255 255 / 0.25); }
 .contact-note { color: var(--ink-3); font-size: var(--fs-sm); }
 .plates { display: flex; flex-wrap: wrap; align-items: stretch; gap: var(--sp-4); max-width: 100%; }
-.plate, .house { font-size: clamp(26px, 7vw, 64px); border-radius: 0.2em; box-shadow: var(--shadow-2); }
+.plate, .house { font-size: clamp(26px, 7vw, 64px); border-radius: 0.2em; box-shadow: 0 0 0 1px rgb(255 255 255 / 0.14), 0 14px 30px rgb(0 0 0 / 0.22); }
 .plate::after, .house::after { inset: 0.07em; border-width: max(1.5px, 0.045em); border-radius: 0.14em; }
 .plate {
 display: inline-flex; align-items: center; max-width: 100%;
@@ -333,8 +358,9 @@ overflow-wrap: anywhere;
 .house { display: inline-grid; align-content: center; justify-items: center; gap: 6px; min-width: 128px; padding: 12px 16px 14px; }
 .house-st { font-family: var(--font-ui); font-size: 10px; font-weight: 700; line-height: 1.25; letter-spacing: 0.08em; text-align: center; }
 .house-no { font-size: 40px; letter-spacing: 0.02em; }
-.addr { color: var(--ink-2); font-size: var(--fs-body); line-height: 1.6; }
-.addr b { color: var(--ink); font-weight: 600; }
+.addr { color: rgb(255 255 255 / 0.86); font-size: var(--fs-body); line-height: 1.6; }
+.addr b { color: var(--plate-ink); font-weight: 600; }
+.final .contact-note { color: rgb(255 255 255 / 0.7); }
 @media (max-width: 480px) { .house { display: none; } }
 .photo { position: relative; margin: 0; overflow: hidden; aspect-ratio: var(--ratio, 4 / 3); border-radius: var(--r-xl); background: var(--bg-2); }
 .photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
@@ -348,7 +374,7 @@ overflow-wrap: anywhere;
 .hero-art.has-photo { display: grid; }
 .hero-art.has-photo .photo { grid-area: 1 / 1; width: 76%; justify-self: end; }
 .hero-art.has-photo .scene { position: relative; grid-area: 1 / 1; display: block; }
-.hero-art.has-photo .pad { display: none; }
+.hero-art.has-photo .pad, .hero-art.has-photo .stock-chip { display: none; }
 .hero-art.has-photo .kds-t { position: absolute; top: 14%; right: 67.5%; width: 196px; margin: 0; }
 @media (max-width: 1279px) {
 .hero-art.has-photo .kds-t { width: 186px; }
@@ -375,6 +401,11 @@ height: 40px; padding-inline: 16px; border: 1px solid var(--line-2); border-radi
 background: transparent; color: var(--ink-2); font: inherit; font-size: var(--fs-body); font-weight: 600; cursor: pointer;
 }
 .ex-tabs button:hover { border-color: var(--ink-3); color: var(--ink); }
+@media (max-width: 760px) {
+.ex-tabs { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(-1 * var(--gutter)); padding: 2px var(--gutter) 6px; scrollbar-width: none; scroll-padding-inline: var(--gutter); }
+.ex-tabs::-webkit-scrollbar { display: none; }
+.ex-tabs button { flex: none; }
+}
 .ex-tabs button[aria-selected="true"] { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
 .ex-panels { display: grid; gap: var(--band); }
 .ex.js .ex-panels { gap: 0; }
@@ -664,25 +695,175 @@ background: radial-gradient(circle, var(--line-2) 0.07em, transparent 0.08em) 0 
 .scn-guest { --w: 25; }
 .gp { display: none; }
 }
-.rush { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--line); }
-.rush li { display: flex; flex-direction: column; gap: 6px; min-width: 0; padding: clamp(18px, 2vw, 26px); background: var(--surface-2); }
-.rush-i { display: inline-flex; width: 24px; height: 24px; margin-bottom: var(--sp-2); color: var(--accent); }
-.rush-i svg { width: 24px; height: 24px; }
-.rush h3 { font-size: var(--fs-md); font-weight: 600; line-height: 1.3; }
-.rush p { color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.55; }
+.scn-team { --w: 37.5; }
+.tm { flex: none; width: 21em; padding: 1.1em 1.2em 0.5em; }
+.tm-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1em; padding-bottom: 0.7em; border-bottom: 1px solid var(--line); }
+.tm-title { font-size: 1.15em; font-weight: 700; letter-spacing: -0.01em; }
+.tm-rows { display: grid; }
+.tm-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.7em; padding-block: 0.62em; border-bottom: 1px solid var(--line); }
+.tm-row:last-child { border-bottom: 0; }
+.tm-av { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 2.2em; height: 2.2em; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-size: 0.85em; font-weight: 700; }
+.tm-n { display: grid; min-width: 0; }
+.tm-n b { font-size: 0.92em; }
+.tm-n small { color: var(--ink-3); font-size: 0.76em; }
+.tm-since { display: inline-flex; align-items: center; gap: 0.45em; color: var(--ink-2); font-size: 0.8em; white-space: nowrap; }
+.tm-since i { width: 0.55em; height: 0.55em; border-radius: 50%; background: var(--ok); }
+.pay { flex: none; display: grid; gap: 0.75em; width: 14.5em; margin-top: 3.4em; padding: 1em 1.1em 1.1em; }
+.pay-who { display: flex; align-items: center; gap: 0.5em; }
+.pay-who .tm-av { width: 1.9em; height: 1.9em; }
+.pay-who b { font-size: 0.92em; }
+.pay-who small { color: var(--ink-3); font-size: 0.76em; }
+.pay-rows { display: grid; gap: 0.45em; font-size: 0.82em; }
+.pay-rows > div { display: flex; justify-content: space-between; gap: 0.8em; }
+.pay-rows > div > span:first-child { color: var(--ink-2); }
+.pay-rows > div > span:last-child { font-weight: 600; white-space: nowrap; }
+.pay-rows small { display: block; color: var(--ink-3); font-size: 0.85em; }
+.pay-total { display: flex; align-items: baseline; justify-content: space-between; gap: 0.8em; padding-top: 0.6em; border-top: 1px solid var(--line); font-size: 0.92em; }
+.pay-total b { color: var(--accent); font-size: 1.1em; }
+@container (max-width: 460px) {
+.scn-team { --w: 23; }
+.pay { display: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+.ex.live .ex-panel.on .tb.ready { animation: s-ring 1.4s 0.3s 2 ease-out; }
+.ex.live .ex-panel.on .fl-served { animation: s-pop 0.45s 1.2s both; }
+.ex.live .ex-panel.on .ph-btn.go { animation: s-press 0.5s 0.3s; }
+.ex.live .ex-panel.on .ph-paid { animation: s-pop 0.45s 1s both; }
+.ex.live .ex-panel.on .tk-called { animation: s-flash 0.8s 0.4s 3; }
+.ex.live .ex-panel.on .tk:first-child { animation: s-in 0.5s 0.1s both; }
+.ex.live .ex-panel.on .dc.rdy { animation: s-ring 1.4s 0.4s 2 ease-out; }
+.ex.live .ex-panel.on .kd.in { animation: s-pop 0.4s 0.2s both; }
+.ex.live .ex-panel.on .kd.in + .kd.in { animation-delay: 0.5s; }
+.ex.live .ex-panel.on .kio-num { animation: s-pop 0.5s 1s both; }
+.ex.live .ex-panel.on .gb-d { animation: s-in 0.4s 0.4s both; }
+.ex.live .ex-panel.on .gb-d + .gb-d { animation-delay: 0.8s; }
+.ex.live .ex-panel.on .gb-earn b { animation: s-pop 0.45s 1.3s both; }
+.ex.live .ex-panel.on .tc-fc i { animation: s-wipe 1s 0.3s both; }
+.ex.live .ex-panel.on .low { animation: s-in 0.5s 0.9s both; }
+.ex.live .ex-panel.on .bar-c { animation: s-grow 0.6s both; transform-origin: bottom; }
+.ex.live .ex-panel.on .bar:nth-child(2) .bar-c { animation-delay: 0.07s; }
+.ex.live .ex-panel.on .bar:nth-child(3) .bar-c { animation-delay: 0.14s; }
+.ex.live .ex-panel.on .bar:nth-child(4) .bar-c { animation-delay: 0.21s; }
+.ex.live .ex-panel.on .bar:nth-child(5) .bar-c { animation-delay: 0.28s; }
+.ex.live .ex-panel.on .bar:nth-child(6) .bar-c { animation-delay: 0.35s; }
+.ex.live .ex-panel.on .bar:nth-child(7) .bar-c { animation-delay: 0.42s; }
+.ex.live .ex-panel.on .ans { animation: s-in 0.5s 0.9s both; }
+.ex.live .ex-panel.on .sef-row:not(.th) { animation: s-in 0.4s 0.2s both; }
+.ex.live .ex-panel.on .sef-row:nth-child(3) { animation-delay: 0.45s; }
+.ex.live .ex-panel.on .sef-row:nth-child(4) { animation-delay: 0.7s; }
+.ex.live .ex-panel.on .sef-btns .go { animation: s-press 0.5s 1.3s; }
+.ex.live .ex-panel.on .tm-new { animation: s-in 0.5s 0.8s both; }
+.ex.live .ex-panel.on .tm-new .tm-since i { animation: s-ring 1.4s 1.3s 2 ease-out; }
+}
+@keyframes s-in { from { opacity: 0; transform: translateY(0.6em); } }
+@keyframes s-pop { from { opacity: 0; transform: scale(0.85); } }
+@keyframes s-press { 50% { transform: scale(0.95); filter: brightness(0.85); } }
+@keyframes s-flash { 50% { opacity: 0.25; } }
+@keyframes s-grow { from { transform: scaleY(0); } }
+@keyframes s-wipe { from { clip-path: inset(0 100% 0 0); } }
+@keyframes s-ring { 0% { box-shadow: 0 0 0 0 rgb(31 122 77 / 0.5); } 100% { box-shadow: 0 0 0 0.9em rgb(31 122 77 / 0); } }
+.band.night { border-block: 1px solid var(--night-line); background: var(--night); color: var(--night-ink); }
+.band.night .sec-head p { color: var(--night-ink-2); }
+.rush { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
+.rush li { display: flex; flex-direction: column; min-width: 0; padding: 10px 10px 24px; border: 1px solid var(--night-line); border-radius: var(--r-xl); background: var(--night-2); }
+.rush h3 { margin: 18px 12px 6px; color: var(--night-ink); font-size: var(--fs-md); font-weight: 600; line-height: 1.3; }
+.rush p { margin-inline: 12px; color: var(--night-ink-2); font-size: var(--fs-sm); line-height: 1.55; }
 @media (max-width: 1000px) { .rush { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .rush { grid-template-columns: minmax(0, 1fr); } }
-.who-i { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-bottom: var(--sp-3); border-radius: var(--r-md); background: var(--accent-soft); color: var(--accent); }
-.who-i svg { width: 24px; height: 24px; }
-.why { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 3.5vw, 48px) var(--gap); }
-.why li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 20px; align-items: start; padding-right: clamp(0px, 3vw, 48px); }
-.why-i { position: relative; grid-row: span 2; display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 10px; background: var(--plate); color: var(--plate-ink); }
-.why-i::after { content: ''; position: absolute; inset: 2px; border: 1.5px solid var(--plate-rule); border-radius: 8px; pointer-events: none; }
-.why-i svg { width: 24px; height: 24px; }
-.why h3 { padding-top: 2px; font-size: var(--fs-xl); font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
-.why p { max-width: 34em; color: var(--ink-2); line-height: 1.6; }
+@media (max-width: 640px) {
+.rush { grid-auto-flow: column; grid-auto-columns: 80%; grid-template-columns: none; overflow-x: auto; margin-inline: calc(-1 * var(--gutter)); padding: 2px var(--gutter) 10px; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none; }
+.rush::-webkit-scrollbar { display: none; }
+.rush li { scroll-snap-align: start; }
+}
+.mu {
+--m-ink: #13171A; --m-ink-2: #4A5258; --m-ink-3: #68727A; --m-line: #D4D9D2; --m-bg: #EEF0ED; --m-card: #FFFFFF; --m-accent: #1E44B0;
+position: relative; display: grid; align-content: center; justify-items: stretch; gap: 7px;
+height: 136px; padding: 12px; overflow: hidden; border-radius: var(--r-lg); background: var(--m-bg); color: var(--m-ink);
+font-size: 13px; line-height: 1.3; font-variant-numeric: tabular-nums;
+}
+.mu-line { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; padding: 7px 10px; border-radius: 9px; background: var(--m-card); }
+.mu-line > span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mu-line.dim { color: var(--m-ink-3); }
+.mu-line.start { justify-content: flex-start; }
+.mu-line b { font-weight: 700; white-space: nowrap; }
+.mu-q { color: var(--m-ink-3); }
+.mu-div { display: flex; align-items: center; gap: 8px; color: #9A5C00; font-size: 10.5px; font-weight: 700; letter-spacing: var(--track-caps); text-transform: uppercase; white-space: nowrap; }
+.mu-div::before, .mu-div::after { content: ''; flex: 1; height: 1px; background: var(--m-line); }
+.mu-btn { justify-self: start; display: inline-flex; align-items: center; height: 30px; padding-inline: 14px; border: 1px solid var(--m-line); border-radius: 8px; background: var(--m-card); font-weight: 600; white-space: nowrap; }
+.mu-btn.go { border-color: transparent; background: var(--m-accent); color: #fff; }
+.mu-btn.sm { height: 26px; padding-inline: 10px; font-size: 12px; }
+.mu-tag { justify-self: start; display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px; background: #E2E6E1; color: var(--m-ink-2); font-size: 12px; font-weight: 600; white-space: nowrap; }
+.mu-tag.warn { background: #FAEBCF; color: #9A5C00; }
+.mu-tag.late { background: #FBE1DC; color: #B3321E; }
+.mu-tag.ok { background: #DDF2E6; color: #1F7A4D; }
+.mu-tag.gold { background: #F6E9BF; color: #7A5A00; }
+.mu-tag.big { padding: 7px 14px; font-size: 15px; }
+.mu-t { font-weight: 600; }
+.mu-seg { justify-self: start; display: inline-flex; gap: 2px; padding: 2px; border-radius: 9px; background: #DDE1DC; }
+.mu-seg span { padding: 4px 10px; border-radius: 7px; color: var(--m-ink-2); font-size: 12px; font-weight: 600; white-space: nowrap; }
+.mu-seg .on { background: var(--m-card); color: var(--m-ink); box-shadow: 0 1px 2px rgb(19 23 26 / 0.12); }
+.mu-big { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 6px 10px; border-radius: 9px; background: #DDF2E6; color: #1F7A4D; font-weight: 600; }
+.mu-big b { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
+.mu--lock, .mu--user { justify-items: center; text-align: center; }
+.mu-dots { display: inline-flex; gap: 10px; }
+.mu-dots i { width: 13px; height: 13px; border: 1.5px solid var(--m-ink); border-radius: 50%; }
+.mu-dots i.f { background: var(--m-ink); }
+.mu--lock .mu-tag { justify-self: center; }
+.mu-ok { display: inline-flex; align-items: center; gap: 6px; color: #1F7A4D; font-weight: 600; }
+.mu-ok svg { width: 14px; height: 14px; }
+.mu-floor { position: relative; height: 66px; border-radius: 9px; background: radial-gradient(circle, #C9CFC7 1px, transparent 1.2px) 0 0 / 10px 10px, var(--m-card); }
+.mf { position: absolute; top: 14px; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 1.5px solid var(--m-ink); border-radius: 8px; background: var(--m-card); font-weight: 700; }
+.mf:nth-child(1) { left: 8%; }
+.mf:nth-child(2) { left: 32%; border-style: dashed; border-color: #BDC4BB; color: var(--m-ink-3); }
+.mf.ghost { left: 58%; border: 1.5px dashed var(--m-accent); background: rgb(30 68 176 / 0.06); }
+.mf.lift { left: 66%; top: 6px; border-color: var(--m-accent); color: var(--m-accent); box-shadow: 0 10px 18px rgb(19 23 26 / 0.18); transform: rotate(-5deg); }
+.mu-who { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+.mu-av { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: #E2E8F8; color: var(--m-accent); font-size: 12px; font-weight: 700; }
+.mu-keys { justify-self: stretch; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 4px; }
+.mu-keys i { display: inline-flex; align-items: center; justify-content: center; height: 24px; border-radius: 6px; background: var(--m-card); font-size: 11px; font-style: normal; font-weight: 600; }
+.mu-day { position: relative; height: 10px; border-radius: 999px; background: #DDE1DC; }
+.mu-day .d-fill { position: absolute; inset: 0 14.6% 0 0; border-radius: 999px; background: var(--m-accent); }
+.mu-day .d-mid { position: absolute; top: -3px; bottom: -3px; left: 79.2%; width: 2px; background: var(--m-ink); }
+.mu-day .d-now { position: absolute; top: 50%; left: 85.4%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border: 3px solid var(--m-card); border-radius: 50%; background: var(--m-accent); box-shadow: 0 0 0 1px var(--m-accent); }
+.mu-times { position: relative; height: 14px; color: var(--m-ink-3); font-size: 11px; }
+.mu-times span { position: absolute; top: 0; }
+.mu-times span:nth-child(1) { left: 0; }
+.mu-times span:nth-child(2) { left: 79.2%; transform: translateX(calc(-100% - 4px)); }
+.mu-times span:nth-child(3) { right: 0; }
+.mu-line.bare { padding: 0; background: none; }
+.mu-tag.now { background: #E2E8F8; color: var(--m-accent); }
+.mu-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.mu-note { color: var(--m-ink-3); font-size: 12px; }
+.who { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 64px); align-items: start; }
+.who-tabs { display: flex; flex-wrap: wrap; align-content: start; gap: 10px; }
+.who-tabs[hidden] { display: none; }
+.who-tabs button { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 20px 0 14px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--surface); color: var(--ink); font: inherit; font-size: var(--fs-md); font-weight: 600; cursor: pointer; }
+.who-tabs button svg { flex: none; width: 26px; height: 26px; }
+.who-tabs button:hover { border-color: var(--ink-3); }
+.who-tabs button[aria-selected="true"] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+.who-tabs button[aria-selected="true"] .duo { fill: var(--bg); opacity: 0.35; }
+.who-panels { display: grid; }
+.who.js .who-panel { grid-area: 1 / 1; }
+.who.js .who-panel:not(.on) { visibility: hidden; }
+.who-panel { display: grid; align-content: start; gap: var(--sp-3); min-width: 0; padding: clamp(24px, 3vw, 36px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--shadow-1); }
+.who-ic svg { display: block; width: 56px; height: 56px; color: var(--ink); }
+.who-panel h3 { margin-top: var(--sp-2); font-size: var(--fs-xl); font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
+.who-panel p { color: var(--ink-2); font-size: var(--fs-lead); line-height: 1.55; text-wrap: pretty; }
+.who:not(.js) { display: block; }
+.who:not(.js) .who-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
+@media (prefers-reduced-motion: no-preference) { .who.js .who-panel.on { animation: s-in 0.35s both; } }
+@media (max-width: 900px) { .who { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 560px) {
+.who-tabs { gap: 8px; }
+.who-tabs button { height: 44px; padding: 0 16px 0 11px; font-size: var(--fs-body); }
+.who-tabs button svg { width: 22px; height: 22px; }
+.who:not(.js) .who-panels { grid-template-columns: minmax(0, 1fr); }
+}
+.why { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(36px, 4vw, 56px) clamp(32px, 5vw, 80px); }
+.why li { display: grid; align-content: start; gap: var(--sp-3); padding-top: var(--sp-6); border-top: 1px solid var(--line-2); }
+.why h3 { font-size: clamp(24px, 1.3vw + 15px, 34px); font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; text-wrap: balance; }
+.why p { max-width: 36em; color: var(--ink-2); font-size: var(--fs-md); line-height: 1.6; }
 .why-cta { display: flex; flex-wrap: wrap; gap: var(--sp-3); margin-top: clamp(32px, 4vw, 48px); padding-top: clamp(24px, 3vw, 32px); border-top: 1px solid var(--line); }
-@media (max-width: 760px) { .why { grid-template-columns: minmax(0, 1fr); } .why li { padding-right: 0; } }
+@media (max-width: 760px) { .why { grid-template-columns: minmax(0, 1fr); } }
 .plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); align-items: stretch; }
 .plan { position: relative; display: flex; flex-direction: column; min-width: 0; padding: clamp(24px, 2.6vw, 32px); border: 1px solid var(--line); border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--shadow-1); }
 .plan.enamel { border-color: transparent; background: var(--plate); color: var(--plate-ink); box-shadow: var(--shadow-2); }
@@ -914,7 +1095,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <a class="skip" href="#main">К содержанию</a>
 <header class="top"><div class="wrap top-in">
 <a class="wordmark" href="./" aria-label="RUVO — Главная">RUVO</a>
-<nav class="nav" aria-label="Главное меню"><a href="#features">Возможности</a><a href="#examples">Примеры</a><a href="#who">Для кого</a><a href="#pricing">Цены</a><a href="#contact">Контакты</a></nav>
+<nav class="nav" aria-label="Главное меню"><a href="#features">Возможности</a><a href="#who">Для кого</a><a href="#pricing">Цены</a><a href="#contact">Контакты</a></nav>
 <a class="top-cta" href="demo/">Попробовать демо</a>
 <nav class="langs" aria-label="Язык"><a href="../" hreflang="sr" lang="sr-Latn" title="Srpski">SR</a><a href="../en/" hreflang="en" lang="en" title="English">EN</a><a href="./" hreflang="ru" lang="ru" title="Русский" aria-current="page">RU</a></nav>
 </div></header>
@@ -924,41 +1105,30 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <p class="eyebrow">POS для ресторанов и кафе</p>
 <h1>Зал, кухня и склад в одной системе</h1>
 <p class="lead">RUVO принимает заказы на iPad и iPhone, отправляет их на экран кухни, списывает продукты по техкартам и строит отчёты. Для одного заведения или целой сети.</p>
-<div class="cta-row"><a class="btn" href="demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Попробовать демо</a><a class="btn ghost" href="mailto:hello@ruvo.ac"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>Напишите нам</a></div>
+<div class="cta-row"><a class="btn" href="demo/"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z"/></svg>Попробовать демо</a><a class="btn ghost" href="mailto:hello@ruvo.ac"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M224,44H32A12,12,0,0,0,20,56V192a20,20,0,0,0,20,20H216a20,20,0,0,0,20-20V56A12,12,0,0,0,224,44ZM193.15,68,128,127.72,62.85,68ZM44,188V83.28l75.89,69.57a12,12,0,0,0,16.22,0L212,83.28V188Z"/></svg>Напишите нам</a></div>
 </div>
-<div class="hero-art"><div class="scene" role="img" aria-label="Пример: заказ стола 12 на iPad и тот же заказ на экране кухни">
+<div class="hero-art"><div class="scene" role="img" aria-label="Пример: заказ стола 12 на iPad и тот же заказ на экране кухни" data-live>
 <div class="pad">
 <div class="pad-head"><span class="pad-title">Стол 12</span><span class="pad-meta">4 гостя · Marko</span></div>
 <div class="pad-lines"><div class="pl"><span class="pl-n">Чевапи, 10 шт</span><span class="pl-q">×2</span><span class="pl-p">2 580</span></div><div class="pl"><span class="pl-n">Шопский салат</span><span class="pl-q">×1</span><span class="pl-p">590</span></div><div class="pl"><span class="pl-n">Домашний лимонад</span><span class="pl-q">×3</span><span class="pl-p">1 050</span></div><div class="course">Курс 2 · ждёт вызова</div><div class="pl later"><span class="pl-n">Палачинки с шоколадом</span><span class="pl-q">×2</span><span class="pl-p">1 040</span></div></div>
 <div class="pad-total"><span>Итого</span><span>5 260<small>RSD</small></span></div>
 <div class="pad-btns"><span class="pad-btn go">На кухню</span><span class="pad-btn bill">Счёт</span></div>
 </div>
+<div class="scene-side">
 <div class="kds-t">
-<div class="kds-head"><span class="kds-no">#17</span><span class="kds-tbl">Стол 12</span><span class="kds-time">04:12</span></div>
+<div class="kds-head"><span class="kds-no">#17</span><span class="kds-tbl">Стол 12</span><span class="kds-time">04:12</span><span class="kds-done"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg>Готово</span></div>
 <div class="kds-station">Кухня</div>
-<div class="kds-lines"><div class="kl"><span class="kl-q">2</span><span class="kl-n">Чевапи, 10 шт</span></div><div class="kl"><span class="kl-q">1</span><span class="kl-n">Шопский салат</span></div></div>
+<div class="kds-lines"><div class="kl"><span class="kl-q">2</span><span class="kl-n">Чевапи, 10 шт</span><span class="kl-ok"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span></div><div class="kl"><span class="kl-q">1</span><span class="kl-n">Шопский салат</span><span class="kl-ok"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg></span></div></div>
 <div class="kds-wait">курс 2 ждёт</div>
+</div>
+<div class="stock-chip"><div class="sc-h">Склад · по техкарте</div><div class="sc-r"><span>Фарш</span><b>0,50 кг</b></div><div class="sc-r"><span>Лепиня</span><b>2 шт</b></div><div class="sc-r"><span>Каймак</span><b>0,08 кг</b></div><div class="sc-note">спишется при оплате</div></div>
 </div>
 </div></div>
 </div></section>
-<section class="band raised" id="features" aria-labelledby="features-h"><div class="wrap">
-<div class="sec-head"><h2 id="features-h">Всё, что нужно заведению</h2><p>Зал, кухня, склад и команда — в одной системе: заказ доходит до кухни за секунду.</p></div>
-<ul class="cards suite">
-<li class="card"><span class="suite-art" aria-hidden="true"><span class="glyph g-front"><span class="glyph-ui"></span></span></span><h3>Фронт</h3><p>План зала, заказы по курсам, деление счёта и расчёт. Доставка на том же экране.</p></li>
-<li class="card"><span class="suite-art" aria-hidden="true"><span class="glyph g-waiter"><span class="glyph-ui"></span></span></span><h3>Устройство официанта</h3><p>Заказ со стола сразу уходит на кухню; счёт и QR (IPS) — у официанта.</p></li>
-<li class="card"><span class="suite-art" aria-hidden="true"><span class="glyph g-kds"><span class="glyph-ui"></span></span></span><h3>Экран кухни</h3><p>Тикеты по цехам с таймерами; следующий курс ждёт «Вызвать».</p></li>
-<li class="card"><span class="suite-art" aria-hidden="true"><span class="glyph g-kiosk"><span class="glyph-ui"></span></span></span><h3>Киоск</h3><p>Гости заказывают сами по фото, с аллергенами, и платят на кассе по номеру.</p></li>
-<li class="card"><span class="suite-art" aria-hidden="true"><span class="suite-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 7.5L12 3l8.5 4.5v9L12 21l-8.5-4.5zM3.5 7.5L12 12l8.5-4.5M12 12v9"/></svg></span></span><h3>Склад и техкарты</h3><p>Списание по техкарте при каждой продаже, инвентаризация, приход и счета поставщиков из SEF.</p></li>
-<li class="card"><span class="suite-art" aria-hidden="true"><span class="suite-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 3.5l1.9 5.1 5.1 1.9-5.1 1.9L11 17.5l-1.9-5.1L4 10.5l5.1-1.9zM18.5 14.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/></svg></span></span><h3>Отчёты и <span class="nw">ИИ-помощник</span></h3><p>Выручка, фудкост и официанты; спросите словами — RUVO построит отчёт.</p></li>
-<li class="card"><span class="suite-art" aria-hidden="true"><span class="suite-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5l2.6 5.5 6 .8-4.4 4.1 1.1 5.9L12 17l-5.3 2.8 1.1-5.9-4.4-4.1 6-.8z"/></svg></span></span><h3>Гости и лояльность</h3><p>Карты гостей с уровнями и баллами, скидки и акции по расписанию.</p></li>
-<li class="card"><span class="suite-art" aria-hidden="true"><span class="suite-i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM3 19.5a6 6 0 0 1 12 0M16 5.3a3.4 3.4 0 0 1 0 6.4M18 13.6a6 6 0 0 1 3 5.9"/></svg></span></span><h3>Команда и смены</h3><p>Личный PIN, роли и журнал действий; смены по PIN и расчёт зарплаты.</p></li>
-</ul>
-<div class="integr"><h3 class="integr-title">Подключения</h3><ul><li>оплата по QR (IPS)</li><li>банковский терминал</li><li>e-фактуры SEF</li><li>отчёт в Telegram каждый день</li><li>перенос из другой POS</li><li class="soon">Wolt и Glovo — скоро</li></ul></div>
-</div></section>
-<section class="band" id="examples" aria-labelledby="examples-h"><div class="wrap">
-<div class="sec-head"><h2 id="examples-h">Как это выглядит в работе</h2><p>Девять экранов RUVO — от зала и кухни до склада и отчётов, с блюдами и цифрами, как в настоящем ресторане.</p></div>
-<div class="ex" data-tabs>
-<div class="ex-tabs" aria-label="Примеры экранов" hidden><button type="button" id="ex-t-floor" aria-controls="ex-p-floor" aria-selected="true">Зал</button><button type="button" id="ex-t-waiter" aria-controls="ex-p-waiter" aria-selected="false" tabindex="-1">Официант</button><button type="button" id="ex-t-kitchen" aria-controls="ex-p-kitchen" aria-selected="false" tabindex="-1">Кухня</button><button type="button" id="ex-t-delivery" aria-controls="ex-p-delivery" aria-selected="false" tabindex="-1">Доставка</button><button type="button" id="ex-t-kiosk" aria-controls="ex-p-kiosk" aria-selected="false" tabindex="-1">Киоск</button><button type="button" id="ex-t-guests" aria-controls="ex-p-guests" aria-selected="false" tabindex="-1">Гости</button><button type="button" id="ex-t-stock" aria-controls="ex-p-stock" aria-selected="false" tabindex="-1">Склад</button><button type="button" id="ex-t-reports" aria-controls="ex-p-reports" aria-selected="false" tabindex="-1">Отчёты</button><button type="button" id="ex-t-sef" aria-controls="ex-p-sef" aria-selected="false" tabindex="-1">SEF</button></div>
+<section class="band raised" id="features" aria-labelledby="features-h"><span class="anchor" id="examples"></span><div class="wrap">
+<div class="sec-head"><h2 id="features-h">Всё, что нужно заведению</h2><p>Десять экранов RUVO — с блюдами и цифрами как в настоящем ресторане.</p></div>
+<div class="ex" data-tabs data-live>
+<div class="ex-tabs" aria-label="Примеры экранов" hidden><button type="button" id="ex-t-floor" aria-controls="ex-p-floor" aria-selected="true">Зал</button><button type="button" id="ex-t-waiter" aria-controls="ex-p-waiter" aria-selected="false" tabindex="-1">Официант</button><button type="button" id="ex-t-kitchen" aria-controls="ex-p-kitchen" aria-selected="false" tabindex="-1">Кухня</button><button type="button" id="ex-t-delivery" aria-controls="ex-p-delivery" aria-selected="false" tabindex="-1">Доставка</button><button type="button" id="ex-t-kiosk" aria-controls="ex-p-kiosk" aria-selected="false" tabindex="-1">Киоск</button><button type="button" id="ex-t-guests" aria-controls="ex-p-guests" aria-selected="false" tabindex="-1">Гости</button><button type="button" id="ex-t-stock" aria-controls="ex-p-stock" aria-selected="false" tabindex="-1">Склад</button><button type="button" id="ex-t-reports" aria-controls="ex-p-reports" aria-selected="false" tabindex="-1">Отчёты</button><button type="button" id="ex-t-sef" aria-controls="ex-p-sef" aria-selected="false" tabindex="-1">SEF</button><button type="button" id="ex-t-team" aria-controls="ex-p-team" aria-selected="false" tabindex="-1">Команда</button></div>
 <div class="ex-panels">
 <div class="ex-panel" id="ex-p-floor">
 <div class="ex-shot" role="img" aria-label="Пример: план зала на фронте — свободные и занятые столы, стол с готовыми блюдами и стол, который ждёт счёт"><div class="scn scn-floor"><div class="ui fl">
@@ -1067,50 +1237,65 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 </div></div></div>
 <div class="ex-text"><h3>Счета поставщиков из SEF</h3><p>Входящие <span class="nw">e-фактуры</span> приходят сами. Позиции поставщика связываются с вашими продуктами один раз, а приход на склад — одной кнопкой.</p><ul><li>Принять или отклонить счёт из RUVO</li><li>Срок ответа всегда на виду</li><li>Несколько фирм (ПИБ) в одном аккаунте</li></ul></div>
 </div>
+<div class="ex-panel" id="ex-p-team">
+<div class="ex-shot" role="img" aria-label="Пример: кто сейчас на смене и зарплата официанта за неделю"><div class="scn scn-team">
+<div class="ui tm"><div class="tm-head"><span class="tm-title">На смене</span><span class="ui-meta">4 человека</span></div><div class="tm-rows"><div class="tm-row"><span class="tm-av">M</span><span class="tm-n"><b>Marko</b><small>официант</small></span><span class="tm-since"><i></i>с 16:02</span></div><div class="tm-row"><span class="tm-av">J</span><span class="tm-n"><b>Jovana</b><small>официант</small></span><span class="tm-since"><i></i>с 16:10</span></div><div class="tm-row"><span class="tm-av">S</span><span class="tm-n"><b>Stefan</b><small>повар</small></span><span class="tm-since"><i></i>с 15:45</span></div><div class="tm-row tm-new"><span class="tm-av">L</span><span class="tm-n"><b>Luka</b><small>бармен</small></span><span class="tm-since"><i></i>с 17:00</span></div></div></div>
+<div class="ui pay"><span class="ui-caps">Зарплата · 6–12 окт</span>
+<div class="pay-who"><span class="tm-av">M</span><b>Marko</b><small>официант</small></div>
+<div class="pay-rows"><div><span>Часы</span><span>38 h</span></div><div><span>Ставка в час</span><span>650 RSD</span></div><div><span>1,5% с продаж<small>412 000 RSD</small></span><span>6 180 RSD</span></div></div>
+<div class="pay-total"><span>Итого</span><b>30 880 RSD</b></div>
+</div>
+</div></div>
+<div class="ex-text"><h3>Команда и смены</h3><p>Каждый работает под своим PIN и со своей ролью. Смена начинается и заканчивается по PIN на фронте, а зарплата считается сама — по часам и проценту с продаж.</p><ul><li>Роли: владелец, управляющий, официант, повар, бар</li><li>Журнал действий — кто что сделал и когда</li><li>Забытая смена исправляется с причиной</li></ul></div>
 </div>
 </div>
-<div class="ex-demo"><p>Всё это можно попробовать самим — <span class="nw">демо-ресторан</span> работает прямо в вашем браузере.</p><a class="btn ghost" href="demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Открыть демо</a></div>
+</div>
+<div class="integr"><h3 class="integr-title">Подключения</h3><ul><li>оплата по QR (IPS)</li><li>банковский терминал</li><li>e-фактуры SEF</li><li>отчёт в Telegram каждый день</li><li>перенос из другой POS</li><li class="soon">Wolt и Glovo — скоро</li></ul></div>
+<div class="ex-demo"><p>Всё это можно попробовать самим — <span class="nw">демо-ресторан</span> работает прямо в вашем браузере.</p><a class="btn ghost" href="demo/"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z"/></svg>Открыть демо</a></div>
 </div></section>
-<section class="band raised" id="rush" aria-labelledby="rush-h"><div class="wrap">
+<section class="band night" id="rush" aria-labelledby="rush-h"><div class="wrap">
 <div class="sec-head"><h2 id="rush-h">Мелочи, которые спасают смену</h2><p>То, что случается в разгар смены, решено в самой системе.</p></div>
 <ul class="rush">
-<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0"/></svg></span><h3>Курсы и «Вызвать»</h3><p>Второй курс ждёт на кухне, пока официант его не вызовет, — тогда тикет звенит и мигает.</p></li>
-<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM6 6l12 12"/></svg></span><h3><span class="nw">Стоп-лист</span> с порциями</h3><p>Блюдо само уходит в стоп, когда порции закончились; больше остатка не заказать.</p></li>
-<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v18M5 7h4M5 12h4M5 17h4M15 7h4M15 12h4M15 17h4"/></svg></span><h3>Деление счёта</h3><p>Оплата по позициям или частями, у каждой части свой способ оплаты.</p></li>
-<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 7h18v10H3zM12 9.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM6 10v4M18 10v4"/></svg></span><h3>Сдача без ошибок</h3><p>Вводите, сколько дал гость, а RUVO крупно показывает сдачу.</p></li>
-<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 11h12v9H6zM8 11V8a4 4 0 0 1 8 0v3"/></svg></span><h3>Отмена по PIN</h3><p>Отправленное блюдо отменяет только тот, у кого есть право, с причиной; если кухня начала готовить, продукты уходят в списание.</p></li>
-<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 12.6V4.5a1 1 0 0 1 1-1h8.1l8 8a1.5 1.5 0 0 1 0 2.1l-6.9 6.9a1.5 1.5 0 0 1-2.1 0zM8.2 7.2a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg></span><h3>Скидки под контролем</h3><p>Скидка персоналу и комплимент — только с PIN менеджера, и всё остаётся в журнале действий.</p></li>
-<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4v4.5H15"/></svg></span><h3>«Вернуть стол»</h3><p>Закрытый стол открывается снова с PIN и причиной; склад и выручка исправляются сами.</p></li>
-<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M15 8l4 4-4 4M9 8l-4 4 4 4"/></svg></span><h3>План зала за минуту</h3><p>Столы, залы и подписи перетаскиваются прямо на фронте.</p></li>
-<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM4.5 20a7.5 7.5 0 0 1 15 0"/></svg></span><h3>Личный PIN</h3><p>Каждый работает под своим именем, а фронт сам блокируется через пять минут.</p></li>
-<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5.5 13a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM18.5 13a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM5.5 16.5L9 9h5l4.5 7.5M14 9l-2-4H9M12 5h3"/></svg></span><h3>Доставка на том же экране</h3><p>Заказы для Wolt и Glovo идут на кухню вместе с залом — со временем приезда курьера.</p></li>
-<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM12 7.5V12l3 2"/></svg></span><h3>Рабочий день до 5 утра</h3><p>Для заведений, которые работают после полуночи: выручка попадает в нужный день.</p></li>
-<li><span class="rush-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM12 11v5.5M12 7.5v.5"/></svg></span><h3>Аллергены для гостей</h3><p>14 аллергенов ЕС у каждого блюда — по техкарте, в киоске и у официанта.</p></li>
+<li><div class="mu mu--bell" aria-hidden="true"><div class="mu-div">Курс 2 · ждёт вызова</div><div class="mu-line dim"><span>Палачинки с шоколадом</span><span class="mu-q">×2</span></div><span class="mu-btn go">Вызвать</span></div><h3>Курсы и «Вызвать»</h3><p>Второй курс ждёт на кухне, пока официант его не вызовет, — тогда тикет звенит и мигает.</p></li>
+<li><div class="mu mu--stop" aria-hidden="true"><div class="mu-line"><span>Чевапи, 10 шт</span><span class="mu-tag warn">осталось 3</span></div><div class="mu-line dim"><span>Стейк рибай, 300 г</span><span class="mu-tag late">Стоп</span></div></div><h3><span class="nw">Стоп-лист</span> с порциями</h3><p>Блюдо само уходит в стоп, когда порции закончились; больше остатка не заказать.</p></li>
+<li><div class="mu mu--split" aria-hidden="true"><span class="mu-seg"><span>Весь счёт</span><span class="on">По позициям</span></span><div class="mu-line"><span>Часть 1 · карта</span><b>1 290</b></div><div class="mu-line"><span>Часть 2 · наличные</span><b>940</b></div></div><h3>Деление счёта</h3><p>Оплата по позициям или частями, у каждой части свой способ оплаты.</p></li>
+<li><div class="mu mu--cash" aria-hidden="true"><div class="mu-line dim"><span>К оплате</span><b>3 730</b></div><div class="mu-line"><span>Получено</span><b>5 000</b></div><div class="mu-big"><span>Сдача</span><b>1 270</b></div></div><h3>Сдача без ошибок</h3><p>Вводите, сколько дал гость, а RUVO крупно показывает сдачу.</p></li>
+<li><div class="mu mu--lock" aria-hidden="true"><span class="mu-t">Подтвердите своим PIN</span><span class="mu-dots"><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span><span class="mu-tag">Гость передумал</span></div><h3>Отмена по PIN</h3><p>Отправленное блюдо отменяет только тот, у кого есть право, с причиной; если кухня начала готовить, продукты уходят в списание.</p></li>
+<li><div class="mu mu--tag" aria-hidden="true"><span class="mu-tag gold big">Персонал −30%</span><span class="mu-ok"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></svg>одобрено · Dragana</span></div><h3>Скидки под контролем</h3><p>Скидка персоналу и комплимент — только с PIN менеджера, и всё остаётся в журнале действий.</p></li>
+<li><div class="mu mu--rotate" aria-hidden="true"><div class="mu-line"><span>Стол 4 · закрыт 21:40</span></div><span class="mu-btn">Вернуть стол</span></div><h3>«Вернуть стол»</h3><p>Закрытый стол открывается снова с PIN и причиной; склад и выручка исправляются сами.</p></li>
+<li><div class="mu mu--move" aria-hidden="true"><div class="mu-floor"><span class="mf">1</span><span class="mf">2</span><span class="mf ghost"></span><span class="mf lift">3</span></div><span class="mu-btn sm">Изменить зал</span></div><h3>План зала за минуту</h3><p>Столы, залы и подписи перетаскиваются прямо на фронте.</p></li>
+<li><div class="mu mu--user" aria-hidden="true"><span class="mu-who"><span class="mu-av">M</span>Marko</span><span class="mu-t">Введите свой PIN</span><span class="mu-keys"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i></span></div><h3>Личный PIN</h3><p>Каждый работает под своим именем, а фронт сам блокируется через пять минут.</p></li>
+<li><div class="mu mu--bike" aria-hidden="true"><div class="mu-line start"><span><span class="pf wolt">Wolt</span></span><b>W-7F3A</b></div><div class="mu-line dim"><span>2× Чевапи, 10 шт</span></div><span class="mu-tag ok">Курьер 21:52</span></div><h3>Доставка на том же экране</h3><p>Заказы для Wolt и Glovo идут на кухню вместе с залом — со временем приезда курьера.</p></li>
+<li><div class="mu mu--clock" aria-hidden="true"><div class="mu-line bare"><span class="mu-t">Рабочий день</span><span class="mu-tag now">сейчас 01:30</span></div><span class="mu-day"><i class="d-fill"></i><i class="d-mid"></i><i class="d-now"></i></span><span class="mu-times"><span>05:00</span><span>00:00</span><span>05:00</span></span></div><h3>Рабочий день до 5 утра</h3><p>Для заведений, которые работают после полуночи: выручка попадает в нужный день.</p></li>
+<li><div class="mu mu--info" aria-hidden="true"><span class="mu-t">Палачинки с шоколадом</span><span class="mu-tags"><span class="mu-tag">Глютен</span><span class="mu-tag">Молоко</span><span class="mu-tag">Яйца</span></span><span class="mu-note">14 аллергенов ЕС</span></div><h3>Аллергены для гостей</h3><p>14 аллергенов ЕС у каждого блюда — по техкарте, в киоске и у официанта.</p></li>
 </ul>
 </div></section>
 <section class="band" id="who" aria-labelledby="who-h"><div class="wrap">
 <div class="sec-head"><h2 id="who-h">Для кого RUVO</h2><p>Везде, где готовят и подают: от кафе до отеля и кухни, которая работает только на доставку.</p></div>
 
-<ul class="cards who">
-<li class="card"><span class="who-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 3v18M4.5 3v4.5a2.5 2.5 0 0 0 5 0V3"/><path d="M17.5 21V3c-2 0-3.5 2.5-3.5 6v4.5h3.5"/></svg></span><h3>Ресторан с залом</h3><p>План зала, курсы и официанты с устройствами; склад и техкарты на каждое блюдо.</p></li>
-<li class="card"><span class="who-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 10h12v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5v-4z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16M8 3.5c-.8 1 .8 2 0 3M12 3.5c-.8 1 .8 2 0 3"/></svg></span><h3>Кафе и бар</h3><p>План зала с баром, бар как отдельный цех на экране, смены и зарплата.</p></li>
-<li class="card"><span class="who-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="2.5" width="12" height="15" rx="2"/><path d="M12 17.5V21M8.5 21h7M9 7h6M9 10.5h6M9 14h3"/></svg></span><h3>Фастфуд</h3><p>Киоск самообслуживания, номера заказов и экран кухни.</p></li>
-<li class="card"><span class="who-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 12a4 4 0 0 1 3.1-3.9A5 5 0 0 1 12 5.5a5 5 0 0 1 4.9 2.6A4 4 0 0 1 20 12v7H4z"/><path d="M9 12v3.5M12 11v4.5M15 12v3.5"/></svg></span><h3>Пекарня и кондитерская</h3><p>Киоск и номера заказов у прилавка, техкарты для теста и кремов, минимальные остатки.</p></li>
-<li class="card"><span class="who-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 19V6M3 15h18v4M21 15v-3a3 3 0 0 0-3-3h-7v6"/><path d="M7 9a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/></svg></span><h3>Отель</h3><p>Ресторан, <span class="nw">лобби-бар</span> и завтраки — отдельными заведениями, с отчётами по всему отелю.</p></li>
-<li class="card"><span class="who-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 18.5h18M5 18.5a7 7 0 0 1 14 0M12 8.5V6.5M10.5 6.5h3"/></svg></span><h3>Кейтеринг и столовые</h3><p>Быстрая линия с киоском и номерами заказов, техкарты и склад для больших объёмов.</p></li>
-<li class="card"><span class="who-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5.5 13a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM18.5 13a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM5.5 16.5L9 9h5l4.5 7.5M14 9l-2-4H9M12 5h3"/></svg></span><h3>Кухня доставки</h3><p>Заказы Wolt и Glovo на экране кухни со временем курьера и ценами по каналам.</p></li>
-<li class="card"><span class="who-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 21h18M5 21V9.5l4.5-3.5L14 9.5V21M14 21V6.5L17 4l3 2.5V21M8 13h3M8 17h3M16.5 10h1M16.5 13.5h1M16.5 17h1"/></svg></span><h3>Сеть заведений</h3><p>Один аккаунт на все заведения, у каждого свой склад, и отчёты по всей сети.</p></li>
-</ul>
+<div class="who" data-tabs>
+<div class="who-tabs" aria-label="Виды заведений" hidden><button type="button" id="who-t-restaurant" aria-controls="who-p-restaurant" aria-selected="true"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,40V168H152S152,64,208,40Z" class="duo"/><path d="M72,88V40a8,8,0,0,1,16,0V88a8,8,0,0,1-16,0ZM216,40V224a8,8,0,0,1-16,0V176H152a8,8,0,0,1-8-8,268.75,268.75,0,0,1,7.22-56.88c9.78-40.49,28.32-67.63,53.63-78.47A8,8,0,0,1,216,40ZM200,53.9c-32.17,24.57-38.47,84.42-39.7,106.1H200ZM119.89,38.69a8,8,0,1,0-15.78,2.63L112,88.63a32,32,0,0,1-64,0l7.88-47.31a8,8,0,1,0-15.78-2.63l-8,48A8.17,8.17,0,0,0,32,88a48.07,48.07,0,0,0,40,47.32V224a8,8,0,0,0,16,0V135.32A48.07,48.07,0,0,0,128,88a8.17,8.17,0,0,0-.11-1.31Z"/></svg>Ресторан с залом</button><button type="button" id="who-t-cafe" aria-controls="who-p-cafe" aria-selected="false" tabindex="-1"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,88v48a88,88,0,0,1-51.3,80H83.3A88,88,0,0,1,32,136V88Z" class="duo"/><path d="M80,56V24a8,8,0,0,1,16,0V56a8,8,0,0,1-16,0Zm40,8a8,8,0,0,0,8-8V24a8,8,0,0,0-16,0V56A8,8,0,0,0,120,64Zm32,0a8,8,0,0,0,8-8V24a8,8,0,0,0-16,0V56A8,8,0,0,0,152,64Zm96,56v8a40,40,0,0,1-37.51,39.91,96.59,96.59,0,0,1-27,40.09H208a8,8,0,0,1,0,16H32a8,8,0,0,1,0-16H56.54A96.3,96.3,0,0,1,24,136V88a8,8,0,0,1,8-8H208A40,40,0,0,1,248,120ZM200,96H40v40a80.27,80.27,0,0,0,45.12,72h69.76A80.27,80.27,0,0,0,200,136Zm32,24a24,24,0,0,0-16-22.62V136a95.78,95.78,0,0,1-1.2,15A24,24,0,0,0,232,128Z"/></svg>Кафе и бар</button><button type="button" id="who-t-kiosk" aria-controls="who-p-kiosk" aria-selected="false" tabindex="-1"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M188,176l20-7.27V184a32,32,0,0,1-32,32H80a32,32,0,0,1-32-32V167.27L68,160l40,16,40-16Zm27.82-89.72C209.32,55.55,172.48,32,128,32S46.68,55.55,40.18,86.28A8,8,0,0,0,48.07,96H207.93A8,8,0,0,0,215.82,86.28Z" class="duo"/><path d="M48.07,104H207.93a16,16,0,0,0,15.72-19.38C216.22,49.5,176,24,128,24S39.78,49.5,32.35,84.62A16,16,0,0,0,48.07,104ZM128,40c39.82,0,74.21,20.61,79.93,48H48.07L48,87.93C53.79,60.61,88.18,40,128,40ZM229.26,152.48l-41.13,15L151,152.57a8,8,0,0,0-5.94,0l-37,14.81L71,152.57a8,8,0,0,0-5.7-.09l-44,16a8,8,0,0,0,5.47,15L40,178.69V184a40,40,0,0,0,40,40h96a40,40,0,0,0,40-40v-9.67l18.73-6.81a8,8,0,1,0-5.47-15ZM200,184a24,24,0,0,1-24,24H80a24,24,0,0,1-24-24V172.88l11.87-4.32L105,183.43a8,8,0,0,0,5.94,0l37-14.81,37,14.81a8,8,0,0,0,5.7.09l9.27-3.37ZM16,128a8,8,0,0,1,8-8H232a8,8,0,0,1,0,16H24A8,8,0,0,1,16,128Z"/></svg>Фастфуд</button><button type="button" id="who-t-bakery" aria-controls="who-p-bakery" aria-selected="false" tabindex="-1"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,111v89a8,8,0,0,1-8,8H144a8,8,0,0,0,8-8V111a32,32,0,0,0-8-63h56a32,32,0,0,1,8,63Z" class="duo"/><path d="M240,80a40,40,0,0,0-40-40H48a40,40,0,0,0-16,76.65V200a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V116.65A40.06,40.06,0,0,0,240,80ZM48,120a8,8,0,0,0,0-16,24,24,0,0,1,0-48h96a24,24,0,0,1,0,48,8,8,0,0,0,0,16v80H48Zm152-16a8,8,0,0,0,0,16v80H160V116.65A40,40,0,0,0,176,56h24a24,24,0,0,1,0,48Z"/></svg>Пекарня и кондитерская</button><button type="button" id="who-t-hotel" aria-controls="who-p-hotel" aria-selected="false" tabindex="-1"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M248,112v56H112V80H216A32,32,0,0,1,248,112Z" class="duo"/><path d="M216,72H32V48a8,8,0,0,0-16,0V208a8,8,0,0,0,16,0V176H240v32a8,8,0,0,0,16,0V112A40,40,0,0,0,216,72ZM32,88h72v72H32Zm88,72V88h96a24,24,0,0,1,24,24v48Z"/></svg>Отель</button><button type="button" id="who-t-catering" aria-controls="who-p-catering" aria-selected="false" tabindex="-1"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M216,80V184a24,24,0,0,1-24,24H64a24,24,0,0,1-24-24V80Z" class="duo"/><path d="M88,48V16a8,8,0,0,1,16,0V48a8,8,0,0,1-16,0Zm40,8a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0V48A8,8,0,0,0,128,56Zm32,0a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0V48A8,8,0,0,0,160,56Zm92.8,46.4L224,124v60a32,32,0,0,1-32,32H64a32,32,0,0,1-32-32V124L3.2,102.4a8,8,0,0,1,9.6-12.8L32,104V80a8,8,0,0,1,8-8H216a8,8,0,0,1,8,8v24l19.2-14.4a8,8,0,0,1,9.6,12.8ZM208,88H48v96a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16Z"/></svg>Кейтеринг и столовые</button><button type="button" id="who-t-delivery" aria-controls="who-p-delivery" aria-selected="false" tabindex="-1"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M131,168H8a48,48,0,0,1,32-45.27V96h64Z" class="duo"/><path d="M216,128a39.3,39.3,0,0,0-6.27.5L175.49,37.19A8,8,0,0,0,168,32H136a8,8,0,0,0,0,16h26.46l32.3,86.13a40.13,40.13,0,0,0-18,25.87H136.54l-25-66.81A8,8,0,0,0,104,88H24a8,8,0,0,0,0,16h8v13.39A56.12,56.12,0,0,0,0,168a8,8,0,0,0,8,8h8.8a40,40,0,0,0,78.4,0h81.6A40,40,0,1,0,216,128ZM56,192a24,24,0,0,1-22.62-16H78.62A24,24,0,0,1,56,192ZM16.81,160a40.07,40.07,0,0,1,25.86-29.73A8,8,0,0,0,48,122.73V104H98.46l21,56ZM216,192a24,24,0,0,1-15.43-42.36l7.94,21.17a8,8,0,0,0,15-5.62L215.55,144H216a24,24,0,0,1,0,48Z"/></svg>Кухня доставки</button><button type="button" id="who-t-group" aria-controls="who-p-group" aria-selected="false" tabindex="-1"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M136,32V216H40V85.35a8,8,0,0,1,3.56-6.66l80-53.33A8,8,0,0,1,136,32Z" class="duo"/><path d="M240,208H224V96a16,16,0,0,0-16-16H144V32a16,16,0,0,0-24.88-13.32L39.12,72A16,16,0,0,0,32,85.34V208H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM208,96V208H144V96ZM48,85.34,128,32V208H48ZM112,112v16a8,8,0,0,1-16,0V112a8,8,0,1,1,16,0Zm-32,0v16a8,8,0,0,1-16,0V112a8,8,0,1,1,16,0Zm0,56v16a8,8,0,0,1-16,0V168a8,8,0,0,1,16,0Zm32,0v16a8,8,0,0,1-16,0V168a8,8,0,0,1,16,0Z"/></svg>Сеть заведений</button></div>
+<div class="who-panels">
+<div class="who-panel" id="who-p-restaurant"><span class="who-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,40V168H152S152,64,208,40Z" class="duo"/><path d="M72,88V40a8,8,0,0,1,16,0V88a8,8,0,0,1-16,0ZM216,40V224a8,8,0,0,1-16,0V176H152a8,8,0,0,1-8-8,268.75,268.75,0,0,1,7.22-56.88c9.78-40.49,28.32-67.63,53.63-78.47A8,8,0,0,1,216,40ZM200,53.9c-32.17,24.57-38.47,84.42-39.7,106.1H200ZM119.89,38.69a8,8,0,1,0-15.78,2.63L112,88.63a32,32,0,0,1-64,0l7.88-47.31a8,8,0,1,0-15.78-2.63l-8,48A8.17,8.17,0,0,0,32,88a48.07,48.07,0,0,0,40,47.32V224a8,8,0,0,0,16,0V135.32A48.07,48.07,0,0,0,128,88a8.17,8.17,0,0,0-.11-1.31Z"/></svg></span><h3>Ресторан с залом</h3><p>План зала, курсы и официанты с устройствами; склад и техкарты на каждое блюдо.</p></div>
+<div class="who-panel" id="who-p-cafe"><span class="who-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,88v48a88,88,0,0,1-51.3,80H83.3A88,88,0,0,1,32,136V88Z" class="duo"/><path d="M80,56V24a8,8,0,0,1,16,0V56a8,8,0,0,1-16,0Zm40,8a8,8,0,0,0,8-8V24a8,8,0,0,0-16,0V56A8,8,0,0,0,120,64Zm32,0a8,8,0,0,0,8-8V24a8,8,0,0,0-16,0V56A8,8,0,0,0,152,64Zm96,56v8a40,40,0,0,1-37.51,39.91,96.59,96.59,0,0,1-27,40.09H208a8,8,0,0,1,0,16H32a8,8,0,0,1,0-16H56.54A96.3,96.3,0,0,1,24,136V88a8,8,0,0,1,8-8H208A40,40,0,0,1,248,120ZM200,96H40v40a80.27,80.27,0,0,0,45.12,72h69.76A80.27,80.27,0,0,0,200,136Zm32,24a24,24,0,0,0-16-22.62V136a95.78,95.78,0,0,1-1.2,15A24,24,0,0,0,232,128Z"/></svg></span><h3>Кафе и бар</h3><p>План зала с баром, бар как отдельный цех на экране, смены и зарплата.</p></div>
+<div class="who-panel" id="who-p-kiosk"><span class="who-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M188,176l20-7.27V184a32,32,0,0,1-32,32H80a32,32,0,0,1-32-32V167.27L68,160l40,16,40-16Zm27.82-89.72C209.32,55.55,172.48,32,128,32S46.68,55.55,40.18,86.28A8,8,0,0,0,48.07,96H207.93A8,8,0,0,0,215.82,86.28Z" class="duo"/><path d="M48.07,104H207.93a16,16,0,0,0,15.72-19.38C216.22,49.5,176,24,128,24S39.78,49.5,32.35,84.62A16,16,0,0,0,48.07,104ZM128,40c39.82,0,74.21,20.61,79.93,48H48.07L48,87.93C53.79,60.61,88.18,40,128,40ZM229.26,152.48l-41.13,15L151,152.57a8,8,0,0,0-5.94,0l-37,14.81L71,152.57a8,8,0,0,0-5.7-.09l-44,16a8,8,0,0,0,5.47,15L40,178.69V184a40,40,0,0,0,40,40h96a40,40,0,0,0,40-40v-9.67l18.73-6.81a8,8,0,1,0-5.47-15ZM200,184a24,24,0,0,1-24,24H80a24,24,0,0,1-24-24V172.88l11.87-4.32L105,183.43a8,8,0,0,0,5.94,0l37-14.81,37,14.81a8,8,0,0,0,5.7.09l9.27-3.37ZM16,128a8,8,0,0,1,8-8H232a8,8,0,0,1,0,16H24A8,8,0,0,1,16,128Z"/></svg></span><h3>Фастфуд</h3><p>Киоск самообслуживания, номера заказов и экран кухни.</p></div>
+<div class="who-panel" id="who-p-bakery"><span class="who-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M208,111v89a8,8,0,0,1-8,8H144a8,8,0,0,0,8-8V111a32,32,0,0,0-8-63h56a32,32,0,0,1,8,63Z" class="duo"/><path d="M240,80a40,40,0,0,0-40-40H48a40,40,0,0,0-16,76.65V200a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V116.65A40.06,40.06,0,0,0,240,80ZM48,120a8,8,0,0,0,0-16,24,24,0,0,1,0-48h96a24,24,0,0,1,0,48,8,8,0,0,0,0,16v80H48Zm152-16a8,8,0,0,0,0,16v80H160V116.65A40,40,0,0,0,176,56h24a24,24,0,0,1,0,48Z"/></svg></span><h3>Пекарня и кондитерская</h3><p>Киоск и номера заказов у прилавка, техкарты для теста и кремов, минимальные остатки.</p></div>
+<div class="who-panel" id="who-p-hotel"><span class="who-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M248,112v56H112V80H216A32,32,0,0,1,248,112Z" class="duo"/><path d="M216,72H32V48a8,8,0,0,0-16,0V208a8,8,0,0,0,16,0V176H240v32a8,8,0,0,0,16,0V112A40,40,0,0,0,216,72ZM32,88h72v72H32Zm88,72V88h96a24,24,0,0,1,24,24v48Z"/></svg></span><h3>Отель</h3><p>Ресторан, <span class="nw">лобби-бар</span> и завтраки — отдельными заведениями, с отчётами по всему отелю.</p></div>
+<div class="who-panel" id="who-p-catering"><span class="who-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M216,80V184a24,24,0,0,1-24,24H64a24,24,0,0,1-24-24V80Z" class="duo"/><path d="M88,48V16a8,8,0,0,1,16,0V48a8,8,0,0,1-16,0Zm40,8a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0V48A8,8,0,0,0,128,56Zm32,0a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0V48A8,8,0,0,0,160,56Zm92.8,46.4L224,124v60a32,32,0,0,1-32,32H64a32,32,0,0,1-32-32V124L3.2,102.4a8,8,0,0,1,9.6-12.8L32,104V80a8,8,0,0,1,8-8H216a8,8,0,0,1,8,8v24l19.2-14.4a8,8,0,0,1,9.6,12.8ZM208,88H48v96a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16Z"/></svg></span><h3>Кейтеринг и столовые</h3><p>Быстрая линия с киоском и номерами заказов, техкарты и склад для больших объёмов.</p></div>
+<div class="who-panel" id="who-p-delivery"><span class="who-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M131,168H8a48,48,0,0,1,32-45.27V96h64Z" class="duo"/><path d="M216,128a39.3,39.3,0,0,0-6.27.5L175.49,37.19A8,8,0,0,0,168,32H136a8,8,0,0,0,0,16h26.46l32.3,86.13a40.13,40.13,0,0,0-18,25.87H136.54l-25-66.81A8,8,0,0,0,104,88H24a8,8,0,0,0,0,16h8v13.39A56.12,56.12,0,0,0,0,168a8,8,0,0,0,8,8h8.8a40,40,0,0,0,78.4,0h81.6A40,40,0,1,0,216,128ZM56,192a24,24,0,0,1-22.62-16H78.62A24,24,0,0,1,56,192ZM16.81,160a40.07,40.07,0,0,1,25.86-29.73A8,8,0,0,0,48,122.73V104H98.46l21,56ZM216,192a24,24,0,0,1-15.43-42.36l7.94,21.17a8,8,0,0,0,15-5.62L215.55,144H216a24,24,0,0,1,0,48Z"/></svg></span><h3>Кухня доставки</h3><p>Заказы Wolt и Glovo на экране кухни со временем курьера и ценами по каналам.</p></div>
+<div class="who-panel" id="who-p-group"><span class="who-ic"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M136,32V216H40V85.35a8,8,0,0,1,3.56-6.66l80-53.33A8,8,0,0,1,136,32Z" class="duo"/><path d="M240,208H224V96a16,16,0,0,0-16-16H144V32a16,16,0,0,0-24.88-13.32L39.12,72A16,16,0,0,0,32,85.34V208H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM208,96V208H144V96ZM48,85.34,128,32V208H48ZM112,112v16a8,8,0,0,1-16,0V112a8,8,0,1,1,16,0Zm-32,0v16a8,8,0,0,1-16,0V112a8,8,0,1,1,16,0Zm0,56v16a8,8,0,0,1-16,0V168a8,8,0,0,1,16,0Zm32,0v16a8,8,0,0,1-16,0V168a8,8,0,0,1,16,0Z"/></svg></span><h3>Сеть заведений</h3><p>Один аккаунт на все заведения, у каждого свой склад, и отчёты по всей сети.</p></div>
+</div>
+</div>
 </div></section>
 <section class="band raised" id="why" aria-labelledby="why-h"><div class="wrap">
 <div class="sec-head"><h2 id="why-h">Почему RUVO</h2></div>
 <ul class="why">
-<li><span class="why-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4L6 21V3z"/><path d="M9 8h6M9 11.5h6M9 15h3.5"/></svg></span><h3>Фискальная касса остаётся вашей</h3><p>RUVO ведёт зал, кухню и склад, а чек <span class="nw">по-прежнему</span> печатает ваша касса. В фискализации ничего не меняется.</p></li>
-<li><span class="why-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8.5 11V7.5a3.5 3.5 0 0 1 6.8-1.2M12 15v2"/></svg></span><h3>Без обязательств по договору</h3><p>Платите помесячно или за год — за заведение и лицензии устройств. Подписку можно закончить в любой момент.</p></li>
-<li><span class="why-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l7 2.8v5.4c0 4.4-3 8.2-7 9.8-4-1.6-7-5.4-7-9.8V5.8L12 3z"/><path d="m9 12 2.1 2.1L15.2 10"/></svg></span><h3>Данные в Евросоюзе</h3><p>Серверы в Германии, а данные каждого ресторана разделены в самой базе.</p></li>
-<li><span class="why-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 16.5h10V21H7zM7 16.5c-2.4-.6-4-2.6-4-5a4 4 0 0 1 4.6-4A4.5 4.5 0 0 1 12 4.5a4.5 4.5 0 0 1 4.4 3A4 4 0 0 1 21 11.5c0 2.4-1.6 4.4-4 5"/></svg></span><h3>Сделан в ресторане</h3><p>RUVO мы делаем для своих ресторанов в Белграде, поэтому сначала проверяем его в своём зале и на своей кухне.</p></li>
+<li><h3>Фискальная касса остаётся вашей</h3><p>RUVO ведёт зал, кухню и склад, а чек <span class="nw">по-прежнему</span> печатает ваша касса. В фискализации ничего не меняется.</p></li>
+<li><h3>Без обязательств по договору</h3><p>Платите помесячно или за год — за заведение и лицензии устройств. Подписку можно закончить в любой момент.</p></li>
+<li><h3>Данные в Евросоюзе</h3><p>Серверы в Германии, а данные каждого ресторана разделены в самой базе.</p></li>
+<li><h3>Сделан в ресторане</h3><p>RUVO мы делаем для своих ресторанов в Белграде, поэтому сначала проверяем его в своём зале и на своей кухне.</p></li>
 </ul>
-<div class="why-cta"><a class="btn" href="#pricing">Посмотреть цены</a><a class="btn ghost" href="demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Попробовать демо</a></div>
+<div class="why-cta"><a class="btn" href="#pricing">Посмотреть цены</a><a class="btn ghost" href="demo/"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z"/></svg>Попробовать демо</a></div>
 </div></section>
 <section class="band" id="pricing" aria-labelledby="pricing-h"><div class="wrap">
 <div class="sec-head"><h2 id="pricing-h">Цены</h2><p>Заведение и лицензия на каждое устройство, помесячно или за год. Первые 30 дней бесплатно.</p></div>
@@ -1118,12 +1303,12 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <article class="plan" aria-labelledby="plan-month">
 <h3 class="plan-label" id="plan-month">Помесячно</h3>
 <p class="plan-amount">6 000<small>RSD</small></p>
-<p class="plan-unit">за заведение в месяц · без ПДВ</p><a class="plan-cta" href="demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Попробовать демо</a>
+<p class="plan-unit">за заведение в месяц · без ПДВ</p><a class="plan-cta" href="demo/"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z"/></svg>Попробовать демо</a>
 </article>
 <article class="plan enamel" aria-labelledby="plan-year">
 <h3 class="plan-label" id="plan-year">За год <span class="plan-badge">2 месяца бесплатно</span></h3>
 <p class="plan-amount">60 000<small>RSD</small></p>
-<p class="plan-unit">за заведение в год · без ПДВ</p><a class="plan-cta" href="demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Попробовать демо</a>
+<p class="plan-unit">за заведение в год · без ПДВ</p><a class="plan-cta" href="demo/"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z"/></svg>Попробовать демо</a>
 </article>
 <article class="plan incl" aria-labelledby="plan-incl">
 <h3 class="plan-label" id="plan-incl">В цене заведения</h3>
@@ -1189,19 +1374,20 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <section class="band raised" id="start" aria-labelledby="start-h"><div class="wrap">
 <div class="sec-head"><h2 id="start-h">Как начать</h2></div>
 <ol class="steps">
-<li class="step"><span class="step-n" aria-hidden="true">1</span><h3>Вы пишете нам</h3><p>На <a href="mailto:hello@ruvo.ac">hello@ruvo.ac</a> — коротко о заведении: залы, столы, устройства.</p></li>
-<li class="step"><span class="step-n" aria-hidden="true">2</span><h3>Мы открываем аккаунт</h3><p>Бесплатно переносим меню, техкарты и остатки из вашей нынешней системы или таблицы.</p></li>
-<li class="step"><span class="step-n" aria-hidden="true">3</span><h3>Вы подключаете устройства</h3><p>Фронт, устройства официантов и экран кухни подключаются одноразовым кодом из бэкофиса.</p></li>
-<li class="step"><span class="step-n" aria-hidden="true">4</span><h3>30 дней бесплатно</h3><p>Затем подписка по прайсу — помесячно или за год.</p></li>
+<li class="step"><span class="path-n" aria-hidden="true">1</span><h3>Вы пишете нам</h3><p>На <a href="mailto:hello@ruvo.ac">hello@ruvo.ac</a> — коротко о заведении: залы, столы, устройства.</p></li>
+<li class="step"><span class="path-n" aria-hidden="true">2</span><h3>Мы открываем аккаунт</h3><p>Бесплатно переносим меню, техкарты и остатки из вашей нынешней системы или таблицы.</p></li>
+<li class="step"><span class="path-n" aria-hidden="true">3</span><h3>Вы подключаете устройства</h3><p>Фронт, устройства официантов и экран кухни подключаются одноразовым кодом из бэкофиса.</p></li>
+<li class="step"><span class="path-n" aria-hidden="true">4</span><h3>30 дней бесплатно</h3><p>Затем подписка по прайсу — помесячно или за год.</p></li>
 </ol>
 <div class="equip"><div class="equip-h"><h3>Что нужно</h3></div><ul><li>iPad для фронта и киоска</li><li>iPhone для официантов — если они нужны</li><li>Планшет для кухни — по одному на цех</li><li>Роутер с резервным 4G</li><li>Ваша фискальная касса; банковский терминал — по желанию</li></ul><p>Бэкофис работает в браузере на любом компьютере.</p></div>
 </div></section>
-<section class="band" id="contact" aria-labelledby="contact-h"><div class="wrap contact-in">
-<div class="sec-head"><h2 id="contact-h">Попробуйте RUVO в своём заведении</h2><p>Первые 30 дней бесплатно — без карты и обязательств. Или сначала откройте демо: оно работает прямо в браузере.</p></div>
-<div class="cta-row"><a class="btn" href="demo/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.6v12.8a1 1 0 0 0 1.53.85l10.2-6.4a1 1 0 0 0 0-1.7L9.53 4.75A1 1 0 0 0 8 5.6z"/></svg>Попробовать демо</a><a class="btn ghost" href="mailto:hello@ruvo.ac"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>Напишите нам</a></div>
+<section class="band" id="contact" aria-labelledby="contact-h"><div class="wrap">
+<div class="final">
+<div class="final-head"><h2 id="contact-h">Попробуйте RUVO в своём заведении</h2><p>Первые 30 дней бесплатно — без карты и обязательств. Или сначала откройте демо: оно работает прямо в браузере.</p><div class="cta-row"><a class="btn inv" href="demo/"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z"/></svg>Попробовать демо</a><a class="btn inv ghost" href="mailto:hello@ruvo.ac"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M224,44H32A12,12,0,0,0,20,56V192a20,20,0,0,0,20,20H216a20,20,0,0,0,20-20V56A12,12,0,0,0,224,44ZM193.15,68,128,127.72,62.85,68ZM44,188V83.28l75.89,69.57a12,12,0,0,0,16.22,0L212,83.28V188Z"/></svg>Напишите нам</a></div></div>
 <div class="contact-card">
 <div class="plates"><a class="plate" href="mailto:hello@ruvo.ac">hello@ruvo.ac</a><div class="house" aria-hidden="true"><span class="house-st">ЦАРА УРОША<br>CARA UROŠA</span><span class="house-no">19</span></div></div>
 <p class="addr"><b>TT DAILY KITCHEN DOO</b><br>Cara Uroša 19, 11000 Beograd<br><span class="contact-note">Напишите нам — отвечаем в рабочие дни.</span></p>
+</div>
 </div>
 </div></section>
 </main>
@@ -1209,7 +1395,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <div class="foot-in">
 <div class="foot-co"><a class="wordmark sm" href="./" aria-label="RUVO — Главная">RUVO</a><p>Сделано в Белграде.</p></div>
 <nav class="foot-cols" aria-label="Реквизиты и документы">
-<div class="foot-col"><h2>Продукт</h2><ul><li><a href="#features">Возможности</a></li><li><a href="#examples">Примеры</a></li><li><a href="#who">Для кого</a></li><li><a href="#pricing">Цены</a></li><li><a href="demo/">Демо</a></li></ul></div>
+<div class="foot-col"><h2>Продукт</h2><ul><li><a href="#features">Возможности</a></li><li><a href="#who">Для кого</a></li><li><a href="#pricing">Цены</a></li><li><a href="demo/">Демо</a></li></ul></div>
 <div class="foot-col"><h2>Документы</h2><ul><li><a href="privacy/">Конфиденциальность</a></li><li><a href="support/">Поддержка</a></li></ul></div>
 <div class="foot-col"><h2>Контакты</h2><ul><li><a href="mailto:hello@ruvo.ac">hello@ruvo.ac</a></li><li>Cara Uroša 19, 11000 Beograd</li></ul></div>
 </nav>
@@ -1283,9 +1469,9 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
     calc.hidden = false;
     update();
   }
-  const ex = document.querySelector('[data-tabs]');
-  if (ex) {
-    const list = ex.querySelector('.ex-tabs');
+  // tabs: the product's screens and the kinds of venue
+  for (const box of document.querySelectorAll('[data-tabs]')) {
+    const list = box.querySelector('[aria-controls]').parentNode;
     const tabs = [...list.querySelectorAll('button')];
     const panels = tabs.map((t) => document.getElementById(t.getAttribute('aria-controls')));
     list.setAttribute('role', 'tablist');
@@ -1303,6 +1489,8 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
         panels[j].inert = !on;
       });
       if (focus) tabs[i].focus();
+      // a tab row that scrolls sideways keeps the chosen one in view
+      if (list.scrollWidth > list.clientWidth) list.scrollTo({ left: tabs[i].offsetLeft - 16, behavior: 'smooth' });
     };
     tabs.forEach((t, i) => {
       t.addEventListener('click', () => show(i));
@@ -1314,8 +1502,17 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
       });
     });
     list.hidden = false;
-    ex.classList.add('js');
+    box.classList.add('js');
     show(0);
+  }
+  // what moves on the page moves only while it is in sight, and not at all for those who asked for less motion
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const live = [...document.querySelectorAll('[data-live]')];
+  if (live.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) e.target.classList.toggle('live', e.isIntersecting && !still.matches);
+    }, { threshold: 0.35 });
+    live.forEach((el) => io.observe(el));
   }
 })();
 </script>
