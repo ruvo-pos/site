@@ -34,11 +34,53 @@ export const PRICES = {
 
 export const LANGS = ['sr', 'en', 'ru'];
 
-// the order on the iPad and the kitchen ticket in the hero: dishes and prices of the demo menu (RSD)
+// The app's own words on the drawn screens (the owner, 14 October: the site after Apple's, every phone screen an iPhone
+// 18 Pro Max, every tablet an iPad): the front terminal's bar and order panel, the kitchen screen, the back office, the
+// waiter's iPhone — as the app says them (app/src/i18n.js; the back office's menu as in ui/office.jsx). The app has no
+// English: the English pages say the same in English. The clock on every screen is 21:41 — Apple's 9:41, at dinner.
+export const APP = {
+  sr: {
+    time: '21:41', date: 'Sre 14. okt', place: 'Dorćol', search: 'Pretraga',
+    bar: { hall: 'Sala', delivery: 'Dostava', checks: 'Zatvoreni', shift: 'Smena', stop: 'Stop lista' },
+    order: { back: 'Sala', course: 'Sled', waits: 'čeka poziv', fire: 'Pozovi', draft: 'Nova', sent: 'Poslato', total: 'Ukupno', sendTo: 'Pošalji na pripremu', prebill: 'Račun', pay: 'Zatvori sto', more: ['Gost', 'Popust', 'Premesti'] },
+    kds: { all: 'Sve stanice', overview: 'Pregled', sound: 'Zvuk', inWork: 'Pregled · u radu', queue: 'Red kuhinje: {n} · ~{m} min', recent: 'Nedavno gotovo', norm: '{p}% u normi danas · {m} min prosečno', recall: 'Vrati', bump: 'Gotovo', no: '№' },
+    office: { title: 'Bekofis', all: 'Svi restorani', nav: { today: 'Pregled', analytics: 'Analitika', reports: 'Izveštaji', forecast: 'Prognoza', menu: 'Meni i cene', storage: 'Magacin', stock: 'Stanje', tech: 'Normativi', docs: 'Dokumenti', sef: 'Fakture dobavljača', loyalty: 'Lojalnost', team: 'Tim', people: 'Zaposleni', shifts: 'Smene i plate', log: 'Dnevnik radnji', integr: 'Integracije', settings: 'Podešavanja' } },
+    phone: { tables: 'Stolovi', ready: 'Spremno', profile: 'Profil', add: 'Dodaj jela' },
+  },
+  en: {
+    time: '21:41', date: 'Wed 14 Oct', place: 'Dorćol', search: 'Search',
+    bar: { hall: 'Floor', delivery: 'Delivery', checks: 'Closed', shift: 'Shift', stop: 'Stop list' },
+    order: { back: 'Floor', course: 'Course', waits: 'waits for the call', fire: 'Fire', draft: 'New', sent: 'Sent', total: 'Total', sendTo: 'Send to the kitchen', prebill: 'Bill', pay: 'Close table', more: ['Guest', 'Discount', 'Move'] },
+    kds: { all: 'All stations', overview: 'Overview', sound: 'Sound', inWork: 'Overview · in progress', queue: 'Kitchen queue: {n} · ~{m} min', recent: 'Recently done', norm: '{p}% on time today · {m} min on average', recall: 'Recall', bump: 'Done', no: 'No. ' },
+    office: { title: 'Back office', all: 'All restaurants', nav: { today: 'Summary', analytics: 'Analytics', reports: 'Reports', forecast: 'Forecast', menu: 'Menu and prices', storage: 'Stock', stock: 'Stock levels', tech: 'Recipes', docs: 'Documents', sef: 'Supplier invoices', loyalty: 'Loyalty', team: 'Team', people: 'Staff', shifts: 'Shifts and pay', log: 'Action log', integr: 'Integrations', settings: 'Settings' } },
+    phone: { tables: 'Tables', ready: 'Ready', profile: 'Profile', add: 'Add dishes' },
+  },
+  ru: {
+    time: '21:41', date: 'Ср 14 окт.', place: 'Дорчол', search: 'Поиск',
+    bar: { hall: 'Зал', delivery: 'Доставка', checks: 'Закрытые', shift: 'Смена', stop: 'Стоп-лист' },
+    order: { back: 'Зал', course: 'Курс', waits: 'ждёт вызова', fire: 'Вызвать', draft: 'Новая', sent: 'Отправлено', total: 'Итого', sendTo: 'Отправить в цех', prebill: 'Счёт', pay: 'Закрыть стол', more: ['Гость', 'Скидка', 'Пересадить'] },
+    kds: { all: 'Все цеха', overview: 'Сводка', sound: 'Звук', inWork: 'Сводка · в работе', queue: 'Очередь кухни: {n} · ~{m} мин', recent: 'Готово недавно', norm: '{p}% в норме сегодня · {m} мин в среднем', recall: 'Вернуть', bump: 'Готово', no: '№' },
+    office: { title: 'Бэкофис', all: 'Все рестораны', nav: { today: 'Сводка', analytics: 'Аналитика', reports: 'Отчёты', forecast: 'Прогноз', menu: 'Меню и цены', storage: 'Склад', stock: 'Остатки', tech: 'Техкарты', docs: 'Документы', sef: 'Счета поставщиков', loyalty: 'Лояльность', team: 'Команда', people: 'Сотрудники', shifts: 'Смены и зарплата', log: 'Журнал действий', integr: 'Интеграции', settings: 'Настройки' } },
+    phone: { tables: 'Столы', ready: 'Готово', profile: 'Профиль', add: 'Добавить блюда' },
+  },
+};
+
+// The demo restaurant's menu as the front terminal shows it beside an order: the categories, the one open, its dishes
+// with their prices (RSD, as in the demo)
+const MAINS = {
+  sr: { cats: ['Doručak', 'Supe i čorbe', 'Glavna jela', 'Salate', 'Dezerti', 'Pića'], on: 2, dishes: [['Domaći pelmeni', 890], ['Ćevapi, 10 kom', 1290], ['Pljeskavica', 1190], ['Burger sa junetinom', 1290], ['Pasta karbonara', 990], ['Rib-aj stek, 300 g', 3690]] },
+  en: { cats: ['Breakfast', 'Soups', 'Mains', 'Salads', 'Desserts', 'Drinks'], on: 2, dishes: [['Homemade pelmeni', 890], ['Ćevapi, 10 pcs', 1290], ['Pljeskavica', 1190], ['Beef burger', 1290], ['Pasta carbonara', 990], ['Rib-eye steak, 300 g', 3690]] },
+  ru: { cats: ['Завтраки', 'Супы', 'Горячее', 'Салаты', 'Десерты', 'Напитки'], on: 2, dishes: [['Домашние пельмени', 890], ['Чевапи, 10 шт', 1290], ['Плескавица', 1190], ['Бургер с говядиной', 1290], ['Паста карбонара', 990], ['Стейк рибай, 300 г', 3690]] },
+};
+export { MAINS };
+
+// The hero: the order for table 12 on the front terminal — course 1 to send, course 2 held until the waiter calls it —,
+// the kitchen's part of it on the kitchen screen, and what the recipes take from the stock. Dishes and prices of the
+// demo menu (RSD).
 const TICKET = {
-  sr: { table: 'Sto 12', meta: '4 gosta · Marko', lines: [['Ćevapi, 10 kom', 2, 2580], ['Šopska salata', 1, 590], ['Domaća limunada', 3, 1050]], course: 'Kurs 2 · čeka poziv', later: [['Palačinke sa čokoladom', 2, 1040]], total: 'Ukupno', send: 'U kuhinju', bill: 'Račun', kitchen: 'Kuhinja', waits: 'kurs 2 čeka', done: 'Gotovo', stock: { title: 'Magacin · po normativu', note: 'otpis pri naplati', rows: [['Mleveno meso', '0,50 kg'], ['Lepinja', '2 kom'], ['Kajmak', '0,08 kg']] }, label: 'Primer: porudžbina za stolom 12 na iPad-u i ista porudžbina na ekranu kuhinje' },
-  en: { table: 'Table 12', meta: '4 guests · Marko', lines: [['Ćevapi, 10 pcs', 2, 2580], ['Shopska salad', 1, 590], ['Homemade lemonade', 3, 1050]], course: 'Course 2 · waits for the call', later: [['Pancakes with chocolate', 2, 1040]], total: 'Total', send: 'To kitchen', bill: 'Bill', kitchen: 'Kitchen', waits: 'course 2 waits', done: 'Done', stock: { title: 'Stock · by recipe', note: 'written off at payment', rows: [['Minced meat', '0.50 kg'], ['Lepinja (flatbread)', '2 pcs'], ['Kajmak', '0.08 kg']] }, label: 'Example: the order for table 12 on the iPad and the same order on the kitchen screen' },
-  ru: { table: 'Стол 12', meta: '4 гостя · Marko', lines: [['Чевапи, 10 шт', 2, 2580], ['Шопский салат', 1, 590], ['Домашний лимонад', 3, 1050]], course: 'Курс 2 · ждёт вызова', later: [['Палачинки с шоколадом', 2, 1040]], total: 'Итого', send: 'На кухню', bill: 'Счёт', kitchen: 'Кухня', waits: 'курс 2 ждёт', done: 'Готово', stock: { title: 'Склад · по техкарте', note: 'спишется при оплате', rows: [['Фарш', '0,50 кг'], ['Лепиня', '2 шт'], ['Каймак', '0,08 кг']] }, label: 'Пример: заказ стола 12 на iPad и тот же заказ на экране кухни' },
+  sr: { table: 'Sto 12', guests: 4, meta: 'Sala · Marko · otvoren 20:14', lines: [['Ćevapi, 10 kom', 2, 2580], ['Šopska salata', 1, 590], ['Domaća limunada', 3, 1050]], later: [['Palačinke sa čokoladom', 2, 1040]], grid: MAINS.sr, kitchen: 'Kuhinja', no: '4032', time: '04:12', waits: 'Sled 2 čeka poziv', stock: { title: 'Magacin · po normativu', note: 'otpis pri naplati', rows: [['Mleveno meso', '0,50 kg'], ['Lepinja', '2 kom'], ['Kajmak', '0,08 kg']] }, label: 'Primer: porudžbina za stolom 12 na iPad-u, ista porudžbina na ekranu kuhinje i otpis namirnica po normativu' },
+  en: { table: 'Table 12', guests: 4, meta: 'Floor · Marko · opened 20:14', lines: [['Ćevapi, 10 pcs', 2, 2580], ['Shopska salad', 1, 590], ['Homemade lemonade', 3, 1050]], later: [['Pancakes with chocolate', 2, 1040]], grid: MAINS.en, kitchen: 'Kitchen', no: '4032', time: '04:12', waits: 'Course 2 waits for the call', stock: { title: 'Stock · by recipe', note: 'written off at payment', rows: [['Minced meat', '0.50 kg'], ['Lepinja (flatbread)', '2 pcs'], ['Kajmak', '0.08 kg']] }, label: 'Example: the order for table 12 on the iPad, the same order on the kitchen screen, and the ingredients written off by recipe' },
+  ru: { table: 'Стол 12', guests: 4, meta: 'Зал · Marko · открыт 20:14', lines: [['Чевапи, 10 шт', 2, 2580], ['Шопский салат', 1, 590], ['Домашний лимонад', 3, 1050]], later: [['Палачинки с шоколадом', 2, 1040]], grid: MAINS.ru, kitchen: 'Кухня', no: '4032', time: '04:12', waits: 'Курс 2 ждёт вызова', stock: { title: 'Склад · по техкарте', note: 'спишется при оплате', rows: [['Фарш', '0,50 кг'], ['Лепиня', '2 шт'], ['Каймак', '0,08 кг']] }, label: 'Пример: заказ стола 12 на iPad, тот же заказ на экране кухни и списание продуктов по техкарте' },
 };
 
 // «Kako izgleda u radu»: nine screens of RUVO drawn from the app's own parts, with the dishes and figures of one
@@ -62,7 +104,7 @@ const LOYAL = { levelPct: 10, promoPct: 20, earn: 3, points: 1840 };
 // the kiosk's dishes: the app's own pictures (src/dishes/, taken from the kiosk) and prices; two in the basket
 // the team on shift and a waiter's week (the app's pay: hours × the hourly rate + 1.5% of the waiter's sales)
 const TEAM = { people: [['Marko', 'waiter', '16:02'], ['Jovana', 'waiter', '16:10'], ['Stefan', 'cook', '15:45'], ['Luka', 'bar', '17:00']], pay: { name: 'Marko', hours: 38, rate: 650, pct: 1.5, sales: 412000 } };
-const KIOSK = { dishes: [['cevapi', 1290], ['pljeskavica', 1190], ['burger', 1290], ['carbonara', 990]], basket: ['cevapi', 'pljeskavica'], no: 47 };
+const KIOSK = { dishes: [['pelmeni', 890], ['cevapi', 1290], ['pljeskavica', 1190], ['burger', 1290], ['carbonara', 990], ['ribeye', 3690]], basket: ['cevapi', 'pljeskavica'], no: 47 };
 const EXAMPLES = {
   sr: {
     title: 'Sve što objektu treba',
@@ -79,9 +121,9 @@ const EXAMPLES = {
       {
         id: 'waiter', tab: 'Konobar', title: 'Konobar za stolom',
         text: 'Porudžbina se kuca na iPhone-u i odmah ide u kuhinju i na šank. Gost plaća skeniranjem IPS QR koda — bez čekanja na terminal.',
-        points: ['Kursevi: drugi kurs čeka „Pozovi”', 'Račun na ekranu, deljenje po stavkama', 'Kartica, gotovina ili IPS QR'],
+        points: ['Sledovi: drugi sled čeka „Pozovi”', 'Račun na ekranu, deljenje po stavkama', 'Kartica, gotovina ili IPS QR'],
         label: 'Primer: porudžbina za stolom 7 na iPhone-u konobara i račun sa IPS QR kodom za plaćanje',
-        order: { back: 'Sala', table: 'Sto 7', meta: '2 gosta', lines: [['Pljeskavica', 1, 1150], ['Pomfrit', 1, 350], ['Kisela voda', 2, 400]], course: 'Kurs 2 · čeka poziv', later: [['Baklava', 2, 680]], send: 'Pošalji', bill: 'Račun' },
+        order: { back: 'Sala', table: 'Sto 7', meta: '2 gosta · 14 min · Marko', lines: [['Pljeskavica', 1, 1150], ['Pomfrit', 1, 350], ['Kisela voda', 2, 400]], course: 'Sled 2 · čeka poziv', later: [['Baklava', 2, 680]], send: 'Pošalji', bill: 'Račun' },
         bill: { title: 'Račun za goste', table: 'Sto 7', total: 'Ukupno', qr: 'IPS QR — skenirajte aplikacijom banke', paid: 'Plaćeno' },
       },
       {
@@ -89,7 +131,7 @@ const EXAMPLES = {
         text: 'Svaka stanica vidi svoje: kuhinja jela, šank pića. Tajmer pokazuje koliko porudžbina čeka, a one koje kasne se ističu.',
         points: ['Sala, kiosk, Wolt i Glovo na jednom ekranu', 'Dodir — „sprema se”, još jedan — „gotovo”', 'Konobar odmah vidi šta je gotovo'],
         label: 'Primer: ekran kuhinje sa tri porudžbine i tajmerima',
-        kds: { station: 'Kuhinja', other: 'Šank', count: '3 u radu', wait: 'kurs 2 čeka', called: 'Pozvano', tickets: [
+        kds: { station: 'Kuhinja', other: 'Šank', count: '3 u radu', wait: 'Sled 2 čeka poziv', called: 'Pozvano', bar: 2, queueMin: 9, norm: [77, 8], recent: [['Sto 5', '2× Ćevapi, 10 kom'], ['Kiosk 46', '1× Burger sa junetinom'], ['Sto 9', '1× Rib-aj stek, 300 g']], tickets: [
           { no: 22, src: 'Sto 7', time: '02:41', tone: 'ok', lines: [[1, 'Pljeskavica'], [1, 'Pomfrit']], wait: true },
           { no: 21, src: 'Wolt', time: '07:15', tone: 'warn', lines: [[2, 'Ćevapi, 10 kom'], [1, 'Šopska salata']] },
           { no: 19, src: 'Sto 3', time: '12:58', tone: 'late', lines: [[2, 'Palačinke sa čokoladom']], called: true },
@@ -111,14 +153,14 @@ const EXAMPLES = {
         text: 'Gost sam bira jela po slikama, vidi opis i alergene i dobija broj. Porudžbina odmah ide u kuhinju, a plaća se na kasi po broju.',
         points: ['Srpski ili ruski — jednim dodirom', 'Alergeni i opis uz svako jelo', 'Akcije po rasporedu važe i ovde'],
         label: 'Primer: kiosk sa glavnim jelima po slikama i broj porudžbine za plaćanje na kasi',
-        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['doručak', 'supe i čorbe', 'glavna jela', 'salate'], on: 2, section: 'Glavna jela', names: { cevapi: 'Ćevapi, 10 kom', pljeskavica: 'Pljeskavica', burger: 'Burger sa junetinom', carbonara: 'Pasta karbonara' }, basketTitle: 'Vaša porudžbina', items: '2 stavke', checkout: 'Poruči', yourNo: 'Vaš broj', payAt: 'Platite na kasi i recite ovaj broj.' },
+        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['doručak', 'supe i čorbe', 'glavna jela', 'salate'], on: 2, section: 'Glavna jela', names: { pelmeni: 'Domaći pelmeni', cevapi: 'Ćevapi, 10 kom', pljeskavica: 'Pljeskavica', burger: 'Burger sa junetinom', carbonara: 'Pasta karbonara', ribeye: 'Rib-aj stek, 300 g', sopska: 'Šopska salata', caesar: 'Cezar salata sa piletinom' }, next: ['Salate', [['sopska', 590], ['caesar', 890]]], basketTitle: 'Vaša porudžbina', items: '2 stavke', checkout: 'Poruči', yourNo: 'Vaš broj', payAt: 'Platite na kasi i recite ovaj broj.' },
       },
       {
         id: 'guests', tab: 'Gosti', title: 'Kartica gosta na računu',
         text: 'Popust nivoa gosta i poeni sa svakog računa. Akcije po rasporedu se uračunavaju same, a popusti se ne sabiraju: za svako jelo važi najveći.',
         points: ['Nivoi po potrošnji: Gost, Srebro, Zlato', 'Plaćanje poenima — uz kod iz SMS-a ili karticu', 'Srećni sati i ručak — po rasporedu'],
         label: 'Primer: račun stola 4 sa karticom gosta, popustom nivoa i srećnim satima na pića',
-        guests: { ...LOYAL, table: 'Sto 4', meta: '2 gosta · 17:20', name: 'Milica Stojanović', level: 'Zlato', ptsWord: 'poena', lines: [['Ćevapi, 10 kom', 1, 1290, 'food'], ['Šopska salata', 1, 590, 'food'], ['Domaća limunada', 2, 700, 'drink']], disc: { food: 'Zlato −10% · hrana', drink: 'Srećni sati −20% · pića' }, subtotal: 'Bez popusta', due: 'Za naplatu', earnLabel: 'Dodajemo', payPoints: 'Plati poenima', close: 'Zatvori sto', now: 'Trenutno važi', promo: 'Srećni sati', promoText: 'Pića −20% · radnim danima 16:00–18:00' },
+        guests: { ...LOYAL, table: 'Sto 4', guests: 2, meta: 'Sala · Jovana · otvoren 17:20', grid: { cats: MAINS.sr.cats, on: 5, dishes: [['Espreso', 220], ['Kapućino', 290], ['Domaća limunada', 350], ['Ceđena pomorandža', 390], ['Kisela voda', 200], ['Rakija od šljive', 300]] }, name: 'Milica Stojanović', level: 'Zlato', ptsWord: 'poena', lines: [['Ćevapi, 10 kom', 1, 1290, 'food'], ['Šopska salata', 1, 590, 'food'], ['Domaća limunada', 2, 700, 'drink']], disc: { food: 'Zlato −10% · hrana', drink: 'Srećni sati −20% · pića' }, subtotal: 'Bez popusta', due: 'Za naplatu', earnLabel: 'Dodajemo', payPoints: 'Plati poenima', close: 'Zatvori sto', now: 'Trenutno važi', promo: 'Srećni sati', promoText: 'Pića −20% · radnim danima 16:00–18:00' },
       },
       {
         id: 'stock', tab: 'Magacin', title: 'Magacin i normativi',
@@ -167,7 +209,7 @@ const EXAMPLES = {
         text: 'The order is typed on the iPhone and goes straight to the kitchen and the bar. The guest pays by scanning the IPS QR code — no waiting for the terminal.',
         points: ['Courses: the second waits for “Fire”', 'The bill on screen, split by items', 'Card, cash or IPS QR'],
         label: 'Example: the order for table 7 on a waiter’s iPhone and the bill with an IPS QR code to pay',
-        order: { back: 'Floor', table: 'Table 7', meta: '2 guests', lines: [['Pljeskavica', 1, 1150], ['Fries', 1, 350], ['Sparkling water', 2, 400]], course: 'Course 2 · waits for the call', later: [['Baklava', 2, 680]], send: 'Send', bill: 'Bill' },
+        order: { back: 'Floor', table: 'Table 7', meta: '2 guests · 14 min · Marko', lines: [['Pljeskavica', 1, 1150], ['Fries', 1, 350], ['Sparkling water', 2, 400]], course: 'Course 2 · waits for the call', later: [['Baklava', 2, 680]], send: 'Send', bill: 'Bill' },
         bill: { title: 'Bill for the guests', table: 'Table 7', total: 'Total', qr: 'IPS QR — scan with your bank’s app', paid: 'Paid' },
       },
       {
@@ -175,7 +217,7 @@ const EXAMPLES = {
         text: 'Each station sees its own: the kitchen the dishes, the bar the drinks. A timer shows how long an order has waited, and late ones stand out.',
         points: ['The floor, the kiosk, Wolt and Glovo on one screen', 'Tap once — “cooking”, again — “ready”', 'The waiter sees at once what is ready'],
         label: 'Example: the kitchen screen with three orders and their timers',
-        kds: { station: 'Kitchen', other: 'Bar', count: '3 in progress', wait: 'course 2 waits', called: 'Fired', tickets: [
+        kds: { station: 'Kitchen', other: 'Bar', count: '3 in progress', wait: 'Course 2 waits for the call', called: 'Fired', bar: 2, queueMin: 9, norm: [77, 8], recent: [['Table 5', '2× Ćevapi, 10 pcs'], ['Kiosk 46', '1× Beef burger'], ['Table 9', '1× Rib-eye steak, 300 g']], tickets: [
           { no: 22, src: 'Table 7', time: '02:41', tone: 'ok', lines: [[1, 'Pljeskavica'], [1, 'Fries']], wait: true },
           { no: 21, src: 'Wolt', time: '07:15', tone: 'warn', lines: [[2, 'Ćevapi, 10 pcs'], [1, 'Shopska salad']] },
           { no: 19, src: 'Table 3', time: '12:58', tone: 'late', lines: [[2, 'Pancakes with chocolate']], called: true },
@@ -197,14 +239,14 @@ const EXAMPLES = {
         text: 'The guest picks dishes by picture, sees the description and allergens and gets a number. The order goes to the kitchen at once and is paid at the till by number.',
         points: ['Serbian or Russian — one tap', 'Allergens and a description with every dish', 'Scheduled promotions apply here too'],
         label: 'Example: the kiosk with main dishes by picture and the order number to pay at the till',
-        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['breakfast', 'soups', 'mains', 'salads'], on: 2, section: 'Mains', names: { cevapi: 'Ćevapi, 10 pcs', pljeskavica: 'Pljeskavica', burger: 'Beef burger', carbonara: 'Pasta carbonara' }, basketTitle: 'Your order', items: '2 items', checkout: 'Order', yourNo: 'Your number', payAt: 'Pay at the till and say this number.' },
+        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['breakfast', 'soups', 'mains', 'salads'], on: 2, section: 'Mains', names: { pelmeni: 'Homemade pelmeni', cevapi: 'Ćevapi, 10 pcs', pljeskavica: 'Pljeskavica', burger: 'Beef burger', carbonara: 'Pasta carbonara', ribeye: 'Rib-eye steak, 300 g', sopska: 'Shopska salad', caesar: 'Caesar salad with chicken' }, next: ['Salads', [['sopska', 590], ['caesar', 890]]], basketTitle: 'Your order', items: '2 items', checkout: 'Order', yourNo: 'Your number', payAt: 'Pay at the till and say this number.' },
       },
       {
         id: 'guests', tab: 'Guests', title: 'The guest’s card on the bill',
         text: 'The discount of the guest’s level and points from every bill. Scheduled promotions count by themselves, and discounts don’t add up: each dish gets the biggest one.',
         points: ['Levels by spend: Guest, Silver, Gold', 'Paying with points — with a code by SMS or the card', 'Happy hours and lunch — on a schedule'],
         label: 'Example: the bill of table 4 with a guest card, the level discount and happy hours on drinks',
-        guests: { ...LOYAL, table: 'Table 4', meta: '2 guests · 17:20', name: 'Milica Stojanović', level: 'Gold', ptsWord: 'points', lines: [['Ćevapi, 10 pcs', 1, 1290, 'food'], ['Shopska salad', 1, 590, 'food'], ['Homemade lemonade', 2, 700, 'drink']], disc: { food: 'Gold −10% · food', drink: 'Happy hours −20% · drinks' }, subtotal: 'Before discounts', due: 'To pay', earnLabel: 'We add', payPoints: 'Pay with points', close: 'Close table', now: 'On now', promo: 'Happy hours', promoText: 'Drinks −20% · weekdays 16:00–18:00' },
+        guests: { ...LOYAL, table: 'Table 4', guests: 2, meta: 'Floor · Jovana · opened 17:20', grid: { cats: MAINS.en.cats, on: 5, dishes: [['Espresso', 220], ['Cappuccino', 290], ['Homemade lemonade', 350], ['Fresh orange juice', 390], ['Sparkling water', 200], ['Plum rakija', 300]] }, name: 'Milica Stojanović', level: 'Gold', ptsWord: 'points', lines: [['Ćevapi, 10 pcs', 1, 1290, 'food'], ['Shopska salad', 1, 590, 'food'], ['Homemade lemonade', 2, 700, 'drink']], disc: { food: 'Gold −10% · food', drink: 'Happy hours −20% · drinks' }, subtotal: 'Before discounts', due: 'To pay', earnLabel: 'We add', payPoints: 'Pay with points', close: 'Close table', now: 'On now', promo: 'Happy hours', promoText: 'Drinks −20% · weekdays 16:00–18:00' },
       },
       {
         id: 'stock', tab: 'Stock', title: 'Stock and recipes',
@@ -253,7 +295,7 @@ const EXAMPLES = {
         text: 'Заказ набирается на iPhone и сразу уходит на кухню и в бар. Гость платит, отсканировав IPS QR, — без ожидания терминала.',
         points: ['Курсы: второй ждёт «Вызвать»', 'Счёт на экране, деление по позициям', 'Карта, наличные или IPS QR'],
         label: 'Пример: заказ стола 7 на iPhone официанта и счёт с IPS QR для оплаты',
-        order: { back: 'Зал', table: 'Стол 7', meta: '2 гостя', lines: [['Плескавица', 1, 1150], ['Картофель фри', 1, 350], ['Минеральная вода', 2, 400]], course: 'Курс 2 · ждёт вызова', later: [['Баклава', 2, 680]], send: 'Отправить', bill: 'Счёт' },
+        order: { back: 'Зал', table: 'Стол 7', meta: '2 гостя · 14 мин · Marko', lines: [['Плескавица', 1, 1150], ['Картофель фри', 1, 350], ['Минеральная вода', 2, 400]], course: 'Курс 2 · ждёт вызова', later: [['Баклава', 2, 680]], send: 'Отправить', bill: 'Счёт' },
         bill: { title: 'Счёт для гостей', table: 'Стол 7', total: 'Итого', qr: 'IPS QR — отсканируйте приложением банка', paid: 'Оплачено' },
       },
       {
@@ -261,7 +303,7 @@ const EXAMPLES = {
         text: 'Каждый цех видит своё: кухня — блюда, бар — напитки. Таймер показывает, сколько ждёт заказ, а опаздывающие выделены.',
         points: ['Зал, киоск, Wolt и Glovo на одном экране', 'Касание — «готовлю», ещё одно — «готово»', 'Официант сразу видит, что готово'],
         label: 'Пример: экран кухни с тремя заказами и таймерами',
-        kds: { station: 'Кухня', other: 'Бар', count: '3 в работе', wait: 'курс 2 ждёт', called: 'Вызвано', tickets: [
+        kds: { station: 'Кухня', other: 'Бар', count: '3 в работе', wait: 'Курс 2 ждёт вызова', called: 'Вызвано', bar: 2, queueMin: 9, norm: [77, 8], recent: [['Стол 5', '2× Чевапи, 10 шт'], ['Киоск 46', '1× Бургер с говядиной'], ['Стол 9', '1× Стейк рибай, 300 г']], tickets: [
           { no: 22, src: 'Стол 7', time: '02:41', tone: 'ok', lines: [[1, 'Плескавица'], [1, 'Картофель фри']], wait: true },
           { no: 21, src: 'Wolt', time: '07:15', tone: 'warn', lines: [[2, 'Чевапи, 10 шт'], [1, 'Шопский салат']] },
           { no: 19, src: 'Стол 3', time: '12:58', tone: 'late', lines: [[2, 'Палачинки с шоколадом']], called: true },
@@ -283,14 +325,14 @@ const EXAMPLES = {
         text: 'Гость сам выбирает блюда по фото, видит описание и аллергены и получает номер. Заказ сразу уходит на кухню, а оплата — на кассе по номеру.',
         points: ['Сербский или русский — одним касанием', 'Аллергены и описание у каждого блюда', 'Акции по расписанию действуют и здесь'],
         label: 'Пример: киоск с горячим по фото и номер заказа для оплаты на кассе',
-        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['завтраки', 'супы', 'горячее', 'салаты'], on: 2, section: 'Горячее', names: { cevapi: 'Чевапи, 10 шт', pljeskavica: 'Плескавица', burger: 'Бургер с говядиной', carbonara: 'Паста карбонара' }, basketTitle: 'Ваш заказ', items: '2 позиции', checkout: 'Оформить', yourNo: 'Ваш номер', payAt: 'Оплатите на кассе и назовите этот номер.' },
+        kiosk: { ...KIOSK, place: 'Дорчол', langs: ['Srpski', 'Русский'], cats: ['завтраки', 'супы', 'горячее', 'салаты'], on: 2, section: 'Горячее', names: { pelmeni: 'Домашние пельмени', cevapi: 'Чевапи, 10 шт', pljeskavica: 'Плескавица', burger: 'Бургер с говядиной', carbonara: 'Паста карбонара', ribeye: 'Стейк рибай, 300 г', sopska: 'Шопский салат', caesar: 'Цезарь с курицей' }, next: ['Салаты', [['sopska', 590], ['caesar', 890]]], basketTitle: 'Ваш заказ', items: '2 позиции', checkout: 'Оформить', yourNo: 'Ваш номер', payAt: 'Оплатите на кассе и назовите этот номер.' },
       },
       {
         id: 'guests', tab: 'Гости', title: 'Карта гостя в счёте',
         text: 'Скидка уровня гостя и баллы с каждого чека. Акции по расписанию считаются сами, а скидки не суммируются: на каждое блюдо действует самая большая.',
         points: ['Уровни по сумме покупок: Гость, Серебро, Золото', 'Оплата баллами — по коду из SMS или карте', 'Счастливые часы и обед — по расписанию'],
         label: 'Пример: счёт стола 4 с картой гостя, скидкой уровня и счастливыми часами на напитки',
-        guests: { ...LOYAL, table: 'Стол 4', meta: '2 гостя · 17:20', name: 'Milica Stojanović', level: 'Золото', ptsWord: 'баллов', lines: [['Чевапи, 10 шт', 1, 1290, 'food'], ['Шопский салат', 1, 590, 'food'], ['Домашний лимонад', 2, 700, 'drink']], disc: { food: 'Золото −10% · еда', drink: 'Счастливые часы −20% · напитки' }, subtotal: 'Без скидок', due: 'К оплате', earnLabel: 'Начислим', payPoints: 'Оплатить баллами', close: 'Закрыть стол', now: 'Сейчас действует', promo: 'Счастливые часы', promoText: 'Напитки −20% · по будням 16:00–18:00' },
+        guests: { ...LOYAL, table: 'Стол 4', guests: 2, meta: 'Зал · Jovana · открыт 17:20', grid: { cats: MAINS.ru.cats, on: 5, dishes: [['Эспрессо', 220], ['Капучино', 290], ['Домашний лимонад', 350], ['Апельсиновый фреш', 390], ['Минеральная вода', 200], ['Сливовица', 300]] }, name: 'Milica Stojanović', level: 'Золото', ptsWord: 'баллов', lines: [['Чевапи, 10 шт', 1, 1290, 'food'], ['Шопский салат', 1, 590, 'food'], ['Домашний лимонад', 2, 700, 'drink']], disc: { food: 'Золото −10% · еда', drink: 'Счастливые часы −20% · напитки' }, subtotal: 'Без скидок', due: 'К оплате', earnLabel: 'Начислим', payPoints: 'Оплатить баллами', close: 'Закрыть стол', now: 'Сейчас действует', promo: 'Счастливые часы', promoText: 'Напитки −20% · по будням 16:00–18:00' },
       },
       {
         id: 'stock', tab: 'Склад', title: 'Склад и техкарты',
@@ -514,7 +556,7 @@ const MORE = {
       title: 'Sitnice koje spasavaju smenu',
       lead: 'Ono što se dešava usred gužve, rešeno u samom sistemu.',
       items: [
-        ['bell', 'Kursevi i „Pozovi”', 'Drugi kurs čeka u kuhinji dok ga konobar ne pozove — tada tiket zazvoni i trepće.', { course: 'Kurs 2 · čeka poziv', dish: 'Palačinke sa čokoladom', qty: 2, btn: 'Pozovi' }],
+        ['bell', 'Sledovi i „Pozovi”', 'Drugi sled čeka u kuhinji dok ga konobar ne pozove — tada tiket zazvoni i trepće.', { course: 'Sled 2 · čeka poziv', dish: 'Palačinke sa čokoladom', qty: 2, btn: 'Pozovi' }],
         ['stop', 'Stop-lista sa porcijama', 'Jelo samo prelazi u stop kad se porcije potroše; više od ostatka ne može da se poruči.', { rows: [['Ćevapi, 10 kom', 'ostalo 3'], ['Rib-aj stek, 300 g', 'Nema']] }],
         ['split', 'Deljenje računa', 'Plaćanje po stavkama ili u delovima, svaki deo svojim načinom plaćanja.', { seg: ['Ceo račun', 'Po stavkama'], parts: [['Deo 1 · kartica', 1290], ['Deo 2 · gotovina', 940]] }],
         ['cash', 'Kusur bez greške', 'Unesete koliko je gost dao, a RUVO krupno pokaže kusur.', { due: 'Za naplatu', got: 'Primljeno', change: 'Kusur', sum: 3730, paid: 5000 }],

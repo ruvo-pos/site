@@ -16,18 +16,19 @@ export const VENUE_SLUGS = {
   ru: { restaurant: 'restaurant', cafe: 'cafe', fastfood: 'fast-food', bakery: 'bakery', hotel: 'hotel', catering: 'catering', delivery: 'delivery', group: 'group' },
 };
 
-// What a kind of venue shows: its icon (Phosphor, src/icons/), the product's tabs in its order (ids of EXAMPLES in
-// content.mjs), its small things of a shift (keys of «Sitnice»: eight in two rows of four; the restaurant all twelve),
-// and its example setup for the calculator (the same fields as the calculator's presets).
+// What a kind of venue shows: its icon (Phosphor regular, src/icons/), the product's tabs in its order (ids of EXAMPLES
+// in content.mjs), its small things of a shift (keys of «Sitnice»: eight in two rows of four; the restaurant all twelve),
+// its example setup for the calculator (the same fields as the calculator's presets) and the icon of each line of what it
+// needs (`equip`, in the order of its lines; the icons are named in build.mjs, EQUIP_ICON).
 export const VENUE_SETUP = {
-  restaurant: { icon: 'fork-knife-duotone', tabs: ['floor', 'waiter', 'kitchen', 'guests', 'stock', 'reports', 'team', 'delivery', 'kiosk', 'sef'], rush: ['bell', 'stop', 'split', 'cash', 'lock', 'tag', 'rotate', 'move', 'user', 'bike', 'clock', 'info'], preset: { venues: 1, ipad: 2, kds: 2, iphone: 4 } },
-  cafe: { icon: 'coffee-duotone', tabs: ['floor', 'guests', 'stock', 'kitchen', 'reports', 'team', 'kiosk', 'sef'], rush: ['cash', 'split', 'tag', 'clock', 'user', 'stop', 'rotate', 'info'], preset: { venues: 1, ipad: 1, kds: 1 } },
-  fastfood: { icon: 'hamburger-duotone', tabs: ['kiosk', 'kitchen', 'delivery', 'stock', 'reports', 'team', 'sef'], rush: ['stop', 'cash', 'info', 'bike', 'user', 'lock', 'tag', 'clock'], preset: { venues: 1, ipad: 1, kds: 1, kiosk: 2 } },
-  bakery: { icon: 'bread-duotone', tabs: ['stock', 'kiosk', 'guests', 'reports', 'sef', 'team'], rush: ['stop', 'cash', 'info', 'user', 'tag', 'lock', 'rotate', 'split'], preset: { venues: 1, ipad: 1, kds: 1 } },
-  hotel: { icon: 'bed-duotone', tabs: ['floor', 'waiter', 'kitchen', 'reports', 'stock', 'sef', 'team', 'guests'], rush: ['split', 'rotate', 'tag', 'user', 'clock', 'info', 'lock', 'bell'], preset: { venues: 3, ipad: 1, kds: 1, iphone: 2 } },
-  catering: { icon: 'cooking-pot-duotone', tabs: ['kitchen', 'stock', 'reports', 'sef', 'team', 'kiosk'], rush: ['bell', 'stop', 'lock', 'info', 'user', 'tag', 'split', 'rotate'], preset: { venues: 1, ipad: 1, kds: 2 } },
-  delivery: { icon: 'moped-duotone', tabs: ['delivery', 'kitchen', 'stock', 'reports', 'sef', 'team'], rush: ['bike', 'stop', 'lock', 'info', 'user', 'tag', 'clock', 'cash'], preset: { venues: 1, ipad: 1, kds: 2, telegram: true } },
-  group: { icon: 'buildings-duotone', tabs: ['reports', 'stock', 'sef', 'team', 'guests', 'floor', 'kitchen'], rush: ['user', 'tag', 'lock', 'rotate', 'clock', 'stop', 'move', 'info'], preset: { venues: 5, ipad: 2, kds: 2, iphone: 4, telegram: true } },
+  restaurant: { icon: 'fork-knife', tabs: ['floor', 'waiter', 'kitchen', 'guests', 'stock', 'reports', 'team', 'delivery', 'kiosk', 'sef'], rush: ['bell', 'stop', 'split', 'cash', 'lock', 'tag', 'rotate', 'move', 'user', 'bike', 'clock', 'info'], preset: { venues: 1, ipad: 2, kds: 2, iphone: 4 }, equip: ['ipad', 'iphone', 'kds', 'router', 'fiscal'] },
+  cafe: { icon: 'coffee', tabs: ['floor', 'guests', 'stock', 'kitchen', 'reports', 'team', 'kiosk', 'sef'], rush: ['cash', 'split', 'tag', 'clock', 'user', 'stop', 'rotate', 'info'], preset: { venues: 1, ipad: 1, kds: 1 }, equip: ['ipad', 'kds', 'kiosk', 'router', 'fiscal'] },
+  fastfood: { icon: 'hamburger', tabs: ['kiosk', 'kitchen', 'delivery', 'stock', 'reports', 'team', 'sef'], rush: ['stop', 'cash', 'info', 'bike', 'user', 'lock', 'tag', 'clock'], preset: { venues: 1, ipad: 1, kds: 1, kiosk: 2 }, equip: ['kiosk', 'ipad', 'kds', 'tv', 'router'] },
+  bakery: { icon: 'bread', tabs: ['stock', 'kiosk', 'guests', 'reports', 'sef', 'team'], rush: ['stop', 'cash', 'info', 'user', 'tag', 'lock', 'rotate', 'split'], preset: { venues: 1, ipad: 1, kds: 1 }, equip: ['ipad', 'kds', 'kiosk', 'router', 'fiscal'] },
+  hotel: { icon: 'bed', tabs: ['floor', 'waiter', 'kitchen', 'reports', 'stock', 'sef', 'team', 'guests'], rush: ['split', 'rotate', 'tag', 'user', 'clock', 'info', 'lock', 'bell'], preset: { venues: 3, ipad: 1, kds: 1, iphone: 2 }, equip: ['ipad', 'iphone', 'kds', 'router', 'fiscal'] },
+  catering: { icon: 'cooking-pot', tabs: ['kitchen', 'stock', 'reports', 'sef', 'team', 'kiosk'], rush: ['bell', 'stop', 'lock', 'info', 'user', 'tag', 'split', 'rotate'], preset: { venues: 1, ipad: 1, kds: 2 }, equip: ['kds', 'ipad', 'kiosk', 'router', 'fiscal'] },
+  delivery: { icon: 'moped', tabs: ['delivery', 'kitchen', 'stock', 'reports', 'sef', 'team'], rush: ['bike', 'stop', 'lock', 'info', 'user', 'tag', 'clock', 'cash'], preset: { venues: 1, ipad: 1, kds: 2, telegram: true }, equip: ['ipad', 'kds', 'courier', 'router', 'fiscal'] },
+  group: { icon: 'buildings', tabs: ['reports', 'stock', 'sef', 'team', 'guests', 'floor', 'kitchen'], rush: ['user', 'tag', 'lock', 'rotate', 'clock', 'stop', 'move', 'info'], preset: { venues: 5, ipad: 2, kds: 2, iphone: 4, telegram: true }, equip: ['ipad', 'iphone', 'office', 'router', 'fiscal'] },
 };
 
 // The first screen's drawn scene of each kind, played as the home page's: an order on the front terminal (for fast food
@@ -45,11 +46,11 @@ export const VENUES = {
     menu: { label: 'Za koga', title: 'Za koga je RUVO', all: 'Sve o RUVO-u na jednoj strani' },
     items: {
       restaurant: {
-        short: 'Restoran', name: 'Restoran sa salom', line: 'Plan sale, kursevi i konobari sa uređajima',
+        short: 'Restoran', name: 'Restoran sa salom', line: 'Plan sale, sledovi i konobari sa uređajima',
         title: 'RUVO — POS za restorane sa salom',
-        description: 'Plan sale, konobari sa iPhone-om, kursevi, ekran kuhinje, magacin po normativima i izveštaji. RUVO za restorane — prvih 30 dana besplatno.',
+        description: 'Plan sale, konobari sa iPhone-om, sledovi, ekran kuhinje, magacin po normativima i izveštaji. RUVO za restorane — prvih 30 dana besplatno.',
         eyebrow: 'POS za restorane', h1: 'Od stola do kuhinje — bez papirića',
-        lead: 'Konobar kuca porudžbinu na iPhone-u, kuhinja je odmah vidi na svom ekranu, drugi kurs čeka „Pozovi”, a namirnice se otpisuju po normativu. Gost može da plati i IPS QR kodom.',
+        lead: 'Konobar kuca porudžbinu na iPhone-u, kuhinja je odmah vidi na svom ekranu, drugi sled čeka „Pozovi”, a namirnice se otpisuju po normativu. Gost može da plati i IPS QR kodom.',
         featuresTitle: 'Sve što restoranu treba', featuresLead: 'Ekrani RUVO-a sa jelima i brojkama kao u pravom restoranu.',
         preset: 'Restoran',
         equip: ['iPad za terminal sale', 'iPhone za konobare', 'Tablet za kuhinju i šank — po jedan na stanicu', 'Ruter sa rezervnom 4G vezom', 'Vaša fiskalna kasa; bankovni terminal po želji'],
@@ -68,7 +69,7 @@ export const VENUES = {
         final: 'Probajte RUVO u svom kafiću',
         scene: {
           label: 'Primer: porudžbina stola 3 na terminalu, ista porudžbina na ekranu šanka i otpis kafe i mleka po normativu',
-          pad: { title: 'Sto 3', meta: '2 gosta · Ana', lines: [['Espreso', 2, 440], ['Kapućino', 1, 290], ['Kroasan sa puterom', 2, 520]], total: 'Ukupno', send: 'Pošalji', bill: 'Račun' },
+          pad: { title: 'Sto 3', guests: 2, meta: 'Sala · Ana · otvoren 09:12', lines: [['Espreso', 2, 440], ['Kapućino', 1, 290], ['Kroasan sa puterom', 2, 520]], grid: { cats: ['Kafa', 'Čaj', 'Doručak', 'Peciva', 'Sokovi', 'Kokteli'], on: 0, dishes: [['Espreso', 220], ['Kapućino', 290], ['Late', 320], ['Kafa sa mlekom', 250], ['Ledena kafa', 340], ['Turska kafa', 180]] } },
           ticket: { no: '#24', src: 'Sto 3', time: '01:48', station: 'Šank', lines: [[2, 'Espreso'], [1, 'Kapućino']], done: 'Gotovo' },
           chip: { title: 'Magacin · po normativu', rows: [['Kafa u zrnu', '0,027 kg'], ['Mleko', '0,18 l'], ['Kroasan', '2 kom']], note: 'otpis pri naplati' },
         },
@@ -85,7 +86,7 @@ export const VENUES = {
         final: 'Probajte RUVO u svom objektu',
         scene: {
           label: 'Primer: porudžbina na kiosku, ista porudžbina na ekranu kuhinje i broj 47 na ekranu za preuzimanje',
-          kiosk: { ...KIOSK_DISHES, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['doručak', 'glavna jela', 'prilozi', 'pića'], on: 1, section: 'Glavna jela', names: { cevapi: 'Ćevapi, 10 kom', pljeskavica: 'Pljeskavica', burger: 'Burger sa junetinom', carbonara: 'Pasta karbonara' }, basketTitle: 'Vaša porudžbina', items: '2 stavke', checkout: 'Poruči' },
+          kiosk: { ...KIOSK_DISHES, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['doručak', 'glavna jela', 'prilozi', 'pića'], on: 1, section: 'Glavna jela', names: { cevapi: 'Ćevapi, 10 kom', pljeskavica: 'Pljeskavica', burger: 'Burger sa junetinom', carbonara: 'Pasta karbonara', lemonade: 'Domaća limunada', orange: 'Ceđena pomorandža' }, next: ['Pića', [['lemonade', 350], ['orange', 390]]], basketTitle: 'Vaša porudžbina', items: '2 stavke', checkout: 'Poruči' },
           ticket: { no: '#47', src: 'Kiosk', time: '02:10', station: 'Kuhinja', lines: [[1, 'Burger sa junetinom'], [1, 'Pljeskavica']], done: 'Gotovo' },
           chip: { title: 'Ekran za preuzimanje', rows: [['47', 'Gotovo', 'ok'], ['48', 'Spremamo'], ['49', 'Spremamo']], note: 'na TV-u ili tabletu kod pulta' },
         },
@@ -102,7 +103,7 @@ export const VENUES = {
         final: 'Probajte RUVO u svojoj pekari',
         scene: {
           label: 'Primer: prodaja na pultu, prognoza pripreme za subotu i otpis brašna i sira po normativu',
-          pad: { title: 'Pult', meta: '07:42 · Jelena', lines: [['Burek sa sirom', 2, 600], ['Kifla', 6, 300], ['Jogurt', 2, 240]], total: 'Ukupno', send: 'Naplati' },
+          pad: { title: 'Pult', meta: 'Jelena · 07:42', lines: [['Burek sa sirom', 2, 600], ['Kifla', 6, 300], ['Jogurt', 2, 240]], mode: 'pay', send: 'Naplati', grid: { cats: ['Burek i pite', 'Pekara', 'Poslastice', 'Jogurt i napici'], on: 0, dishes: [['Burek sa sirom', 300], ['Burek sa mesom', 330], ['Gibanica', 260], ['Zeljanica', 240], ['Pita sa jabukama', 220], ['Pita sa višnjama', 220]] } },
           plan: { title: 'Prognoza', when: 'subota', station: 'Pripremiti do 06:00', rows: [['Testo za burek', '11,5 kg'], ['Testo za kifle', '9 kg'], ['Krem od vanile', '3 kg']], note: 'po prodaji prošle četiri subote' },
           chip: { title: 'Magacin · po normativu', rows: [['Brašno T-400', '0,40 kg'], ['Sir', '0,24 kg'], ['Ulje', '0,04 l']], note: 'kroz normativ testa — poluproizvoda' },
         },
@@ -119,7 +120,7 @@ export const VENUES = {
         final: 'Probajte RUVO u svom hotelu',
         scene: {
           label: 'Primer: porudžbina u lobi baru na terminalu, ista porudžbina na ekranu šanka i današnji promet restorana, lobi bara i doručka',
-          pad: { title: 'Lobi bar', meta: 'Sto 2 · Nikola', lines: [['Espreso', 2, 440], ['Domaća limunada', 2, 700], ['Čizkejk', 1, 450]], total: 'Ukupno', send: 'Pošalji', bill: 'Račun' },
+          pad: { place: 'Lobi bar', title: 'Sto 2', guests: 2, meta: 'Lobi bar · Nikola · otvoren 17:05', lines: [['Espreso', 2, 440], ['Domaća limunada', 2, 700], ['Čizkejk', 1, 450]], grid: { cats: ['Kafa', 'Pića', 'Kolači', 'Kokteli', 'Grickalice'], on: 2, dishes: [['Čizkejk', 450], ['Napoleon torta', 420], ['Tiramisu', 480], ['Palačinke sa čokoladom', 520], ['Voćna salata', 390], ['Sladoled, 3 kugle', 360]] } },
           ticket: { no: '#8', src: 'Sto 2', time: '01:20', station: 'Šank', lines: [[2, 'Espreso'], [2, 'Domaća limunada']], done: 'Gotovo' },
           chip: { title: 'Hotel danas', rows: [['Restoran', HOTEL_SALES[0]], ['Lobi bar', HOTEL_SALES[1]], ['Doručak', HOTEL_SALES[2]]], note: 'ukupno {sum} RSD' },
         },
@@ -127,17 +128,17 @@ export const VENUES = {
       catering: {
         short: 'Ketering', name: 'Ketering i kantine', line: 'Banketi i velike količine po normativu',
         title: 'RUVO — POS za ketering i kantine',
-        description: 'Banketi po kursevima, normativi i magacin za velike količine, prognoza pripreme i fakture dobavljača iz SEF-a. RUVO za ketering i kantine.',
+        description: 'Banketi po sledovima, normativi i magacin za velike količine, prognoza pripreme i fakture dobavljača iz SEF-a. RUVO za ketering i kantine.',
         eyebrow: 'POS za ketering i kantine', h1: 'Banket za 30 osoba — bez računanja na papiru',
-        lead: 'Porudžbina za banket ide u kuhinju po kursevima, normativi kažu koliko čega treba, a magacin se otpisuje sam. Za liniju u kantini — kiosk i brojevi porudžbina.',
+        lead: 'Porudžbina za banket ide u kuhinju po sledovima, normativi kažu koliko čega treba, a magacin se otpisuje sam. Za liniju u kantini — kiosk i brojevi porudžbina.',
         featuresTitle: 'Sve što keteringu treba', featuresLead: 'Kuhinja, magacin, izveštaji i fakture dobavljača.',
         preset: 'Ketering',
         equip: ['Tablet za kuhinju — po jedan na stanicu', 'iPad za terminal sale', 'Kiosk za liniju u kantini — po želji', 'Ruter sa rezervnom 4G vezom', 'Vaša fiskalna kasa'],
         final: 'Probajte RUVO u svojoj kuhinji',
         scene: {
           label: 'Primer: banket za 30 osoba na terminalu, ista porudžbina na ekranu kuhinje i otpis mesa, lepinja i kajmaka po normativu',
-          pad: { title: 'Banket', meta: '30 osoba · 13:00', lines: [['Teleća čorba', 30, 11700], ['Ćevapi, 10 kom', 30, 38700], ['Šopska salata', 30, 17700]], course: 'Kurs 2 · čeka poziv', later: [['Palačinke sa čokoladom', 30, 15600]], total: 'Ukupno', send: 'U kuhinju', bill: 'Račun' },
-          ticket: { no: '#31', src: 'Banket', time: '05:40', station: 'Kuhinja', lines: [[30, 'Teleća čorba'], [30, 'Ćevapi, 10 kom']], done: 'Gotovo', waits: 'kurs 2 čeka' },
+          pad: { title: 'Banket', guests: 30, meta: 'Sala · Jovana · otvoren 12:40', lines: [['Teleća čorba', 30, 11700], ['Ćevapi, 10 kom', 30, 38700], ['Šopska salata', 30, 17700]], later: [['Palačinke sa čokoladom', 30, 15600]] },
+          ticket: { no: '#31', src: 'Banket', time: '05:40', station: 'Kuhinja', lines: [[30, 'Teleća čorba'], [30, 'Ćevapi, 10 kom']], done: 'Gotovo', waits: 'Sled 2 čeka poziv' },
           chip: { title: 'Magacin · po normativu', rows: [['Mleveno meso', '7,50 kg'], ['Lepinja', '30 kom'], ['Kajmak', '1,20 kg']], note: 'otpis pri naplati' },
         },
       },
@@ -153,7 +154,7 @@ export const VENUES = {
         final: 'Probajte RUVO u svojoj kuhinji',
         scene: {
           label: 'Primer: porudžbina Wolt-a na terminalu, ista porudžbina na ekranu kuhinje i porudžbine koje čekaju kurira',
-          pad: { badge: 'Wolt', title: 'W-7F3A', meta: 'Kurir 21:52', lines: [['Ćevapi, 10 kom', 2, 2780], ['Šopska salata', 1, 650], ['Domaća limunada', 1, 390]], total: 'Ukupno', send: 'U kuhinju' },
+          pad: { tab: 'delivery', badge: 'Wolt', title: 'W-7F3A', meta: 'ručno sa tableta · kurir 21:52', lines: [['Ćevapi, 10 kom', 2, 2780], ['Šopska salata', 1, 650], ['Domaća limunada', 1, 390]], grid: { cats: ['Doručak', 'Supe i čorbe', 'Glavna jela', 'Salate', 'Dezerti', 'Pića'], on: 2, dishes: [['Domaći pelmeni', 990], ['Ćevapi, 10 kom', 1390], ['Pljeskavica', 1290], ['Burger sa junetinom', 1390], ['Pasta karbonara', 1090], ['Rib-aj stek, 300 g', 3890]] } },
           ticket: { no: '#21', src: 'Wolt', time: '07:15', station: 'Kuhinja', lines: [[2, 'Ćevapi, 10 kom'], [1, 'Šopska salata']], done: 'Gotovo', note: 'Kurir 21:52' },
           chip: { title: 'Čekaju kurira', rows: [['Wolt · W-7F3A', '21:52', 'ok'], ['Glovo · G-1186', '22:05']], note: 'za sada ručno sa tableta platforme' },
         },
@@ -169,7 +170,7 @@ export const VENUES = {
         equip: ['U svakom objektu — iPad i tablet za kuhinju', 'iPhone za konobare — gde ih koristite', 'Back-office u pregledaču za vlasnika i menadžere', 'Ruter sa rezervnom 4G vezom u svakom objektu', 'Fiskalna kasa u svakom objektu'],
         final: 'Probajte RUVO u svojoj mreži',
         scene: {
-          ticket12: true, meta: 'Dorćol · Marko',
+          ticket12: true,
           label: 'Primer: porudžbina stola 12 u objektu Dorćol, ista porudžbina na ekranu kuhinje i današnji promet svih pet objekata',
           chip: { title: 'Mreža danas', rows: [['Dorćol', GROUP_SALES[0]], ['Vračar', GROUP_SALES[1]], ['Novi Beograd', GROUP_SALES[2]], ['Zemun', GROUP_SALES[3]], ['Savamala', GROUP_SALES[4]]], note: 'ukupno {sum} RSD' },
         },
@@ -203,7 +204,7 @@ export const VENUES = {
         final: 'Try RUVO in your café',
         scene: {
           label: 'Example: table 3’s order on the front terminal, the same order on the bar screen, and the coffee and milk written off by recipe',
-          pad: { title: 'Table 3', meta: '2 guests · Ana', lines: [['Espresso', 2, 440], ['Cappuccino', 1, 290], ['Butter croissant', 2, 520]], total: 'Total', send: 'Send', bill: 'Bill' },
+          pad: { title: 'Table 3', guests: 2, meta: 'Floor · Ana · opened 09:12', lines: [['Espresso', 2, 440], ['Cappuccino', 1, 290], ['Butter croissant', 2, 520]], grid: { cats: ['Coffee', 'Tea', 'Breakfast', 'Pastries', 'Juices', 'Cocktails'], on: 0, dishes: [['Espresso', 220], ['Cappuccino', 290], ['Latte', 320], ['Coffee with milk', 250], ['Iced coffee', 340], ['Turkish coffee', 180]] } },
           ticket: { no: '#24', src: 'Table 3', time: '01:48', station: 'Bar', lines: [[2, 'Espresso'], [1, 'Cappuccino']], done: 'Done' },
           chip: { title: 'Stock · by recipe', rows: [['Coffee beans', '0.027 kg'], ['Milk', '0.18 l'], ['Croissant', '2 pcs']], note: 'written off at payment' },
         },
@@ -220,7 +221,7 @@ export const VENUES = {
         final: 'Try RUVO in your place',
         scene: {
           label: 'Example: an order on the kiosk, the same order on the kitchen screen, and number 47 on the pickup screen',
-          kiosk: { ...KIOSK_DISHES, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['breakfast', 'mains', 'sides', 'drinks'], on: 1, section: 'Mains', names: { cevapi: 'Ćevapi, 10 pcs', pljeskavica: 'Pljeskavica', burger: 'Beef burger', carbonara: 'Pasta carbonara' }, basketTitle: 'Your order', items: '2 items', checkout: 'Order' },
+          kiosk: { ...KIOSK_DISHES, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['breakfast', 'mains', 'sides', 'drinks'], on: 1, section: 'Mains', names: { cevapi: 'Ćevapi, 10 pcs', pljeskavica: 'Pljeskavica', burger: 'Beef burger', carbonara: 'Pasta carbonara', lemonade: 'Homemade lemonade', orange: 'Fresh orange juice' }, next: ['Drinks', [['lemonade', 350], ['orange', 390]]], basketTitle: 'Your order', items: '2 items', checkout: 'Order' },
           ticket: { no: '#47', src: 'Kiosk', time: '02:10', station: 'Kitchen', lines: [[1, 'Beef burger'], [1, 'Pljeskavica']], done: 'Done' },
           chip: { title: 'Pickup screen', rows: [['47', 'Ready', 'ok'], ['48', 'Preparing'], ['49', 'Preparing']], note: 'on a TV or a tablet by the counter' },
         },
@@ -237,7 +238,7 @@ export const VENUES = {
         final: 'Try RUVO in your bakery',
         scene: {
           label: 'Example: a sale at the counter, the prep forecast for Saturday, and flour and cheese written off by recipe',
-          pad: { title: 'Counter', meta: '07:42 · Jelena', lines: [['Cheese burek', 2, 600], ['Kifla (roll)', 6, 300], ['Yoghurt', 2, 240]], total: 'Total', send: 'Charge' },
+          pad: { title: 'Counter', meta: 'Jelena · 07:42', lines: [['Cheese burek', 2, 600], ['Kifla (roll)', 6, 300], ['Yoghurt', 2, 240]], mode: 'pay', send: 'Charge', grid: { cats: ['Burek and pies', 'Bread and rolls', 'Pastries', 'Yoghurt and drinks'], on: 0, dishes: [['Cheese burek', 300], ['Meat burek', 330], ['Gibanica', 260], ['Spinach pie', 240], ['Apple pie', 220], ['Sour cherry pie', 220]] } },
           plan: { title: 'Forecast', when: 'Saturday', station: 'Prepare by 06:00', rows: [['Burek dough', '11.5 kg'], ['Kifla dough', '9 kg'], ['Vanilla cream', '3 kg']], note: 'from the last four Saturdays’ sales' },
           chip: { title: 'Stock · by recipe', rows: [['Flour T-400', '0.40 kg'], ['Cheese', '0.24 kg'], ['Oil', '0.04 l']], note: 'through the dough’s own recipe' },
         },
@@ -254,7 +255,7 @@ export const VENUES = {
         final: 'Try RUVO in your hotel',
         scene: {
           label: 'Example: an order in the lobby bar on the front terminal, the same order on the bar screen, and today’s sales of the restaurant, lobby bar and breakfast',
-          pad: { title: 'Lobby bar', meta: 'Table 2 · Nikola', lines: [['Espresso', 2, 440], ['Homemade lemonade', 2, 700], ['Cheesecake', 1, 450]], total: 'Total', send: 'Send', bill: 'Bill' },
+          pad: { place: 'Lobby bar', title: 'Table 2', guests: 2, meta: 'Lobby bar · Nikola · opened 17:05', lines: [['Espresso', 2, 440], ['Homemade lemonade', 2, 700], ['Cheesecake', 1, 450]], grid: { cats: ['Coffee', 'Drinks', 'Cakes', 'Cocktails', 'Snacks'], on: 2, dishes: [['Cheesecake', 450], ['Napoleon cake', 420], ['Tiramisu', 480], ['Pancakes with chocolate', 520], ['Fruit salad', 390], ['Ice cream, 3 scoops', 360]] } },
           ticket: { no: '#8', src: 'Table 2', time: '01:20', station: 'Bar', lines: [[2, 'Espresso'], [2, 'Homemade lemonade']], done: 'Done' },
           chip: { title: 'The hotel today', rows: [['Restaurant', HOTEL_SALES[0]], ['Lobby bar', HOTEL_SALES[1]], ['Breakfast', HOTEL_SALES[2]]], note: '{sum} RSD in all' },
         },
@@ -271,8 +272,8 @@ export const VENUES = {
         final: 'Try RUVO in your kitchen',
         scene: {
           label: 'Example: a banquet for 30 on the front terminal, the same order on the kitchen screen, and meat, flatbread and kajmak written off by recipe',
-          pad: { title: 'Banquet', meta: '30 guests · 13:00', lines: [['Veal soup', 30, 11700], ['Ćevapi, 10 pcs', 30, 38700], ['Shopska salad', 30, 17700]], course: 'Course 2 · waits for the call', later: [['Pancakes with chocolate', 30, 15600]], total: 'Total', send: 'To kitchen', bill: 'Bill' },
-          ticket: { no: '#31', src: 'Banquet', time: '05:40', station: 'Kitchen', lines: [[30, 'Veal soup'], [30, 'Ćevapi, 10 pcs']], done: 'Done', waits: 'course 2 waits' },
+          pad: { title: 'Banquet', guests: 30, meta: 'Floor · Jovana · opened 12:40', lines: [['Veal soup', 30, 11700], ['Ćevapi, 10 pcs', 30, 38700], ['Shopska salad', 30, 17700]], later: [['Pancakes with chocolate', 30, 15600]] },
+          ticket: { no: '#31', src: 'Banquet', time: '05:40', station: 'Kitchen', lines: [[30, 'Veal soup'], [30, 'Ćevapi, 10 pcs']], done: 'Done', waits: 'Course 2 waits for the call' },
           chip: { title: 'Stock · by recipe', rows: [['Minced meat', '7.50 kg'], ['Lepinja (flatbread)', '30 pcs'], ['Kajmak', '1.20 kg']], note: 'written off at payment' },
         },
       },
@@ -288,7 +289,7 @@ export const VENUES = {
         final: 'Try RUVO in your kitchen',
         scene: {
           label: 'Example: a Wolt order on the front terminal, the same order on the kitchen screen, and the orders waiting for their couriers',
-          pad: { badge: 'Wolt', title: 'W-7F3A', meta: 'Courier 21:52', lines: [['Ćevapi, 10 pcs', 2, 2780], ['Shopska salad', 1, 650], ['Homemade lemonade', 1, 390]], total: 'Total', send: 'To kitchen' },
+          pad: { tab: 'delivery', badge: 'Wolt', title: 'W-7F3A', meta: 'by hand from the tablet · courier 21:52', lines: [['Ćevapi, 10 pcs', 2, 2780], ['Shopska salad', 1, 650], ['Homemade lemonade', 1, 390]], grid: { cats: ['Breakfast', 'Soups', 'Mains', 'Salads', 'Desserts', 'Drinks'], on: 2, dishes: [['Homemade pelmeni', 990], ['Ćevapi, 10 pcs', 1390], ['Pljeskavica', 1290], ['Beef burger', 1390], ['Pasta carbonara', 1090], ['Rib-eye steak, 300 g', 3890]] } },
           ticket: { no: '#21', src: 'Wolt', time: '07:15', station: 'Kitchen', lines: [[2, 'Ćevapi, 10 pcs'], [1, 'Shopska salad']], done: 'Done', note: 'Courier 21:52' },
           chip: { title: 'Waiting for the courier', rows: [['Wolt · W-7F3A', '21:52', 'ok'], ['Glovo · G-1186', '22:05']], note: 'carried over from the platform’s tablet for now' },
         },
@@ -304,7 +305,7 @@ export const VENUES = {
         equip: ['In each venue — an iPad and a kitchen tablet', 'iPhones for waiters — where you use them', 'The back office in a browser for owners and managers', 'A router with a backup 4G connection in each venue', 'A fiscal register in each venue'],
         final: 'Try RUVO across your venues',
         scene: {
-          ticket12: true, meta: 'Dorćol · Marko',
+          ticket12: true,
           label: 'Example: table 12’s order at Dorćol, the same order on the kitchen screen, and today’s sales of all five venues',
           chip: { title: 'The group today', rows: [['Dorćol', GROUP_SALES[0]], ['Vračar', GROUP_SALES[1]], ['Novi Beograd', GROUP_SALES[2]], ['Zemun', GROUP_SALES[3]], ['Savamala', GROUP_SALES[4]]], note: '{sum} RSD in all' },
         },
@@ -338,7 +339,7 @@ export const VENUES = {
         final: 'Попробуйте RUVO в своём кафе',
         scene: {
           label: 'Пример: заказ стола 3 на фронте, тот же заказ на экране бара и списание кофе и молока по техкарте',
-          pad: { title: 'Стол 3', meta: '2 гостя · Ana', lines: [['Эспрессо', 2, 440], ['Капучино', 1, 290], ['Круассан с маслом', 2, 520]], total: 'Итого', send: 'Отправить', bill: 'Счёт' },
+          pad: { title: 'Стол 3', guests: 2, meta: 'Зал · Ana · открыт 09:12', lines: [['Эспрессо', 2, 440], ['Капучино', 1, 290], ['Круассан с маслом', 2, 520]], grid: { cats: ['Кофе', 'Чай', 'Завтраки', 'Выпечка', 'Соки', 'Коктейли'], on: 0, dishes: [['Эспрессо', 220], ['Капучино', 290], ['Латте', 320], ['Кофе с молоком', 250], ['Холодный кофе', 340], ['Кофе по-турецки', 180]] } },
           ticket: { no: '#24', src: 'Стол 3', time: '01:48', station: 'Бар', lines: [[2, 'Эспрессо'], [1, 'Капучино']], done: 'Готово' },
           chip: { title: 'Склад · по техкарте', rows: [['Кофе в зёрнах', '0,027 кг'], ['Молоко', '0,18 л'], ['Круассан', '2 шт']], note: 'спишется при оплате' },
         },
@@ -355,7 +356,7 @@ export const VENUES = {
         final: 'Попробуйте RUVO в своём заведении',
         scene: {
           label: 'Пример: заказ на киоске, тот же заказ на экране кухни и номер 47 на табло выдачи',
-          kiosk: { ...KIOSK_DISHES, place: 'Дорчол', langs: ['Srpski', 'Русский'], cats: ['завтраки', 'основные блюда', 'гарниры', 'напитки'], on: 1, section: 'Основные блюда', names: { cevapi: 'Чевапи, 10 шт', pljeskavica: 'Плескавица', burger: 'Бургер с говядиной', carbonara: 'Паста карбонара' }, basketTitle: 'Ваш заказ', items: '2 позиции', checkout: 'Заказать' },
+          kiosk: { ...KIOSK_DISHES, place: 'Дорчол', langs: ['Srpski', 'Русский'], cats: ['завтраки', 'основные блюда', 'гарниры', 'напитки'], on: 1, section: 'Основные блюда', names: { cevapi: 'Чевапи, 10 шт', pljeskavica: 'Плескавица', burger: 'Бургер с говядиной', carbonara: 'Паста карбонара', lemonade: 'Домашний лимонад', orange: 'Апельсиновый фреш' }, next: ['Напитки', [['lemonade', 350], ['orange', 390]]], basketTitle: 'Ваш заказ', items: '2 позиции', checkout: 'Заказать' },
           ticket: { no: '#47', src: 'Киоск', time: '02:10', station: 'Кухня', lines: [[1, 'Бургер с говядиной'], [1, 'Плескавица']], done: 'Готово' },
           chip: { title: 'Табло выдачи', rows: [['47', 'Готово', 'ok'], ['48', 'Готовим'], ['49', 'Готовим']], note: 'на телевизоре или планшете у стойки' },
         },
@@ -372,7 +373,7 @@ export const VENUES = {
         final: 'Попробуйте RUVO в своей пекарне',
         scene: {
           label: 'Пример: продажа у прилавка, прогноз заготовок на субботу и списание муки и сыра по техкарте',
-          pad: { title: 'Прилавок', meta: '07:42 · Jelena', lines: [['Бурек с сыром', 2, 600], ['Кифла', 6, 300], ['Йогурт', 2, 240]], total: 'Итого', send: 'Оплатить' },
+          pad: { title: 'Прилавок', meta: 'Jelena · 07:42', lines: [['Бурек с сыром', 2, 600], ['Кифла', 6, 300], ['Йогурт', 2, 240]], mode: 'pay', send: 'Оплатить', grid: { cats: ['Бурек и пироги', 'Хлеб и булочки', 'Сладкое', 'Йогурт и напитки'], on: 0, dishes: [['Бурек с сыром', 300], ['Бурек с мясом', 330], ['Гибаница', 260], ['Пирог со шпинатом', 240], ['Пирог с яблоками', 220], ['Пирог с вишней', 220]] } },
           plan: { title: 'Прогноз', when: 'суббота', station: 'Приготовить к 06:00', rows: [['Тесто для бурека', '11,5 кг'], ['Тесто для кифлы', '9 кг'], ['Ванильный крем', '3 кг']], note: 'по продажам четырёх прошлых суббот' },
           chip: { title: 'Склад · по техкарте', rows: [['Мука Т-400', '0,40 кг'], ['Сыр', '0,24 кг'], ['Масло', '0,04 л']], note: 'через техкарту теста — полуфабриката' },
         },
@@ -389,7 +390,7 @@ export const VENUES = {
         final: 'Попробуйте RUVO в своём отеле',
         scene: {
           label: 'Пример: заказ в лобби-баре на фронте, тот же заказ на экране бара и сегодняшняя выручка ресторана, лобби-бара и завтраков',
-          pad: { title: 'Лобби-бар', meta: 'Стол 2 · Nikola', lines: [['Эспрессо', 2, 440], ['Домашний лимонад', 2, 700], ['Чизкейк', 1, 450]], total: 'Итого', send: 'Отправить', bill: 'Счёт' },
+          pad: { place: 'Лобби-бар', title: 'Стол 2', guests: 2, meta: 'Лобби-бар · Nikola · открыт 17:05', lines: [['Эспрессо', 2, 440], ['Домашний лимонад', 2, 700], ['Чизкейк', 1, 450]], grid: { cats: ['Кофе', 'Напитки', 'Десерты', 'Коктейли', 'Закуски'], on: 2, dishes: [['Чизкейк', 450], ['Торт «Наполеон»', 420], ['Тирамису', 480], ['Палачинки с шоколадом', 520], ['Фруктовый салат', 390], ['Мороженое, 3 шарика', 360]] } },
           ticket: { no: '#8', src: 'Стол 2', time: '01:20', station: 'Бар', lines: [[2, 'Эспрессо'], [2, 'Домашний лимонад']], done: 'Готово' },
           chip: { title: 'Отель сегодня', rows: [['Ресторан', HOTEL_SALES[0]], ['Лобби-бар', HOTEL_SALES[1]], ['Завтраки', HOTEL_SALES[2]]], note: 'всего {sum} RSD' },
         },
@@ -406,8 +407,8 @@ export const VENUES = {
         final: 'Попробуйте RUVO на своей кухне',
         scene: {
           label: 'Пример: банкет на 30 человек на фронте, тот же заказ на экране кухни и списание фарша, лепини и каймака по техкарте',
-          pad: { title: 'Банкет', meta: '30 человек · 13:00', lines: [['Телячья чорба', 30, 11700], ['Чевапи, 10 шт', 30, 38700], ['Шопский салат', 30, 17700]], course: 'Курс 2 · ждёт вызова', later: [['Палачинки с шоколадом', 30, 15600]], total: 'Итого', send: 'На кухню', bill: 'Счёт' },
-          ticket: { no: '#31', src: 'Банкет', time: '05:40', station: 'Кухня', lines: [[30, 'Телячья чорба'], [30, 'Чевапи, 10 шт']], done: 'Готово', waits: 'курс 2 ждёт' },
+          pad: { title: 'Банкет', guests: 30, meta: 'Зал · Jovana · открыт 12:40', lines: [['Телячья чорба', 30, 11700], ['Чевапи, 10 шт', 30, 38700], ['Шопский салат', 30, 17700]], later: [['Палачинки с шоколадом', 30, 15600]] },
+          ticket: { no: '#31', src: 'Банкет', time: '05:40', station: 'Кухня', lines: [[30, 'Телячья чорба'], [30, 'Чевапи, 10 шт']], done: 'Готово', waits: 'Курс 2 ждёт вызова' },
           chip: { title: 'Склад · по техкарте', rows: [['Фарш', '7,50 кг'], ['Лепиня', '30 шт'], ['Каймак', '1,20 кг']], note: 'спишется при оплате' },
         },
       },
@@ -423,7 +424,7 @@ export const VENUES = {
         final: 'Попробуйте RUVO на своей кухне',
         scene: {
           label: 'Пример: заказ Wolt на фронте, тот же заказ на экране кухни и заказы, которые ждут курьера',
-          pad: { badge: 'Wolt', title: 'W-7F3A', meta: 'Курьер 21:52', lines: [['Чевапи, 10 шт', 2, 2780], ['Шопский салат', 1, 650], ['Домашний лимонад', 1, 390]], total: 'Итого', send: 'На кухню' },
+          pad: { tab: 'delivery', badge: 'Wolt', title: 'W-7F3A', meta: 'вручную с планшета · курьер 21:52', lines: [['Чевапи, 10 шт', 2, 2780], ['Шопский салат', 1, 650], ['Домашний лимонад', 1, 390]], grid: { cats: ['Завтраки', 'Супы', 'Горячее', 'Салаты', 'Десерты', 'Напитки'], on: 2, dishes: [['Домашние пельмени', 990], ['Чевапи, 10 шт', 1390], ['Плескавица', 1290], ['Бургер с говядиной', 1390], ['Паста карбонара', 1090], ['Стейк рибай, 300 г', 3890]] } },
           ticket: { no: '#21', src: 'Wolt', time: '07:15', station: 'Кухня', lines: [[2, 'Чевапи, 10 шт'], [1, 'Шопский салат']], done: 'Готово', note: 'Курьер 21:52' },
           chip: { title: 'Ждут курьера', rows: [['Wolt · W-7F3A', '21:52', 'ok'], ['Glovo · G-1186', '22:05']], note: 'пока вручную с планшета платформы' },
         },
@@ -439,7 +440,7 @@ export const VENUES = {
         equip: ['В каждом заведении — iPad и планшет для кухни', 'iPhone для официантов — где они нужны', 'Бэкофис в браузере для владельца и управляющих', 'Роутер с резервным 4G в каждом заведении', 'Фискальная касса в каждом заведении'],
         final: 'Попробуйте RUVO в своей сети',
         scene: {
-          ticket12: true, meta: 'Дорчол · Marko',
+          ticket12: true,
           label: 'Пример: заказ стола 12 в заведении на Дорчоле, тот же заказ на экране кухни и сегодняшняя выручка всех пяти заведений',
           chip: { title: 'Сеть сегодня', rows: [['Дорчол', GROUP_SALES[0]], ['Врачар', GROUP_SALES[1]], ['Нови-Београд', GROUP_SALES[2]], ['Земун', GROUP_SALES[3]], ['Савамала', GROUP_SALES[4]]], note: 'всего {sum} RSD' },
         },
