@@ -11,7 +11,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { APP, LANGS, MAINS, PHOTOS, PRICES, SITE, T } from './src/content.mjs';
+import { APP, FORECAST_DAY, LANGS, MAINS, PHOTOS, PRICES, SITE, T } from './src/content.mjs';
 import { SIGNUP as SG } from './src/signup.mjs';
 import { VENUE_KEYS, VENUE_SETUP, VENUE_SLUGS, VENUES, VENUE_SOON } from './src/venues.mjs';
 
@@ -609,11 +609,13 @@ function deliveryScreen(lang, x) {
 </div>`;
 }
 
-// The guests' kiosk (ui/kiosk.jsx), upright, with the app's own drawings of the dishes (src/dishes/), two in the basket
+// The guests' kiosk (ui/kiosk.jsx), upright, with the app's own pictures of the dishes (src/dishes/: its drawings, and the
+// photos of the pastries), two in the basket
+const DISH_FILE = Object.fromEntries(readdirSync(path.join(ROOT, 'src/dishes')).filter((f) => /\.(svg|webp)$/.test(f)).map((f) => [f.replace(/\.\w+$/, ''), f]));
 function kioskScreen(lang, k, file, lazy = true) {
   const price = Object.fromEntries(k.dishes);
   const sum = k.basket.reduce((total, id) => total + price[id], 0);
-  const dish = ([id, p]) => `<div class="kd${k.basket.includes(id) ? ' in' : ''}"><span class="kd-img"><img src="${href(file, `assets/dishes/${id}.svg`)}" alt=""${lazy ? ' loading="lazy"' : ''} decoding="async"></span><span class="kd-n">${esc(k.names[id])}</span><span class="kd-p">${money(p)}<small>RSD</small></span></div>`;
+  const dish = ([id, p]) => `<div class="kd${k.basket.includes(id) ? ' in' : ''}"><span class="kd-img"><img src="${href(file, `assets/dishes/${DISH_FILE[id]}`)}" alt=""${lazy ? ' loading="lazy"' : ''} decoding="async"></span><span class="kd-n">${txt(k.names[id])}</span><span class="kd-p">${money(p)}<small>RSD</small></span></div>`;
   // the menu goes on under the open category — its next section, cut by the basket at the foot of the screen
   return `<div class="ks">${sbPad(lang)}
 <div class="ks-top"><span class="ab-brand">RUVO</span><span class="ks-place">${esc(k.place)}</span><span class="seg ks-lang">${k.langs.map((l, i) => `<span${(lang === 'ru' ? i === 1 : i === 0) ? ' class="on"' : ''}>${esc(l)}</span>`).join('')}</span><span class="ks-ic">${IC('squares-four')}</span></div>
@@ -735,6 +737,71 @@ function teamScreen(lang, x) {
 </div>
 </div>`;
   return office(lang, 'shifts', body, select(APP[lang].place, 'storefront'));
+}
+
+// «Prognoza» on the back office (ui/office-forecast.jsx): the day's tiles; what the owner knows about the day, in words,
+// and the change it made; the bills by the hour — the hall below, delivery above, the usual day dashed where the event
+// changes it; the people by the hour. Counted here from FORECAST_DAY as the app counts (forecast.js: forecastDay,
+// staffByHour). Once in sight the screen plays its moment: the words are typed, «Учесть» is pressed, the change appears,
+// the evening grows, and the numbers it moves change (.fc-was → .fc-now)
+function forecastScreen(lang, sc) {
+  const F = FORECAST_DAY;
+  const hours = F.hall.map((_, i) => F.from + i);
+  const ev = (h) => h >= F.event.from && h < F.event.to;
+  const hall = F.hall.map((v, i) => (ev(hours[i]) ? v * F.event.k : v));
+  const sum = (a) => a.reduce((s, v) => s + v, 0);
+  const checks = sum(hall) + sum(F.deliv);
+  const before = sum(F.hall) + sum(F.deliv);
+  const r = Math.round;
+  const range = (v, step = 1) => `${money(r((v * (1 - F.err)) / step) * step)}–${money(r((v * (1 + F.err)) / step) * step)}`;
+  const pct = (v) => `${r(v * 100)}%`;
+  const staff = (h, d) => ({ w: Math.max(1, Math.ceil(h / F.waiter - 0.05)), c: Math.max(1, Math.ceil(((h + d) * F.kitchen) / F.cook - 0.05)) });
+  const now = hall.map((h, i) => staff(h, F.deliv[i]));
+  const was = F.hall.map((h, i) => staff(h, F.deliv[i]));
+  const swap = (a, b) => (a === b ? `${a}` : `<span class="fc-sw"><span class="fc-was" aria-hidden="true">${a}</span><span class="fc-now">${b}</span></span>`);
+  const pc = (v) => `${((v / 20) * 100).toFixed(2)}%`;
+  // the tiles before the owner's words and after them (the accuracy stays)
+  const tile = (n, hallN) => [
+    [r(n), `${range(n)} · ${sc.hallW} ${r(hallN)}, ${sc.delivW} ${r(sum(F.deliv))}`],
+    [money(r((n * F.check) / 100) * 100), range(n * F.check, 1000)],
+    [r(n * (F.kitchen + F.bar)), `${sc.kitchenW} ${r(n * F.kitchen)} · ${sc.barW} ${r(n * F.bar)}`],
+  ];
+  const t0 = tile(before, sum(F.hall));
+  const t1 = tile(checks, sum(hall));
+  const tiles = [0, 1, 2].map((i) => [sc.tiles[i], swap(t0[i][0], t1[i][0]), swap(esc(t0[i][1]), esc(t1[i][1]))])
+    .concat([[sc.tiles[3], `±${pct(F.err)}`, esc(`${sc.errW}: ${pct(F.wape)}`)]]);
+  const bars = hours.map((h, i) => {
+    const e = ev(h);
+    return `<span class="fcb"><span class="fcb-s">${F.deliv[i] ? `<i class="fcb-d" style="--h:${pc(F.deliv[i])}"></i>` : ''}${e ? `<i class="fcb-x" style="--h:${pc(hall[i] - F.hall[i])}"></i>` : ''}<i class="fcb-h" style="--h:${pc(F.hall[i])}"></i></span>${e ? `<i class="fcb-base" style="--b:${pc(F.hall[i] + F.deliv[i])}"></i>` : ''}</span>`;
+  }).join('');
+  const row = (label, key) => `<b>${esc(label)}</b>${now.map((x, i) => `<span${x[key] > 1 ? ' class="hi"' : ''}>${swap(was[i][key], x[key])}</span>`).join('')}`;
+  const body = `<p class="of-meta fc-sub">${esc(sc.sub)}</p>
+<div class="fc-tiles">${tiles.map(([label, v, sub]) => `<div class="of-card fct"><span class="of-caps">${esc(label)}</span><b class="fct-v">${v}</b><span class="of-meta">${sub}</span></div>`).join('')}</div>
+<div class="of-card fc-ev"><p class="fc-h">${esc(sc.events)}${IC('info')}</p>
+<div class="fc-ask"><span class="fc-field"><span class="fc-typed">${esc(sc.typed)}</span></span><span class="pb go fc-apply">${IC('sparkle')}${esc(sc.apply)}</span></div>
+<p class="fc-adj">${IC('caret-up')}<span><b>${esc(sc.adj[0])}</b> · ${esc(sc.adj[1])}</span>${IC('x')}</p></div>
+<div class="of-card fc-ch"><div class="fc-ch-head"><p class="fc-h">${esc(sc.hours)}${IC('info')}</p><span class="fc-leg"><i class="s1"></i>${esc(sc.hall)}<i class="s2"></i>${esc(sc.deliv)}<i class="sb"></i>${esc(sc.base)}</span></div>
+<div class="fc-plot"><span class="fc-ax">${[20, 15, 10, 5, 0].map((v) => `<i style="--y:${v * 5}%">${v}</i>`).join('')}</span><span class="fc-area">${bars}</span><span></span><span class="fc-hrs">${hours.map((h) => `<i>${h}</i>`).join('')}</span></div></div>
+<div class="of-card fc-pp"><p class="fc-h">${esc(sc.people)}${IC('info')}</p>
+<div class="fc-pt"><span class="th">${esc(sc.hourCol)}</span>${hours.map((h) => `<span class="th">${h}</span>`).join('')}${row(sc.rows[0], 'w')}${row(sc.rows[1], 'c')}</div></div>`;
+  return office(lang, 'forecast', body, `<span class="of-tools">${select(sc.day, 'calendar-blank')}${select(APP[lang].place, 'storefront')}</span>`);
+}
+
+// «Prognoza» (14 October, the owner: «уделил бы внимание прогнозированию — хорошую фичу придумали»): its own section after
+// the screens — the day ahead on the iPad, playing its moment once in sight; the four things it does; how far to trust it
+const FC_ICON = ['chart-bar', 'sparkle', 'users', 'target'];
+function forecastSec(lang) {
+  const f = T[lang].home.forecast;
+  return `<section class="band" id="forecast" aria-labelledby="forecast-h"><div class="wrap">
+<div class="sec-head"><p class="eyebrow">${IC('chart-line-up')}${esc(f.eyebrow)}</p><h2 id="forecast-h">${txt(f.title)}</h2><p>${txt(f.lead)}</p></div>
+<div class="fc" data-live>
+<div class="fc-shot" role="img" aria-label="${esc(f.label)}">${dev('pad', forecastScreen(lang, f.screen))}</div>
+<ul class="fc-list">${f.items.map(([title, text], i) => `
+<li>${IC(FC_ICON[i], 'fc-i')}<h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
+</ul>
+</div>
+<p class="fc-note">${txt(f.note)}</p>
+</div></section>`;
 }
 
 // each tab's picture: the device (or two) and, for the kiosk, the number the guest says at the till beside it
@@ -1146,6 +1213,7 @@ function landing(lang, key) {
 ${heroArt(lang, file, key)}
 </div></section>
 ${features(lang, file, v, setup && setup.tabs)}
+${forecastSec(lang)}
 ${rush(lang, setup && setup.rush)}
 ${why(lang, file)}
 ${pricing(lang, file, bills)}
@@ -1552,7 +1620,7 @@ for (const lang of LANGS) {
 }
 put('assets/favicon.svg', FAVICON);
 // the kiosk example's dishes: the app's own drawings (taken from its kiosk), one file each
-for (const f of readdirSync(path.join(ROOT, 'src/dishes')).filter((x) => x.endsWith('.svg'))) put(`assets/dishes/${f}`, readFileSync(path.join(ROOT, 'src/dishes', f)));
+for (const f of Object.values(DISH_FILE)) put(`assets/dishes/${f}`, readFileSync(path.join(ROOT, 'src/dishes', f)));
 for (const f of Object.values(PHOTO_FILES).filter(Boolean)) put(`img/${f}`, readFileSync(path.join(PHOTO_DIR, f)));
 put(DEMO.sr, demoPage('sr'));
 put(DEMO.ru, demoPage('ru'));

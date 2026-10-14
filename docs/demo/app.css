@@ -717,7 +717,8 @@ h1, h2, h3, p, ul, ol, dl, dd { margin: 0; }
   --d-edge: #B8BAC0;
   --d-alu: #C3C5CB;
   --d-alu-2: #9C9EA5;
-  --d-drop: drop-shadow(0 22px 20px rgb(0 0 0 / 0.15)) drop-shadow(0 5px 7px rgb(0 0 0 / 0.08));
+  --d-shadow: 0.16;
+  --d-shadow-2: 0.1;
   --d-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --d-gutter: clamp(16px, 4.2vw, 44px);
   display: block;
@@ -736,7 +737,7 @@ h1, h2, h3, p, ul, ol, dl, dd { margin: 0; }
     --d-ink: #F5F5F7; --d-ink-2: #D2D2D7; --d-ink-3: #98989D; --d-line: #38383A; --d-line-2: #4A4A4D;
     --d-link: #7D97F0; --d-danger: #E5604C; --d-nav-bg: rgb(22 22 23 / 0.78); --d-nav-line: rgb(255 255 255 / 0.12);
     --d-glass: #0A0A0B; --d-edge: #55565B; --d-alu: #4B4C51; --d-alu-2: #2F3034;
-    --d-drop: drop-shadow(0 22px 22px rgb(0 0 0 / 0.75));
+    --d-shadow: 0.62; --d-shadow-2: 0.5;
   }
 }
 :root[data-theme="dark"] .launcher.demo {
@@ -744,7 +745,7 @@ h1, h2, h3, p, ul, ol, dl, dd { margin: 0; }
   --d-ink: #F5F5F7; --d-ink-2: #D2D2D7; --d-ink-3: #98989D; --d-line: #38383A; --d-line-2: #4A4A4D;
   --d-link: #7D97F0; --d-danger: #E5604C; --d-nav-bg: rgb(22 22 23 / 0.78); --d-nav-line: rgb(255 255 255 / 0.12);
   --d-glass: #0A0A0B; --d-edge: #55565B; --d-alu: #4B4C51; --d-alu-2: #2F3034;
-  --d-drop: drop-shadow(0 22px 22px rgb(0 0 0 / 0.75));
+  --d-shadow: 0.62; --d-shadow-2: 0.5;
 }
 /* under the page (where a phone overscrolls) the same white or black */
 body:has(.launcher.demo) { background: #FFFFFF; }
@@ -792,15 +793,15 @@ body:has(.launcher.demo) { background: #FFFFFF; }
 .dl-h2.dl-c { text-align: center; }
 .dl-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 20px); }
 .dl-tile {
-  --art: 240px;
+  --art: 252px;
   display: flex; flex-direction: column; min-width: 0; overflow: hidden;
   padding: clamp(26px, 2.6vw, 36px) clamp(22px, 2.4vw, 34px) clamp(22px, 2.4vw, 30px);
   border: 0; border-radius: 28px; background: var(--d-tile); color: var(--d-ink);
   font: inherit; letter-spacing: inherit; text-align: left; cursor: pointer;
 }
 .dl-tile.wide { grid-column: span 2; }
-.dl-tile.t-ipad, .dl-tile.t-iphone { --art: 360px; }
-.dl-tile.t-guest, .dl-tile.t-board { --art: 330px; }
+.dl-tile.t-ipad, .dl-tile.t-iphone { --art: 378px; }
+.dl-tile.t-guest, .dl-tile.t-board { --art: 346px; }
 .dl-text { display: flex; flex-direction: column; align-items: flex-start; }
 .dl-for { color: var(--d-ink-3); font-size: 14px; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
 .dl-name { margin-top: 4px; font-size: clamp(24px, 0.7vw + 19px, 30px); font-weight: 600; line-height: 1.12; letter-spacing: -0.024em; text-wrap: balance; }
@@ -810,30 +811,33 @@ body:has(.launcher.demo) { background: #FFFFFF; }
 .dl-go .ic { width: 0.8em; height: 0.8em; margin-top: 1px; }
 .dl-tile:hover .dl-go { text-decoration: underline; text-underline-offset: 0.16em; text-decoration-thickness: 1px; }
 .dl-art { display: block; margin-top: auto; padding-top: clamp(26px, 3vw, 40px); }
-.dla { display: block; width: 100%; height: var(--art); overflow: visible; filter: var(--d-drop); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.dla { display: block; width: 100%; height: var(--art); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
 @media (hover: hover) { .dl-tile:hover .dla { transform: translateY(-4px) scale(1.012); } }
 .dl-tile:active .dla { transform: scale(0.99); }
 @media (max-width: 1000px) {
   .dl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .dl-tile.wide { grid-column: auto; }
   .dl-tile.t-ipad { grid-column: span 2; }
-  .dl-tile { --art: 250px; }
-  .dl-tile.t-ipad { --art: 360px; }
-  .dl-tile.t-iphone, .dl-tile.t-guest { --art: 300px; }
-  .dl-tile.t-board { --art: 300px; }
+  .dl-tile { --art: 262px; }
+  .dl-tile.t-ipad { --art: 378px; }
+  .dl-tile.t-iphone, .dl-tile.t-guest { --art: 315px; }
+  .dl-tile.t-board { --art: 315px; }
 }
 @media (max-width: 640px) {
   .dl-grid { grid-template-columns: minmax(0, 1fr); }
   .dl-tile.t-ipad { grid-column: auto; }
-  .dl-tile, .dl-tile.t-ipad, .dl-tile.t-board { --art: 220px; }
-  .dl-tile.t-iphone, .dl-tile.t-guest, .dl-tile.t-kiosk { --art: 290px; }
+  .dl-tile, .dl-tile.t-ipad, .dl-tile.t-board { --art: 231px; }
+  .dl-tile.t-iphone, .dl-tile.t-guest, .dl-tile.t-kiosk { --art: 305px; }
   .dl-tile { border-radius: 22px; }
 }
 
-/* the drawings: the app's colours on the screens (they follow the theme), bars standing for words */
+/* the drawings: the app's screens with its words and data, in its colours (they follow the theme; the kiosk and the
+   guest app are always light, the kitchen and the board dark, as in the app). The shadow is drawn in the picture. */
 .dla .k-edge { fill: var(--d-edge); }
 .dla .k-glass { fill: var(--d-glass); }
 .dla .k-cam { fill: #1B2633; }
+.dla .k-shadow { fill: #000000; opacity: var(--d-shadow); }
+.dla .k-shadow-2 { fill: #000000; opacity: var(--d-shadow-2); }
 .dla .k-stand, .dla .k-alu { fill: var(--d-alu); }
 .dla .k-alu-2 { fill: var(--d-alu-2); }
 .dla .k-bg { fill: var(--bg); }
@@ -843,15 +847,22 @@ body:has(.launcher.demo) { background: #FFFFFF; }
 .dla .k-ln { fill: var(--line); }
 .dla .k-ink { fill: var(--ink); }
 .dla .k-i2 { fill: var(--ink-2); }
-.dla .k-i3 { fill: var(--ink-3); opacity: 0.55; }
-.dla .k-ac, .dla .k-acf { fill: var(--accent); }
+.dla .k-t3, .dla .k-t3r { fill: var(--ink-3); }
+.dla .k-inkf { fill: var(--ink); }
+.dla .k-sff { fill: var(--surface); }
+.dla .k-segon { fill: var(--seg-on, var(--surface)); }
+.dla .k-dim { opacity: 0.55; }
+.dla .k-ac { fill: var(--accent); }
+.dla .k-aci { fill: var(--accent-ink); }
 .dla .k-acs { fill: var(--accent-soft); }
 .dla .k-ok { fill: var(--ok); }
 .dla .k-oki { fill: var(--ok-ink); }
 .dla .k-oks { fill: var(--ok-soft); }
 .dla .k-wn { fill: var(--warn); }
 .dla .k-wns { fill: var(--warn-soft); }
+.dla .k-wnl { fill: none; stroke: var(--warn); stroke-width: 1.2; }
 .dla .k-bad { fill: var(--bad); }
+.dla .k-bads { fill: var(--bad-soft); }
 .dla .k-c1 { fill: var(--s1); }
 .dla .k-c2 { fill: var(--s2); }
 .dla .k-c3 { fill: var(--s3); }
@@ -859,38 +870,50 @@ body:has(.launcher.demo) { background: #FFFFFF; }
 .dla .k-rule { fill: none; stroke: rgb(255 255 255 / 0.92); stroke-width: 1.6; }
 .dla .k-w { fill: #FFFFFF; }
 .dla .k-w-15 { fill: rgb(255 255 255 / 0.16); }
-.dla .k-w-7 { fill: rgb(255 255 255 / 0.72); }
-.dla .k-o { fill: none; stroke: var(--line-2); stroke-width: 2; }
-.dla .k-dash { fill: none; stroke: var(--line-2); stroke-width: 2; stroke-dasharray: 7 6; }
-.dla .k-okl { fill: none; stroke: var(--ok); stroke-width: 3; }
-.dla .k-okl-1 { fill: none; stroke: var(--ok); stroke-width: 2; }
-.dla .k-inkl { fill: none; stroke: var(--ink); stroke-width: 3; }
-.dla .k-gl rect { fill: none; stroke: var(--ink-2); stroke-width: 2; }
-.dla .k-acl rect { fill: none; stroke: var(--accent); stroke-width: 2.4; }
-.dla .k-ico { fill: none; stroke: var(--ink-3); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-.dla .k-ico-ac { stroke: var(--accent); }
-.dla .k-chev { fill: none; stroke: var(--ink-3); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-.dla .k-arrow { fill: none; stroke: #FFFFFF; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-.dla .k-tick { fill: none; stroke: var(--ok); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-.dla .k-tick-d { fill: none; stroke: var(--ok-ink); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-.dla .k-flame { fill: none; stroke: var(--warn); stroke-width: 2.6; stroke-linejoin: round; }
+.dla .k-w-86 { fill: rgb(255 255 255 / 0.86); }
+.dla .k-o { fill: none; stroke: var(--line-2); stroke-width: 1.5; }
+.dla .k-o1 { fill: none; stroke: var(--line-2); stroke-width: 1.2; }
+.dla .k-dash1 { fill: none; stroke: var(--line-2); stroke-width: 1.2; stroke-dasharray: 3 2.5; }
+.dla .k-dash { fill: none; stroke: var(--line-2); stroke-width: 2; stroke-dasharray: 5 4; }
+.dla .k-okl { fill: none; stroke: var(--ok); stroke-width: 2.5; }
+.dla .k-okl-1 { fill: none; stroke: var(--ok); stroke-width: 1.5; opacity: 0.35; }
+.dla .k-inkl { fill: none; stroke: var(--ink); stroke-width: 2; }
 .dla .k-wifi { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
 .dla .k-bat { fill: none; stroke: var(--ink); stroke-width: 1.6; opacity: 0.5; }
-.dla .k-plate-sh { fill: rgb(0 0 0 / 0.06); }
-.dla .k-gs0 { stop-color: var(--ok-soft); stop-opacity: 0.7; }
-.dla .k-gs1 { stop-color: var(--ok-soft); stop-opacity: 0; }
-.dla text { font-family: var(--font-ui); font-weight: 700; letter-spacing: -0.02em; }
+.dla .k-gs0 { stop-color: var(--ok); stop-opacity: 0.08; }
+.dla .k-gs1 { stop-color: var(--ok); stop-opacity: 0; }
+.dla .k-fs0 { stop-color: var(--bg); stop-opacity: 0; }
+.dla .k-fs1 { stop-color: var(--bg); stop-opacity: 1; }
+.dla text { font-family: var(--font-ui); }
+.dla .k-mono { font-family: var(--font-timer); }
+.dla .k-plate-t { fill: #FFFFFF; font-family: var(--font-brand); font-weight: 700; }
 .dla .k-time { fill: var(--ink); font-family: var(--d-font); font-size: 17px; font-weight: 600; letter-spacing: 0; }
-.dla .k-num { fill: var(--ink); font-size: 36px; }
-.dla .k-big { fill: var(--ink-2); font-size: 50px; }
-.dla .k-big-ok { fill: var(--ok); }
 /* the kitchen and the board are dark in both themes, as in the app */
 .dla .k-dark {
   --bg: #0E1113; --surface: #171B1E; --surface-2: #1E2327; --surface-3: #2A3238;
   --ink: #EEF1F2; --ink-2: #B3BBC1; --ink-3: #85909A; --line: #2B3339; --line-2: #3D474E;
-  --accent: #7D97F0; --accent-soft: #1C2647; --ok: #4CC788; --ok-ink: #06140C; --ok-soft: #13301F;
-  --warn: #F0A93E; --warn-soft: #3A2A10; --bad: #F2725F;
+  --accent: #7D97F0; --accent-ink: #0B1124; --accent-soft: #1C2647; --ok: #4CC788; --ok-ink: #06140C; --ok-soft: #13301F;
+  --warn: #F0A93E; --warn-soft: #3A2A10; --bad: #F2725F; --bad-soft: #3B1A15; --seg-on: #46515A;
 }
+/* the kiosk and the guest app are light in both themes: their tokens, as 55-kiosk.css and 57-guest.css set them */
+.dla .k-kiosk, .dla .k-guest {
+  --bg: #ECEEEA; --surface: #FFFFFF; --surface-2: #F3F4F1; --surface-3: #E6E8E4;
+  --ink: #16191B; --ink-2: #4E565C; --ink-3: #6B747B; --line: #DCDFD9; --line-2: #C5CAC2;
+  --accent: #1E44B0; --accent-ink: #FFFFFF; --accent-soft: #E3E9F8; --ok: #157043; --ok-soft: #DCF0E3; --bad: #B8322A;
+  --card: #F8F9F6; --seg: #E1E4DF; --seg-on: #FFFFFF;
+}
+.dla .k-guest { --bg: #F2F3EF; --ink-3: #69727A; --card: #FFFFFF; --seg: #E3E6E0; }
+.dla .k-card { fill: var(--card); }
+.dla .k-seg { fill: var(--seg); }
+/* the guest app's plan of Belgrade, in guest-map's colours */
+.dla .k-land { fill: #F1EEE6; }
+.dla .k-park { fill: #DDE9D2; }
+.dla .k-river { fill: none; stroke: #C5D9F0; stroke-linecap: round; }
+.dla .k-bridge { stroke: #FFFFFF; stroke-width: 4; stroke-linecap: round; }
+.dla .k-water { fill: #6F8FB8; font-size: 11px; font-style: italic; font-weight: 500; }
+.dla .k-cityl { fill: #A39E92; font-size: 10px; font-weight: 600; letter-spacing: 0.18em; }
+.dla .k-pinl { fill: #FFFFFF; }
+.dla .k-pin { fill: var(--accent); stroke: #FFFFFF; stroke-width: 3; }
 
 /* how to try: a path of six steps — a large thin numeral, a line on to the next (as the website's «Kako počinje») */
 .dl-try { padding-block: clamp(64px, 8vw, 120px); background: var(--d-tile); }

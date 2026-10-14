@@ -168,10 +168,96 @@ const FLOOR = {
 // the guest's bill: the level gives 10% (Zlato), happy hours 20% on drinks; discounts do not add up — each dish gets
 // the biggest; points: 3 for every 100 RSD paid (the app's loyalty programme)
 const LOYAL = { levelPct: 10, promoPct: 20, earn: 3, points: 1840 };
-// the kiosk's dishes: the app's own pictures (src/dishes/, taken from the kiosk) and prices; two in the basket
+// the kiosk's dishes: the app's own pictures (src/dishes/: the drawings taken from the kiosk, the pastries' photos) and
+// prices; two in the basket
 // the team on shift and a waiter's week (the app's pay: hours × the hourly rate + 1.5% of the waiter's sales)
 const TEAM = { people: [['Marko', 'waiter', '16:02'], ['Jovana', 'waiter', '16:10'], ['Stefan', 'cook', '15:45'], ['Luka', 'bar', '17:00']], pay: { name: 'Marko', hours: 38, rate: 650, pct: 1.5, sales: 412000 } };
-const KIOSK = { dishes: [['pelmeni', 890], ['cevapi', 1290], ['pljeskavica', 1190], ['burger', 1290], ['carbonara', 990], ['ribeye', 3690]], basket: ['cevapi', 'pljeskavica'], no: 47 };
+// the kiosk's pastries (the owner's six, 14 October, with their photos — src/dishes/*.webp; in the demo too), then the
+// drinks that follow them in the app's menu, led by the owner's three iced drinks in RUVO cups
+const KIOSK = { dishes: [['croissant', 220], ['painchoc', 260], ['cinnamon', 290], ['brioche', 180], ['danish', 270], ['raisin', 250]], basket: ['croissant', 'cinnamon'], no: 47 };
+// «Prognoza» (the owner, 14 October: «я бы ещё уделил внимание прогнозированию — хорошую фичу придумали»): the back
+// office's day ahead (app: forecast.js, ui/office-forecast.jsx) as its own section of the home page. Every claim is what
+// the app does: the usual day is the median of the same weekday over four past weeks, by the hour and by the dish;
+// holidays as the same holiday went last year; the range is the forecast's error on the past 14 days; the owner's words
+// («матч в 20:00») become changes by the hour — by AI, or without it by keywords (Russian and Serbian); people by the
+// hour from the bills, portions and drinks one person handles; prep by the tech cards; a draft supplier order = needed
+// for the day + the minimum − the stock. The app's own note is kept: for one venue a day is usually off by about 20%.
+// The screen's day: tomorrow — a Thursday, as the iPad's status bar says Wednesday 14 October — by the hour (bills in the hall and for delivery), and a match at 20:00 that the app reads
+// as «зал ×1,3 · 19:00–23:00» (parseEvents); the numbers on the screen are counted from it in build.mjs, the people as
+// staffByHour counts them (a waiter — 5 bills an hour, a cook — 20 portions).
+export const FORECAST_DAY = {
+  from: 8,
+  hall: [1.5, 4.5, 5, 4.5, 5, 9, 8.5, 6, 4.5, 4.5, 6, 9.5, 10.5, 8, 5.5, 1.5],
+  deliv: [0, 0, 0, 0.5, 2, 3, 3, 2, 1.5, 1.5, 2.5, 3.5, 4, 3, 1, 0],
+  event: { from: 19, to: 23, k: 1.3 },
+  check: 2180, kitchen: 1.98, bar: 0.96, err: 0.18, wape: 0.17, waiter: 5, cook: 20,
+};
+const FORECAST = {
+  sr: {
+    eyebrow: 'Prognoza',
+    title: 'Sutrašnji dan — unapred',
+    lead: 'RUVO izračunava koliko će biti računa i prometa u svakom satu — na osnovu prodaje vašeg objekta. A iz toga: koliko ljudi da rasporedite, šta da pripremite i šta da naručite od dobavljača.',
+    items: [
+      ['Računi i promet po satima', 'Običan dan je medijana istog dana u nedelji za poslednje četiri nedelje — po svakom satu i jelu. Sa rasponom: koliko je prognoza grešila prethodnih dana.'],
+      ['Recite šta znate', '„Utakmica u 20h”, „kiša”, „banket za 30 osoba u 13h”, „zatvoreno od 18h” — napišite rečima. AI to pretvara u promene po satima, a bez AI-ja RUVO prepoznaje ključne reči.'],
+      ['Ljudi, priprema, porudžbina', 'Koliko konobara, kuvara i šankera treba u svakom satu. Priprema po normativima jela iz prognoze. Nacrt porudžbine dobavljaču: potrebno za dan, plus minimum, minus stanje.'],
+      ['Tačnost na vidiku', 'Za svaki protekli dan prognoza se pravi na isti način i poredi sa onim što je bilo. Praznik se računa onako kako je prošao prošle godine.'],
+    ],
+    note: 'Za jedan objekat greška prognoze po danu je obično oko 20%, po satu i jelu veća. Zato RUVO pokazuje raspon, a ne jedan broj.',
+    label: 'Primer: prognoza za četvrtak sa utakmicom uveče — računi po satima i ljudi po satima',
+    screen: {
+      day: 'Sutra · čet', sub: 'Dorćol · četvrtak · prema 4 prethodna četvrtka',
+      tiles: ['Računi', 'Promet, RSD', 'Porcije', 'Tačnost'], hallW: 'sala', delivW: 'dostava', kitchenW: 'kuhinja', barW: 'šank', errW: 'greška za 14 dana',
+      events: 'Šta će biti tog dana', typed: 'Uveče utakmica Partizan — Zvezda u 20h', apply: 'Uzmi u obzir',
+      adj: ['Utakmica u 20:00: više gostiju u sali', 'sala ×1,3 · 19:00–23:00'],
+      hours: 'Po satima', hall: 'Sala', deliv: 'Dostava', base: 'Običan dan',
+      people: 'Ljudi po satima', hourCol: 'Sat', rows: ['Konobari', 'Kuvari'],
+    },
+  },
+  en: {
+    eyebrow: 'Forecast',
+    title: 'Tomorrow, worked out today',
+    lead: 'RUVO works out how many bills and how much revenue each hour will bring — from your own venue’s sales. And from that: how many people to staff, what to prep and what to order from suppliers.',
+    items: [
+      ['Bills and revenue by the hour', 'A usual day is the median of the same weekday over the last four weeks — for every hour and every dish. With a range: how far off the forecast was on the days before.'],
+      ['Say what you know', '“Match at 8 pm”, “rain”, “banquet for 30 at 1 pm”, “closed from 6” — write it in words. AI turns it into changes by the hour; without AI, RUVO picks up keywords in Serbian and Russian.'],
+      ['People, prep, purchasing', 'How many waiters, cooks and bartenders each hour needs. Prep by the recipes of the dishes in the forecast. A draft supplier order: what the day needs, plus the minimum, minus what is in stock.'],
+      ['Accuracy in plain sight', 'For every past day the forecast is built the same way and checked against what happened. A holiday counts the way it went last year.'],
+    ],
+    note: 'For a single venue a day’s forecast is usually off by about 20%, and by more for a single hour or dish. That’s why RUVO shows a range, not one number.',
+    label: 'Example: Thursday’s forecast with a match in the evening — bills by the hour and people by the hour',
+    screen: {
+      day: 'Tomorrow · Thu', sub: 'Dorćol · Thursday · from the 4 previous Thursdays',
+      tiles: ['Bills', 'Revenue, RSD', 'Portions', 'Accuracy'], hallW: 'hall', delivW: 'delivery', kitchenW: 'kitchen', barW: 'bar', errW: 'error over 14 days',
+      events: 'What’s on that day', typed: 'Partizan — Zvezda match at 8 pm', apply: 'Apply',
+      adj: ['Match at 20:00: more guests in the hall', 'hall ×1.3 · 19:00–23:00'],
+      hours: 'By the hour', hall: 'Hall', deliv: 'Delivery', base: 'Usual day',
+      people: 'People by the hour', hourCol: 'Hour', rows: ['Waiters', 'Cooks'],
+    },
+  },
+  ru: {
+    eyebrow: 'Прогноз',
+    title: 'Завтрашний день — заранее',
+    lead: 'RUVO считает, сколько будет счетов и выручки в каждый час, — по продажам вашего же заведения. А из этого — сколько людей поставить на смену, что заготовить и что заказать у поставщика.',
+    items: [
+      ['Счета и выручка по часам', 'Обычный день — медиана того же дня недели за четыре прошлые недели, по каждому часу и блюду. С диапазоном: насколько прогноз ошибался в прошлые дни.'],
+      ['Скажите, что знаете', '«Матч в 20:00», «дождь», «банкет на 30 человек в 13:00», «закрыты с 18» — напишите словами. ИИ превратит это в изменения по часам, а без ИИ RUVO поймёт ключевые слова.'],
+      ['Люди, заготовки, заказ', 'Сколько официантов, поваров и барменов нужно в каждый час. Заготовки — по техкартам блюд прогноза. Черновик заказа поставщику: нужно на день, плюс минимум, минус остаток.'],
+      ['Точность на виду', 'Каждый прошлый день прогноз строится так же и сравнивается с тем, что было. Праздник считается так, как он прошёл в прошлом году.'],
+    ],
+    note: 'Для одного заведения ошибка прогноза по дню обычно около 20%, по часу и блюду — больше. Поэтому RUVO показывает диапазон, а не одно число.',
+    label: 'Пример: прогноз на четверг с матчем вечером — счета по часам и люди по часам',
+    screen: {
+      day: 'Завтра · чт', sub: 'Дорчол · четверг · по 4 прошлым четвергам',
+      tiles: ['Счета', 'Выручка, RSD', 'Порции', 'Точность'], hallW: 'зал', delivW: 'доставка', kitchenW: 'кухня', barW: 'бар', errW: 'ошибка за 14 дн.',
+      events: 'Что будет в этот день', typed: 'Вечером матч Партизан — Звезда в 20:00', apply: 'Учесть',
+      adj: ['Матч в 20:00: больше гостей в зале', 'зал ×1,3 · 19:00–23:00'],
+      hours: 'По часам', hall: 'Зал', deliv: 'Доставка', base: 'Обычный день',
+      people: 'Люди по часам', hourCol: 'Час', rows: ['Официанты', 'Повара'],
+    },
+  },
+};
+
 const EXAMPLES = {
   sr: {
     title: 'Sve što objektu treba',
@@ -219,8 +305,8 @@ const EXAMPLES = {
         id: 'kiosk', tab: 'Kiosk', title: 'Kiosk za goste',
         text: 'Gost sam bira jela po slikama, vidi opis i alergene i dobija broj. Porudžbina odmah ide u kuhinju, a plaća se na kasi po broju.',
         points: ['Srpski ili ruski — jednim dodirom', 'Alergeni i opis uz svako jelo', 'Akcije po rasporedu važe i ovde'],
-        label: 'Primer: kiosk sa glavnim jelima po slikama i broj porudžbine za plaćanje na kasi',
-        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['doručak', 'supe i čorbe', 'glavna jela', 'salate'], on: 2, section: 'Glavna jela', names: { pelmeni: 'Domaći pelmeni', cevapi: 'Ćevapi, 10 kom', pljeskavica: 'Pljeskavica', burger: 'Burger sa junetinom', carbonara: 'Pasta karbonara', ribeye: 'Rib-aj stek, 300 g', sopska: 'Šopska salata', caesar: 'Cezar salata sa piletinom' }, next: ['Salate', [['sopska', 590], ['caesar', 890]]], basketTitle: 'Vaša porudžbina', items: '2 stavke', checkout: 'Poruči', yourNo: 'Vaš broj', payAt: 'Platite na kasi i recite ovaj broj.' },
+        label: 'Primer: kiosk sa pecivima na fotografijama i broj porudžbine za plaćanje na kasi',
+        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['salate', 'dezerti', 'peciva', 'pića'], on: 2, section: 'Peciva', names: { croissant: 'Puter kroasan', painchoc: 'Kroasan sa čokoladom', cinnamon: 'Rolnica sa cimetom', brioche: 'Francuski brioš', danish: 'Dansko pecivo sa vanila kremom', raisin: 'Pužić sa suvim grožđem', icedlatte: 'Ledeni late', icedmatcha: 'Ledeni mača late', espressotonic: 'Espresso tonik' }, next: ['Pića', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Vaša porudžbina', items: '2 stavke', checkout: 'Poruči', yourNo: 'Vaš broj', payAt: 'Platite na kasi i recite ovaj broj.' },
       },
       {
         id: 'guests', tab: 'Gosti', title: 'Kartica gosta na računu',
@@ -305,8 +391,8 @@ const EXAMPLES = {
         id: 'kiosk', tab: 'Kiosk', title: 'The kiosk for guests',
         text: 'The guest picks dishes by picture, sees the description and allergens and gets a number. The order goes to the kitchen at once and is paid at the till by number.',
         points: ['Serbian or Russian — one tap', 'Allergens and a description with every dish', 'Scheduled promotions apply here too'],
-        label: 'Example: the kiosk with main dishes by picture and the order number to pay at the till',
-        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['breakfast', 'soups', 'mains', 'salads'], on: 2, section: 'Mains', names: { pelmeni: 'Homemade pelmeni', cevapi: 'Ćevapi, 10 pcs', pljeskavica: 'Pljeskavica', burger: 'Beef burger', carbonara: 'Pasta carbonara', ribeye: 'Rib-eye steak, 300 g', sopska: 'Shopska salad', caesar: 'Caesar salad with chicken' }, next: ['Salads', [['sopska', 590], ['caesar', 890]]], basketTitle: 'Your order', items: '2 items', checkout: 'Order', yourNo: 'Your number', payAt: 'Pay at the till and say this number.' },
+        label: 'Example: the kiosk with pastries in photos and the order number to pay at the till',
+        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['salads', 'desserts', 'pastries', 'drinks'], on: 2, section: 'Pastries', names: { croissant: 'Butter croissant', painchoc: 'Pain au chocolat', cinnamon: 'Cinnamon roll', brioche: 'French brioche', danish: 'Vanilla custard Danish', raisin: 'Pain aux raisins', icedlatte: 'Iced latte', icedmatcha: 'Iced matcha latte', espressotonic: 'Espresso tonic' }, next: ['Drinks', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Your order', items: '2 items', checkout: 'Order', yourNo: 'Your number', payAt: 'Pay at the till and say this number.' },
       },
       {
         id: 'guests', tab: 'Guests', title: 'The guest’s card on the bill',
@@ -391,8 +477,8 @@ const EXAMPLES = {
         id: 'kiosk', tab: 'Киоск', title: 'Киоск для гостей',
         text: 'Гость сам выбирает блюда по фото, видит описание и аллергены и получает номер. Заказ сразу уходит на кухню, а оплата — на кассе по номеру.',
         points: ['Сербский или русский — одним касанием', 'Аллергены и описание у каждого блюда', 'Акции по расписанию действуют и здесь'],
-        label: 'Пример: киоск с горячим по фото и номер заказа для оплаты на кассе',
-        kiosk: { ...KIOSK, place: 'Дорчол', langs: ['Srpski', 'Русский'], cats: ['завтраки', 'супы', 'горячее', 'салаты'], on: 2, section: 'Горячее', names: { pelmeni: 'Домашние пельмени', cevapi: 'Чевапи, 10 шт', pljeskavica: 'Плескавица', burger: 'Бургер с говядиной', carbonara: 'Паста карбонара', ribeye: 'Стейк рибай, 300 г', sopska: 'Шопский салат', caesar: 'Цезарь с курицей' }, next: ['Салаты', [['sopska', 590], ['caesar', 890]]], basketTitle: 'Ваш заказ', items: '2 позиции', checkout: 'Оформить', yourNo: 'Ваш номер', payAt: 'Оплатите на кассе и назовите этот номер.' },
+        label: 'Пример: киоск с выпечкой на фото и номер заказа для оплаты на кассе',
+        kiosk: { ...KIOSK, place: 'Дорчол', langs: ['Srpski', 'Русский'], cats: ['салаты', 'десерты', 'выпечка', 'напитки'], on: 2, section: 'Выпечка', names: { croissant: 'Классический круассан', painchoc: 'Круассан с шоколадом', cinnamon: 'Синнабон с корицей', brioche: 'Французская бриошь', danish: 'Датская слойка с ванильным кремом', raisin: 'Улитка с изюмом', icedlatte: 'Айс-латте', icedmatcha: 'Айс-матча', espressotonic: 'Эспрессо-тоник' }, next: ['Напитки', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Ваш заказ', items: '2 позиции', checkout: 'Оформить', yourNo: 'Ваш номер', payAt: 'Оплатите на кассе и назовите этот номер.' },
       },
       {
         id: 'guests', tab: 'Гости', title: 'Карта гостя в счёте',
@@ -764,6 +850,7 @@ export const T = {
       ticket: TICKET.sr,
       live: LIVE.sr,
       examples: EXAMPLES.sr,
+      forecast: FORECAST.sr,
       pricing: PRICING.sr,
       integrationsTitle: 'Povezivanja',
       integrations: ['IPS QR plaćanje', 'bankovni terminal', 'SEF e-fakture', 'dnevni izveštaj u Telegramu', 'prenos iz drugog POS-a', 'Wolt i Glovo — uskoro'],
@@ -846,6 +933,7 @@ export const T = {
       ticket: TICKET.en,
       live: LIVE.en,
       examples: EXAMPLES.en,
+      forecast: FORECAST.en,
       pricing: PRICING.en,
       integrationsTitle: 'Connections',
       integrations: ['IPS QR payments', 'bank terminal', 'SEF e-invoices', 'daily report in Telegram', 'moving from another POS', 'Wolt and Glovo — soon'],
@@ -928,6 +1016,7 @@ export const T = {
       ticket: TICKET.ru,
       live: LIVE.ru,
       examples: EXAMPLES.ru,
+      forecast: FORECAST.ru,
       pricing: PRICING.ru,
       integrationsTitle: 'Подключения',
       integrations: ['оплата по QR (IPS)', 'банковский терминал', 'e-фактуры SEF', 'отчёт в Telegram каждый день', 'перенос из другой POS', 'Wolt и Glovo — скоро'],
