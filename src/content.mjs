@@ -168,12 +168,11 @@ const FLOOR = {
 // the guest's bill: the level gives 10% (Zlato), happy hours 20% on drinks; discounts do not add up — each dish gets
 // the biggest; points: 3 for every 100 RSD paid (the app's loyalty programme)
 const LOYAL = { levelPct: 10, promoPct: 20, earn: 3, points: 1840 };
-// the kiosk's dishes: the app's own pictures (src/dishes/: the drawings taken from the kiosk, the pastries' photos) and
-// prices; two in the basket
 // the team on shift and a waiter's week (the app's pay: hours × the hourly rate + 1.5% of the waiter's sales)
 const TEAM = { people: [['Marko', 'waiter', '16:02'], ['Jovana', 'waiter', '16:10'], ['Stefan', 'cook', '15:45'], ['Luka', 'bar', '17:00']], pay: { name: 'Marko', hours: 38, rate: 650, pct: 1.5, sales: 412000 } };
-// the kiosk's pastries (the owner's six, 14 October, with their photos — src/dishes/*.webp; in the demo too), then the
-// drinks that follow them in the app's menu, led by the owner's three iced drinks in RUVO cups
+// the kiosk, as the demo's: its own menu is the pastries and the drinks (the owner, 14 October: «давай тоже заменим
+// на булки и кофе»), so two folders; the owner's six pastries with their photos (src/dishes/*.webp), then the drinks led
+// by the owner's three iced drinks in RUVO cups; two in the basket
 const KIOSK = { dishes: [['croissant', 220], ['painchoc', 260], ['cinnamon', 290], ['brioche', 180], ['danish', 270], ['raisin', 250]], basket: ['croissant', 'cinnamon'], no: 47 };
 // «Prognoza» (the owner, 14 October: «я бы ещё уделил внимание прогнозированию — хорошую фичу придумали»): the back
 // office's day ahead (app: forecast.js, ui/office-forecast.jsx) as its own section of the home page. Every claim is what
@@ -284,7 +283,7 @@ const EXAMPLES = {
         text: 'Svaka stanica vidi svoje: kuhinja jela, šank pića. Tajmer pokazuje koliko porudžbina čeka, a one koje kasne se ističu.',
         points: ['Sala, kiosk, Wolt i Glovo na jednom ekranu', 'Dodir — „sprema se”, još jedan — „gotovo”', 'Konobar odmah vidi šta je gotovo'],
         label: 'Primer: ekran kuhinje sa tri porudžbine i tajmerima',
-        kds: { station: 'Kuhinja', other: 'Šank', count: '3 u radu', wait: 'Sled 2 čeka poziv', called: 'Pozvano', bar: 2, queueMin: 9, norm: [77, 8], recent: [['Sto 5', '2× Ćevapi, 10 kom'], ['Kiosk 46', '1× Burger sa junetinom'], ['Sto 9', '1× Rib-aj stek, 300 g']], tickets: [
+        kds: { station: 'Kuhinja', other: 'Šank', count: '3 u radu', wait: 'Sled 2 čeka poziv', called: 'Pozvano', bar: 2, queueMin: 9, norm: [77, 8], recent: [['Sto 5', '2×\u00a0Ćevapi, 10 kom'], ['Glovo G-1179', '2×\u00a0Pljeskavica'], ['Sto 9', '1×\u00a0Rib-aj stek, 300 g']], tickets: [
           { no: 22, src: 'Sto 7', time: '02:41', tone: 'ok', lines: [[1, 'Pljeskavica'], [1, 'Pomfrit']], wait: true },
           { no: 21, src: 'Wolt', time: '07:15', tone: 'warn', lines: [[2, 'Ćevapi, 10 kom'], [1, 'Šopska salata']] },
           { no: 19, src: 'Sto 3', time: '12:58', tone: 'late', lines: [[2, 'Palačinke sa čokoladom']], called: true },
@@ -306,7 +305,7 @@ const EXAMPLES = {
         text: 'Gost sam bira jela po slikama, vidi opis i alergene i dobija broj. Porudžbina odmah ide u kuhinju, a plaća se na kasi po broju.',
         points: ['Srpski ili ruski — jednim dodirom', 'Alergeni i opis uz svako jelo', 'Akcije po rasporedu važe i ovde'],
         label: 'Primer: kiosk sa pecivima na fotografijama i broj porudžbine za plaćanje na kasi',
-        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['salate', 'dezerti', 'peciva', 'pića'], on: 2, section: 'Peciva', names: { croissant: 'Puter kroasan', painchoc: 'Kroasan sa čokoladom', cinnamon: 'Rolnica sa cimetom', brioche: 'Francuski brioš', danish: 'Dansko pecivo sa vanila kremom', raisin: 'Pužić sa suvim grožđem', icedlatte: 'Ledeni late', icedmatcha: 'Ledeni mača late', espressotonic: 'Espresso tonik' }, next: ['Pića', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Vaša porudžbina', items: '2 stavke', checkout: 'Poruči', yourNo: 'Vaš broj', payAt: 'Platite na kasi i recite ovaj broj.' },
+        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['peciva', 'pića'], on: 0, section: 'Peciva', names: { croissant: 'Puter kroasan', painchoc: 'Kroasan sa čokoladom', cinnamon: 'Rolnica sa cimetom', brioche: 'Francuski brioš', danish: 'Dansko pecivo sa vanila kremom', raisin: 'Pužić sa suvim grožđem', icedlatte: 'Ledeni late', icedmatcha: 'Ledeni mača late', espressotonic: 'Espresso tonik' }, next: ['Pića', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Vaša porudžbina', items: '2 stavke', checkout: 'Poruči', yourNo: 'Vaš broj', payAt: 'Platite na kasi i recite ovaj broj.' },
       },
       {
         id: 'guests', tab: 'Gosti', title: 'Kartica gosta na računu',
@@ -370,7 +369,7 @@ const EXAMPLES = {
         text: 'Each station sees its own: the kitchen the dishes, the bar the drinks. A timer shows how long an order has waited, and late ones stand out.',
         points: ['The floor, the kiosk, Wolt and Glovo on one screen', 'Tap once — “cooking”, again — “ready”', 'The waiter sees at once what is ready'],
         label: 'Example: the kitchen screen with three orders and their timers',
-        kds: { station: 'Kitchen', other: 'Bar', count: '3 in progress', wait: 'Course 2 waits for the call', called: 'Fired', bar: 2, queueMin: 9, norm: [77, 8], recent: [['Table 5', '2× Ćevapi, 10 pcs'], ['Kiosk 46', '1× Beef burger'], ['Table 9', '1× Rib-eye steak, 300 g']], tickets: [
+        kds: { station: 'Kitchen', other: 'Bar', count: '3 in progress', wait: 'Course 2 waits for the call', called: 'Fired', bar: 2, queueMin: 9, norm: [77, 8], recent: [['Table 5', '2×\u00a0Ćevapi, 10 pcs'], ['Glovo G-1179', '2×\u00a0Pljeskavica'], ['Table 9', '1×\u00a0Rib-eye steak, 300 g']], tickets: [
           { no: 22, src: 'Table 7', time: '02:41', tone: 'ok', lines: [[1, 'Pljeskavica'], [1, 'Fries']], wait: true },
           { no: 21, src: 'Wolt', time: '07:15', tone: 'warn', lines: [[2, 'Ćevapi, 10 pcs'], [1, 'Shopska salad']] },
           { no: 19, src: 'Table 3', time: '12:58', tone: 'late', lines: [[2, 'Pancakes with chocolate']], called: true },
@@ -392,7 +391,7 @@ const EXAMPLES = {
         text: 'The guest picks dishes by picture, sees the description and allergens and gets a number. The order goes to the kitchen at once and is paid at the till by number.',
         points: ['Serbian or Russian — one tap', 'Allergens and a description with every dish', 'Scheduled promotions apply here too'],
         label: 'Example: the kiosk with pastries in photos and the order number to pay at the till',
-        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['salads', 'desserts', 'pastries', 'drinks'], on: 2, section: 'Pastries', names: { croissant: 'Butter croissant', painchoc: 'Pain au chocolat', cinnamon: 'Cinnamon roll', brioche: 'French brioche', danish: 'Vanilla custard Danish', raisin: 'Pain aux raisins', icedlatte: 'Iced latte', icedmatcha: 'Iced matcha latte', espressotonic: 'Espresso tonic' }, next: ['Drinks', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Your order', items: '2 items', checkout: 'Order', yourNo: 'Your number', payAt: 'Pay at the till and say this number.' },
+        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['pastries', 'drinks'], on: 0, section: 'Pastries', names: { croissant: 'Butter croissant', painchoc: 'Pain au chocolat', cinnamon: 'Cinnamon roll', brioche: 'French brioche', danish: 'Vanilla custard Danish', raisin: 'Pain aux raisins', icedlatte: 'Iced latte', icedmatcha: 'Iced matcha latte', espressotonic: 'Espresso tonic' }, next: ['Drinks', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Your order', items: '2 items', checkout: 'Order', yourNo: 'Your number', payAt: 'Pay at the till and say this number.' },
       },
       {
         id: 'guests', tab: 'Guests', title: 'The guest’s card on the bill',
@@ -456,7 +455,7 @@ const EXAMPLES = {
         text: 'Каждый цех видит своё: кухня — блюда, бар — напитки. Таймер показывает, сколько ждёт заказ, а опаздывающие выделены.',
         points: ['Зал, киоск, Wolt и Glovo на одном экране', 'Касание — «готовлю», ещё одно — «готово»', 'Официант сразу видит, что готово'],
         label: 'Пример: экран кухни с тремя заказами и таймерами',
-        kds: { station: 'Кухня', other: 'Бар', count: '3 в работе', wait: 'Курс 2 ждёт вызова', called: 'Вызвано', bar: 2, queueMin: 9, norm: [77, 8], recent: [['Стол 5', '2× Чевапи, 10 шт'], ['Киоск 46', '1× Бургер с говядиной'], ['Стол 9', '1× Стейк рибай, 300 г']], tickets: [
+        kds: { station: 'Кухня', other: 'Бар', count: '3 в работе', wait: 'Курс 2 ждёт вызова', called: 'Вызвано', bar: 2, queueMin: 9, norm: [77, 8], recent: [['Стол 5', '2×\u00a0Чевапи, 10 шт'], ['Glovo G-1179', '2×\u00a0Плескавица'], ['Стол 9', '1×\u00a0Стейк рибай, 300 г']], tickets: [
           { no: 22, src: 'Стол 7', time: '02:41', tone: 'ok', lines: [[1, 'Плескавица'], [1, 'Картофель фри']], wait: true },
           { no: 21, src: 'Wolt', time: '07:15', tone: 'warn', lines: [[2, 'Чевапи, 10 шт'], [1, 'Шопский салат']] },
           { no: 19, src: 'Стол 3', time: '12:58', tone: 'late', lines: [[2, 'Палачинки с шоколадом']], called: true },
@@ -478,7 +477,7 @@ const EXAMPLES = {
         text: 'Гость сам выбирает блюда по фото, видит описание и аллергены и получает номер. Заказ сразу уходит на кухню, а оплата — на кассе по номеру.',
         points: ['Сербский или русский — одним касанием', 'Аллергены и описание у каждого блюда', 'Акции по расписанию действуют и здесь'],
         label: 'Пример: киоск с выпечкой на фото и номер заказа для оплаты на кассе',
-        kiosk: { ...KIOSK, place: 'Дорчол', langs: ['Srpski', 'Русский'], cats: ['салаты', 'десерты', 'выпечка', 'напитки'], on: 2, section: 'Выпечка', names: { croissant: 'Классический круассан', painchoc: 'Круассан с шоколадом', cinnamon: 'Синнабон с корицей', brioche: 'Французская бриошь', danish: 'Датская слойка с ванильным кремом', raisin: 'Улитка с изюмом', icedlatte: 'Айс-латте', icedmatcha: 'Айс-матча', espressotonic: 'Эспрессо-тоник' }, next: ['Напитки', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Ваш заказ', items: '2 позиции', checkout: 'Оформить', yourNo: 'Ваш номер', payAt: 'Оплатите на кассе и назовите этот номер.' },
+        kiosk: { ...KIOSK, place: 'Дорчол', langs: ['Srpski', 'Русский'], cats: ['выпечка', 'напитки'], on: 0, section: 'Выпечка', names: { croissant: 'Классический круассан', painchoc: 'Круассан с шоколадом', cinnamon: 'Синнабон с корицей', brioche: 'Французская бриошь', danish: 'Датская слойка с ванильным кремом', raisin: 'Улитка с изюмом', icedlatte: 'Айс-латте', icedmatcha: 'Айс-матча', espressotonic: 'Эспрессо-тоник' }, next: ['Напитки', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Ваш заказ', items: '2 позиции', checkout: 'Оформить', yourNo: 'Ваш номер', payAt: 'Оплатите на кассе и назовите этот номер.' },
       },
       {
         id: 'guests', tab: 'Гости', title: 'Карта гостя в счёте',

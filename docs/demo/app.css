@@ -814,6 +814,22 @@ body:has(.launcher.demo) { background: #FFFFFF; }
 .dla { display: block; width: 100%; height: var(--art); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
 @media (hover: hover) { .dl-tile:hover .dla { transform: translateY(-4px) scale(1.012); } }
 .dl-tile:active .dla { transform: scale(0.99); }
+/* the kiosk's tile is a poster: the kiosk's screen (always light) fills it from the top; its head — the logo, the
+   language, the folders — lies under a graphite night where the words stand, white, in the same places as on the other
+   tiles, and the pastries come up out of it */
+.dl-tile.poster { position: relative; isolation: isolate; min-height: 440px; background: #ECEEEA; color: #FFFFFF; }
+.dl-poster { position: absolute; inset: 0; z-index: -1; overflow: hidden; border-radius: inherit; }
+.dl-poster .dla { height: 100%; transform-origin: 50% 0; }
+.dl-poster::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, #0E1012 0%, #0E1012 22%, rgb(14 16 18 / 0.88) 32%, rgb(14 16 18 / 0.55) 44%,
+    rgb(14 16 18 / 0.18) 54%, rgb(14 16 18 / 0) 62%);
+}
+.dl-tile.poster .dl-for { color: rgb(255 255 255 / 0.78); }
+.dl-tile.poster .dl-desc { color: rgb(255 255 255 / 0.9); }
+.dl-tile.poster .dl-go { color: #FFFFFF; font-weight: 500; }
+@media (hover: hover) { .dl-tile.poster:hover .dla { transform: scale(1.025); } }
+.dl-tile.poster:active .dla { transform: scale(1.01); }
 @media (max-width: 1000px) {
   .dl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .dl-tile.wide { grid-column: auto; }
@@ -829,6 +845,7 @@ body:has(.launcher.demo) { background: #FFFFFF; }
   .dl-tile, .dl-tile.t-ipad, .dl-tile.t-board { --art: 231px; }
   .dl-tile.t-iphone, .dl-tile.t-guest, .dl-tile.t-kiosk { --art: 305px; }
   .dl-tile { border-radius: 22px; }
+  .dl-tile.poster { min-height: 0; aspect-ratio: 834 / 1210; }
 }
 
 /* the drawings: the app's screens with its words and data, in its colours (they follow the theme; the kiosk and the
