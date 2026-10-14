@@ -23,10 +23,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&amp;family=Unbounded:wght@700&amp;family=JetBrains+Mono:wght@600&amp;display=swap">
+<script>(() => { try { const t = localStorage.getItem('ruvo-theme'); if (t !== 'light' && t !== 'dark') return; document.documentElement.dataset.theme = t; for (const m of document.querySelectorAll('meta[name="theme-color"]')) m.content = t === 'dark' ? '#0F1214' : '#E8EBE7'; } catch (e) {} })();</script>
 <style>
 :root {
 --bg: #E8EBE7;
 --bg-2: #DCE0DA;
+--chip: #DCE0DA;
+--chip-hover: #D4D9D2;
+--chip-on: #FFFFFF;
 --surface: #FFFFFF;
 --surface-2: #F3F5F2;
 --ink: #13171A;
@@ -100,6 +104,7 @@ color-scheme: light;
 @media (prefers-color-scheme: dark) {
 :root:not([data-theme="light"]) {
 --bg: #0F1214; --bg-2: #0A0C0E; --surface: #171B1E; --surface-2: #1D2226;
+--chip: #1B2024; --chip-hover: #242B30; --chip-on: #2E373D;
 --ink: #ECEFF1; --ink-2: #B4BCC2; --ink-3: #8A949B; --line: #2A3238; --line-2: #3B454C; --tile: #171C1F;
 --accent: #7D97F0; --accent-2: #9DB1F5; --accent-ink: #0B1124; --accent-soft: #1C2647;
 --warn: #F0A93E; --warn-soft: #382910; --ok: #4CC788; --ok-soft: #133022;
@@ -112,6 +117,7 @@ color-scheme: dark;
 }
 :root[data-theme="dark"] {
 --bg: #0F1214; --bg-2: #0A0C0E; --surface: #171B1E; --surface-2: #1D2226;
+--chip: #1B2024; --chip-hover: #242B30; --chip-on: #2E373D;
 --ink: #ECEFF1; --ink-2: #B4BCC2; --ink-3: #8A949B; --line: #2A3238; --line-2: #3B454C; --tile: #171C1F;
 --accent: #7D97F0; --accent-2: #9DB1F5; --accent-ink: #0B1124; --accent-soft: #1C2647;
 --warn: #F0A93E; --warn-soft: #382910; --ok: #4CC788; --ok-soft: #133022;
@@ -199,14 +205,15 @@ mask-image: linear-gradient(to bottom, #000 25%, transparent 95%);
 .nav { display: flex; gap: var(--sp-6); margin-left: auto; }
 .nav a { color: var(--ink-2); font-size: var(--fs-body); font-weight: 500; text-decoration: none; }
 .nav a:hover { color: var(--ink); }
-.langs { display: flex; gap: 2px; padding: 3px; border-radius: 10px; background: var(--bg-2); }
+.langs { display: flex; gap: 2px; padding: 3px; border-radius: 10px; background: var(--chip); }
 .langs a {
 display: inline-flex; align-items: center; justify-content: center;
 min-width: 40px; height: 34px; padding-inline: 8px; border-radius: 8px;
 color: var(--ink-2); font-size: var(--fs-sm); font-weight: 600; letter-spacing: 0.02em; text-decoration: none;
 }
 .langs a:hover { color: var(--ink); }
-.langs a[aria-current] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow-1); }
+.langs a[aria-current] { background: var(--chip-on); color: var(--ink); box-shadow: var(--shadow-1); }
+@media (max-width: 1180px) { .top-in { gap: var(--sp-4); } .nav { gap: 18px; } }
 @media (max-width: 1000px) {
 .nav { display: none; }
 .top-in > .langs { margin-left: auto; }
@@ -216,22 +223,40 @@ color: var(--ink-2); font-size: var(--fs-sm); font-weight: 600; letter-spacing: 
 .top-in { gap: var(--sp-2); }
 .langs a { min-width: 34px; padding-inline: 6px; }
 }
+@media (max-width: 400px) {
+.top-in > .wordmark { padding: 7px 10px 6px calc(10px + 0.08em); font-size: 14px; }
+.langs a { min-width: 30px; padding-inline: 4px; }
+}
+.tt {
+flex: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+width: 40px; height: 40px; padding: 0; border: 0; border-radius: 10px;
+background: var(--chip); color: var(--ink-2); font: inherit; cursor: pointer;
+}
+.tt[hidden] { display: none; }
+.tt:hover { background: var(--chip-hover); color: var(--ink); }
+.tt svg { display: block; width: 18px; height: 18px; }
+.tt[data-mode="dark"] .tt-moon, .tt:not([data-mode="dark"]) .tt-sun { display: none; }
+.tt-foot { display: none; }
+@media (max-width: 480px) {
+.top-in > .tt { display: none; }
+.tt-foot:not([hidden]) { display: inline-flex; width: auto; height: 36px; padding-inline: 12px; font-size: var(--fs-sm); font-weight: 600; }
+}
 .top-in { position: relative; }
 .vm { position: relative; flex: none; }
 .vm-btn {
 display: inline-flex; align-items: center; gap: 8px;
 height: 40px; padding-inline: 12px 10px; border-radius: 10px;
-background: var(--bg-2); color: var(--ink);
+background: var(--chip); color: var(--ink);
 font-size: var(--fs-body); font-weight: 600; white-space: nowrap;
 cursor: pointer; list-style: none; user-select: none;
 }
 .vm-btn::-webkit-details-marker { display: none; }
 .vm-btn::marker { content: ''; }
 .vm-btn > svg { flex: none; width: 22px; height: 22px; }
-.vm-btn:hover { background: var(--line); }
+.vm-btn:hover { background: var(--chip-hover); }
 .vm-chev { display: inline-flex; color: var(--ink-3); }
 .vm-chev svg { width: 14px; height: 14px; transition: transform 0.2s ease; }
-.vm[open] > .vm-btn { background: var(--surface); box-shadow: var(--shadow-1); }
+.vm[open] > .vm-btn { background: var(--chip-on); box-shadow: var(--shadow-1); }
 .vm[open] .vm-chev svg { transform: rotate(180deg); }
 .vm-panel {
 position: absolute; z-index: 30; top: calc(100% + 10px); left: 0;
@@ -259,9 +284,11 @@ background: var(--surface); box-shadow: var(--shadow-2);
 .vm-panel { left: 0; right: 0; width: auto; max-height: calc(100dvh - 92px); overflow-y: auto; overscroll-behavior: contain; margin-inline: var(--gutter); }
 }
 @media (max-width: 640px) { .vm-list { grid-template-columns: minmax(0, 1fr); } }
-@media (max-width: 480px) {
-.vm-btn { gap: 6px; padding-inline: 10px 8px; font-size: var(--fs-sm); }
-.vm-btn > svg { display: none; }
+@media (max-width: 600px) { .vm-btn > svg { display: none; } }
+@media (max-width: 480px) { .vm-btn { gap: 6px; padding-inline: 10px 8px; font-size: var(--fs-sm); } }
+@media (max-width: 350px) {
+.vm-btn { gap: 4px; padding-inline: 8px 6px; }
+.vm-l { display: inline-block; max-width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: top; }
 }
 @media (prefers-reduced-motion: no-preference) {
 @view-transition { navigation: auto; }
@@ -1039,7 +1066,7 @@ font-size: 13px; line-height: 1.3; font-variant-numeric: tabular-nums;
 .top-cta { flex: none; display: inline-flex; align-items: center; height: 40px; padding-inline: 16px; border-radius: 10px; background: var(--accent); color: var(--accent-ink); font-size: var(--fs-sm); font-weight: 600; text-decoration: none; white-space: nowrap; }
 .top-cta:hover { background: var(--accent-2); color: var(--accent-ink); }
 @media (max-width: 1000px) { .top-cta { margin-left: auto; } .top-cta + .langs { margin-left: 0; } }
-@media (max-width: 480px) { .top-cta { display: none; } .top-cta + .langs { margin-left: auto; } }
+@media (max-width: 720px) { .top-cta { display: none; } .top-cta + .langs { margin-left: auto; } }
 .btn.ghost { border: 1px solid var(--line-2); background: transparent; color: var(--ink); }
 .btn.ghost:hover { border-color: var(--ink-3); background: var(--surface); color: var(--ink); }
 .su { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 20rem); gap: clamp(32px, 6vw, 96px); align-items: start; }
@@ -1107,7 +1134,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 .foot-col a { color: var(--ink-2); text-decoration: none; }
 .foot-col a:hover { color: var(--ink); text-decoration: underline; }
 .foot-col a[aria-current] { color: var(--ink); font-weight: 600; }
-.foot-base { margin-top: var(--sp-10); padding-top: var(--sp-5); border-top: 1px solid var(--line); line-height: 1.6; }
+.foot-base { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-3); margin-top: var(--sp-10); padding-top: var(--sp-5); border-top: 1px solid var(--line); line-height: 1.6; }
 @media (max-width: 760px) { .foot-in { grid-template-columns: minmax(0, 1fr); } .foot-cols { grid-column: 1; } }
 @media (max-width: 480px) { .foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .doc { padding-block: clamp(16px, 3vw, 40px) var(--band); }
@@ -1154,6 +1181,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <nav class="nav" aria-label="Главное меню"><a href="#features">Возможности</a><a href="#pricing">Цены</a><a href="#contact">Контакты</a></nav>
 <a class="top-cta" href="../demo/">Попробовать демо</a>
 <nav class="langs" aria-label="Язык"><a href="../../hotel/" hreflang="sr" lang="sr-Latn" title="Srpski">SR</a><a href="../../en/hotel/" hreflang="en" lang="en" title="English">EN</a><a href="./" hreflang="ru" lang="ru" title="Русский" aria-current="page">RU</a></nav>
+<button type="button" class="tt" data-tt data-to-light="Включить светлую тему" data-to-dark="Включить тёмную тему" data-light="Светлая тема" data-dark="Тёмная тема" aria-label="Включить тёмную тему" title="Включить тёмную тему" hidden><span class="tt-moon"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M236.37,139.4a12,12,0,0,0-12-3A84.07,84.07,0,0,1,119.6,31.59a12,12,0,0,0-15-15A108.86,108.86,0,0,0,49.69,55.07,108,108,0,0,0,136,228a107.09,107.09,0,0,0,64.93-21.69,108.86,108.86,0,0,0,38.44-54.94A12,12,0,0,0,236.37,139.4Zm-49.88,47.74A84,84,0,0,1,68.86,69.51,84.93,84.93,0,0,1,92.27,48.29Q92,52.13,92,56A108.12,108.12,0,0,0,200,164q3.87,0,7.71-.27A84.79,84.79,0,0,1,186.49,187.14Z"/></svg></span><span class="tt-sun"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M116,36V20a12,12,0,0,1,24,0V36a12,12,0,0,1-24,0Zm80,92a68,68,0,1,1-68-68A68.07,68.07,0,0,1,196,128Zm-24,0a44,44,0,1,0-44,44A44.05,44.05,0,0,0,172,128ZM51.51,68.49a12,12,0,1,0,17-17l-12-12a12,12,0,0,0-17,17Zm0,119-12,12a12,12,0,0,0,17,17l12-12a12,12,0,1,0-17-17ZM196,72a12,12,0,0,0,8.49-3.51l12-12a12,12,0,0,0-17-17l-12,12A12,12,0,0,0,196,72Zm8.49,115.51a12,12,0,0,0-17,17l12,12a12,12,0,0,0,17-17ZM48,128a12,12,0,0,0-12-12H20a12,12,0,0,0,0,24H36A12,12,0,0,0,48,128Zm80,80a12,12,0,0,0-12,12v16a12,12,0,0,0,24,0V220A12,12,0,0,0,128,208Zm108-92H220a12,12,0,0,0,0,24h16a12,12,0,0,0,0-24Z"/></svg></span></button>
 </div></header>
 <main id="main">
 <section class="hero"><span class="anchor" id="who"></span><div class="wrap hero-in">
@@ -1416,7 +1444,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <div class="foot-col"><h2>Контакты</h2><ul><li><a href="mailto:hello@ruvo.ac">hello@ruvo.ac</a></li><li>Cara Uroša 19, 11000 Beograd</li></ul></div>
 </nav>
 </div>
-<p class="foot-base">TT DAILY KITCHEN DOO · ПИБ 113820680 · © 2026</p>
+<div class="foot-base"><p>TT DAILY KITCHEN DOO · ПИБ 113820680 · © 2026</p><button type="button" class="tt tt-foot" data-tt data-to-light="Включить светлую тему" data-to-dark="Включить тёмную тему" data-light="Светлая тема" data-dark="Тёмная тема" aria-label="Включить тёмную тему" title="Включить тёмную тему" hidden><span class="tt-moon"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M236.37,139.4a12,12,0,0,0-12-3A84.07,84.07,0,0,1,119.6,31.59a12,12,0,0,0-15-15A108.86,108.86,0,0,0,49.69,55.07,108,108,0,0,0,136,228a107.09,107.09,0,0,0,64.93-21.69,108.86,108.86,0,0,0,38.44-54.94A12,12,0,0,0,236.37,139.4Zm-49.88,47.74A84,84,0,0,1,68.86,69.51,84.93,84.93,0,0,1,92.27,48.29Q92,52.13,92,56A108.12,108.12,0,0,0,200,164q3.87,0,7.71-.27A84.79,84.79,0,0,1,186.49,187.14Z"/></svg></span><span class="tt-sun"><svg aria-hidden="true" focusable="false" viewBox="0 0 256 256" fill="currentColor"><path d="M116,36V20a12,12,0,0,1,24,0V36a12,12,0,0,1-24,0Zm80,92a68,68,0,1,1-68-68A68.07,68.07,0,0,1,196,128Zm-24,0a44,44,0,1,0-44,44A44.05,44.05,0,0,0,172,128ZM51.51,68.49a12,12,0,1,0,17-17l-12-12a12,12,0,0,0-17,17Zm0,119-12,12a12,12,0,0,0,17,17l12-12a12,12,0,1,0-17-17ZM196,72a12,12,0,0,0,8.49-3.51l12-12a12,12,0,0,0-17-17l-12,12A12,12,0,0,0,196,72Zm8.49,115.51a12,12,0,0,0-17,17l12,12a12,12,0,0,0,17-17ZM48,128a12,12,0,0,0-12-12H20a12,12,0,0,0,0,24H36A12,12,0,0,0,48,128Zm80,80a12,12,0,0,0-12,12v16a12,12,0,0,0,24,0V220A12,12,0,0,0,128,208Zm108-92H220a12,12,0,0,0,0,24h16a12,12,0,0,0,0-24Z"/></svg></span><span class="tt-l">Тёмная тема</span></button></div>
 </div></footer>
 <script>
 (() => {
@@ -1537,13 +1565,47 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: var(--f
 <script>
 (() => {
   const vm = document.querySelector('[data-vm]');
-  if (!vm) return;
-  document.addEventListener('click', (e) => { if (vm.open && !vm.contains(e.target)) vm.open = false; });
-  document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Escape' || !vm.open) return;
-    vm.open = false;
-    vm.querySelector('summary').focus();
-  });
+  if (vm) {
+    document.addEventListener('click', (e) => { if (vm.open && !vm.contains(e.target)) vm.open = false; });
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || !vm.open) return;
+      vm.open = false;
+      vm.querySelector('summary').focus();
+    });
+  }
+  const root = document.documentElement;
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const dark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : media.matches);
+  const buttons = [...document.querySelectorAll('[data-tt]')];
+  // a button says what it will do: on a dark page — the light theme (a sun), on a light one — the dark (a moon)
+  const sync = () => {
+    const d = dark();
+    for (const b of buttons) {
+      const label = d ? b.dataset.toLight : b.dataset.toDark;
+      b.dataset.mode = d ? 'dark' : 'light';
+      b.setAttribute('aria-label', label);
+      b.title = label;
+      const words = b.querySelector('.tt-l');
+      if (words) words.textContent = d ? b.dataset.light : b.dataset.dark;
+    }
+    for (const m of document.querySelectorAll('meta[name="theme-color"]')) m.content = d ? '#0F1214' : '#E8EBE7';
+  };
+  for (const b of buttons) {
+    b.hidden = false;
+    b.addEventListener('click', () => {
+      const next = dark() ? 'light' : 'dark';
+      const apply = () => {
+        root.dataset.theme = next;
+        try { localStorage.setItem('ruvo-theme', next); } catch (e) {}
+        sync();
+      };
+      if (document.startViewTransition && !still.matches) document.startViewTransition(apply);
+      else apply();
+    });
+  }
+  media.addEventListener('change', sync);
+  sync();
 })();
 </script>
 </body>

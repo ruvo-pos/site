@@ -4,6 +4,10 @@
 :root {
   --bg: #E8EBE7;
   --bg-2: #DCE0DA;
+  /* the header's chips — the languages, «Za koga ▾», the theme switch: a well in the light theme, raised in the dark */
+  --chip: #DCE0DA;
+  --chip-hover: #D4D9D2;
+  --chip-on: #FFFFFF;
   --surface: #FFFFFF;
   --surface-2: #F3F5F2;
   --ink: #13171A;
@@ -87,6 +91,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0F1214; --bg-2: #0A0C0E; --surface: #171B1E; --surface-2: #1D2226;
+    --chip: #1B2024; --chip-hover: #242B30; --chip-on: #2E373D;
     --ink: #ECEFF1; --ink-2: #B4BCC2; --ink-3: #8A949B; --line: #2A3238; --line-2: #3B454C; --tile: #171C1F;
     --accent: #7D97F0; --accent-2: #9DB1F5; --accent-ink: #0B1124; --accent-soft: #1C2647;
     --warn: #F0A93E; --warn-soft: #382910; --ok: #4CC788; --ok-soft: #133022;
@@ -99,6 +104,7 @@
 }
 :root[data-theme="dark"] {
   --bg: #0F1214; --bg-2: #0A0C0E; --surface: #171B1E; --surface-2: #1D2226;
+  --chip: #1B2024; --chip-hover: #242B30; --chip-on: #2E373D;
   --ink: #ECEFF1; --ink-2: #B4BCC2; --ink-3: #8A949B; --line: #2A3238; --line-2: #3B454C; --tile: #171C1F;
   --accent: #7D97F0; --accent-2: #9DB1F5; --accent-ink: #0B1124; --accent-soft: #1C2647;
   --warn: #F0A93E; --warn-soft: #382910; --ok: #4CC788; --ok-soft: #133022;
@@ -194,15 +200,19 @@ a:hover { color: var(--accent-2); }
 .nav { display: flex; gap: var(--sp-6); margin-left: auto; }
 .nav a { color: var(--ink-2); font-size: var(--fs-body); font-weight: 500; text-decoration: none; }
 .nav a:hover { color: var(--ink); }
-.langs { display: flex; gap: 2px; padding: 3px; border-radius: 10px; background: var(--bg-2); }
+.langs { display: flex; gap: 2px; padding: 3px; border-radius: 10px; background: var(--chip); }
 .langs a {
   display: inline-flex; align-items: center; justify-content: center;
   min-width: 40px; height: 34px; padding-inline: 8px; border-radius: 8px;
   color: var(--ink-2); font-size: var(--fs-sm); font-weight: 600; letter-spacing: 0.02em; text-decoration: none;
 }
 .langs a:hover { color: var(--ink); }
-.langs a[aria-current] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow-1); }
-/* the section links need the width; below it the wordmark, the button and the languages stay */
+.langs a[aria-current] { background: var(--chip-on); color: var(--ink); box-shadow: var(--shadow-1); }
+/* the row: the wordmark, «Za koga ▾», the section links, the demo, the languages, the theme. As the width goes, the gaps
+   narrow (≤1180), the section links go (≤1000), the demo button goes — the first screen has it (≤720) —, the venue's
+   icon in the menu goes (≤600), the theme switch moves to the foot of the page (≤480), the wordmark and the languages
+   get smaller (≤400), a long name in the menu is cut short (≤350) */
+@media (max-width: 1180px) { .top-in { gap: var(--sp-4); } .nav { gap: 18px; } }
 @media (max-width: 1000px) {
   .nav { display: none; }
   .top-in > .langs { margin-left: auto; }
@@ -211,6 +221,27 @@ a:hover { color: var(--accent-2); }
 @media (max-width: 480px) {
   .top-in { gap: var(--sp-2); }
   .langs a { min-width: 34px; padding-inline: 6px; }
+}
+@media (max-width: 400px) {
+  .top-in > .wordmark { padding: 7px 10px 6px calc(10px + 0.08em); font-size: 14px; }
+  .langs a { min-width: 30px; padding-inline: 4px; }
+}
+
+/* the theme switch (14 October): a sun or a moon on the languages' ground — what it will turn on; on a phone it waits at
+   the foot of the page, with its words. Shown only with JavaScript (without it the page follows the device). */
+.tt {
+  flex: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  width: 40px; height: 40px; padding: 0; border: 0; border-radius: 10px;
+  background: var(--chip); color: var(--ink-2); font: inherit; cursor: pointer;
+}
+.tt[hidden] { display: none; }
+.tt:hover { background: var(--chip-hover); color: var(--ink); }
+.tt svg { display: block; width: 18px; height: 18px; }
+.tt[data-mode="dark"] .tt-moon, .tt:not([data-mode="dark"]) .tt-sun { display: none; }
+.tt-foot { display: none; }
+@media (max-width: 480px) {
+  .top-in > .tt { display: none; }
+  .tt-foot:not([hidden]) { display: inline-flex; width: auto; height: 36px; padding-inline: 12px; font-size: var(--fs-sm); font-weight: 600; }
 }
 
 /* «Za koga ▾» beside the wordmark (14 October): the kind of venue the page is for — its icon and short name — on a
@@ -222,17 +253,17 @@ a:hover { color: var(--accent-2); }
 .vm-btn {
   display: inline-flex; align-items: center; gap: 8px;
   height: 40px; padding-inline: 12px 10px; border-radius: 10px;
-  background: var(--bg-2); color: var(--ink);
+  background: var(--chip); color: var(--ink);
   font-size: var(--fs-body); font-weight: 600; white-space: nowrap;
   cursor: pointer; list-style: none; user-select: none;
 }
 .vm-btn::-webkit-details-marker { display: none; }
 .vm-btn::marker { content: ''; }
 .vm-btn > svg { flex: none; width: 22px; height: 22px; }
-.vm-btn:hover { background: var(--line); }
+.vm-btn:hover { background: var(--chip-hover); }
 .vm-chev { display: inline-flex; color: var(--ink-3); }
 .vm-chev svg { width: 14px; height: 14px; transition: transform 0.2s ease; }
-.vm[open] > .vm-btn { background: var(--surface); box-shadow: var(--shadow-1); }
+.vm[open] > .vm-btn { background: var(--chip-on); box-shadow: var(--shadow-1); }
 .vm[open] .vm-chev svg { transform: rotate(180deg); }
 .vm-panel {
   position: absolute; z-index: 30; top: calc(100% + 10px); left: 0;
@@ -261,9 +292,11 @@ a:hover { color: var(--accent-2); }
   .vm-panel { left: 0; right: 0; width: auto; max-height: calc(100dvh - 92px); overflow-y: auto; overscroll-behavior: contain; margin-inline: var(--gutter); }
 }
 @media (max-width: 640px) { .vm-list { grid-template-columns: minmax(0, 1fr); } }
-@media (max-width: 480px) {
-  .vm-btn { gap: 6px; padding-inline: 10px 8px; font-size: var(--fs-sm); }
-  .vm-btn > svg { display: none; }
+@media (max-width: 600px) { .vm-btn > svg { display: none; } }
+@media (max-width: 480px) { .vm-btn { gap: 6px; padding-inline: 10px 8px; font-size: var(--fs-sm); } }
+@media (max-width: 350px) {
+  .vm-btn { gap: 4px; padding-inline: 8px 6px; }
+  .vm-l { display: inline-block; max-width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: top; }
 }
 /* going from one kind of venue to another (or to any page of the site): the page fades over, the header stays */
 @media (prefers-reduced-motion: no-preference) {
@@ -1144,7 +1177,7 @@ h2 { font-size: var(--fs-h2); font-weight: 700; line-height: 1.1; letter-spacing
 .top-cta { flex: none; display: inline-flex; align-items: center; height: 40px; padding-inline: 16px; border-radius: 10px; background: var(--accent); color: var(--accent-ink); font-size: var(--fs-sm); font-weight: 600; text-decoration: none; white-space: nowrap; }
 .top-cta:hover { background: var(--accent-2); color: var(--accent-ink); }
 @media (max-width: 1000px) { .top-cta { margin-left: auto; } .top-cta + .langs { margin-left: 0; } }
-@media (max-width: 480px) { .top-cta { display: none; } .top-cta + .langs { margin-left: auto; } }
+@media (max-width: 720px) { .top-cta { display: none; } .top-cta + .langs { margin-left: auto; } }
 .btn.ghost { border: 1px solid var(--line-2); background: transparent; color: var(--ink); }
 .btn.ghost:hover { border-color: var(--ink-3); background: var(--surface); color: var(--ink); }
 
@@ -1218,7 +1251,7 @@ h2 { font-size: var(--fs-h2); font-weight: 700; line-height: 1.1; letter-spacing
 .foot-col a { color: var(--ink-2); text-decoration: none; }
 .foot-col a:hover { color: var(--ink); text-decoration: underline; }
 .foot-col a[aria-current] { color: var(--ink); font-weight: 600; }
-.foot-base { margin-top: var(--sp-10); padding-top: var(--sp-5); border-top: 1px solid var(--line); line-height: 1.6; }
+.foot-base { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-3); margin-top: var(--sp-10); padding-top: var(--sp-5); border-top: 1px solid var(--line); line-height: 1.6; }
 @media (max-width: 760px) { .foot-in { grid-template-columns: minmax(0, 1fr); } .foot-cols { grid-column: 1; } }
 @media (max-width: 480px) { .foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 

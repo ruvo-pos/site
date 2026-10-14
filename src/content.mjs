@@ -624,7 +624,7 @@ const MORE = {
 export const T = {
   sr: {
     name: 'Srpski',
-    ui: { lang: 'sr-Latn', og: 'sr_RS', langLabel: 'Jezik', menuLabel: 'Glavni meni', footLabel: 'O firmi i dokumenti', co: { company: 'Firma', pib: 'PIB', address: 'Adresa', email: 'E-pošta' }, plate: ['ЦАРА УРОША', 'CARA UROŠA'], preview: 'Sajt RUVO', foot: { product: 'Proizvod', docs: 'Dokumenti', contact: 'Kontakt' } },
+    ui: { lang: 'sr-Latn', og: 'sr_RS', langLabel: 'Jezik', menuLabel: 'Glavni meni', footLabel: 'O firmi i dokumenti', co: { company: 'Firma', pib: 'PIB', address: 'Adresa', email: 'E-pošta' }, plate: ['ЦАРА УРОША', 'CARA UROŠA'], preview: 'Sajt RUVO', foot: { product: 'Proizvod', docs: 'Dokumenti', contact: 'Kontakt' }, theme: { toLight: 'Uključi svetlu temu', toDark: 'Uključi tamnu temu', light: 'Svetla tema', dark: 'Tamna tema' } },
     paths: { home: 'index.html', privacy: 'privatnost/index.html', support: 'podrska/index.html' },
     nav: { features: 'Mogućnosti', examples: 'Primeri', who: 'Za koga', pricing: 'Cene', start: 'Kako počinje', contact: 'Kontakt', privacy: 'Privatnost', support: 'Podrška', home: 'Početna', demo: 'Demo' },
     tax: 'PIB',
@@ -705,7 +705,7 @@ export const T = {
 
   en: {
     name: 'English',
-    ui: { lang: 'en', og: 'en_US', langLabel: 'Language', menuLabel: 'Main menu', footLabel: 'Company and documents', co: { company: 'Company', pib: 'Tax ID (PIB)', address: 'Address', email: 'Email' }, plate: ['ЦАРА УРОША', 'CARA UROŠA'], preview: 'RUVO website', foot: { product: 'Product', docs: 'Documents', contact: 'Contact' } },
+    ui: { lang: 'en', og: 'en_US', langLabel: 'Language', menuLabel: 'Main menu', footLabel: 'Company and documents', co: { company: 'Company', pib: 'Tax ID (PIB)', address: 'Address', email: 'Email' }, plate: ['ЦАРА УРОША', 'CARA UROŠA'], preview: 'RUVO website', foot: { product: 'Product', docs: 'Documents', contact: 'Contact' }, theme: { toLight: 'Switch to the light theme', toDark: 'Switch to the dark theme', light: 'Light theme', dark: 'Dark theme' } },
     paths: { home: 'en/index.html', privacy: 'en/privacy/index.html', support: 'en/support/index.html' },
     nav: { features: 'Features', examples: 'Examples', who: 'Who it’s for', pricing: 'Pricing', start: 'How it starts', contact: 'Contact', privacy: 'Privacy', support: 'Support', home: 'Home', demo: 'Demo' },
     tax: 'Tax ID (PIB)',
@@ -786,7 +786,7 @@ export const T = {
 
   ru: {
     name: 'Русский',
-    ui: { lang: 'ru', og: 'ru_RU', langLabel: 'Язык', menuLabel: 'Главное меню', footLabel: 'Реквизиты и документы', co: { company: 'Компания', pib: 'ПИБ', address: 'Адрес', email: 'Почта' }, plate: ['ЦАРА УРОША', 'CARA UROŠA'], preview: 'Сайт RUVO', foot: { product: 'Продукт', docs: 'Документы', contact: 'Контакты' } },
+    ui: { lang: 'ru', og: 'ru_RU', langLabel: 'Язык', menuLabel: 'Главное меню', footLabel: 'Реквизиты и документы', co: { company: 'Компания', pib: 'ПИБ', address: 'Адрес', email: 'Почта' }, plate: ['ЦАРА УРОША', 'CARA UROŠA'], preview: 'Сайт RUVO', foot: { product: 'Продукт', docs: 'Документы', contact: 'Контакты' }, theme: { toLight: 'Включить светлую тему', toDark: 'Включить тёмную тему', light: 'Светлая тема', dark: 'Тёмная тема' } },
     paths: { home: 'ru/index.html', privacy: 'ru/privacy/index.html', support: 'ru/support/index.html' },
     nav: { features: 'Возможности', examples: 'Примеры', who: 'Для кого', pricing: 'Цены', start: 'Как начать', contact: 'Контакты', privacy: 'Конфиденциальность', support: 'Поддержка', home: 'Главная', demo: 'Демо' },
     tax: 'ПИБ',

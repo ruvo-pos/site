@@ -50,6 +50,8 @@ const PLAY_ICON = PH('play-fill');
 const CHECK = PH('check-bold');
 const CARET = PH('caret-down-bold');
 const ARROW = PH('arrow-right-bold');
+const SUN = PH('sun-bold');
+const MOON = PH('moon-bold');
 // the kinds of venue
 const VICON = Object.fromEntries(VENUE_KEYS.map((k) => [k, PH(VENUE_SETUP[k].icon)]));
 // the demo: one page per language of the app (Serbian, Russian); English links to the Serbian one, where the app's
@@ -120,27 +122,77 @@ function head(lang, page, file, title, description, { noindex = false } = {}) {
     '<link rel="preconnect" href="https://fonts.googleapis.com">',
     '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
     `<link rel="stylesheet" href="${FONTS}">`,
+    THEME_EARLY,
     `<style>\n${CSS}\n</style>`,
   ].join('\n');
 }
 
-// «Za koga ▾» closes when a click lands elsewhere or on Escape; without the script it still opens and closes by itself
-const MENU_JS = `(() => {
+// The theme (the owner, 14 October: «У меня сайт отображается в темной теме — можем сделать переключатель?»): the page
+// follows the device's light or dark until the visitor chooses one with the switch; the choice is kept in this browser
+// (localStorage) and set on <html> as data-theme before the page is drawn, so no page flashes in the other theme.
+const THEME_KEY = 'ruvo-theme';
+const THEME_BG = { light: '#E8EBE7', dark: '#0F1214' };
+const THEME_EARLY = `<script>(() => { try { const t = localStorage.getItem('${THEME_KEY}'); if (t !== 'light' && t !== 'dark') return; document.documentElement.dataset.theme = t; for (const m of document.querySelectorAll('meta[name="theme-color"]')) m.content = t === 'dark' ? '${THEME_BG.dark}' : '${THEME_BG.light}'; } catch (e) {} })();</script>`;
+// the switch: a sun or a moon in the header (on a phone, with its words, at the foot of the page); without JavaScript it
+// is not shown — the page then simply follows the device
+function themeButton(lang, cls = '') {
+  const th = T[lang].ui.theme;
+  return `<button type="button" class="tt${cls ? ` ${cls}` : ''}" data-tt data-to-light="${esc(th.toLight)}" data-to-dark="${esc(th.toDark)}" data-light="${esc(th.light)}" data-dark="${esc(th.dark)}" aria-label="${esc(th.toDark)}" title="${esc(th.toDark)}" hidden><span class="tt-moon">${MOON}</span><span class="tt-sun">${SUN}</span>${cls ? `<span class="tt-l">${esc(th.dark)}</span>` : ''}</button>`;
+}
+
+// «Za koga ▾» closes when a click lands elsewhere or on Escape (without the script it still opens and closes by itself);
+// the theme switch
+const SITE_JS = `(() => {
   const vm = document.querySelector('[data-vm]');
-  if (!vm) return;
-  document.addEventListener('click', (e) => { if (vm.open && !vm.contains(e.target)) vm.open = false; });
-  document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Escape' || !vm.open) return;
-    vm.open = false;
-    vm.querySelector('summary').focus();
-  });
+  if (vm) {
+    document.addEventListener('click', (e) => { if (vm.open && !vm.contains(e.target)) vm.open = false; });
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape' || !vm.open) return;
+      vm.open = false;
+      vm.querySelector('summary').focus();
+    });
+  }
+  const root = document.documentElement;
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const dark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : media.matches);
+  const buttons = [...document.querySelectorAll('[data-tt]')];
+  // a button says what it will do: on a dark page — the light theme (a sun), on a light one — the dark (a moon)
+  const sync = () => {
+    const d = dark();
+    for (const b of buttons) {
+      const label = d ? b.dataset.toLight : b.dataset.toDark;
+      b.dataset.mode = d ? 'dark' : 'light';
+      b.setAttribute('aria-label', label);
+      b.title = label;
+      const words = b.querySelector('.tt-l');
+      if (words) words.textContent = d ? b.dataset.light : b.dataset.dark;
+    }
+    for (const m of document.querySelectorAll('meta[name="theme-color"]')) m.content = d ? '${THEME_BG.dark}' : '${THEME_BG.light}';
+  };
+  for (const b of buttons) {
+    b.hidden = false;
+    b.addEventListener('click', () => {
+      const next = dark() ? 'light' : 'dark';
+      const apply = () => {
+        root.dataset.theme = next;
+        try { localStorage.setItem('${THEME_KEY}', next); } catch (e) {}
+        sync();
+      };
+      if (document.startViewTransition && !still.matches) document.startViewTransition(apply);
+      else apply();
+    });
+  }
+  media.addEventListener('change', sync);
+  sync();
 })();`;
 
 function page(lang, key, file, title, description, body, opts = {}) {
-  if (body.includes('data-vm')) body += `\n<script>\n${MENU_JS}\n</script>`;
+  if (body.includes('data-vm') || body.includes('data-tt')) body += `\n<script>\n${SITE_JS}\n</script>`;
   if (PREVIEW && file === 'index.html') {
     return `<title>${esc(T.ru.ui.preview)}</title>
 <link rel="stylesheet" href="${FONTS}">
+${THEME_EARLY}
 <style>
 ${CSS}
 </style>
@@ -198,6 +250,7 @@ ${SIGNUP_ON
     ? (key !== 'signup' && key !== 'confirm' ? `<a class="top-cta" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].nav.signup)}</a>` : '')
     : `<a class="top-cta" href="${href(file, DEMO[lang])}">${esc(t.home.demo.cta)}</a>`}
 <nav class="langs" aria-label="${esc(t.ui.langLabel)}">${langs.join('')}</nav>
+${themeButton(lang)}
 </div></header>`;
 }
 
@@ -219,7 +272,7 @@ ${col(t.ui.foot.docs, [link('privacy'), ...(SIGNUP_ON ? [link('terms')] : []), l
 ${col(t.ui.foot.contact, [mail, esc(SITE.address)])}
 </nav>
 </div>
-<p class="foot-base">${esc(SITE.company)} · ${esc(t.tax)} ${SITE.pib} · © ${SITE.updated.iso.slice(0, 4)}</p>
+<div class="foot-base"><p>${esc(SITE.company)} · ${esc(t.tax)} ${SITE.pib} · © ${SITE.updated.iso.slice(0, 4)}</p>${themeButton(lang, 'tt-foot')}</div>
 </div></footer>`;
 }
 
@@ -1251,6 +1304,7 @@ function notFoundPage() {
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="${FONTS}">
+${THEME_EARLY}
 <style>
 ${CSS}
 </style>
