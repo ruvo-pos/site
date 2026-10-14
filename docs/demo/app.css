@@ -915,8 +915,9 @@ body:has(.launcher.demo) { background: #FFFFFF; }
 .dla .k-pinl { fill: #FFFFFF; }
 .dla .k-pin { fill: var(--accent); stroke: #FFFFFF; stroke-width: 3; }
 
-/* the kiosk's upright window (launcher.jsx): the demo's kiosk in a frame, an iPad Pro 11″ standing up at its own size
-   scaled to fit, its graphite glass in a silver edge as the tiles draw it; over the page dimmed and blurred */
+/* the upright devices' window (launcher.jsx): the demo's kiosk, waiter's iPhone or guest app in a frame — an iPad Pro
+   11″ standing up or an iPhone 18 Pro Max, at its own size scaled to fit, graphite glass in a silver edge as the tiles
+   draw them; over the page dimmed and blurred */
 .launcher.demo.kp-open { overflow: hidden; }
 .kp {
   position: fixed; inset: 0; z-index: 60; display: grid; place-items: center;
@@ -927,7 +928,17 @@ body:has(.launcher.demo) { background: #FFFFFF; }
   box-shadow: 0 0 0 calc(2.5px * var(--s)) var(--d-edge), 0 28px 80px rgb(0 0 0 / 0.42);
 }
 .kp-screen { overflow: hidden; border-radius: calc(20px * var(--s)); background: #ECEEEA; }
+.kp-view { overflow: hidden; }
 .kp-screen iframe { display: block; border: 0; transform-origin: 0 0; background: #ECEEEA; }
+/* the iPhone: its rounder body and screen, the status bar with the Dynamic Island over the app, the home indicator
+   under it — both in the colours of the app's own top and foot */
+.kp-dev.kp-phone { border-radius: calc(74px * var(--s)); box-shadow: 0 0 0 calc(3px * var(--s)) var(--d-edge), 0 28px 80px rgb(0 0 0 / 0.42); }
+.kp-phone .kp-screen { display: flex; flex-direction: column; border-radius: calc(60px * var(--s)); background: var(--surface); }
+.kp-phone .kp-screen iframe { background: transparent; }
+.kp-bar { display: block; flex: none; width: 100%; height: auto; }
+.kp-bar text { font-family: var(--d-font); letter-spacing: 0; }
+.kp-foot { display: flex; flex: none; align-items: flex-end; justify-content: center; padding-bottom: calc(8px * var(--s)); }
+.kp-foot span { width: calc(140px * var(--s)); height: calc(5px * var(--s)); border-radius: 999px; }
 .kp-x {
   position: fixed; top: calc(16px + env(safe-area-inset-top, 0px)); right: 16px; display: grid; place-items: center;
   width: 44px; height: 44px; border: 0; border-radius: 50%; background: rgb(255 255 255 / 0.16); color: #FFFFFF; cursor: pointer;
