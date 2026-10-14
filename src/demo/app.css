@@ -915,9 +915,9 @@ body:has(.launcher.demo) { background: #FFFFFF; }
 .dla .k-pinl { fill: #FFFFFF; }
 .dla .k-pin { fill: var(--accent); stroke: #FFFFFF; stroke-width: 3; }
 
-/* the upright devices' window (launcher.jsx): the demo's kiosk, waiter's iPhone or guest app in a frame — an iPad Pro
-   11″ standing up or an iPhone 18 Pro Max, at its own size scaled to fit, graphite glass in a silver edge as the tiles
-   draw them; over the page dimmed and blurred */
+/* the devices' window (launcher.jsx): the demo's front, kitchen, kiosk, waiter's iPhone or guest app in a frame — an
+   iPad Pro 11″ lying down or standing up, or an iPhone 18 Pro Max, at its own size scaled to fit, graphite glass in a
+   silver edge as the tiles draw them; over the page dimmed and blurred */
 .launcher.demo.kp-open { overflow: hidden; }
 .kp {
   position: fixed; inset: 0; z-index: 60; display: grid; place-items: center;
@@ -1895,12 +1895,10 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 
 .gu-places { display: flex; flex-direction: column; gap: 10px; margin: 14px 0 0; padding: 0; list-style: none; }
 .gu-place {
-  display: flex; align-items: center; gap: 14px; width: 100%; padding: 12px 14px 12px 12px; border: 0; border-radius: var(--r-xl);
+  display: flex; align-items: center; gap: 14px; width: 100%; padding: 14px 14px 14px 16px; border: 0; border-radius: var(--r-xl);
   background: #FFFFFF; color: var(--ink); text-align: left; box-shadow: var(--shadow-1); cursor: pointer;
 }
 .gu-place > .ic { flex: none; color: var(--ink-3); }
-.gu-place-art { display: grid; flex: none; place-items: center; width: 64px; height: 64px; overflow: hidden; border-radius: var(--r-lg); background: var(--surface-2); }
-.gu-place-art .dish-art { width: 88%; height: 88%; }
 .gu-place-t { display: flex; flex: 1; flex-direction: column; gap: 2px; min-width: 0; }
 .gu-place-name { font-size: 17px; font-weight: var(--fw-semibold); line-height: 1.25; }
 .gu-place-sub { color: var(--ink-3); font-size: var(--fs-sm); }
@@ -2884,7 +2882,7 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 .fc-live { display: flex; align-items: center; gap: var(--sp-2); margin: 0; font-size: var(--fs-sm); }
 .fc-live b { color: var(--ink); }
 .fc-events .fc-ask { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--sp-2) var(--sp-3); }
-.fc-events textarea { flex: 1 1 22rem; min-height: 64px; padding: var(--sp-2) var(--sp-3); border: 1px solid var(--line-2); border-radius: var(--r-md); background: var(--surface); color: var(--ink); font: inherit; line-height: 1.45; resize: vertical; }
+.fc-events textarea { flex: 1 1 22rem; box-sizing: border-box; min-height: var(--h-md); max-height: 12rem; padding: 10px var(--sp-3); border: 1px solid var(--line-2); border-radius: var(--r-md); background: var(--surface); color: var(--ink); font: inherit; line-height: 22px; resize: none; overflow-y: auto; }
 .fc-events textarea:focus { border-color: var(--accent); outline: 0; box-shadow: 0 0 0 3px var(--accent-soft); }
 .fc-ask-btns { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 .fc-adj { display: flex; flex-direction: column; gap: 6px; margin: var(--sp-3) 0 0; padding: 0; list-style: none; }
@@ -2902,11 +2900,9 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 .fc-set { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--sp-2) var(--sp-3); border-top: 1px solid var(--line); }
 .fc-set .field { margin: 0; }
 .fc-set input { max-width: 7rem; }
-.fc-cols { align-items: start; }
-.fc-list li { min-height: var(--h-sm); }
 .fc-gap { margin-top: var(--sp-3); }
-.fc-dishes { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 0 var(--sp-5); margin: 0; padding: 0; list-style: none; }
-.fc-dishes li { display: flex; align-items: center; gap: var(--sp-3); min-height: var(--h-sm); border-bottom: 1px solid var(--line); }
+.fc-dishes, .fc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 0 var(--sp-5); margin: 0; padding: 0; list-style: none; }
+.fc-dishes li, .fc-grid li { display: flex; align-items: center; gap: var(--sp-3); min-height: var(--h-sm); border-bottom: 1px solid var(--line); }
 .fc-dishes li .mono.strong { min-width: 2.5em; text-align: right; }
 .fc-dishes li .small { min-width: 4.5em; text-align: right; }
 .fc-explain p { max-width: 80ch; margin: 0; line-height: 1.55; }
