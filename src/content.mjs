@@ -303,9 +303,9 @@ const EXAMPLES = {
       {
         id: 'kiosk', tab: 'Kiosk', title: 'Kiosk za goste',
         text: 'Gost sam bira jela po slikama, vidi opis i alergene i dobija broj. Porudžbina odmah ide u kuhinju, a plaća se na kasi po broju.',
-        points: ['Srpski ili ruski — jednim dodirom', 'Alergeni i opis uz svako jelo', 'Akcije po rasporedu važe i ovde'],
+        points: ['Srpski, engleski ili ruski — jednim dodirom', 'Alergeni i opis uz svako jelo', 'Akcije po rasporedu važe i ovde'],
         label: 'Primer: kiosk sa pecivima na fotografijama i broj porudžbine za plaćanje na kasi',
-        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['peciva', 'pića'], on: 0, section: 'Peciva', names: { croissant: 'Puter kroasan', painchoc: 'Kroasan sa čokoladom', cinnamon: 'Rolnica sa cimetom', brioche: 'Francuski brioš', danish: 'Dansko pecivo sa vanila kremom', raisin: 'Pužić sa suvim grožđem', icedlatte: 'Ledeni late', icedmatcha: 'Ledeni mača late', espressotonic: 'Espresso tonik' }, next: ['Pića', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Vaša porudžbina', items: '2 stavke', checkout: 'Poruči', yourNo: 'Vaš broj', payAt: 'Platite na kasi i recite ovaj broj.' },
+        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'English', 'Русский'], cats: ['peciva', 'pića'], on: 0, section: 'Peciva', names: { croissant: 'Puter kroasan', painchoc: 'Kroasan sa čokoladom', cinnamon: 'Rolnica sa cimetom', brioche: 'Francuski brioš', danish: 'Dansko pecivo sa vanila kremom', raisin: 'Pužić sa suvim grožđem', icedlatte: 'Ledeni late', icedmatcha: 'Ledeni mača late', espressotonic: 'Espresso tonik' }, next: ['Pića', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Vaša porudžbina', items: '2 stavke', checkout: 'Poruči', yourNo: 'Vaš broj', payAt: 'Platite na kasi i recite ovaj broj.' },
       },
       {
         id: 'guests', tab: 'Gosti', title: 'Kartica gosta na računu',
@@ -389,9 +389,9 @@ const EXAMPLES = {
       {
         id: 'kiosk', tab: 'Kiosk', title: 'The kiosk for guests',
         text: 'The guest picks dishes by picture, sees the description and allergens and gets a number. The order goes to the kitchen at once and is paid at the till by number.',
-        points: ['Serbian or Russian — one tap', 'Allergens and a description with every dish', 'Scheduled promotions apply here too'],
+        points: ['Serbian, English or Russian — one tap', 'Allergens and a description with every dish', 'Scheduled promotions apply here too'],
         label: 'Example: the kiosk with pastries in photos and the order number to pay at the till',
-        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['pastries', 'drinks'], on: 0, section: 'Pastries', names: { croissant: 'Butter croissant', painchoc: 'Pain au chocolat', cinnamon: 'Cinnamon roll', brioche: 'French brioche', danish: 'Vanilla custard Danish', raisin: 'Pain aux raisins', icedlatte: 'Iced latte', icedmatcha: 'Iced matcha latte', espressotonic: 'Espresso tonic' }, next: ['Drinks', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Your order', items: '2 items', checkout: 'Order', yourNo: 'Your number', payAt: 'Pay at the till and say this number.' },
+        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'English', 'Русский'], cats: ['pastries', 'drinks'], on: 0, section: 'Pastries', names: { croissant: 'Butter croissant', painchoc: 'Pain au chocolat', cinnamon: 'Cinnamon roll', brioche: 'French brioche', danish: 'Vanilla custard Danish', raisin: 'Pain aux raisins', icedlatte: 'Iced latte', icedmatcha: 'Iced matcha latte', espressotonic: 'Espresso tonic' }, next: ['Drinks', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Your order', items: '2 items', checkout: 'Order', yourNo: 'Your number', payAt: 'Pay at the till and say this number.' },
       },
       {
         id: 'guests', tab: 'Guests', title: 'The guest’s card on the bill',
@@ -475,9 +475,9 @@ const EXAMPLES = {
       {
         id: 'kiosk', tab: 'Киоск', title: 'Киоск для гостей',
         text: 'Гость сам выбирает блюда по фото, видит описание и аллергены и получает номер. Заказ сразу уходит на кухню, а оплата — на кассе по номеру.',
-        points: ['Сербский или русский — одним касанием', 'Аллергены и описание у каждого блюда', 'Акции по расписанию действуют и здесь'],
+        points: ['Сербский, английский или русский — одним касанием', 'Аллергены и описание у каждого блюда', 'Акции по расписанию действуют и здесь'],
         label: 'Пример: киоск с выпечкой на фото и номер заказа для оплаты на кассе',
-        kiosk: { ...KIOSK, place: 'Дорчол', langs: ['Srpski', 'Русский'], cats: ['выпечка', 'напитки'], on: 0, section: 'Выпечка', names: { croissant: 'Классический круассан', painchoc: 'Круассан с шоколадом', cinnamon: 'Синнабон с корицей', brioche: 'Французская бриошь', danish: 'Датская слойка с ванильным кремом', raisin: 'Улитка с изюмом', icedlatte: 'Айс-латте', icedmatcha: 'Айс-матча', espressotonic: 'Эспрессо-тоник' }, next: ['Напитки', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Ваш заказ', items: '2 позиции', checkout: 'Оформить', yourNo: 'Ваш номер', payAt: 'Оплатите на кассе и назовите этот номер.' },
+        kiosk: { ...KIOSK, place: 'Дорчол', langs: ['Srpski', 'English', 'Русский'], cats: ['выпечка', 'напитки'], on: 0, section: 'Выпечка', names: { croissant: 'Классический круассан', painchoc: 'Круассан с шоколадом', cinnamon: 'Синнабон с корицей', brioche: 'Французская бриошь', danish: 'Датская слойка с ванильным кремом', raisin: 'Улитка с изюмом', icedlatte: 'Айс-латте', icedmatcha: 'Айс-матча', espressotonic: 'Эспрессо-тоник' }, next: ['Напитки', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Ваш заказ', items: '2 позиции', checkout: 'Оформить', yourNo: 'Ваш номер', payAt: 'Оплатите на кассе и назовите этот номер.' },
       },
       {
         id: 'guests', tab: 'Гости', title: 'Карта гостя в счёте',
@@ -745,7 +745,7 @@ const MORE = {
     final: { title: 'Probajte RUVO na svom objektu', text: 'Prvih 30 dana besplatno, bez kartice i bez obaveze. Ili prvo otvorite demo — radi u pregledaču.' },
   },
   en: {
-    demo: { cta: 'Try the demo', note: 'You can try all of this yourself — the demo restaurant runs in your browser, in Serbian or Russian.', link: 'Open the demo' },
+    demo: { cta: 'Try the demo', note: 'You can try all of this yourself — the demo restaurant runs in your browser.', link: 'Open the demo', page: { title: 'Demo restaurant — RUVO', description: 'Try RUVO in your browser: the front terminal, the waiter device, the kitchen screen, the kiosk, the back office, the guest app and the pickup screen, with a demo menu.', noscript: 'The demo needs JavaScript.' } },
     rush: {
       title: 'Small things that save a shift',
       lead: 'What happens mid-rush, handled in the system itself.',

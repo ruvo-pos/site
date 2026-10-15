@@ -5,7 +5,7 @@
 //                                         and the Serbian home page has no skeleton of its own (the preview adds one).
 //   --signup                  → registration and the Terms of Service too, before SITE.signup is switched on (in the
 //                                         preview its forms only pretend to send)
-// The demo (ruvo.ac/demo/, ruvo.ac/ru/demo/) is the app's own bundle, src/demo/app.js and app.css: made in the ruvo
+// The demo (ruvo.ac/demo/, ruvo.ac/en/demo/, ruvo.ac/ru/demo/) is the app's own bundle, src/demo/app.js and app.css: made in the ruvo
 // repository by `node build.mjs` in app/ (dist/demo/) and copied here.
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
@@ -76,10 +76,9 @@ const INCL_ICON = ['device-tablet', 'device-tablet-camera', 'package', 'sparkle'
 const INTEGR_ICON = ['qr-code', 'credit-card', 'file-text', 'paper-plane-tilt', 'arrows-left-right', 'moped'];
 // a link that reads on: «Pogledajte cene ›»
 const MORE = (label) => `${esc(label)}${IC('caret-right', 'lnk-i')}`;
-// the demo: one page per language of the app (Serbian, Russian); English links to the Serbian one, where the app's
-// own switch turns it into Russian
-const DEMO = { sr: 'demo/index.html', en: 'demo/index.html', ru: 'ru/demo/index.html' };
-const DEMO_LANG = { sr: 'sr', en: 'sr', ru: 'ru' };
+// the demo: one page per language of the app — Serbian, English (since 15 October, the owner: «И в демо тоже надо сделать
+// 3 языка») and Russian; each opens the app in its language, and the app's own switch changes it after
+const DEMO = { sr: 'demo/index.html', en: 'en/demo/index.html', ru: 'ru/demo/index.html' };
 const DEMO_JS = readFileSync(path.join(ROOT, 'src/demo/app.js'), 'utf8');
 const DEMO_CSS = readFileSync(path.join(ROOT, 'src/demo/app.css'), 'utf8');
 // a new bundle gets a new address, so no browser keeps running yesterday's
@@ -618,7 +617,7 @@ function kioskScreen(lang, k, file, lazy = true) {
   const dish = ([id, p]) => `<div class="kd${k.basket.includes(id) ? ' in' : ''}"><span class="kd-img"><img src="${href(file, `assets/dishes/${DISH_FILE[id]}`)}" alt=""${lazy ? ' loading="lazy"' : ''} decoding="async"></span><span class="kd-n">${txt(k.names[id])}</span><span class="kd-p">${money(p)}<small>RSD</small></span></div>`;
   // the menu goes on under the open category — its next section, cut by the basket at the foot of the screen
   return `<div class="ks">${sbPad(lang)}
-<div class="ks-top"><span class="ab-brand">RUVO</span><span class="ks-place">${esc(k.place)}</span><span class="seg ks-lang">${k.langs.map((l, i) => `<span${(lang === 'ru' ? i === 1 : i === 0) ? ' class="on"' : ''}>${esc(l)}</span>`).join('')}</span><span class="ks-ic">${IC('squares-four')}</span></div>
+<div class="ks-top"><span class="ab-brand">RUVO</span><span class="ks-place">${esc(k.place)}</span><span class="seg ks-lang">${k.langs.map((l, i) => `<span${i === ['sr', 'en', 'ru'].indexOf(lang) ? ' class="on"' : ''}>${esc(l)}</span>`).join('')}</span><span class="ks-ic">${IC('squares-four')}</span></div>
 <div class="ks-cats"><span class="ks-search">${IC('magnifying-glass')}</span>${k.cats.map((c, i) => `<span${i === k.on ? ' class="on"' : ''}>${esc(c)}</span>`).join('')}</div>
 <p class="ks-sec">${esc(k.section)}</p>
 <div class="ks-grid c${k.dishes.length > 4 ? 3 : 2}">${k.dishes.map(dish).join('')}</div>${k.next ? `<p class="ks-sec">${esc(k.next[0])}</p><div class="ks-grid c${k.dishes.length > 4 ? 3 : 2}">${k.next[1].map(dish).join('')}</div>` : ''}
@@ -1623,6 +1622,7 @@ put('assets/favicon.svg', FAVICON);
 for (const f of Object.values(DISH_FILE)) put(`assets/dishes/${f}`, readFileSync(path.join(ROOT, 'src/dishes', f)));
 for (const f of Object.values(PHOTO_FILES).filter(Boolean)) put(`img/${f}`, readFileSync(path.join(PHOTO_DIR, f)));
 put(DEMO.sr, demoPage('sr'));
+put(DEMO.en, demoPage('en'));
 put(DEMO.ru, demoPage('ru'));
 put('demo/app.js', DEMO_JS);
 put('demo/app.css', DEMO_CSS);

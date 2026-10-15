@@ -866,6 +866,7 @@ body:has(.launcher.demo) { background: #FFFFFF; }
 .dla .k-c1 { fill: var(--s1); }
 .dla .k-c2 { fill: var(--s2); }
 .dla .k-c3 { fill: var(--s3); }
+.dla .k-c2s { fill: var(--s2-soft); }
 .dla .k-plate { fill: #1E44B0; }
 .dla .k-rule { fill: none; stroke: rgb(255 255 255 / 0.92); stroke-width: 1.6; }
 .dla .k-w { fill: #FFFFFF; }
@@ -894,6 +895,7 @@ body:has(.launcher.demo) { background: #FFFFFF; }
   --ink: #EEF1F2; --ink-2: #B3BBC1; --ink-3: #85909A; --line: #2B3339; --line-2: #3D474E;
   --accent: #7D97F0; --accent-ink: #0B1124; --accent-soft: #1C2647; --ok: #4CC788; --ok-ink: #06140C; --ok-soft: #13301F;
   --warn: #F0A93E; --warn-soft: #3A2A10; --bad: #F2725F; --bad-soft: #3B1A15; --seg-on: #46515A;
+  --s2: #0E9E9A; --s2-soft: #0F2C2B;
 }
 /* the kiosk and the guest app are light in both themes: their tokens, as 55-kiosk.css and 57-guest.css set them */
 .dla .k-kiosk, .dla .k-guest {
