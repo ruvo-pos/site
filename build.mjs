@@ -1421,6 +1421,11 @@ ${PREVIEW ? `<p class="su-demo">${esc(SG[lang].signup.demo)}</p>` : ''}
 </form>
 </section>
 <section class="acc-sec" aria-labelledby="acc-d"><h2 id="acc-d">${esc(g.devices)}</h2><p>${txt(g.devicesText)}</p><p><a class="lnk" href="${href(file, DEMO[lang])}">${MORE(g.demo)}</a></p></section>
+<section class="acc-sec" aria-labelledby="acc-s" data-a="scan-sec" hidden><h2 id="acc-s">${esc(g.scan.title)}</h2><p>${esc(g.scan.text)}</p>
+<div class="acc-scan"><label class="btn ghost acc-scan-pick"><input class="vh" type="file" accept="image/*,application/pdf" data-a="scan-file">${esc(g.scan.pick)}</label><p class="fld-hint">${esc(g.scan.hint)}</p></div>
+<p class="su-msg" role="status" data-a="scan-msg" hidden></p>
+<div class="acc-scan-out" data-a="scan-out" hidden></div>
+</section>
 <section class="acc-sec" aria-labelledby="acc-h"><h2 id="acc-h">${esc(g.help)}</h2><p>${esc(g.helpText).replace('{mail}', mail)}</p></section>
 </div>
 </div></div></main>
@@ -1444,7 +1449,7 @@ function termsPage(lang) {
   const body = `${header(lang, 'terms', file)}
 <main id="main" class="doc"><div class="wrap"><div class="doc-in">
 <h1>${esc(g.title)}</h1>
-<p class="upd">${esc(g.updatedLabel)}: <time datetime="${SITE.updated.iso}">${esc(SITE.updated[lang])}</time></p>
+<p class="upd">${esc(g.updatedLabel)}: <time datetime="${SITE.termsFrom.iso}">${esc(SITE.termsFrom[lang])}</time></p>
 ${g.sections.map(([title, items]) => `<section><h2>${esc(title)}</h2>${items.map(block).join('')}</section>`).join('\n')}
 </div></div></main>
 ${footer(lang, 'terms', file)}`;
@@ -1829,6 +1834,11 @@ const ACCOUNT_JS = `(() => {
     if (demo) {
       await new Promise((r) => setTimeout(r, 300));
       if (method === 'POST' && path === '/v1/restaurants') return { status: 201, data: { restaurant: { id: 'x', name: body.name, receipt_prefix: body.name.slice(0, 3).toUpperCase() } } };
+      if (method === 'POST' && path === '/v1/stock/scans') {
+        const line = (name, code, qty, unit, price, vat, goods) => ({ name, code, qty, unit, price, discount: null, vat, sum: Math.round(qty * price * 100) / 100, goods });
+        const lines = [line('Paradajz I klasa', '1043', 12.5, 'kg', 165, 10, true), line('Krastavac salatar', '1051', 6, 'kg', 140, 10, true), line('Prevoz', '', 1, 'usl', 500, 20, false)];
+        return { status: 202, data: { scan: { id: 'demo', state: 'ready', draft: { supplier: { name: 'Povrće Plus d.o.o.', pib: '901000112' }, number: 'OT-2417/26', date: '2026-10-08', lines, totals: { net: 3402.5, vat: 390.25, gross: 3792.75 } } } } };
+      }
       return { status: 200, data: { company: { id: 'c_demo', name: 'Bistro Mala d.o.o.', status: 'invited', trial_until: null, paid_until: null }, restaurants: [{ id: 'mal', name: 'Mala Dorćol', receipt_prefix: 'MAL' }], me: { id: 's_demo', name: 'Ivana', role: 'owner' } } };
     }
     const res = await fetch(api + path, { method, headers: { 'content-type': 'application/json', authorization: 'Device ' + a.device.token, 'x-session': a.session }, body: body ? JSON.stringify(body) : undefined });
@@ -1875,6 +1885,7 @@ const ACCOUNT_JS = `(() => {
     status(d.company);
     venues(d.restaurants || []);
     el('add').hidden = !(me && me.role === 'owner');
+    el('scan-sec').hidden = !(me && (me.role === 'owner' || me.role === 'director'));
     el('body').hidden = false;
   };
   const out = () => {
@@ -1921,6 +1932,105 @@ const ACCOUNT_JS = `(() => {
     } catch (x) { err.hidden = false; err.textContent = T.errors.net; }
     btn.disabled = false;
     btn.textContent = T.addSubmit;
+  });
+  // A supplier's paper read from its photo — a try: the server reads it (POST /v1/stock/scans, Claude), the page shows
+  // what was read; nothing goes into stock (receipts from photos are made in the app). Claude's text is the photo's:
+  // it is put as text, never as markup.
+  const SC = T.scan;
+  const sfile = el('scan-file');
+  const smsg = el('scan-msg');
+  const sout = el('scan-out');
+  const sayScan = (text, ok) => { smsg.textContent = text || ''; smsg.hidden = !text; smsg.classList.toggle('ok', !!ok); };
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  const asB64 = (blob) => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1] || ''); r.onerror = rej; r.readAsDataURL(blob); });
+  // a photo as the server reads it best: the long side 2200 px at most, a JPEG
+  const shrink = async (f) => {
+    let img = null;
+    try { img = await createImageBitmap(f, { imageOrientation: 'from-image' }); } catch (e) { img = null; }
+    if (!img) return f;
+    const k = Math.min(1, 2200 / Math.max(img.width, img.height));
+    const c = document.createElement('canvas');
+    c.width = Math.round(img.width * k);
+    c.height = Math.round(img.height * k);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    return new Promise((res) => c.toBlob((b) => res(b || f), 'image/jpeg', 0.85));
+  };
+  const nf = (d) => new Intl.NumberFormat(locale, { minimumFractionDigits: d, maximumFractionDigits: d });
+  const money = (v) => (v == null ? '—' : nf(2).format(v));
+  const amount = (v) => (v == null ? '—' : new Intl.NumberFormat(locale, { maximumFractionDigits: 3 }).format(v));
+  const node = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  const scanError = (r) => {
+    const e = r.data && r.data.error;
+    if (r.status === 401) { out(); return ''; }
+    if (r.status === 403) return SC.errors.right;
+    return SC.errors[e] || SC.errors.failed.replace('{code}', e || r.status);
+  };
+  const showScan = (s) => {
+    const d = s.draft;
+    sout.textContent = '';
+    const facts = node('dl', 'acc-scan-facts');
+    for (const [k, v] of [['supplier', d.supplier.name], ['pib', d.supplier.pib], ['number', d.number], ['date', d.date ? day(d.date) : '']]) {
+      if (!v) continue;
+      const row = node('div');
+      row.append(node('dt', null, SC.facts[k]), node('dd', null, v));
+      facts.append(row);
+    }
+    const wrap = node('div', 'acc-scan-wrap');
+    const table = node('table', 'acc-scan-tbl');
+    const hr = node('tr');
+    SC.head.forEach((h, i) => hr.append(node('th', i ? 'n' : null, h)));
+    const thead = node('thead');
+    thead.append(hr);
+    table.append(thead);
+    const body = node('tbody');
+    for (const l of d.lines) {
+      const tr = node('tr', l.goods ? null : 'off');
+      const name = node('td');
+      name.append(node('b', null, l.name || '—'));
+      if (l.code) name.append(node('span', 'acc-scan-code', ' · ' + l.code));
+      if (!l.goods) name.append(node('span', 'acc-scan-note', SC.notGoods));
+      if (l.note) name.append(node('span', 'acc-scan-note', 'Claude: ' + l.note));
+      tr.append(name, node('td', 'n', amount(l.qty) + (l.unit ? ' ' + l.unit : '')), node('td', 'n', money(l.price) + (l.discount ? ' −' + l.discount + '%' : '')), node('td', 'n', money(l.sum)), node('td', 'n', l.vat == null ? '—' : l.vat + '%'));
+      body.append(tr);
+    }
+    table.append(body);
+    wrap.append(table);
+    const t = d.totals || {};
+    sout.append(facts, wrap, node('p', 'acc-scan-tot', SC.totals.replace('{net}', money(t.net)).replace('{vat}', money(t.vat)).replace('{gross}', money(t.gross))));
+    sout.hidden = false;
+  };
+  sfile.addEventListener('change', async () => {
+    const f = sfile.files && sfile.files[0];
+    sfile.value = '';
+    if (!f) return;
+    sout.hidden = true;
+    sfile.disabled = true;
+    sayScan(SC.sending);
+    try {
+      const pdf = f.type === 'application/pdf' || /[.]pdf$/i.test(f.name || '');
+      const data = await asB64(pdf ? f : await shrink(f));
+      let r = await call('POST', '/v1/stock/scans', { pages: [{ data }], lang });
+      if (r.status !== 202) { sayScan(scanError(r)); return; }
+      let s = r.data.scan;
+      if (s.state === 'reading') sayScan(SC.reading);
+      for (let i = 0; s.state === 'reading' && i < 150; i++) {
+        await wait(2000);
+        r = await call('GET', '/v1/stock/scans/' + encodeURIComponent(s.id));
+        if (r.status !== 200) { sayScan(scanError(r)); return; }
+        s = r.data.scan;
+      }
+      if (s.state === 'reading') { sayScan(SC.errors.ai_busy); return; }
+      if (s.state === 'failed') {
+        sayScan(s.error === 'not_invoice' ? SC.errors.not_invoice.replace('{problem}', (s.draft && s.draft.problem) || '') : SC.errors[s.error] || SC.errors.failed.replace('{code}', s.error));
+        return;
+      }
+      sayScan(SC.read.replace('{n}', s.draft.lines.length), true);
+      showScan(s);
+    } catch (e) {
+      sayScan(T.errors.net);
+    } finally {
+      sfile.disabled = false;
+    }
   });
   refresh();
 })();`;

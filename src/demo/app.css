@@ -3225,6 +3225,129 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
   .firm-row { grid-template-columns: minmax(0, 1fr); }
 }
 
+/* ---------- «По фото»: a supplier's paper invoice into the stock (ui/office-scan.jsx) ---------- */
+/* The paper is an object, as on a photo: the same paper colour in either theme (--paper, --paper-ink), print-like type. */
+.paper {
+  width: 680px; padding: 30px 34px 58px; background: var(--paper); color: var(--paper-ink);
+  font-family: Arial, "Helvetica Neue", "Liberation Sans", sans-serif; font-size: 12px; line-height: 1.35;
+}
+.paper-head { display: flex; justify-content: space-between; gap: 24px; padding-bottom: 12px; border-bottom: 2px solid var(--paper-ink); }
+.paper-from, .paper-doc { display: flex; flex-direction: column; gap: 1px; }
+.paper-from b { font-size: 15px; letter-spacing: 0.02em; }
+.paper-doc { text-align: right; }
+.paper-doc b { font-size: 17px; letter-spacing: 0.08em; }
+.paper-doc i { font-style: normal; font-weight: 700; }
+.paper-to { margin: 10px 0 8px; }
+.paper-tbl { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.paper-tbl th, .paper-tbl td { padding: 3px 5px; border: 1px solid #8b8b86; text-align: left; white-space: nowrap; }
+.paper-tbl th { background: #ecebe6; font-weight: 700; font-size: 11px; }
+.paper-tbl .w { width: 100%; white-space: normal; }
+.paper-tbl .n { text-align: right; }
+.paper-sums { display: grid; justify-content: end; gap: 2px; margin-top: 10px; font-variant-numeric: tabular-nums; }
+.paper-sums > div { display: grid; grid-template-columns: 120px 84px 84px 76px; gap: 8px; text-align: right; white-space: nowrap; }
+.paper-sums .tot { padding-top: 3px; border-top: 1px solid #8b8b86; font-weight: 700; }
+.paper-sums .pay { grid-template-columns: 120px 260px; font-size: 14px; font-weight: 700; }
+.paper-sign { position: relative; display: flex; gap: 60px; margin-top: 22px; }
+.paper-sign > div { display: flex; flex-direction: column; gap: 2px; width: 170px; border-top: 1px solid #8b8b86; padding-top: 3px; font-size: 11px; }
+.paper-sign > div svg { width: 110px; height: 30px; fill: none; stroke: #23338f; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; margin-top: -40px; }
+.paper-stamp { position: absolute; right: 18px; top: -28px; width: 104px; height: 104px; transform: rotate(-14deg); opacity: 0.78; }
+.paper-stamp circle { fill: none; stroke: #3446a8; stroke-width: 2; }
+.paper-stamp text { fill: #3446a8; font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; }
+.paper-stamp text.mid { font-size: 12px; }
+
+/* the paper as a photo: a little turned on a soft table, cut by the frame; small — a thumbnail of its top */
+.paper-photo {
+  --scale: 0.7; position: relative; width: calc(680px * var(--scale) + 32px); max-width: 100%; height: calc(560px * var(--scale) + 32px);
+  overflow: hidden; border-radius: var(--r-md); background: radial-gradient(120% 90% at 30% 20%, var(--surface-3), var(--bg-2)); isolation: isolate;
+}
+.paper-photo .paper-fit {
+  position: absolute; left: 16px; top: 16px; width: 680px; transform: rotate(-1.2deg) scale(var(--scale)); transform-origin: top left;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18), 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+.paper-photo.small { --scale: 0.38; height: calc(420px * var(--scale) + 24px); }
+.paper-photo.small .paper-fit { left: 12px; top: 12px; }
+.paper-scan {
+  position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--accent);
+  box-shadow: 0 0 14px 4px color-mix(in srgb, var(--accent) 45%, transparent); animation: paper-scan 1.5s ease-in-out infinite alternate;
+}
+@keyframes paper-scan { from { top: 4%; } to { top: 94%; } }
+@media (prefers-reduced-motion: reduce) { .paper-scan { animation: none; top: 50%; } }
+.paper-full { overflow: auto; display: flex; justify-content: center; padding: var(--sp-2); border-radius: var(--r-md); background: var(--surface-2); }
+.paper-full .paper { flex: none; box-shadow: var(--shadow-1); }
+
+/* the first step: the example papers (the camera in the working version) */
+.scan-pick { display: flex; flex-direction: column; gap: var(--sp-4); }
+.scan-lead { margin: 0; color: var(--ink-2); max-width: 62ch; }
+.scan-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4); }
+.scan-card {
+  display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; padding: var(--sp-3); border: 1px solid var(--line); border-radius: var(--r-lg);
+  background: var(--surface); color: var(--ink); text-align: left; cursor: pointer; font: inherit;
+}
+.scan-card:hover { border-color: var(--accent); }
+.scan-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.scan-card .paper-photo { width: 100%; }
+.scan-card-text { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-width: 0; }
+.scan-card-go { display: inline-flex; align-items: center; gap: var(--sp-2); align-self: flex-start; color: var(--accent); font-weight: var(--fw-semibold); }
+
+/* the reading */
+.scan-reading { display: flex; flex-direction: column; align-items: center; gap: var(--sp-4); padding: var(--sp-2) 0 var(--sp-4); }
+.scan-reading-text { display: flex; flex-direction: column; align-items: center; gap: 2px; text-align: center; }
+
+/* the check: the photo beside what was read */
+.scan-review { display: grid; grid-template-columns: minmax(0, 272px) minmax(0, 1fr); gap: var(--sp-5); align-items: start; }
+.scan-photo { position: sticky; top: 0; display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.scan-photo-btn { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: var(--r-md); }
+.scan-photo-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.scan-photo .paper-photo { width: 100%; }
+.scan-draft { min-width: 0; }
+.scan-head { align-items: flex-end; }
+.scan-head .field { flex: 1 1 160px; min-width: 0; }
+.scan-head .field.grow { flex: 2 1 220px; }
+.scan-alert { display: flex; align-items: flex-start; gap: var(--sp-3); margin: 0; padding: var(--sp-3) var(--sp-4); border-radius: var(--r-md); background: var(--surface-2); }
+.scan-alert > svg { flex: none; margin-top: 2px; color: var(--ink-3); }
+.scan-alert.warn { background: var(--warn-soft); }
+.scan-alert.warn > svg { color: var(--warn); }
+.scan-alert > div { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; }
+.scan-alert .check-row { padding: 0; border: 0; gap: var(--sp-2); }
+.scan-lines .sef-line.off .sef-src { opacity: 0.62; }
+.scan-fix { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-3); font-size: var(--fs-sm); color: var(--ink-2); }
+.scan-fix label { display: inline-flex; align-items: center; gap: var(--sp-1); white-space: nowrap; }
+.scan-fix .cell-input { width: 92px; }
+.scan-fix-btn {
+  align-self: flex-start; padding: 0; border: 0; background: none; color: var(--accent); font: inherit; font-size: var(--fs-xs); cursor: pointer;
+  text-decoration: underline; text-underline-offset: 2px;
+}
+.scan-ask { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+
+/* the receipt form's offer, and the photo of a receipt */
+.scan-offer, .doc-photo {
+  display: flex; align-items: center; gap: var(--sp-3); width: 100%; padding: var(--sp-3) var(--sp-4); border: 1px dashed var(--line-2);
+  border-radius: var(--r-md); background: var(--surface-2); color: var(--ink); font: inherit; text-align: left; cursor: pointer;
+}
+.scan-offer { margin-bottom: var(--sp-4); }
+.scan-offer:hover, .doc-photo:hover { border-color: var(--accent); }
+.scan-offer > svg { flex: none; color: var(--accent); }
+.scan-offer > span:nth-child(2), .doc-photo > span { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 auto; }
+.scan-offer-go { flex: none; padding: 4px 12px; border-radius: var(--r-pill); background: var(--accent); color: var(--accent-ink); font-weight: var(--fw-semibold); font-size: var(--fs-sm); }
+.doc-photo { margin-bottom: var(--sp-4); border-style: solid; }
+.doc-photo .paper-photo { flex: none; width: 150px; --scale: 0.2; height: calc(420px * 0.2 + 24px); }
+.doc-scan-ic { color: var(--ink-3); vertical-align: -3px; margin-right: 6px; }
+
+/* «По фото» on «Документы»: its camera alone where four buttons would not fit on the row */
+@media (max-width: 1180px) {
+  .doc-scan-btn .btn-label { display: none; }
+  .doc-scan-btn.btn { padding-inline: 10px; }
+}
+@media (max-width: 900px) {
+  .scan-review { grid-template-columns: minmax(0, 1fr); }
+  .scan-photo { position: static; max-width: 300px; }
+}
+@media (max-width: 640px) {
+  .scan-cards { grid-template-columns: minmax(0, 1fr); }
+  .paper-photo { --scale: 0.46; }
+  .scan-offer-go { display: none; }
+}
+
 /* ---------- RUVO: the product's name, new restaurants, the subscription, RUVO's console ---------- */
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 

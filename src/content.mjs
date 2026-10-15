@@ -6,7 +6,9 @@ export const SITE = {
   company: 'TT DAILY KITCHEN DOO',
   pib: '113820680',
   address: 'Cara Uroša 19, 11000 Beograd',
-  updated: { iso: '2026-10-12', sr: '12. oktobra 2026.', en: '12 October 2026', ru: '12 октября 2026 г.' },
+  updated: { iso: '2026-10-15', sr: '15. oktobra 2026.', en: '15 October 2026', ru: '15 октября 2026 г.' },
+  // the terms of service are in force from their own day: the privacy policy changing does not move it
+  termsFrom: { iso: '2026-10-12', sr: '12. oktobra 2026.', en: '12 October 2026', ru: '12 октября 2026 г.' },
   // Registration and sign-in on the site: on since 15 October (the owner: «Открыть сразу» — before the app works through
   // the server, so a new client gets the account page first; the devices come later). `api` — the server (render.yaml;
   // api.ruvo.ac points at it), `app` — where the app itself will be.
@@ -331,7 +333,7 @@ const EXAMPLES = {
       {
         id: 'sef', tab: 'SEF', title: 'Fakture dobavljača iz SEF-a',
         text: 'Ulazne e-fakture stižu same. Stavke dobavljača povežete sa svojim proizvodima jednom, a prijemnica u magacin nastaje jednim dugmetom.',
-        points: ['Prihvatite ili odbijte fakturu iz RUVO-a', 'Rok za odgovor uvek pred očima', 'Više firmi (PIB) pod jednim nalogom'],
+        points: ['Prihvatite ili odbijte fakturu iz RUVO-a', 'Rok za odgovor uvek pred očima', 'Više firmi (PIB) pod jednim nalogom', 'Papirna otpremnica — fotografijom: stavke popuni AI'],
         label: 'Primer: ulazna faktura mlekare iz SEF-a, stavke povezane sa proizvodima magacina',
         sef: { inbox: 'Fakture dobavljača', tabs: ['Nove · 2', 'Obrađene', 'Sve'], supplier: 'Mlekara Primer d.o.o.', meta: 'Faktura 2026-01183 · 9. okt', due: 'Odgovor do 24. okt', head: ['Stavka dobavljača', 'Naš proizvod'], rows: [['Mleko 2,8% 1 l', '24 kom', 'Mleko', '1 kom = 1 l'], ['Kajmak 500 g', '6 kom', 'Kajmak', '1 kom = 0,5 kg'], ['Pavlaka 20% 400 g', '10 kom', 'Pavlaka', '1 kom = 0,4 kg']], remembered: 'zapamćeno', accept: 'Prihvati i primi u magacin', reject: 'Odbij' },
       },
@@ -417,7 +419,7 @@ const EXAMPLES = {
       {
         id: 'sef', tab: 'SEF', title: 'Supplier invoices from SEF',
         text: 'Incoming e-invoices arrive by themselves. Match a supplier’s items to your products once, and the stock receipt is one button.',
-        points: ['Accept or reject the invoice from RUVO', 'The reply deadline always in sight', 'Several companies (PIB) in one account'],
+        points: ['Accept or reject the invoice from RUVO', 'The reply deadline always in sight', 'Several companies (PIB) in one account', 'A paper delivery note — by photo: AI fills in the lines'],
         label: 'Example: a dairy’s incoming invoice from SEF, its items matched to stock products',
         sef: { inbox: 'Supplier invoices', tabs: ['New · 2', 'Done', 'All'], supplier: 'Mlekara Primer d.o.o.', meta: 'Invoice 2026-01183 · 9 Oct', due: 'Reply by 24 Oct', head: ['Supplier’s item', 'Our product'], rows: [['Mleko 2,8% 1 l', '24 kom', 'Milk', '1 pc = 1 l'], ['Kajmak 500 g', '6 kom', 'Kajmak', '1 pc = 0.5 kg'], ['Pavlaka 20% 400 g', '10 kom', 'Sour cream', '1 pc = 0.4 kg']], remembered: 'remembered', accept: 'Accept and receive into stock', reject: 'Reject' },
       },
@@ -503,7 +505,7 @@ const EXAMPLES = {
       {
         id: 'sef', tab: 'SEF', title: 'Счета поставщиков из SEF',
         text: 'Входящие e-фактуры приходят сами. Позиции поставщика связываются с вашими продуктами один раз, а приход на склад — одной кнопкой.',
-        points: ['Принять или отклонить счёт из RUVO', 'Срок ответа всегда на виду', 'Несколько фирм (ПИБ) в одном аккаунте'],
+        points: ['Принять или отклонить счёт из RUVO', 'Срок ответа всегда на виду', 'Несколько фирм (ПИБ) в одном аккаунте', 'Бумажная накладная — по фото: строки заполнит ИИ'],
         label: 'Пример: входящий счёт молочного поставщика из SEF, позиции связаны с продуктами склада',
         sef: { inbox: 'Счета поставщиков', tabs: ['Новые · 2', 'Обработанные', 'Все'], supplier: 'Mlekara Primer d.o.o.', meta: 'Счёт 2026-01183 · 9 окт', due: 'Ответить до 24 окт', head: ['Позиция поставщика', 'Наш продукт'], rows: [['Mleko 2,8% 1 l', '24 kom', 'Молоко', '1 шт = 1 л'], ['Kajmak 500 g', '6 kom', 'Каймак', '1 шт = 0,5 кг'], ['Pavlaka 20% 400 g', '10 kom', 'Сметана', '1 шт = 0,4 кг']], remembered: 'запомнено', accept: 'Принять и оприходовать', reject: 'Отклонить' },
       },
@@ -877,7 +879,7 @@ export const T = {
           '<b>Gosti</b>, samo ako restoran vodi program lojalnosti i gost se saglasi: ime, broj telefona, broj kartice, bodovi, popusti i istorija kupovine.',
           '<b>Porudžbine i plaćanja:</b> stavke, cene, iznosi i način plaćanja. Kod plaćanja karticom dobijamo samo iznos i potvrdu bankovnog terminala, nikada broj kartice.',
           '<b>Uređaji:</b> identifikator svakog povezanog iPad-a, iPhone-a, ekrana kuhinje ili kioska i tehnički zapisi (vreme pristupa, greške) potrebni za bezbedan i ispravan rad.',
-          '<b>Fakture dobavljača iz SEF-a</b> (Sistem elektronskih faktura): podaci sa faktura dobavljača restorana, uglavnom podaci o firmama. API ključ SEF-a čuva se samo na našem serveru, šifrovan, i više se nigde ne prikazuje.',
+          '<b>Fakture dobavljača iz SEF-a</b> (Sistem elektronskih faktura) <b>i fotografije papirnih faktura i otpremnica</b> koje restoran unese: podaci sa faktura dobavljača restorana, uglavnom podaci o firmama. API ključ SEF-a čuva se samo na našem serveru, šifrovan, i više se nigde ne prikazuje.',
           '<b>Poruke koje nam pošaljete:</b> vaša e-mail adresa i sadržaj poruke.',
         ]]],
         ['Svrha i pravni osnov', ['Pružanje usluge RUVO na osnovu ugovora sa restoranom; ispunjavanje zakonskih obaveza (računovodstvo, porezi); legitimni interes da usluga bude bezbedna i da se spreči zloupotreba; podaci gostiju u programu lojalnosti — na osnovu pristanka koji pribavlja restoran.']],
@@ -885,7 +887,7 @@ export const T = {
         ['Ko još obrađuje podatke', [[
           '<b>Pružalac hostinga u EU</b> — čuva podatke i pokreće uslugu.',
           '<b>Pružalac e-pošte</b> — za našu prepisku i poruke o nalogu (potvrda e-pošte, kod za prvi uređaj).',
-          '<b>Anthropic (SAD)</b> — AI pomoćnik u izveštajima i pri prenosu podataka iz drugog POS sistema. Dobija pitanje i brojke potrebne za odgovor; brojeve telefona i e-mail adrese gostiju ne šaljemo. Prenos van Srbije i EU vrši se uz mere zaštite koje propisuje zakon.',
+          '<b>Anthropic (SAD)</b> — AI pomoćnik u izveštajima, pri prenosu podataka iz drugog POS sistema i pri čitanju fotografija faktura i otpremnica dobavljača. Dobija pitanje i podatke potrebne za odgovor (za fakturu — njenu fotografiju i spisak proizvoda restorana); brojeve telefona i e-mail adrese gostiju ne šaljemo. Prenos van Srbije i EU vrši se uz mere zaštite koje propisuje zakon.',
           '<b>Apple</b> — distribuira aplikaciju RUVO (App Store, TestFlight) prema svojoj politici privatnosti.',
           '<b>Google Fonts</b> — ovaj sajt učitava fontove sa tog servisa; Google pri tome dobija IP adresu posetioca.',
         ], 'Podatke ne prodajemo, ne prikazujemo reklame i ne pratimo korisnike kroz druge aplikacije i sajtove.']],
@@ -960,7 +962,7 @@ export const T = {
           '<b>Guests</b>, only if the restaurant runs a loyalty program and the guest agrees: name, phone number, card number, points, discounts and purchase history.',
           '<b>Orders and payments:</b> items, prices, totals and the payment method. For card payments we receive only the amount and the bank terminal’s approval, never the card number.',
           '<b>Devices:</b> an identifier of each connected iPad, iPhone, kitchen screen or kiosk, and technical records (time of access, errors) needed to keep the service secure and working.',
-          '<b>Supplier invoices from SEF</b> (the Serbian e-invoicing system): the data on the invoices of the restaurant’s suppliers, mostly company data. The SEF API key is stored only on our server, encrypted, and is never shown again.',
+          '<b>Supplier invoices from SEF</b> (the Serbian e-invoicing system) <b>and photos of paper invoices and delivery notes</b> the restaurant adds: the data on the invoices of the restaurant’s suppliers, mostly company data. The SEF API key is stored only on our server, encrypted, and is never shown again.',
           '<b>Messages you send us:</b> your email address and what you write.',
         ]]],
         ['Why and on what basis', ['To provide RUVO under the contract with the restaurant; to meet legal obligations (accounting, tax); for our legitimate interest in keeping the service secure and preventing abuse; guests’ loyalty data on the basis of the consent the restaurant obtains.']],
@@ -968,7 +970,7 @@ export const T = {
         ['Who else processes data', [[
           '<b>A hosting provider in the EU</b> — stores the data and runs the service.',
           '<b>An email provider</b> — for our correspondence and messages about the account (email confirmation, the code for the first device).',
-          '<b>Anthropic (USA)</b> — the AI assistant in reports and in moving data from another POS. It receives the question and the figures needed for the answer; we do not send guests’ phone numbers or email addresses. Transfers outside Serbia and the EU are made with the safeguards the law requires.',
+          '<b>Anthropic (USA)</b> — the AI assistant in reports, in moving data from another POS, and in reading photos of suppliers’ invoices and delivery notes. It receives the question and the data needed for the answer (for an invoice — its photo and the restaurant’s product list); we do not send guests’ phone numbers or email addresses. Transfers outside Serbia and the EU are made with the safeguards the law requires.',
           '<b>Apple</b> — distributes the RUVO app (App Store, TestFlight) under its own privacy policy.',
           '<b>Google Fonts</b> — this website loads its fonts from that service; Google receives the visitor’s IP address.',
         ], 'We do not sell data, show ads or track users across other apps and websites.']],
@@ -1043,7 +1045,7 @@ export const T = {
           '<b>Гости</b> — только если ресторан ведёт программу лояльности и гость согласен: имя, телефон, номер карты, баллы, скидки и история покупок.',
           '<b>Заказы и оплаты:</b> позиции, цены, суммы и способ оплаты. При оплате картой мы получаем только сумму и подтверждение банковского терминала, никогда — номер карты.',
           '<b>Устройства:</b> идентификатор каждого подключённого iPad, iPhone, экрана кухни или киоска и технические записи (время доступа, ошибки), нужные для безопасной и исправной работы.',
-          '<b>Счета поставщиков из SEF</b> (сербской системы электронных счетов): данные со счетов поставщиков ресторана, в основном данные о фирмах. API-ключ SEF хранится только на нашем сервере, в зашифрованном виде, и больше нигде не показывается.',
+          '<b>Счета поставщиков из SEF</b> (сербской системы электронных счетов) <b>и фото бумажных счетов и накладных</b>, которые добавляет ресторан: данные со счетов поставщиков ресторана, в основном данные о фирмах. API-ключ SEF хранится только на нашем сервере, в зашифрованном виде, и больше нигде не показывается.',
           '<b>Письма, которые вы нам присылаете:</b> ваш адрес почты и текст письма.',
         ]]],
         ['Цели и основания', ['Предоставление RUVO по договору с рестораном; выполнение требований закона (бухгалтерия, налоги); законный интерес — безопасность сервиса и защита от злоупотреблений; данные гостей в программе лояльности — на основании согласия, которое получает ресторан.']],
@@ -1051,7 +1053,7 @@ export const T = {
         ['Кто ещё обрабатывает данные', [[
           '<b>Хостинг-провайдер в ЕС</b> — хранит данные и запускает сервис.',
           '<b>Почтовый сервис</b> — для нашей переписки и писем об аккаунте (подтверждение почты, код для первого устройства).',
-          '<b>Anthropic (США)</b> — ИИ-помощник в отчётах и при переносе данных из другой POS. Получает вопрос и цифры, нужные для ответа; телефоны и адреса почты гостей мы не отправляем. Передача за пределы Сербии и ЕС — с мерами защиты, которые требует закон.',
+          '<b>Anthropic (США)</b> — ИИ-помощник в отчётах, при переносе данных из другой POS и при чтении фото счетов и накладных поставщиков. Получает вопрос и данные, нужные для ответа (для накладной — её фото и список продуктов ресторана); телефоны и адреса почты гостей мы не отправляем. Передача за пределы Сербии и ЕС — с мерами защиты, которые требует закон.',
           '<b>Apple</b> — распространяет приложение RUVO (App Store, TestFlight) по своей политике конфиденциальности.',
           '<b>Google Fonts</b> — этот сайт загружает шрифты с этого сервиса; Google при этом получает IP-адрес посетителя.',
         ], 'Мы не продаём данные, не показываем рекламу и не отслеживаем пользователей в других приложениях и на других сайтах.']],

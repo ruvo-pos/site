@@ -1452,6 +1452,28 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 .acc-add[hidden] { display: none; }
 .acc-add .btn { margin-top: 27px; }
 @media (max-width: 560px) { .acc-add { grid-template-columns: minmax(0, 1fr); } .acc-add .btn { margin-top: 0; justify-self: start; } }
+.acc .acc-sec[hidden] { display: none; }
+.acc-scan { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.acc-scan-pick { cursor: pointer; }
+.acc-scan-pick:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.acc-scan-out { display: grid; gap: 14px; }
+.acc-scan-out[hidden] { display: none; }
+.acc-scan-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 24px; margin: 0; }
+.acc-scan-facts > div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; min-width: 0; }
+.acc-scan-facts dt { color: var(--ink-3); font-size: 14px; }
+.acc-scan-facts dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.acc-scan-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+.acc-scan-tbl { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+.acc-scan-tbl th, .acc-scan-tbl td { padding: 8px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.acc-scan-tbl th { color: var(--ink-3); font-size: 12px; font-weight: 600; white-space: nowrap; }
+.acc-scan-tbl tbody tr:last-child td { border-bottom: 0; }
+.acc-scan-tbl .n { text-align: right; white-space: nowrap; }
+.acc-scan-tbl td b { font-weight: 600; }
+.acc-scan-tbl tr.off td { color: var(--ink-3); }
+.acc-scan-code { color: var(--ink-3); }
+.acc-scan-note { display: block; color: var(--ink-3); font-size: 13px; }
+.acc-scan-tot { color: var(--ink-2); }
+@media (max-width: 560px) { .acc-scan-facts { grid-template-columns: minmax(0, 1fr); } }
 .foot { padding-block: 44px 28px; background: var(--bg-alt); color: var(--ink-3); font-size: 12px; line-height: 1.5; letter-spacing: -0.01em; }
 .foot-in { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px var(--gap); }
 .foot-co { display: grid; gap: 12px; justify-items: start; align-content: start; }
@@ -1698,7 +1720,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="sef-btns"><span class="pb"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-x"/></svg>Отклонить</span><span class="pb go"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>Принять и оприходовать</span></div>
 </div></div>
 </div></div></div></div></div>
-<div class="ex-text"><h3>Счета поставщиков из SEF</h3><p>Входящие <span class="nw">e-фактуры</span> приходят сами. Позиции поставщика связываются с вашими продуктами один раз, а приход на склад — одной кнопкой.</p><ul><li>Принять или отклонить счёт из RUVO</li><li>Срок ответа всегда на виду</li><li>Несколько фирм (ПИБ) в одном аккаунте</li></ul></div>
+<div class="ex-text"><h3>Счета поставщиков из SEF</h3><p>Входящие <span class="nw">e-фактуры</span> приходят сами. Позиции поставщика связываются с вашими продуктами один раз, а приход на склад — одной кнопкой.</p><ul><li>Принять или отклонить счёт из RUVO</li><li>Срок ответа всегда на виду</li><li>Несколько фирм (ПИБ) в одном аккаунте</li><li>Бумажная накладная — по фото: строки заполнит ИИ</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-team">
 <div class="ex-shot ex-shot--pad" role="img" aria-label="Пример: кто сейчас на смене и зарплата официанта за неделю"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><div class="sb"><span class="sb-t">21:41<span>Ср 14 окт.</span></span><span class="sb-r"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-wifi-high"/></svg><span class="bat"><i></i></span></span></div><div class="of">
