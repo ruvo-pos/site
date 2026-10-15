@@ -189,4 +189,46 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/support/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/support/"/>
   </url>
+  <url>
+    <loc>https://ruvo.ac/registracija/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/registracija/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/signup/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/signup/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/en/signup/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/registracija/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/signup/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/signup/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/ru/signup/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/registracija/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/signup/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/signup/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/uslovi/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/uslovi/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/terms/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/en/terms/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/uslovi/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/terms/"/>
+  </url>
+  <url>
+    <loc>https://ruvo.ac/ru/terms/</loc>
+    <lastmod>2026-10-12</lastmod>
+    <xhtml:link rel="alternate" hreflang="sr" href="https://ruvo.ac/uslovi/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ruvo.ac/en/terms/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://ruvo.ac/ru/terms/"/>
+  </url>
 </urlset>

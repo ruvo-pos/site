@@ -248,6 +248,8 @@ flex: none; display: inline-flex; align-items: center; height: 30px; padding-inl
 background: var(--btn); color: var(--btn-ink); font-size: 13px; font-weight: 500; letter-spacing: -0.01em; white-space: nowrap; text-decoration: none;
 }
 .top-cta:hover { background: var(--btn-2); color: var(--btn-ink); text-decoration: none; }
+.top-login { flex: none; color: var(--ink); font-size: 13px; letter-spacing: -0.01em; white-space: nowrap; opacity: 0.86; }
+.top-login:hover { opacity: 1; text-decoration: none; }
 .tt {
 flex: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
 width: 32px; height: 32px; padding: 0; border: 0; border-radius: 999px;
@@ -268,7 +270,7 @@ background: transparent; color: var(--ink); font: inherit; cursor: pointer; opac
 .tt-foot:not([hidden]) { display: inline-flex; width: auto; height: 34px; padding-inline: 14px; background: var(--fill); font-size: 13px; }
 .tt-foot .i { width: 16px; height: 16px; }
 }
-@media (max-width: 400px) { .langs a { min-width: 30px; padding-inline: 5px; } }
+@media (max-width: 400px) { .langs a { min-width: 30px; padding-inline: 5px; } .top-login { display: none; } }
 .vm { flex: none; }
 .vm-btn {
 display: inline-flex; align-items: center; gap: 6px;
@@ -309,6 +311,7 @@ border-bottom: 1px solid var(--nav-line);
 .vm-all[aria-current] { color: var(--ink); }
 .vm-sec { display: none; gap: 24px; }
 .vm-sec a { color: var(--ink); font-size: 14px; }
+.vm-sec .vm-login { color: var(--accent); }
 @media (prefers-reduced-motion: no-preference) {
 .vm[open] .vm-panel { animation: vm-in 0.28s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 .vm[open] .vm-scrim { animation: vm-fade 0.28s ease both; }
@@ -1400,6 +1403,55 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 .cf-steps { display: grid; gap: 8px; margin-block: 12px; padding-left: 1.4em; list-style: decimal; }
 .cf-steps li { padding-left: 4px; }
 .cf-note { color: var(--ink-2); font-size: 14px; }
+.su-msg.ok { background: var(--ok-soft); }
+.lnk-btn { padding: 0; border: 0; background: none; color: var(--accent); font: inherit; font-size: 15px; cursor: pointer; }
+.lnk-btn:hover:not(:disabled) { text-decoration: underline; }
+.lnk-btn:disabled { color: var(--ink-3); cursor: default; }
+.si .si-form { max-width: 26rem; }
+.si-form h2 { font-size: var(--fs-h3); }
+.si-form h2:focus { outline: none; }
+.si-sent { color: var(--ink-2); }
+.si-sent b { color: var(--ink); font-weight: 600; overflow-wrap: anywhere; }
+.code-in { font-size: 28px !important; letter-spacing: 0.35em; font-variant-numeric: tabular-nums; text-align: center; max-width: 13rem; }
+.si-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; }
+.si-row .btn { justify-self: auto; }
+.si-in { margin-top: 20px; padding: 12px 14px; border-radius: 12px; background: var(--bg-alt); font-size: 15px; }
+.si-link { display: grid; gap: 16px; justify-items: start; margin-top: 32px; max-width: 26rem; }
+.si-link[hidden] { display: none; }
+.si-link p { color: var(--ink-2); }
+.si-choose { display: grid; gap: 16px; margin-top: 32px; max-width: 30rem; }
+.si-choose[hidden] { display: none; }
+.si-choose h2 { font-size: var(--fs-h3); }
+.si-choose h2:focus { outline: none; }
+.si-list { display: grid; gap: 10px; }
+.si-acc { display: grid; gap: 2px; width: 100%; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface, var(--bg)); color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.si-acc:hover:not(:disabled) { border-color: var(--accent); }
+.si-acc b { font-weight: 600; }
+.si-acc span { color: var(--ink-3); font-size: 14px; }
+.si-alt { max-width: 26rem; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--ink-2); }
+.acc { max-width: 44rem; }
+.acc-k { color: var(--ink-3); font-size: 12px; font-weight: 600; letter-spacing: var(--track-caps); text-transform: uppercase; }
+.acc h1 { margin-top: 8px; overflow-wrap: anywhere; }
+.acc > .su-msg { margin-top: 20px; }
+.acc-body { display: grid; gap: 0; margin-top: 16px; }
+.acc-body[hidden] { display: none; }
+.acc-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; }
+.acc-who { color: var(--ink-2); font-size: var(--fs-intro); }
+.acc-status { margin-top: 20px; padding: 14px 16px; border-radius: 14px; background: var(--bg-alt); color: var(--ink); line-height: 1.5; }
+.acc-status b { font-weight: 600; }
+.acc .acc-sec { display: grid; gap: 14px; margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--line); }
+.acc-sec h2 { font-size: var(--fs-h3); }
+.acc-sec > p { color: var(--ink-2); line-height: 1.55; }
+.acc-venues { display: grid; }
+.acc .acc-venues { gap: 0; }
+.acc .acc-venues li { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.acc .acc-venues li::before { content: none; }
+.acc-venues li:first-child { padding-top: 0; }
+.acc-venues b { font-weight: 600; overflow-wrap: anywhere; }
+.acc-add { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: start; margin-top: 8px; max-width: 34rem; }
+.acc-add[hidden] { display: none; }
+.acc-add .btn { margin-top: 27px; }
+@media (max-width: 560px) { .acc-add { grid-template-columns: minmax(0, 1fr); } .acc-add .btn { margin-top: 0; justify-self: start; } }
 .foot { padding-block: 44px 28px; background: var(--bg-alt); color: var(--ink-3); font-size: 12px; line-height: 1.5; letter-spacing: -0.01em; }
 .foot-in { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px var(--gap); }
 .foot-co { display: grid; gap: 12px; justify-items: start; align-content: start; }
@@ -1451,7 +1503,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="vm-panel"><div class="wrap vm-in">
 <p class="vm-k">Za koga je RUVO</p>
 <ul class="vm-list"><li><a class="vm-a" href="../restoran/"><span class="vm-ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-fork-knife"/></svg></span><span class="vm-t"><b>Restoran sa salom</b><small>Plan sale, sledovi i konobari sa uređajima</small></span></a></li><li><a class="vm-a" href="../kafic/"><span class="vm-ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-coffee"/></svg></span><span class="vm-t"><b>Kafić i bar</b><small>Šank, srećni sati i magacin do grama kafe</small></span></a></li><li><a class="vm-a" href="../brza-hrana/"><span class="vm-ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-hamburger"/></svg></span><span class="vm-t"><b>Brza hrana</b><small>Kiosk, brojevi porudžbina i ekran za preuzimanje</small></span></a></li><li><a class="vm-a" href="../pekara/"><span class="vm-ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bread"/></svg></span><span class="vm-t"><b>Pekara i poslastičarnica</b><small>Normativi za testa i kreme, prognoza za sutra</small></span></a></li><li class="soon"><span class="vm-a" aria-disabled="true"><span class="vm-ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bed"/></svg></span><span class="vm-t"><b>Hotel</b><small>Restoran, lobi bar i doručak u jednom izveštaju</small></span><span class="vm-soon">Uskoro</span></span></li><li class="soon"><span class="vm-a" aria-disabled="true"><span class="vm-ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-cooking-pot"/></svg></span><span class="vm-t"><b>Ketering i kantine</b><small>Banketi i velike količine po normativu</small></span><span class="vm-soon">Uskoro</span></span></li><li><a class="vm-a" href="../dostava/"><span class="vm-ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-moped"/></svg></span><span class="vm-t"><b>Kuhinja za dostavu</b><small>Wolt i Glovo na ekranu kuhinje, sa vremenom kurira</small></span></a></li><li><a class="vm-a" href="../mreza/"><span class="vm-ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-buildings"/></svg></span><span class="vm-t"><b>Mreža objekata</b><small>Svi objekti u jednom nalogu, izveštaji za celu mrežu</small></span></a></li></ul>
-<div class="vm-foot"><a class="vm-all" href="../">Sve o RUVO-u na jednoj strani<svg class="i lnk-i" aria-hidden="true" focusable="false"><use href="#i-caret-right"/></svg></a><nav class="vm-sec" aria-label="Glavni meni"><a href="../#features">Mogućnosti</a><a href="../#pricing">Cene</a><a href="../#contact">Kontakt</a></nav></div>
+<div class="vm-foot"><a class="vm-all" href="../">Sve o RUVO-u na jednoj strani<svg class="i lnk-i" aria-hidden="true" focusable="false"><use href="#i-caret-right"/></svg></a><nav class="vm-sec" aria-label="Glavni meni"><a href="../#features">Mogućnosti</a><a href="../#pricing">Cene</a><a href="../#contact">Kontakt</a><a class="vm-login" href="../prijava/" data-account="../nalog/" data-account-label="Nalog">Prijava</a></nav></div>
 </div></div>
 <div class="vm-scrim" data-vm-close></div>
 </details>
@@ -1459,7 +1511,8 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="top-end">
 <nav class="langs" aria-label="Jezik"><a href="./" hreflang="sr" lang="sr-Latn" title="Srpski" aria-current="page">SR</a><a href="../en/support/" hreflang="en" lang="en" title="English">EN</a><a href="../ru/support/" hreflang="ru" lang="ru" title="Русский">RU</a></nav>
 <button type="button" class="tt" data-tt data-to-light="Uključi svetlu temu" data-to-dark="Uključi tamnu temu" data-light="Svetla tema" data-dark="Tamna tema" aria-label="Uključi tamnu temu" title="Uključi tamnu temu" hidden><span class="tt-moon"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-moon"/></svg></span><span class="tt-sun"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-sun"/></svg></span></button>
-<a class="top-cta" href="../demo/">Isprobajte demo</a>
+<a class="top-login" href="../prijava/" data-account="../nalog/" data-account-label="Nalog">Prijava</a>
+<a class="top-cta" href="../registracija/">Registracija</a>
 </div>
 </div></header>
 <main id="main" class="doc"><div class="wrap"><div class="doc-in">
@@ -1480,9 +1533,9 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="foot-in">
 <div class="foot-co"><a class="wordmark sm" href="../" aria-label="RUVO — Početna">RUVO</a><p>Razvijeno u Beogradu.</p></div>
 <nav class="foot-cols" aria-label="O firmi i dokumenti">
-<div class="foot-col"><h2>Proizvod</h2><ul><li><a href="../#features">Mogućnosti</a></li><li><a href="../#pricing">Cene</a></li><li><a href="../demo/">Demo</a></li></ul></div>
+<div class="foot-col"><h2>Proizvod</h2><ul><li><a href="../#features">Mogućnosti</a></li><li><a href="../#pricing">Cene</a></li><li><a href="../demo/">Demo</a></li><li><a class="foot-login" href="../prijava/" data-account="../nalog/" data-account-label="Nalog">Prijava</a></li><li><a href="../registracija/">Registracija</a></li></ul></div>
 <div class="foot-col"><h2>Za koga</h2><ul><li><a href="../restoran/">Restoran sa salom</a></li><li><a href="../kafic/">Kafić i bar</a></li><li><a href="../brza-hrana/">Brza hrana</a></li><li><a href="../pekara/">Pekara i poslastičarnica</a></li><li><span class="foot-soon">Hotel · uskoro</span></li><li><span class="foot-soon">Ketering i kantine · uskoro</span></li><li><a href="../dostava/">Kuhinja za dostavu</a></li><li><a href="../mreza/">Mreža objekata</a></li></ul></div>
-<div class="foot-col"><h2>Dokumenti</h2><ul><li><a href="../privatnost/">Privatnost</a></li><li><a href="./" aria-current="page">Podrška</a></li></ul></div>
+<div class="foot-col"><h2>Dokumenti</h2><ul><li><a href="../privatnost/">Privatnost</a></li><li><a href="../uslovi/">Uslovi korišćenja</a></li><li><a href="./" aria-current="page">Podrška</a></li></ul></div>
 <div class="foot-col"><h2>Kontakt</h2><ul><li><a href="mailto:hello@ruvo.ac">hello@ruvo.ac</a></li><li>Cara Uroša 19, 11000 Beograd</li></ul></div>
 </nav>
 </div>
@@ -1490,6 +1543,11 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 </div></footer>
 <script>
 (() => {
+  // a browser signed in to an account (the sign-in pages keep it in this browser): «Prijava» leads to the account
+  try {
+    const a = JSON.parse(localStorage.getItem('ruvo-account') || 'null');
+    if (a && a.session) for (const l of document.querySelectorAll('[data-account]')) { l.href = l.dataset.account; l.textContent = l.dataset.accountLabel; }
+  } catch (e) {}
   const vm = document.querySelector('[data-vm]');
   if (vm) {
     document.addEventListener('click', (e) => { if (vm.open && (!vm.contains(e.target) || e.target.closest('[data-vm-close]'))) vm.open = false; });

@@ -248,6 +248,9 @@ section[id], .anchor { scroll-margin-top: 60px; }
   background: var(--btn); color: var(--btn-ink); font-size: 13px; font-weight: 500; letter-spacing: -0.01em; white-space: nowrap; text-decoration: none;
 }
 .top-cta:hover { background: var(--btn-2); color: var(--btn-ink); text-decoration: none; }
+/* «Prijava» (on a signed-in browser «Nalog»): a word of the bar, beside the registration */
+.top-login { flex: none; color: var(--ink); font-size: 13px; letter-spacing: -0.01em; white-space: nowrap; opacity: 0.86; }
+.top-login:hover { opacity: 1; text-decoration: none; }
 /* the theme: a sun or a moon — what it will turn on; on a phone at the foot of the page, with its words. Shown only with
    JavaScript (without it the page follows the device) */
 .tt {
@@ -273,7 +276,7 @@ section[id], .anchor { scroll-margin-top: 60px; }
   .tt-foot:not([hidden]) { display: inline-flex; width: auto; height: 34px; padding-inline: 14px; background: var(--fill); font-size: 13px; }
   .tt-foot .i { width: 16px; height: 16px; }
 }
-@media (max-width: 400px) { .langs a { min-width: 30px; padding-inline: 5px; } }
+@media (max-width: 400px) { .langs a { min-width: 30px; padding-inline: 5px; } .top-login { display: none; } }
 
 /* «Za koga ▾» (Apple's flyout): the bar's word; open, a panel across the whole width — every kind with its icon, its name
    large, a line of what RUVO does there — and the page under it dimmed */
@@ -318,6 +321,7 @@ section[id], .anchor { scroll-margin-top: 60px; }
 .vm-all[aria-current] { color: var(--ink); }
 .vm-sec { display: none; gap: 24px; }
 .vm-sec a { color: var(--ink); font-size: 14px; }
+.vm-sec .vm-login { color: var(--accent); }
 @media (prefers-reduced-motion: no-preference) {
   .vm[open] .vm-panel { animation: vm-in 0.28s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
   .vm[open] .vm-scrim { animation: vm-fade 0.28s ease both; }
@@ -1503,6 +1507,61 @@ h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacin
 .cf-steps { display: grid; gap: 8px; margin-block: 12px; padding-left: 1.4em; list-style: decimal; }
 .cf-steps li { padding-left: 4px; }
 .cf-note { color: var(--ink-2); font-size: 14px; }
+.su-msg.ok { background: var(--ok-soft); }
+
+/* a button that reads as a link: «Pošalji novi kod», «Druga adresa», «Odjavi se» */
+.lnk-btn { padding: 0; border: 0; background: none; color: var(--accent); font: inherit; font-size: 15px; cursor: pointer; }
+.lnk-btn:hover:not(:disabled) { text-decoration: underline; }
+.lnk-btn:disabled { color: var(--ink-3); cursor: default; }
+
+/* sign-in: the address, then the code — six digits, large, spaced like the PIN */
+.si .si-form { max-width: 26rem; }
+.si-form h2 { font-size: var(--fs-h3); }
+.si-form h2:focus { outline: none; }
+.si-sent { color: var(--ink-2); }
+.si-sent b { color: var(--ink); font-weight: 600; overflow-wrap: anywhere; }
+.code-in { font-size: 28px !important; letter-spacing: 0.35em; font-variant-numeric: tabular-nums; text-align: center; max-width: 13rem; }
+.si-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; }
+.si-row .btn { justify-self: auto; }
+.si-in { margin-top: 20px; padding: 12px 14px; border-radius: 12px; background: var(--bg-alt); font-size: 15px; }
+.si-link { display: grid; gap: 16px; justify-items: start; margin-top: 32px; max-width: 26rem; }
+.si-link[hidden] { display: none; }
+.si-link p { color: var(--ink-2); }
+.si-choose { display: grid; gap: 16px; margin-top: 32px; max-width: 30rem; }
+.si-choose[hidden] { display: none; }
+.si-choose h2 { font-size: var(--fs-h3); }
+.si-choose h2:focus { outline: none; }
+.si-list { display: grid; gap: 10px; }
+.si-acc { display: grid; gap: 2px; width: 100%; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface, var(--bg)); color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.si-acc:hover:not(:disabled) { border-color: var(--accent); }
+.si-acc b { font-weight: 600; }
+.si-acc span { color: var(--ink-3); font-size: 14px; }
+.si-alt { max-width: 26rem; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--ink-2); }
+
+/* the account: the company large, who is in and how its 30 days stand; the venues, the devices, help — between rules */
+.acc { max-width: 44rem; }
+.acc-k { color: var(--ink-3); font-size: 12px; font-weight: 600; letter-spacing: var(--track-caps); text-transform: uppercase; }
+.acc h1 { margin-top: 8px; overflow-wrap: anywhere; }
+.acc > .su-msg { margin-top: 20px; }
+.acc-body { display: grid; gap: 0; margin-top: 16px; }
+.acc-body[hidden] { display: none; }
+.acc-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; }
+.acc-who { color: var(--ink-2); font-size: var(--fs-intro); }
+.acc-status { margin-top: 20px; padding: 14px 16px; border-radius: 14px; background: var(--bg-alt); color: var(--ink); line-height: 1.5; }
+.acc-status b { font-weight: 600; }
+.acc .acc-sec { display: grid; gap: 14px; margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--line); }
+.acc-sec h2 { font-size: var(--fs-h3); }
+.acc-sec > p { color: var(--ink-2); line-height: 1.55; }
+.acc-venues { display: grid; }
+.acc .acc-venues { gap: 0; }
+.acc .acc-venues li { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.acc .acc-venues li::before { content: none; }
+.acc-venues li:first-child { padding-top: 0; }
+.acc-venues b { font-weight: 600; overflow-wrap: anywhere; }
+.acc-add { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: start; margin-top: 8px; max-width: 34rem; }
+.acc-add[hidden] { display: none; }
+.acc-add .btn { margin-top: 27px; }
+@media (max-width: 560px) { .acc-add { grid-template-columns: minmax(0, 1fr); } .acc-add .btn { margin-top: 0; justify-self: start; } }
 
 /* ---------- the foot, as Apple's: small grey words on the light grey ---------- */
 .foot { padding-block: 44px 28px; background: var(--bg-alt); color: var(--ink-3); font-size: 12px; line-height: 1.5; letter-spacing: -0.01em; }

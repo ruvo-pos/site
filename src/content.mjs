@@ -7,10 +7,10 @@ export const SITE = {
   pib: '113820680',
   address: 'Cara Uroša 19, 11000 Beograd',
   updated: { iso: '2026-10-12', sr: '12. oktobra 2026.', en: '12 October 2026', ru: '12 октября 2026 г.' },
-  // Registration on the site (the owner's decision of 12 October): built and tested now, switched on when the app works
-  // through the server — until then the pages are only in the preview build (node build.mjs --preview) and the site
-  // keeps «Pišite nam». `api` — the server (render.yaml; api.ruvo.ac points at it), `app` — where a new client opens RUVO.
-  signup: false,
+  // Registration and sign-in on the site: on since 15 October (the owner: «Открыть сразу» — before the app works through
+  // the server, so a new client gets the account page first; the devices come later). `api` — the server (render.yaml;
+  // api.ruvo.ac points at it), `app` — where the app itself will be.
+  signup: true,
   api: 'https://api.ruvo.ac',
   app: 'https://app.ruvo.ac',
 };

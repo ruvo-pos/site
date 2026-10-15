@@ -26,7 +26,9 @@ const ORIGIN = `https://${SITE.domain}`;
 const SIGNUP_ON = SITE.signup || process.argv.includes('--signup');
 // a kind of venue is a page of its own (src/venues.mjs): «v:cafe» → kafic/, en/cafe/, ru/cafe/ — but not those still to come
 const VPAGES = VENUE_KEYS.filter((k) => !VENUE_SOON.includes(k)).map((k) => `v:${k}`);
-const PAGES = ['home', ...VPAGES, 'privacy', 'support', ...(SIGNUP_ON ? ['signup', 'confirm', 'terms'] : [])];
+const PAGES = ['home', ...VPAGES, 'privacy', 'support', ...(SIGNUP_ON ? ['signup', 'confirm', 'terms', 'login', 'account'] : [])];
+// the pages that are a person's own step, not for search engines
+const PRIVATE = ['confirm', 'login', 'account'];
 const LOCALE = { sr: 'sr-Latn-RS', en: 'en-GB', ru: 'ru-RU' };
 // The site's own text is set in the system's face — San Francisco on Apple's devices, after Apple's site (the owner,
 // 14 October: «приблизить к визуалу сайта Apple») — and in Inter where there is no San Francisco (a browser downloads
@@ -166,6 +168,11 @@ function themeButton(lang, cls = '') {
 // «Za koga ▾» closes when a click lands elsewhere — on the dimmed page under it too — or on Escape (without the script
 // it still opens and closes by itself); the theme switch
 const SITE_JS = `(() => {
+  // a browser signed in to an account (the sign-in pages keep it in this browser): «Prijava» leads to the account
+  try {
+    const a = JSON.parse(localStorage.getItem('ruvo-account') || 'null');
+    if (a && a.session) for (const l of document.querySelectorAll('[data-account]')) { l.href = l.dataset.account; l.textContent = l.dataset.accountLabel; }
+  } catch (e) {}
   const vm = document.querySelector('[data-vm]');
   if (vm) {
     document.addEventListener('click', (e) => { if (vm.open && (!vm.contains(e.target) || e.target.closest('[data-vm-close]'))) vm.open = false; });
@@ -213,7 +220,7 @@ const SITE_JS = `(() => {
 })();`;
 
 function page(lang, key, file, title, description, body, opts = {}) {
-  if (body.includes('data-vm') || body.includes('data-tt')) body += `\n<script>\n${SITE_JS}\n</script>`;
+  if (body.includes('data-vm') || body.includes('data-tt') || body.includes('data-account')) body += `\n<script>\n${SITE_JS}\n</script>`;
   body = `${sprite(body)}\n${body}`;
   if (PREVIEW && file === 'index.html') {
     return `<title>${esc(T.ru.ui.preview)}</title>
@@ -265,7 +272,7 @@ function venueMenu(lang, key, file) {
 <div class="vm-panel"><div class="wrap vm-in">
 <p class="vm-k">${esc(V.menu.title)}</p>
 <ul class="vm-list">${items}</ul>
-<div class="vm-foot"><a class="vm-all" href="${href(file, home)}"${key === 'home' ? ' aria-current="page"' : ''}>${MORE(V.menu.all)}</a><nav class="vm-sec" aria-label="${esc(t.ui.menuLabel)}">${['features', 'pricing', 'contact'].map(section).join('')}</nav></div>
+<div class="vm-foot"><a class="vm-all" href="${href(file, home)}"${key === 'home' ? ' aria-current="page"' : ''}>${MORE(V.menu.all)}</a><nav class="vm-sec" aria-label="${esc(t.ui.menuLabel)}">${['features', 'pricing', 'contact'].map(section).join('')}${SIGNUP_ON ? loginLink(lang, file, 'vm-login') : ''}</nav></div>
 </div></div>
 <div class="vm-scrim" data-vm-close></div>
 </details>`;
@@ -273,6 +280,9 @@ function venueMenu(lang, key, file) {
 
 // The bar (Apple's global navigation): thin, translucent, staying at the top; small words. The wordmark and «Za koga»
 // on the left, the sections in the middle, the languages, the theme and the demo on the right.
+// the way into the account: «Prijava», and on a signed-in browser «Nalog» (the script swaps it)
+const loginLink = (lang, file, cls) => `<a class="${cls}" href="${href(file, fileOf(lang, 'login'))}" data-account="${href(file, fileOf(lang, 'account'))}" data-account-label="${esc(SG[lang].nav.account)}">${esc(SG[lang].nav.login)}</a>`;
+
 function header(lang, key, file) {
   const t = T[lang];
   const home = fileOf(lang, 'home');
@@ -280,8 +290,10 @@ function header(lang, key, file) {
   const section = (id, label) => `<a href="${isLanding(key) ? `#${id}` : href(file, home, `#${id}`)}">${esc(label)}</a>`;
   const langs = LANGS.map((l) => `<a href="${href(file, fileOf(l, key))}" hreflang="${l}" lang="${T[l].ui.lang}" title="${esc(T[l].name)}"${l === lang ? ' aria-current="page"' : ''}>${l.toUpperCase()}</a>`);
   const cta = SIGNUP_ON
-    ? (key !== 'signup' && key !== 'confirm' ? `<a class="top-cta" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].nav.signup)}</a>` : '')
+    ? (!['signup', 'confirm', 'account'].includes(key) ? `<a class="top-cta" href="${href(file, fileOf(lang, 'signup'))}">${esc(SG[lang].nav.signup)}</a>` : '')
     : `<a class="top-cta" href="${href(file, DEMO[lang])}">${esc(t.home.demo.cta)}</a>`;
+  // «Prijava»: on a browser that is signed in it becomes «Nalog» (SITE_JS)
+  const login = SIGNUP_ON && !['login', 'account'].includes(key) ? loginLink(lang, file, 'top-login') : '';
   return `<a class="skip" href="#main">${esc(t.skip)}</a>
 <header class="top"><div class="wrap top-in">
 <a class="wordmark" href="${href(file, home)}" aria-label="RUVO — ${esc(t.nav.home)}">RUVO</a>
@@ -290,6 +302,7 @@ ${venueMenu(lang, key, file)}
 <div class="top-end">
 <nav class="langs" aria-label="${esc(t.ui.langLabel)}">${langs.join('')}</nav>
 ${themeButton(lang)}
+${login}
 ${cta}
 </div>
 </div></header>`;
@@ -310,7 +323,7 @@ function footer(lang, key, file) {
 <div class="foot-in">
 <div class="foot-co"><a class="wordmark sm" href="${href(file, home)}" aria-label="RUVO — ${esc(t.nav.home)}">RUVO</a><p>${esc(t.home.made)}</p></div>
 <nav class="foot-cols" aria-label="${esc(t.ui.footLabel)}">
-${col(t.ui.foot.product, [...['features', 'pricing'].map(section), `<a href="${href(file, DEMO[lang])}">${esc(t.nav.demo)}</a>`])}
+${col(t.ui.foot.product, [...['features', 'pricing'].map(section), `<a href="${href(file, DEMO[lang])}">${esc(t.nav.demo)}</a>`, ...(SIGNUP_ON ? [loginLink(lang, file, 'foot-login'), link('signup')] : [])])}
 ${col(V.menu.label, VENUE_KEYS.map(venue))}
 ${col(t.ui.foot.docs, [link('privacy'), ...(SIGNUP_ON ? [link('terms')] : []), link('support')])}
 ${col(t.ui.foot.contact, [mail, esc(SITE.address)])}
@@ -1343,11 +1356,80 @@ ${PREVIEW ? `<p class="su-demo">${esc(g.demo)}</p>` : ''}
 </div>
 </div></div></main>
 ${footer(lang, 'confirm', file)}
-${textData('cf-text', { submit: g.submit, sending: g.sending, errors: g.errors, done: g.done, mail: SITE.email, signup: href(file, fileOf(lang, 'signup')) })}
+${textData('cf-text', { submit: g.submit, sending: g.sending, errors: g.errors, done: g.done, mail: SITE.email, signup: href(file, fileOf(lang, 'signup')), login: href(file, fileOf(lang, 'login')), account: href(file, fileOf(lang, 'account')) })}
 <script>
 ${CONFIRM_JS}
 </script>`;
   return page(lang, 'confirm', file, `${g.title} — RUVO`, g.description, body, { noindex: true });
+}
+
+// Sign-in (the owner, 15 October: «Давай сделаем страницу для входа и регистрации в ресторан с нашего лендинга»; a code to
+// the e-mail, no password): the address → the code → the account. The link from the letter signs in by itself.
+function loginPage(lang) {
+  const g = SG[lang].login;
+  const file = fileOf(lang, 'login');
+  const body = `${header(lang, 'login', file)}
+<main id="main" class="doc"><div class="wrap"><div class="doc-in si" id="lg" data-api="${esc(SITE.api)}" data-lang="${lang}"${PREVIEW ? ' data-demo="1"' : ''}>
+<h1>${esc(g.title)}</h1>
+<p class="doc-lead" data-lg="lead">${txt(g.lead)}</p>
+${PREVIEW ? `<p class="su-demo">${esc(SG[lang].signup.demo)}</p>` : ''}
+<p class="si-in" data-lg="in" hidden>${esc(g.signedIn)} <a href="${href(file, fileOf(lang, 'account'))}">${MORE(g.open)}</a></p>
+<form class="cf-form si-form" id="lg-email" novalidate>
+<div class="fld"><label for="lg-mail">${esc(g.email)}</label><input id="lg-mail" name="email" type="email" required autocomplete="email" maxlength="120" spellcheck="false" aria-describedby="lg-mail-err"><p class="fld-err" id="lg-mail-err" hidden></p></div>
+<p class="su-msg" role="alert" hidden></p>
+<button class="btn" type="submit">${esc(g.send)}</button>
+</form>
+<form class="cf-form si-form" id="lg-code" novalidate hidden>
+<h2 tabindex="-1">${esc(g.codeTitle)}</h2>
+<p class="si-sent" data-lg="sent"></p>
+<div class="fld"><label for="lg-c">${esc(g.code)}</label><input id="lg-c" class="code-in" name="code" required inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" spellcheck="false"></div>
+<p class="su-msg" role="alert" hidden></p>
+<div class="si-row"><button class="btn" type="submit">${esc(g.submit)}</button><button type="button" class="lnk-btn" data-lg="resend">${esc(g.resend)}</button><button type="button" class="lnk-btn" data-lg="change">${esc(g.change)}</button></div>
+<p class="fld-hint">${esc(g.spam)}</p>
+</form>
+<div class="si-choose" id="lg-choose" hidden><h2 tabindex="-1">${esc(g.choose)}</h2><ul class="si-list"></ul><p class="su-msg" role="alert" hidden></p></div>
+<div class="si-link" id="lg-link" hidden><p>${esc(g.linkLead)}</p><button class="btn" type="button">${esc(g.submit)}</button></div>
+<p class="si-alt">${esc(g.noAccount)} <a href="${href(file, fileOf(lang, 'signup'))}">${MORE(g.signup)}</a></p>
+</div></div></main>
+${footer(lang, 'login', file)}
+${textData('lg-text', { ...g, mail: SITE.email, account: href(file, fileOf(lang, 'account')) })}
+<script>
+${LOGIN_JS}
+</script>`;
+  return page(lang, 'login', file, `${g.title} — RUVO`, g.description, body, { noindex: true });
+}
+
+// The account (until the back office works through the server — the owner chose to open now): the company, how its
+// 30 days stand, its venues (the owner adds one), what comes with the devices, help; signing out.
+function accountPage(lang) {
+  const g = SG[lang].account;
+  const file = fileOf(lang, 'account');
+  const body = `${header(lang, 'account', file)}
+<main id="main" class="doc"><div class="wrap"><div class="acc" id="acc" data-api="${esc(SITE.api)}" data-lang="${lang}" data-locale="${LOCALE[lang]}"${PREVIEW ? ' data-demo="1"' : ''}>
+<p class="acc-k">${esc(g.kicker)}</p>
+<h1 data-a="company">${esc(g.loading)}</h1>
+${PREVIEW ? `<p class="su-demo">${esc(SG[lang].signup.demo)}</p>` : ''}
+<p class="su-msg" role="alert" data-a="msg" hidden></p>
+<div class="acc-body" data-a="body" hidden>
+<div class="acc-head"><p class="acc-who" data-a="who"></p><button type="button" class="lnk-btn" data-a="logout">${esc(g.logout)}</button></div>
+<p class="acc-status" data-a="status"></p>
+<section class="acc-sec" aria-labelledby="acc-v"><h2 id="acc-v">${esc(g.venues)}</h2>
+<ul class="acc-venues" data-a="venues"></ul>
+<form class="acc-add" data-a="add" novalidate hidden>
+<div class="fld"><label for="acc-name">${esc(g.addName)}</label><input id="acc-name" name="name" required maxlength="60" autocomplete="off" aria-describedby="acc-name-hint acc-name-err"><p class="fld-hint" id="acc-name-hint">${esc(g.addHint)}</p><p class="fld-err" id="acc-name-err" hidden></p></div>
+<button class="btn ghost" type="submit">${esc(g.addSubmit)}</button>
+</form>
+</section>
+<section class="acc-sec" aria-labelledby="acc-d"><h2 id="acc-d">${esc(g.devices)}</h2><p>${txt(g.devicesText)}</p><p><a class="lnk" href="${href(file, DEMO[lang])}">${MORE(g.demo)}</a></p></section>
+<section class="acc-sec" aria-labelledby="acc-h"><h2 id="acc-h">${esc(g.help)}</h2><p>${esc(g.helpText).replace('{mail}', mail)}</p></section>
+</div>
+</div></div></main>
+${footer(lang, 'account', file)}
+${textData('acc-text', { ...g, mail: SITE.email, login: href(file, fileOf(lang, 'login')) })}
+<script>
+${ACCOUNT_JS}
+</script>`;
+  return page(lang, 'account', file, `${g.title} — RUVO`, g.description, body, { noindex: true });
 }
 
 function termsPage(lang) {
@@ -1454,19 +1536,33 @@ const SIGNUP_JS = `(() => {
   });
 })();`;
 
+// The account kept in this browser (localStorage 'ruvo-account'): its device — a back-office device of the client,
+// once per browser — and the session. A sign-in's answer replaces the session; a device the server kept (it answers
+// without a token) keeps the token this browser already had.
+const STORE_JS = `const KEY = 'ruvo-account';
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } };
+  const save = (v) => { try { localStorage.setItem(KEY, JSON.stringify(v)); return true; } catch (e) { return false; } };
+  const keep = (data) => {
+    const old = load();
+    const token = data.device.token || (old && old.device && old.device.id === data.device.id ? old.device.token : null);
+    return !!token && save({ device: { ...data.device, token }, session: data.session, staff: data.staff });
+  };`;
+
 // The link's page: the token after «#» (it never reaches a server log), two PINs, the account — and the code, big.
 const CONFIRM_JS = `(() => {
   const form = document.getElementById('cf');
   if (!form) return;
+  ${STORE_JS}
   const T = JSON.parse(document.getElementById('cf-text').textContent);
   const demo = form.dataset.demo === '1';
   const token = location.hash.slice(1);
   const msgBox = form.querySelector('.su-msg');
   const put = (node, text) => {
     node.textContent = '';
-    text.split(/(\\{mail\\}|\\{signup\\})/).forEach((part) => {
+    text.split(/(\\{mail\\}|\\{signup\\}|\\{login\\})/).forEach((part) => {
       if (part === '{mail}') { const a = document.createElement('a'); a.href = 'mailto:' + T.mail; a.textContent = T.mail; node.append(a); }
       else if (part === '{signup}') { const a = document.createElement('a'); a.href = T.signup; a.textContent = T.errors.signupLink; node.append(a); }
+      else if (part === '{login}') { const a = document.createElement('a'); a.href = T.login; a.textContent = T.errors.loginLink; node.append(a); }
       else node.append(part);
     });
   };
@@ -1496,6 +1592,13 @@ const CONFIRM_JS = `(() => {
       }
       if (status === 201) {
         history.replaceState(null, '', location.pathname + location.search);
+        // the server signed this browser in: on to the account
+        if (data.login && keep(data.login)) {
+          say(T.done.going);
+          msgBox.classList.add('ok');
+          location.replace(T.account);
+          return;
+        }
         const done = document.getElementById('cf-done');
         const until = new Intl.DateTimeFormat(form.dataset.locale, { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Belgrade' }).format(new Date(data.code.expiresAt));
         done.querySelector('[data-t=code]').textContent = data.code.code;
@@ -1518,6 +1621,308 @@ const CONFIRM_JS = `(() => {
       btn.textContent = T.submit;
     }
   });
+})();`;
+
+// The sign-in page: the address → the server sends a code → the code (or the link from the letter, opened here) → this
+// browser's device and session kept (STORE_JS) → the account. Six digits typed send themselves.
+const LOGIN_JS = `(() => {
+  const root = document.getElementById('lg');
+  if (!root) return;
+  ${STORE_JS}
+  const T = JSON.parse(document.getElementById('lg-text').textContent);
+  const api = root.dataset.api;
+  const demo = root.dataset.demo === '1';
+  const fEmail = document.getElementById('lg-email');
+  const fCode = document.getElementById('lg-code');
+  const boxChoose = document.getElementById('lg-choose');
+  const boxLink = document.getElementById('lg-link');
+  const lead = root.querySelector('[data-lg=lead]');
+  const put = (node, text, vars = {}) => {
+    node.textContent = '';
+    String(text).split(/(\\{mail\\}|\\{email\\}|\\{left\\}|\\{s\\})/).forEach((part) => {
+      if (part === '{mail}') { const a = document.createElement('a'); a.href = 'mailto:' + T.mail; a.textContent = T.mail; node.append(a); }
+      else if (part === '{email}') { const b = document.createElement('b'); b.textContent = vars.email || ''; node.append(b); }
+      else if (part === '{left}') node.append(String(vars.left ?? ''));
+      else if (part === '{s}') node.append(String(vars.s ?? ''));
+      else node.append(part);
+    });
+  };
+  const say = (box, text, vars) => { const m = box.querySelector('.su-msg'); if (text) put(m, text, vars); m.hidden = !text; };
+  const show = (step) => {
+    fEmail.hidden = step !== 'email';
+    fCode.hidden = step !== 'code';
+    boxChoose.hidden = step !== 'choose';
+    boxLink.hidden = step !== 'link';
+    lead.hidden = step !== 'email';
+  };
+  let email = '';
+  try { email = sessionStorage.getItem('ruvo-login-email') || ''; } catch (e) {}
+  const had = load();
+  if (had && had.session) root.querySelector('[data-lg=in]').hidden = false;
+  const post = async (path, body, withDevice) => {
+    if (demo) {
+      await new Promise((r) => setTimeout(r, 500));
+      if (path === '/v1/login') return { status: 202, data: { ok: true } };
+      return { status: 200, data: { device: { id: 'd_demo', token: 'd_demo.demo', loc: 'mal', role: 'office', company: { id: 'c_demo', name: 'Bistro Mala d.o.o.' }, restaurant: { id: 'mal', name: 'Mala Dorćol' } }, staff: { id: 's_demo', name: 'Ivana', role: 'owner' }, session: 'demo' } };
+    }
+    const a = load();
+    const headers = { 'content-type': 'application/json', ...(withDevice && a && a.device && a.device.token ? { authorization: 'Device ' + a.device.token } : {}) };
+    const res = await fetch(api + path, { method: 'POST', headers, body: JSON.stringify(body) });
+    return { status: res.status, data: await res.json().catch(() => ({})) };
+  };
+  const signedIn = (data) => {
+    if (!keep(data)) return false;
+    try { sessionStorage.removeItem('ruvo-login-email'); } catch (e) {}
+    location.replace(T.account);
+    return true;
+  };
+  // the answer to a code or a link: in, the list of accounts, or what went wrong — said in the box it came from
+  const answer = (box, r, retry) => {
+    const err = r.data && r.data.error;
+    if (r.status === 200 && r.data.device && signedIn(r.data)) return;
+    if (err === 'choose_account') return choose(r.data.accounts, retry);
+    show(box === fEmail ? 'email' : box === boxChoose ? 'choose' : 'code');
+    say(box, err === 'code_wrong' && r.data.left != null ? T.errors.wrong : err === 'code_wrong' ? T.errors.code
+      : err === 'login_expired' ? T.errors.expired : err === 'login_used' ? T.errors.used : err === 'login_not_found' ? T.errors.link
+      : err === 'login_locked' ? T.errors.locked : err === 'no_account' ? T.errors.none : r.status === 429 ? T.errors.wait
+      : r.status === 503 ? T.errors.off : T.errors.other, { left: r.data && r.data.left });
+  };
+  function choose(accounts, retry) {
+    const list = boxChoose.querySelector('ul');
+    list.textContent = '';
+    for (const x of accounts || []) {
+      const li = document.createElement('li');
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'si-acc';
+      const n = document.createElement('b');
+      n.textContent = x.name;
+      const r = document.createElement('span');
+      r.textContent = (T.roles && T.roles[x.role]) || x.role;
+      b.append(n, r);
+      b.addEventListener('click', async () => {
+        for (const o of list.querySelectorAll('button')) o.disabled = true;
+        try { answer(boxChoose, await retry(x.company), retry); } catch (e) { say(boxChoose, T.errors.net); }
+        for (const o of list.querySelectorAll('button')) o.disabled = false;
+      });
+      li.append(b);
+      list.append(li);
+    }
+    say(boxChoose, '');
+    show('choose');
+    boxChoose.querySelector('h2').focus();
+  }
+  // the code: sent, a new one after half a minute
+  let timer = null;
+  const resend = fCode.querySelector('[data-lg=resend]');
+  const countdown = () => {
+    let s = 30;
+    clearInterval(timer);
+    resend.disabled = true;
+    const tick = () => { resend.textContent = T.resendIn.replace('{s}', s); if (s-- <= 0) { clearInterval(timer); resend.disabled = false; resend.textContent = T.resend; } };
+    tick();
+    timer = setInterval(tick, 1000);
+  };
+  const codeStep = () => {
+    put(root.querySelector('[data-lg=sent]'), T.codeLead, { email });
+    fCode.elements.code.value = '';
+    say(fCode, '');
+    show('code');
+    countdown();
+    fCode.elements.code.focus();
+  };
+  const ask = async (btn) => {
+    const r = await post('/v1/login', { email, lang: root.dataset.lang });
+    if (r.status === 202) { try { sessionStorage.setItem('ruvo-login-email', email); } catch (e) {} codeStep(); return; }
+    if (r.status === 400) { const e = document.getElementById('lg-mail-err'); e.textContent = T.errors.email; e.hidden = false; show('email'); fEmail.elements.email.focus(); return; }
+    const box = btn === resend ? fCode : fEmail;
+    say(box, r.status === 429 ? T.errors.wait : r.status === 503 ? T.errors.off : T.errors.other);
+  };
+  fEmail.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    say(fEmail, '');
+    const err = document.getElementById('lg-mail-err');
+    email = fEmail.elements.email.value.trim();
+    const ok = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);
+    err.textContent = ok ? '' : T.errors.email;
+    err.hidden = ok;
+    fEmail.elements.email.setAttribute('aria-invalid', ok ? 'false' : 'true');
+    if (!ok) { fEmail.elements.email.focus(); return; }
+    const btn = fEmail.querySelector('button[type=submit]');
+    btn.disabled = true;
+    btn.textContent = T.sending;
+    try { await ask(btn); } catch (x) { say(fEmail, T.errors.net); }
+    btn.disabled = false;
+    btn.textContent = T.send;
+  });
+  const sendCode = async (company) => post('/v1/login/confirm', { email, code: fCode.elements.code.value.trim(), ...(company ? { company } : {}) }, true);
+  fCode.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    say(fCode, '');
+    const code = fCode.elements.code.value.trim();
+    if (!/^\\d{6}$/.test(code)) { say(fCode, T.errors.code); fCode.elements.code.focus(); return; }
+    const btn = fCode.querySelector('button[type=submit]');
+    btn.disabled = true;
+    btn.textContent = T.checking;
+    try { answer(fCode, await sendCode(), sendCode); } catch (x) { say(fCode, T.errors.net); }
+    btn.disabled = false;
+    btn.textContent = T.submit;
+  });
+  fCode.elements.code.addEventListener('input', (e) => {
+    const v = e.target.value.replace(/\\D+/g, '').slice(0, 6);
+    if (v !== e.target.value) e.target.value = v;
+    if (v.length === 6) fCode.requestSubmit();
+  });
+  resend.addEventListener('click', async () => { say(fCode, ''); try { await ask(resend); } catch (x) { say(fCode, T.errors.net); } });
+  fCode.querySelector('[data-lg=change]').addEventListener('click', () => { clearInterval(timer); show('email'); fEmail.elements.email.value = email; fEmail.elements.email.focus(); });
+  // the link from the letter: the token after «#» — on opening the page, or when the page is already open in this tab and
+  // only the «#…» changes. It signs in with a press of the button, not by itself: a mail scanner that opens links must
+  // not spend it.
+  let token = '';
+  const viaLink = (company) => post('/v1/login/confirm', { token, ...(company ? { company } : {}) }, true);
+  const linkBtn = boxLink.querySelector('button');
+  linkBtn.addEventListener('click', async () => {
+    linkBtn.disabled = true;
+    linkBtn.textContent = T.checking;
+    try { answer(fEmail, await viaLink(), viaLink); } catch (x) { show('email'); say(fEmail, T.errors.net); }
+    linkBtn.disabled = false;
+    linkBtn.textContent = T.submit;
+  });
+  const viaHash = () => {
+    const t = location.hash.slice(1);
+    if (!/^[A-Za-z0-9_-]{43}$/.test(t)) return false;
+    token = t;
+    history.replaceState(null, '', location.pathname + location.search);
+    show('link');
+    linkBtn.focus();
+    return true;
+  };
+  window.addEventListener('hashchange', viaHash);
+  if (viaHash()) return;
+  if (email) fEmail.elements.email.value = email;
+  show('email');
+})();`;
+
+// The account page: what the server says of the company (GET /v1/company — the browser's device and session), the
+// venues and adding one (the owner), signing out. Without a session in this browser — to the sign-in page.
+const ACCOUNT_JS = `(() => {
+  const root = document.getElementById('acc');
+  if (!root) return;
+  ${STORE_JS}
+  const T = JSON.parse(document.getElementById('acc-text').textContent);
+  const api = root.dataset.api;
+  const demo = root.dataset.demo === '1';
+  const el = (n) => root.querySelector('[data-a=' + n + ']');
+  const put = (node, text, vars = {}) => {
+    node.textContent = '';
+    String(text).split(/(\\{mail\\}|\\{date\\}|\\{days\\})/).forEach((part) => {
+      if (part === '{mail}') { const a = document.createElement('a'); a.href = 'mailto:' + T.mail; a.textContent = T.mail; node.append(a); }
+      else if (part === '{date}') { const b = document.createElement('b'); b.textContent = vars.date || ''; node.append(b); }
+      else if (part === '{days}') node.append(vars.days || '');
+      else node.append(part);
+    });
+  };
+  const say = (text) => { const m = el('msg'); if (text) put(m, text); m.hidden = !text; };
+  const a = load();
+  if (!demo && !(a && a.device && a.device.token && a.session)) { location.replace(T.login); return; }
+  const call = async (method, path, body) => {
+    if (demo) {
+      await new Promise((r) => setTimeout(r, 300));
+      if (method === 'POST' && path === '/v1/restaurants') return { status: 201, data: { restaurant: { id: 'x', name: body.name, receipt_prefix: body.name.slice(0, 3).toUpperCase() } } };
+      return { status: 200, data: { company: { id: 'c_demo', name: 'Bistro Mala d.o.o.', status: 'invited', trial_until: null, paid_until: null }, restaurants: [{ id: 'mal', name: 'Mala Dorćol', receipt_prefix: 'MAL' }], me: { id: 's_demo', name: 'Ivana', role: 'owner' } } };
+    }
+    const res = await fetch(api + path, { method, headers: { 'content-type': 'application/json', authorization: 'Device ' + a.device.token, 'x-session': a.session }, body: body ? JSON.stringify(body) : undefined });
+    return { status: res.status, data: await res.json().catch(() => ({})) };
+  };
+  const locale = root.dataset.locale;
+  const lang = root.dataset.lang;
+  const day = (iso) => new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(iso + 'T00:00:00Z'));
+  const plural = (n) => {
+    const [one, few, many] = T.days;
+    if (lang === 'en') return n === 1 ? one : many;
+    const x = n % 10, y = n % 100;
+    return x === 1 && y !== 11 ? one : x >= 2 && x <= 4 && (y < 12 || y > 14) ? few : many;
+  };
+  const today = () => { const p = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Belgrade' }).format(new Date()); return Date.parse(p + 'T00:00:00Z'); };
+  const venues = (list) => {
+    const ul = el('venues');
+    ul.textContent = '';
+    for (const r of list) {
+      const li = document.createElement('li');
+      const n = document.createElement('b');
+      n.textContent = r.name;
+      li.append(n);
+      ul.append(li);
+    }
+  };
+  const status = (c) => {
+    const s = el('status');
+    if (c.status === 'trial' && c.trial_until) {
+      const left = Math.round((Date.parse(c.trial_until + 'T00:00:00Z') - today()) / 86400000);
+      if (left < 0) return put(s, T.status.over, { date: day(c.trial_until) });
+      const n = Math.max(1, left);
+      return put(s, T.status.trial, { date: day(c.trial_until), days: n + ' ' + plural(n) });
+    }
+    if (c.status === 'active') return put(s, c.paid_until ? T.status.paid : T.status.active, { date: c.paid_until ? day(c.paid_until) : '' });
+    put(s, T.status[c.status] || '');
+  };
+  let me = null;
+  const render = (d) => {
+    me = d.me || (a && a.staff) || null;
+    document.title = d.company.name + ' — RUVO';
+    el('company').textContent = d.company.name;
+    el('who').textContent = me ? me.name + ' · ' + ((T.roles && T.roles[me.role]) || me.role) : '';
+    status(d.company);
+    venues(d.restaurants || []);
+    el('add').hidden = !(me && me.role === 'owner');
+    el('body').hidden = false;
+  };
+  const out = () => {
+    const now = load();
+    if (now) { delete now.session; save(now); }
+    location.replace(T.login);
+  };
+  const fail = (r) => {
+    const err = r.data && r.data.error;
+    if (r.status === 401) return out();
+    el('company').textContent = T.title;
+    say(err === 'company_suspended' ? T.errors.suspended : T.errors.other);
+  };
+  const refresh = async () => {
+    try {
+      const r = await call('GET', '/v1/company');
+      if (r.status === 200) { say(''); render(r.data); } else fail(r);
+    } catch (e) { el('company').textContent = T.title; say(T.errors.net); }
+  };
+  el('logout').addEventListener('click', async () => {
+    el('logout').disabled = true;
+    try { if (!demo) await call('POST', '/v1/logout'); } catch (e) {}
+    out();
+  });
+  const form = el('add');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = form.elements.name;
+    const err = document.getElementById('acc-name-err');
+    const name = input.value.trim();
+    err.hidden = !!name;
+    err.textContent = name ? '' : T.errors.name;
+    if (!name) { input.focus(); return; }
+    const btn = form.querySelector('button[type=submit]');
+    btn.disabled = true;
+    btn.textContent = T.adding;
+    try {
+      const r = await call('POST', '/v1/restaurants', { name });
+      if (r.status === 201) {
+        input.value = '';
+        if (demo) { const li = document.createElement('li'); const b = document.createElement('b'); b.textContent = r.data.restaurant.name; li.append(b); el('venues').append(li); }
+        else await refresh();
+      } else { err.hidden = false; err.textContent = r.status === 403 ? T.errors.right : r.status === 400 ? T.errors.name : T.errors.other; }
+    } catch (x) { err.hidden = false; err.textContent = T.errors.net; }
+    btn.disabled = false;
+    btn.textContent = T.addSubmit;
+  });
+  refresh();
 })();`;
 
 // The demo: the app itself — the iPad, the waiter's iPhone, the kitchen screen and the kiosk of a demo restaurant —
@@ -1586,7 +1991,7 @@ ${blocks.join('\n')}
 }
 
 function sitemap() {
-  const urls = PAGES.filter((key) => key !== 'confirm').flatMap((key) => LANGS.map((lang) => `  <url>
+  const urls = PAGES.filter((key) => !PRIVATE.includes(key)).flatMap((key) => LANGS.map((lang) => `  <url>
     <loc>${urlOf(fileOf(lang, key))}</loc>
     <lastmod>${SITE.updated.iso}</lastmod>
 ${LANGS.map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${urlOf(fileOf(l, key))}"/>`).join('\n')}
@@ -1615,6 +2020,8 @@ for (const lang of LANGS) {
     put(fileOf(lang, 'signup'), signupPage(lang));
     put(fileOf(lang, 'confirm'), confirmPage(lang));
     put(fileOf(lang, 'terms'), termsPage(lang));
+    put(fileOf(lang, 'login'), loginPage(lang));
+    put(fileOf(lang, 'account'), accountPage(lang));
   }
 }
 put('assets/favicon.svg', FAVICON);
