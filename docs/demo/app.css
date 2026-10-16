@@ -1597,6 +1597,73 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 .os-more .btn { gap: var(--sp-1); padding-inline: var(--sp-2); }
 .ph-body > .guest-chip { margin: var(--sp-1) var(--sp-1) 0; }
 
+/* ---------- tips (ui/tip-parts.jsx): the pay sheet, the bill, the iPad's closed list, «Сводка», the waiter's phone ---------- */
+
+/* the choice on the pay sheet: five tiles in a row, as tall as a finger needs; a percentage shows what it gives.
+   «Без чаевых» and «Своя сумма» take the width of their words (one line: «Bez napojnice» keeps its no-break space),
+   the three percentages share the rest; in a narrow column (a portrait iPad) «Своя сумма» goes to a line of its own
+   rather than squeezing the percentages under a finger's width */
+.tip-pick { display: flex; flex-direction: column; gap: var(--sp-2); }
+.tip-opts { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.tip-opt:first-child, .tip-opt:last-child { flex: 1 1 auto; padding: var(--sp-1) var(--sp-3); white-space: nowrap; }
+.tip-opt {
+  display: flex; flex: 1 1 56px; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-width: 56px; min-height: 56px;
+  padding: var(--sp-1) var(--sp-2); border: 1.5px solid var(--line-2); border-radius: var(--r-md); background: var(--surface); color: var(--ink);
+  font-size: var(--fs-sm); font-weight: var(--fw-semibold); line-height: var(--lh-tight); text-align: center; cursor: pointer;
+}
+.tip-opt .tip-o { text-wrap: balance; }
+.tip-opt .tip-v { color: var(--ink-2); font-size: var(--fs-xs); font-weight: var(--fw-medium); font-variant-numeric: tabular-nums; }
+.tip-opt.on { border-color: var(--accent); background: var(--accent-soft); }
+.tip-opt.on .tip-v { color: var(--ink); }
+.tip-opt:disabled { cursor: default; }
+.tip-opt:disabled:not(.on) { opacity: 0.5; }
+.tip-own input { font-variant-numeric: tabular-nums; }
+.tip-who { line-height: var(--lh-base); }
+
+/* under «К оплате»: the tip, then what the guest pays in all (by card: the one amount for the terminal) */
+.pay-tipline { color: var(--ok); }
+.pay-charge {
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3);
+  padding-top: var(--sp-2); border-top: 1px dashed var(--line-2); font-weight: var(--fw-semibold);
+}
+.pay-charge .money { font-size: var(--fs-lg); font-variant-numeric: tabular-nums; }
+.chip-keep { gap: var(--sp-1); border-style: dashed; color: var(--ok); }
+
+/* the bill: the tip beside the payment, in the colour of money received */
+.bill-tip { color: var(--ok); }
+
+/* the closed list: what in a total came as tips, and the day's tips by person. With the tip line the name takes the
+   free space, so the sums and their tip lines stand level at the bottom, a name of two lines or not */
+.rec-tip { color: var(--ink-2); font-size: var(--fs-xs); font-variant-numeric: tabular-nums; }
+.rec-cell:has(> .rec-tip) { justify-content: flex-end; }
+.rec-cell:has(> .rec-tip) > :first-child { flex: 1; }
+.tips-today { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-2); padding-top: var(--sp-2); border-top: 1px dashed var(--line-2); }
+.tips-today-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); }
+.tips-who { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.tip-chip {
+  display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1); padding: var(--sp-1) var(--sp-3);
+  border: 1px solid var(--line); border-radius: var(--r-pill); background: var(--surface); font-size: var(--fs-sm); line-height: var(--lh-tight);
+}
+.tip-chip.warn { border-color: var(--warn); background: var(--warn-soft); }
+.row-tip { color: var(--ink-2); }
+
+/* «Сводка»: the period's tips under the ways of paying — apart from sales */
+.sum-tips { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-1) var(--sp-3); margin-top: var(--sp-3); padding-top: var(--sp-3); border-top: 1px dashed var(--line-2); }
+.sum-tips-l { font-weight: var(--fw-semibold); }
+.sum-tips-v { font-size: var(--fs-lg); font-weight: var(--fw-semibold); font-variant-numeric: tabular-nums; }
+
+/* «Смены и зарплата»: the tips column stands apart from the pay */
+.sh-pay .c-tips { border-left: 1px dashed var(--line-2); }
+.sh-tips-sub { display: block; color: var(--ink-3); font-size: var(--fs-xs); font-weight: var(--fw-regular); white-space: nowrap; }
+.sh-unassigned { padding: var(--sp-3) var(--sp-4); border-top: 1px solid var(--line); color: var(--ink-2); font-size: var(--fs-sm); }
+
+/* the waiter's phone: «Мои чаевые сегодня» */
+.my-tips { display: flex; flex-direction: column; gap: var(--sp-1); padding: var(--sp-4); border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); }
+.my-tips-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); }
+.my-tips-v { display: flex; align-items: baseline; gap: 2px; }
+.my-tips-v .display { font-size: var(--fs-2xl); font-weight: var(--fw-bold); font-variant-numeric: tabular-nums; }
+.my-tips-sub { font-variant-numeric: tabular-nums; }
+
 /* ---------- who is at the screen: the lock of the iPad and the iPhone, confirmations by a personal PIN ---------- */
 /* the lock covers the screen as it was (a sheet, an order with new dishes) and keeps it for whoever logs in */
 .lock {
@@ -1917,6 +1984,119 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 /* a dish with a limit: how many are left, under its price */
 .ks-left { margin-top: calc(-1 * var(--sp-1)); color: #8A5300; font-size: var(--fs-sm); font-weight: var(--fw-medium); }
 
+/* ---------- «Poruči»: «Dodati uz porudžbinu?», the guest's phone, the guest in the basket (16 October) ---------- */
+/* the second big button: as tall and as wide as the blue one beside it — «Preskoči» as visible as «Dalje» */
+.ks-secondary { flex: 1; min-height: 68px; padding: 0 var(--sp-6); border: 1.5px solid var(--line-2); border-radius: var(--r-pill); background: #FFFFFF; color: var(--ink); font-size: var(--fs-lg); font-weight: var(--fw-semibold); cursor: pointer; }
+.ks-secondary:active, .ks-key:active, .ks-up-btn:active { transform: scale(0.98); }
+.ks-modal-foot.ks-two { display: grid; grid-template-columns: 1fr 1fr; }
+.ks-modal-foot.ks-two > button { width: 100%; }
+
+/* «Dodati uz porudžbinu?»: up to three cards like the menu's, each with its own «Dodaj» */
+.ks-up .ks-modal-body { padding-top: 28px; }
+.ks-up-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: var(--sp-4) 0 var(--sp-2); padding: 0; list-style: none; }
+.ks-up-card { display: flex; flex-direction: column; gap: var(--sp-2); min-width: 0; padding: var(--sp-3) var(--sp-3) 14px; border-radius: 24px; background: var(--ks-card); transition: box-shadow 0.15s; }
+.ks-up-card.on { box-shadow: inset 0 0 0 2px var(--ok); }
+.ks-up-card .ks-img { border-radius: 18px; }
+.ks-up-name { min-height: 2.6em; font-size: var(--fs-md); font-weight: var(--fw-medium); line-height: 1.3; }
+.ks-up-card .ks-price { margin-top: auto; font-size: var(--fs-md); }
+.ks-up-btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-2); min-height: 56px; padding: 0 var(--sp-3); border: 0; border-radius: var(--r-pill); background: var(--accent); color: #FFFFFF; font-size: var(--fs-md); font-weight: var(--fw-semibold); cursor: pointer; }
+.ks-up-btn.on { background: var(--ok-soft); color: var(--ok); }
+
+/* the guest's phone: +381, a big keypad, the consent */
+.ks-phone .ks-modal-body { align-items: center; padding-top: 28px; text-align: center; }
+.ks-phone-ic { display: grid; flex: none; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); }
+.ks-phone .ks-modal-title { max-width: 560px; padding: 0 44px; font-size: var(--fs-xl); text-wrap: balance; }
+.ks-tel { display: flex; flex: none; align-items: baseline; justify-content: center; gap: var(--sp-3); width: min(440px, 100%); min-height: 72px; margin-top: var(--sp-3); padding: 14px var(--sp-5); border-radius: 22px; background: var(--surface-2); box-shadow: inset 0 0 0 1.5px var(--line); }
+.ks-tel.ks-tel-ok { box-shadow: inset 0 0 0 2px var(--accent); }
+.ks-tel-cc { color: var(--ink-3); font-size: var(--fs-xl); font-weight: var(--fw-medium); }
+.ks-tel-n { color: var(--ink); font-size: var(--fs-2xl); font-weight: var(--fw-semibold); letter-spacing: 0.02em; white-space: nowrap; }
+.ks-tel.ks-tel-blank .ks-tel-n { color: var(--ink-3); font-weight: var(--fw-regular); }
+.ks-tel-hint { min-height: 22px; margin-top: var(--sp-1); color: var(--ink-2); font-size: var(--fs-md); }
+.ks-keys { display: grid; flex: none; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-3); width: min(420px, 100%); margin-top: var(--sp-1); }
+.ks-key { display: grid; place-items: center; min-height: 72px; border: 0; border-radius: 20px; background: #FFFFFF; color: var(--ink); box-shadow: var(--shadow-1), inset 0 0 0 1px var(--line); font-size: var(--fs-2xl); font-weight: var(--fw-medium); cursor: pointer; }
+.ks-key:disabled { cursor: default; opacity: 0.4; }
+.ks-key-fn { background: transparent; color: var(--ink-2); box-shadow: none; }
+.ks-consent { position: relative; display: flex; flex: none; align-items: center; gap: 14px; width: min(560px, 100%); min-height: 64px; margin-top: var(--sp-5); padding: var(--sp-3) var(--sp-4); border-radius: 18px; background: var(--surface-2); text-align: left; cursor: pointer; }
+.ks-consent.ks-consent-ask { box-shadow: inset 0 0 0 2px var(--accent); }
+.ks-consent input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.ks-consent-box { display: grid; flex: none; place-items: center; width: 34px; height: 34px; border: 2px solid var(--line-2); border-radius: 10px; background: #FFFFFF; color: transparent; }
+.ks-consent.ks-consent-on .ks-consent-box { border-color: var(--accent); background: var(--accent); color: #FFFFFF; }
+.ks-consent input:focus-visible + .ks-consent-box { outline: 3px solid var(--accent); outline-offset: 2px; }
+.ks-consent-t { color: var(--ink); font-size: var(--fs-md); line-height: 1.4; }
+.ks-demo-note { margin: var(--sp-2) 0 0; color: var(--ink-3); font-size: var(--fs-sm); }
+
+/* the guest in the basket: a greeting by name and their card, or the way back to the phone */
+.ks-guest { display: flex; align-items: center; gap: 14px; margin-top: 14px; padding: 14px var(--sp-3) 14px var(--sp-4); border-radius: 20px; background: var(--surface-2); }
+.ks-guest.ks-guest-known { background: var(--accent-soft); }
+.ks-guest-ic { display: grid; flex: none; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: var(--accent); }
+.ks-guest-main { display: flex; flex: 1; flex-direction: column; gap: 2px; min-width: 0; }
+.ks-guest-hi { font-size: var(--fs-lg); font-weight: var(--fw-semibold); line-height: 1.3; }
+.ks-guest-sub { color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.4; }
+.ks-guest.ks-guest-none .ks-guest-hi { font-weight: var(--fw-medium); }
+.ks-link { flex: none; min-height: 48px; padding: 0 var(--sp-4); border: 0; border-radius: var(--r-pill); background: #FFFFFF; color: var(--accent); box-shadow: var(--shadow-1); font-size: var(--fs-md); font-weight: var(--fw-semibold); cursor: pointer; }
+
+/* the number screen: where the SMS goes */
+.ks-done-sms { display: flex; align-items: flex-start; gap: 10px; max-width: 460px; margin-top: var(--sp-2); padding: var(--sp-3) var(--sp-4); border-radius: 16px; background: var(--accent-soft); color: var(--ink); font-size: var(--fs-md); line-height: 1.4; text-align: left; }
+.ks-done-sms .ic { flex: none; margin-top: 1px; color: var(--accent); }
+.ks-done-sms .ks-demo-note { display: block; margin-top: 2px; }
+
+/* the iPad's rail «Киоск»: an order whose guest left a phone — «SMS», ticked once the «ready» notice went — and the guest
+   card it brought */
+.rk-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.rk-sms, .rk-card { display: inline-flex; flex: none; align-items: center; gap: 4px; padding: 3px 8px; border-radius: var(--r-pill); background: var(--accent-soft); color: var(--accent); font-size: var(--fs-xs); font-weight: var(--fw-semibold); line-height: 1.3; }
+.rk-sms.sent { background: var(--ok-soft); color: var(--ok); }
+.rk-card { background: var(--s3-soft); color: var(--ink); }
+
+@media (max-width: 640px) {
+  .ks-up-list { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
+  .ks-up-card { display: grid; grid-template-columns: 76px minmax(0, 1fr) auto; grid-template-areas: 'img name btn' 'img price btn'; align-items: center; gap: 2px var(--sp-3); padding: var(--sp-2); border-radius: 20px; }
+  .ks-up-card .ks-img { grid-area: img; width: 76px; margin: 0; border-radius: 14px; }
+  .ks-up-name { grid-area: name; align-self: end; min-height: 0; font-size: var(--fs-sm); }
+  .ks-up-card .ks-price { grid-area: price; align-self: start; margin: 0; font-size: var(--fs-sm); }
+  .ks-up-btn { grid-area: btn; width: 116px; min-height: 48px; padding: 0 var(--sp-2); font-size: var(--fs-sm); }
+  .ks-phone .ks-modal-title { padding: 0 40px; font-size: var(--fs-lg); }
+  .ks-tel { min-height: 60px; margin-top: var(--sp-2); padding: 10px var(--sp-4); }
+  .ks-tel-cc { font-size: var(--fs-lg); }
+  .ks-tel-n { font-size: var(--fs-xl); }
+  .ks-key { min-height: 56px; border-radius: 16px; font-size: var(--fs-xl); }
+  .ks-keys { gap: var(--sp-2); }
+  .ks-consent { min-height: 56px; margin-top: var(--sp-3); }
+  .ks-consent-t { font-size: var(--fs-sm); }
+  .ks-secondary { min-height: 60px; font-size: var(--fs-md); }
+  .ks-guest { flex-wrap: wrap; padding: var(--sp-3); }
+  .ks-guest .ks-link { margin-left: 58px; }
+}
+
+/* ---------- the kiosk's settings in the back office (ui/office-kiosk.jsx): the app's own tokens, light and dark ---------- */
+.ko-period { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
+.ko-period .select { width: auto; min-width: 200px; }
+.ko-switch { padding: 0; border: 0; cursor: default; }
+.ko-fig { color: var(--ink-2); }
+.ko-h { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.ko-rules-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-2); min-height: var(--h-sm); margin-top: var(--sp-1); }
+.ko-rules { display: flex; flex-direction: column; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: var(--r-md); list-style: none; }
+.ko-rules.ko-dim .ko-rule-main { opacity: 0.6; }
+.ko-rule { display: flex; flex-direction: column; gap: var(--sp-2); padding: var(--sp-3); border-bottom: 1px solid var(--line); }
+.ko-rule:last-child { border-bottom: 0; }
+.ko-rule-top { display: flex; align-items: flex-start; gap: var(--sp-3); }
+.ko-rule-n { display: grid; flex: none; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--surface-2); color: var(--ink-2); font-size: var(--fs-sm); font-weight: var(--fw-semibold); }
+.ko-rule-main { display: flex; flex: 1; flex-direction: column; gap: 2px; min-width: 0; }
+.ko-rule-t { font-weight: var(--fw-semibold); line-height: var(--lh-tight); }
+.ko-rule.off .ko-rule-t { color: var(--ink-3); }
+.ko-rule-now { text-wrap: balance; }
+.ko-rule-fig { color: var(--ink-2); }
+.ko-rule-act { padding-left: 40px; }
+.ko-form { display: flex; flex-direction: column; gap: var(--sp-3); margin-left: 40px; padding: var(--sp-3); border-radius: var(--r-md); background: var(--surface-2); }
+.ko-field { display: flex; flex-direction: column; gap: var(--sp-2); }
+.ko-warn { display: flex; align-items: flex-start; gap: var(--sp-2); color: var(--warn); }
+.ko-warn .ic { flex: none; margin-top: 2px; }
+.ko-form-act { display: flex; justify-content: flex-end; gap: var(--sp-2); }
+.ko-sample { padding: var(--sp-3); border-radius: var(--r-md); background: var(--surface-2); color: var(--ink); }
+@media (max-width: 640px) {
+  .ko-rule-act { padding-left: 0; }
+  .ko-form { margin-left: 0; }
+}
+
 /* ---------- the guest app (#guest): RUVO on a guest's own phone ----------
    Always light, like the kiosk's menu (its cards, dish sheet and basket are reused, sized here for a phone). On a wide
    screen the app stands in a phone-wide column; the column is the containing block of its sheets and toasts
@@ -1927,7 +2107,7 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
   --ink: #16191B; --ink-2: #4E565C; --ink-3: #5F686F; --line: #DCDFD9; --line-2: #C5CAC2; --star: #B07A00;
   --accent: #1E44B0; --accent-2: #17378F; --accent-ink: #FFFFFF; --accent-soft: #E3E9F8;
   --ok: #157043; --ok-soft: #DCF0E3; --warn: #9A5C00; --warn-soft: #FAEBCF; --bad: #B8322A; --bad-soft: #F9E0DB;
-  --scrim: rgb(20 24 26 / 0.45); --ks-card: #FFFFFF;
+  --scrim: rgb(20 24 26 / 0.45); --ks-card: #FFFFFF; --knob: #FFFFFF;
   position: relative; display: flex; flex-direction: column; width: 100%; max-width: 440px; height: 100%; min-height: 0; overflow: hidden;
   background: var(--bg); color: var(--ink); color-scheme: light;
   transform: translateZ(0);
@@ -2219,11 +2399,45 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 .gu-slot.on .gu-slot-s { color: var(--accent); }
 .gu-field input { width: 100%; min-height: 48px; padding: 0 var(--sp-4); border: 1.5px solid var(--line-2); border-radius: 14px; background: #FFFFFF; color: var(--ink); font-size: var(--fs-md); }
 .gu-field input:focus { border-color: var(--accent); outline: 0; box-shadow: 0 0 0 3px var(--accent-soft); }
+/* a pre-order's phone for the SMS when it is ready (ready.js): optional; how it was read, or what is wrong; the consent */
+.gu-opt { font-weight: var(--fw-medium); letter-spacing: 0; text-transform: none; }
+.gu-field input[aria-invalid="true"] { border-color: var(--bad); box-shadow: 0 0 0 3px var(--bad-soft); }
+.gu-err, .gu-ok-line, .gu-warn-line { display: flex; align-items: flex-start; gap: 6px; margin: 0; font-size: var(--fs-sm); font-weight: var(--fw-semibold); line-height: 1.4; }
+.gu-err .ic, .gu-ok-line .ic { flex: none; margin-top: 2px; }
+.gu-err { color: var(--bad); }
+.gu-ok-line { color: var(--ok); }
+.gu-warn-line { color: var(--warn); }
+.gu-phone .gu-note { margin: 0; font-size: var(--fs-xs); }
+
+/* the tip before paying: 5, 10 and 15% with what they come to, then «Без чаевых» (chosen at first) and «Своя сумма» */
+.gu-tips { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--sp-2); }
+.gu-tip {
+  display: flex; grid-column: span 2; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-width: 0; min-height: 60px; padding: 6px 4px;
+  border: 1.5px solid var(--line); border-radius: var(--r-lg); background: #FFFFFF; color: var(--ink); text-align: center; cursor: pointer;
+}
+.gu-tip.wide { grid-column: span 3; min-height: 52px; }
+.gu-tip-v { font-size: var(--fs-lg); font-weight: var(--fw-bold); line-height: 1.2; font-variant-numeric: tabular-nums; }
+.gu-tip.wide .gu-tip-v { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.gu-tip-s { color: var(--ink-3); font-size: var(--fs-sm); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.gu-tip.on { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+.gu-tip.on .gu-tip-s { color: var(--accent); }
+.gu-tip-own { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-2) var(--sp-3); }
+.gu-tip-own label { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.gu-tip-in { display: inline-flex; align-items: center; gap: var(--sp-2); color: var(--ink-2); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.gu-tip-in input {
+  width: 7.5em; min-height: 48px; padding: 0 var(--sp-3); border: 1.5px solid var(--line-2); border-radius: 14px; background: #FFFFFF; color: var(--ink);
+  font-size: var(--fs-lg); font-weight: var(--fw-semibold); text-align: right; font-variant-numeric: tabular-nums;
+}
+.gu-tip-in input:focus { border-color: var(--accent); outline: 0; box-shadow: 0 0 0 3px var(--accent-soft); }
+.gu-tips-group .gu-note { margin: 0; font-size: var(--fs-xs); }
+/* the basket's sum: the order, the tip, then the total paid */
+.ks-promo-row.gu-tip-row { color: var(--ink); }
 
 /* the payment: the wallets, the bank's page, the moment of waiting */
 .gu-pay .ks-modal-body { padding-bottom: 20px; }
 .gu-pay-sum { margin: 10px 0 18px; font-size: var(--fs-3xl); font-weight: var(--fw-bold); letter-spacing: var(--track-tight); line-height: 1.1; }
 .gu-pay-sum span { color: var(--ink-2); font-size: var(--fs-lg); font-weight: var(--fw-semibold); }
+.gu-pay-tip { margin: -12px 0 16px; color: var(--ink-2); font-size: var(--fs-sm); }
 .gu-wallets { display: flex; flex-direction: column; gap: 10px; }
 .gu-wallet { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; border: 0; border-radius: 14px; font-size: var(--fs-lg); font-weight: var(--fw-semibold); cursor: pointer; }
 .gu-wallet.apple { background: #000000; color: #FFFFFF; }
@@ -2285,6 +2499,43 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 .gu-actions .ks-primary { flex: none; width: 100%; }
 .gu-actions .gu-btn2 { width: 100%; min-height: 52px; margin-top: 0; }
 
+/* «Готово» (16 October): the head of a ready order is the banner — green, the number and what to do */
+.gu-st-head.gus-ready { margin: 6px 0 14px; padding: 22px 16px 20px; border-radius: 24px; background: var(--ok); color: #FFFFFF; box-shadow: 0 10px 26px rgb(21 112 67 / 0.28); animation: gu-pop 0.35s ease-out; }
+.gu-st-head.gus-ready .gu-st-ic { background: rgb(255 255 255 / 0.18); color: #FFFFFF; }
+.gu-st-do { max-width: 32ch; font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 1.45; text-wrap: balance; }
+.gu-st-head.gus-ready .gu-st-no { margin-top: 2px; }
+@keyframes gu-pop { from { opacity: 0.4; transform: scale(0.97); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .gu-st-head.gus-ready, .gu-st-head.gus-ready .gu-st-ic { animation: none; } }
+/* «Сообщить, когда будет готово» and a pre-order's SMS (ready.js) */
+.gu-notify { margin: 0 0 14px; padding: 2px 16px; }
+.gu-nt { padding: 12px 0; }
+.gu-nt + .gu-nt { border-top: 1px solid var(--line); }
+.gu-nt-main { display: flex; align-items: flex-start; gap: 12px; min-height: 44px; cursor: pointer; }
+.gu-sms .gu-nt-main { cursor: default; }
+.gu-nt-ic { display: grid; flex: none; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--surface-3); color: var(--ink-2); }
+.gu-nt-ic.on { background: var(--accent-soft); color: var(--accent); }
+.gu-nt-t { display: flex; flex: 1; flex-direction: column; gap: 3px; min-width: 0; padding-top: 1px; }
+.gu-nt-h { font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 1.3; overflow-wrap: anywhere; }
+.gu-nt-s { color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; }
+.gu-switch { flex: none; align-self: center; justify-content: flex-end; min-width: 52px; min-height: 44px; }
+.gu-nt-allow { min-height: 44px; margin: 10px 0 0 52px; padding: 0 16px; font-size: var(--fs-sm); }
+.gu-sms-text { margin-top: 6px; padding: 10px 12px; border-radius: 4px 16px 16px; background: var(--surface-2); color: var(--ink); font-size: var(--fs-sm); line-height: 1.45; }
+.gu-nt .gu-demo-note { margin-top: 6px; }
+/* the tip, paid with the order and apart from it */
+.gu-tip-paid { display: flex; align-items: flex-start; gap: 8px; margin: 12px 0 0; padding: 10px 12px; border-radius: 14px; background: var(--ok-soft); color: var(--ok); font-size: var(--fs-sm); font-weight: var(--fw-semibold); line-height: 1.4; }
+.gu-tip-paid .ic { flex: none; margin-top: 1px; }
+/* «Оставить отзыв в Google Картах» after the rating — the same button for every guest who rated */
+.gu-review { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+.gu-rated .gu-review .gu-note { margin: 0; }
+.gu-review-btn { justify-content: flex-start; gap: 12px; width: 100%; min-height: 56px; margin-top: 0; padding: 8px 16px; border-radius: 18px; text-align: left; text-decoration: none; }
+.gu-review-btn .ic { flex: none; color: var(--ink-3); }
+.gu-review-btn .ic:first-child { color: var(--star); }
+.gu-review-t { flex: 1; min-width: 0; line-height: 1.3; }
+.gu-review-sheet .ks-modal-body { gap: 10px; padding-bottom: 8px; }
+.gu-review-ic { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 16px; background: #FFF3CC; color: #7A5600; }
+.gu-review-p { font-size: var(--fs-md); line-height: 1.5; }
+.gu-review-sheet .gu-note { margin-bottom: 4px; }
+
 /* the start page of the prototype: the guest app and the pickup board under the restaurant's devices */
 .l-guests { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: var(--sp-4); }
 .l-guest {
@@ -2302,6 +2553,20 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
   .l-guest .role-hint { display: none; }
   .l-guest .role-foot { align-self: center; }
 }
+
+/* the back office: «Отзывы в Google Картах» in «Оценки гостей» (office-ratings.jsx) — each restaurant's link to its
+   review page and how many guests opened it; the back office's own tokens, light and dark */
+.rvl-lead { max-width: 75ch; margin: 0; }
+.rvl-list { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.rvl-row { display: flex; flex-direction: column; gap: 6px; padding: var(--sp-3) 0; border-top: 1px solid var(--line); }
+.rvl-row:last-child { padding-bottom: 0; }
+.rvl-row p { margin: 0; }
+.rvl-form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--sp-2) var(--sp-3); }
+.rvl-form .field { flex: 1 1 18rem; }
+.rvl-form .field input { width: 100%; }
+.rvl-form .field input[aria-invalid="true"] { border-color: var(--bad); box-shadow: 0 0 0 2px var(--bad-soft); }
+.rvl-off { font-weight: var(--fw-regular); }
+.rvl-n { color: var(--ink); font-variant-numeric: tabular-nums; }
 
 /* ---------- the pickup board (#board): a screen over the counter ----------
    Dark like the kitchen screen, to be read across the room: big numbers, «Готовим» quiet on the left, «Готово —
@@ -3032,6 +3297,133 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 .fc-explain p { max-width: 80ch; margin: 0; line-height: 1.55; }
 .fc-explain .fc-ai { margin-top: var(--sp-3); padding: var(--sp-3) var(--sp-4); border-radius: var(--r-md); background: var(--accent-soft); white-space: pre-wrap; }
 .fc-order tfoot td { border-top: 1px solid var(--line-2); }
+
+/* ---------- the week's shift schedule: «Смены и зарплата» → «График» (ui/office-schedule.jsx), the late mark in the
+   timesheet, today's plan on the iPad's shift screen, «Мои смены» on the waiter's iPhone ---------- */
+.sc-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--sp-2) var(--sp-4); min-height: var(--of-row); }
+.sc-week { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1); min-width: 0; }
+.sc-week .icon-btn { border: 1px solid var(--line-2); background: var(--surface); }
+.sc-week .icon-btn:disabled { opacity: 0.4; cursor: default; }
+.sc-week-t { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding: 0 var(--sp-2); }
+.sc-week-t b { font-size: var(--fs-lg); font-weight: var(--fw-semibold); line-height: var(--lh-tight); }
+.sc-bar .st { white-space: normal; }
+.sc-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.sc-note { display: flex; align-items: center; gap: var(--sp-2); margin: 0; }
+.sc-note .ic { flex: none; }
+
+/* the grid: people by role down, days across; it scrolls inside its card on a narrow screen, the names stay */
+.sc-table { min-width: 720px; table-layout: fixed; }
+.sc-table .sc-who { width: 136px; }
+.sc-table .sc-sum { width: 72px; }
+.sc-table thead th.sc-day { padding-left: 2px; padding-right: 2px; text-align: center; }
+.sc-table thead th.is-today { color: var(--accent); }
+.sc-table thead th.is-past { color: var(--ghost); }
+.sc-table .sc-who { position: sticky; left: 0; z-index: 1; background: var(--surface); }
+.sc-table tbody th.sc-who {
+  padding-top: var(--sp-1); padding-bottom: var(--sp-1); text-align: left; text-transform: none; letter-spacing: 0;
+  font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--ink); line-height: var(--lh-tight);
+}
+.sc-table tbody th.sc-who .muted { display: block; font-weight: var(--fw-regular); }
+.sc-name { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sc-table .sc-td { padding: 3px 2px; }
+.sc-table .sc-td.is-today { background: color-mix(in srgb, var(--accent-soft) 45%, transparent); }
+.sc-group-h th { padding-top: var(--sp-2); padding-bottom: var(--sp-2); background: var(--surface-2); text-align: left; }
+.sc-stick { position: sticky; left: var(--sp-4); }
+.sc-group-h .muted { text-transform: none; letter-spacing: 0; font-weight: var(--fw-regular); }
+
+.sc-cell {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; width: 100%; min-height: var(--h-md);
+  padding: 3px var(--sp-1); border: 1px solid transparent; border-radius: var(--r-sm); background: transparent; color: var(--ink);
+  font: inherit; font-size: var(--fs-sm); line-height: var(--lh-tight); text-align: center; font-variant-numeric: tabular-nums;
+}
+button.sc-cell { cursor: pointer; }
+.sc-cell.has { background: var(--accent-soft); font-weight: var(--fw-semibold); }
+.sc-cell.off { border-color: var(--line); border-style: dashed; color: var(--ink-3); }
+.sc-cell.away { background: var(--surface-2); color: var(--ink-2); }
+.sc-cell.empty { color: var(--ghost); }
+button.sc-cell.empty:hover { color: var(--accent); }
+.sc-cell.clash { box-shadow: inset 0 0 0 1.5px var(--warn); }
+button.sc-cell:hover { border-color: var(--accent); border-style: solid; }
+button.sc-cell:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.sc-cell.locked.has { background: var(--surface-2); color: var(--ink-2); }
+.sc-cell.locked.off, .sc-cell.locked.empty { border-color: transparent; }
+.sc-t > span { white-space: nowrap; }
+.sc-role, .sc-off-l, .sc-away-l { font-size: var(--fs-xs); font-weight: var(--fw-medium); color: var(--ink-2); }
+.sc-off-l { color: var(--ink-3); }
+.sc-cell .warn-txt { color: var(--warn); }
+
+.sc-table td.sc-sum { vertical-align: middle; }
+.sc-sum .sc-h { display: inline-flex; align-items: center; gap: 2px; font-weight: var(--fw-semibold); }
+.sc-sum .sc-also { display: block; font-size: var(--fs-xs); color: var(--ink-3); }
+.sc-sum.over .sc-h { color: var(--warn); }
+
+/* the forecast's need against the plan, a day of a role: «3/3» and the opening hours in a strip */
+.sc-cover .sc-cov-row th.sc-who { font-weight: var(--fw-medium); color: var(--ink-2); }
+/* (relative: its visually hidden text stays inside the scrolling grid) */
+.sc-table td.sc-cov { position: relative; padding: var(--sp-2) 4px; text-align: center; font-size: var(--fs-sm); font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.sc-cov.none { color: var(--ink-3); font-size: var(--fs-xs); }
+.sc-cov-n { display: block; margin-bottom: 4px; }
+.sc-cov.ok .sc-cov-n b { color: var(--ok); }
+.sc-cov.short .sc-cov-n b { color: var(--warn); }
+.sc-hours { display: flex; gap: 1px; height: 6px; overflow: hidden; border-radius: 3px; }
+.sc-hours > span { flex: 1; min-width: 1px; background: var(--ok-soft); background: color-mix(in srgb, var(--ok) 55%, transparent); }
+.sc-hours > span.short { background: var(--warn); }
+.sc-legend { margin: 0; border-top: 1px solid var(--line); }
+
+.sc-gaps .sc-gap-list { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.sc-gap-list li { display: grid; grid-template-columns: minmax(96px, 140px) minmax(0, 1fr); gap: var(--sp-3); padding: var(--sp-2) 0; border-top: 1px solid var(--line); font-size: var(--fs-sm); }
+.sc-gap-list li:first-child { border-top: 0; }
+.sc-gap-list b { color: var(--warn); }
+.sc-gaps.short h2 { color: var(--ink); }
+.sc-gaps.ok h2 { color: var(--ok); }
+
+/* the cell's sheet: the need of the day for the role, hour by hour, the shift's hours underlined */
+.sc-warn { display: flex; align-items: flex-start; gap: var(--sp-2); margin: 0; color: var(--warn); }
+.sc-warn .ic { flex: none; margin-top: 1px; }
+.sc-warn.bad { color: var(--bad); }
+.sc-need { display: flex; flex-direction: column; gap: var(--sp-2); padding-top: var(--sp-3); border-top: 1px solid var(--line); }
+.sc-need p { margin: 0; }
+.sc-strip { display: grid; gap: 2px; }
+.sc-hr { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; }
+.sc-hr b {
+  display: grid; place-items: center; width: 100%; height: 28px; border-radius: 6px;
+  background: var(--ok-soft); color: var(--ok); font-size: var(--fs-sm); font-variant-numeric: tabular-nums;
+}
+.sc-hr.short b { background: var(--warn-soft); color: var(--warn); }
+.sc-hr.in b { box-shadow: inset 0 -3px 0 var(--accent); }
+.sc-hr > span { height: 14px; font-size: var(--fs-xs); line-height: 14px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+/* the timesheet: a shift started more than 10 minutes after the plan */
+.sh-cell.late { border-color: var(--warn); }
+.sh-late { margin-left: var(--sp-1); font-size: var(--fs-xs); font-weight: var(--fw-semibold); color: var(--warn); }
+
+/* the iPad's shift screen: today's plan beside each name, who has not clocked in */
+.shift-plan-sum { margin: 0; }
+.shift-plan { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 2px var(--sp-1); }
+.shift-person.miss { border-color: var(--warn); }
+.shift-person.miss .avatar { background: var(--warn-soft); color: var(--warn); }
+.shift-late-dot { flex: none; width: 10px; height: 10px; margin-left: 2px; border-radius: 50%; background: var(--warn); box-shadow: 0 0 0 2px var(--surface); }
+
+/* the waiter's iPhone: «Мои смены» in the profile */
+.my-sh { border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); }
+.my-sh-head { display: flex; align-items: center; min-height: 52px; padding: var(--sp-2) var(--sp-4); border-bottom: 1px solid var(--line); }
+.my-sh-head h2 { font-size: var(--fs-lg); font-weight: var(--fw-semibold); line-height: var(--lh-tight); }
+.my-sh-none { margin: 0; padding: var(--sp-4); }
+.my-sh-list { margin: 0; padding: 0; list-style: none; }
+.my-sh-row { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); min-height: 52px; padding: var(--sp-2) var(--sp-4); border-bottom: 1px solid var(--line); }
+.my-sh-row:last-child { border-bottom: 0; border-radius: 0 0 var(--r-lg) var(--r-lg); }
+.my-sh-row.today { background: var(--accent-soft); }
+.my-sh-day { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.my-sh-t { display: flex; flex-direction: column; align-items: flex-end; gap: var(--sp-1); min-width: 0; text-align: right; }
+.my-sh-shift { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.my-sh-shift b { font-size: var(--fs-md); font-variant-numeric: tabular-nums; }
+.my-sh-row.off .my-sh-t, .my-sh-row.wait .my-sh-t { color: var(--ink-3); }
+
+@media (max-width: 600px) {
+  .sc-bar { align-items: flex-start; }
+  .sc-actions .grow { display: none; }
+  .sc-gap-list li { grid-template-columns: 1fr; gap: 2px; }
+}
 
 /* ---------- reports: a gallery of report cards, then one report on its own screen ----------
    A card: the name, the period, the figure with its change, and one line with the leader or the peak —
