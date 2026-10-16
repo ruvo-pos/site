@@ -486,6 +486,8 @@ h1, h2, h3, p, ul, ol, dl, dd { margin: 0; }
 }
 /* the «i» is drawn small beside a heading, but a finger finds it in a 44px circle around it */
 .info-btn::before { content: ''; position: absolute; inset: -8px; border-radius: 50%; }
+/* beside a field's label it keeps the label one line high, so the fields of a row start at one height */
+.field-label .info-btn { margin: -8px 0; }
 .info-btn:hover, .info-btn[aria-expanded="true"] { background: var(--accent-soft); color: var(--accent); }
 .info-btn.has-dot { position: relative; }
 .info-btn.has-dot::after {
@@ -2466,7 +2468,7 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 /* one left line too: the wordmark, the picker's icon and the menu icons start 24px in; the picker's text
    starts where the menu labels do */
 .of-brand { display: flex; align-items: center; gap: var(--sp-3); height: var(--of-row); padding: 0 var(--sp-3); }
-.of-brand-sub { font-weight: var(--fw-semibold); }
+.of-brand-sub { font-weight: var(--fw-semibold); white-space: nowrap; }
 .of-scope { display: flex; }
 .of-scope .select { gap: var(--sp-3); padding-left: 11px; }
 .of-nav { display: flex; flex-direction: column; gap: 2px; }
@@ -2508,6 +2510,12 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 .of-side-foot .sync { min-height: var(--h-sm); gap: var(--sp-3); padding: 0 var(--sp-3); }
 .of-side-foot .sync-dot { margin: 0 5px; }
 .of-side-foot .btn { gap: var(--sp-3); padding: 0 var(--sp-3); }
+/* SR · EN · RU and «Сменить устройство»: one under the other; side by side on a short screen, the button an icon */
+.of-foot-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1); }
+@media (min-width: 961px) and (max-height: 640px) {
+  .of-foot-row { flex-wrap: nowrap; }
+  .of-foot-row .of-dev .btn-label { display: none; }
+}
 /* with the sidebar down the side, the wordmark and the picker stay put and only the menu scrolls,
    so the rows keep level with the page however long the menu is (4px of room for the focus ring);
    when more of the menu is below, its last row fades out */
