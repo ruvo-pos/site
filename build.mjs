@@ -74,7 +74,7 @@ const EQUIP_ICON = { ipad: 'device-tablet', iphone: 'device-mobile', kds: 'devic
 const HOME_EQUIP = ['ipad', 'iphone', 'kds', 'router', 'fiscal'];
 // «Zašto RUVO», «U ceni objekta» and «Povezivanja», in the order of their lines in content.mjs
 const WHY_ICON = ['cash-register', 'lock-simple-open', 'shield-check', 'chef-hat'];
-const INCL_ICON = ['device-tablet', 'device-tablet-camera', 'package', 'sparkle', 'users'];
+const INCL_ICON = ['device-tablet', 'device-tablet-camera', 'package', 'receipt', 'sparkle', 'users'];
 const INTEGR_ICON = ['qr-code', 'credit-card', 'file-text', 'paper-plane-tilt', 'arrows-left-right', 'moped'];
 // a link that reads on: «Pogledajte cene ›»
 const MORE = (label) => `${esc(label)}${IC('caret-right', 'lnk-i')}`;

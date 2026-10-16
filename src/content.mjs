@@ -23,10 +23,11 @@ export const SITE = {
 // 20% goes on the invoice); paid monthly, or a year in advance for 10 months. The same shape as the app's billing
 // (app/src/billing.js, pricesOf): a venue includes one iPad and one kitchen screen; devices beyond those are paid per
 // device; modules per venue where they are on, Telegram and the move once a company. SEF and Wolt/Glovo have no price
-// yet, so they are not on the list.
+// yet, so they are not on the list. The venue 6 500 since 16 October (the owner: «цену поднимем до 6500»), with reading
+// paper invoices from a photo in it.
 export const PRICES = {
   currency: 'RSD',
-  venue: 6000,
+  venue: 6500,
   included: { ipad: 1, kds: 1 },
   device: { ipad: 1500, kds: 1200, iphone: 1000, kiosk: 5000 },
   modules: { ips: 1000, terminal: 1000, shifts: 1500, telegram: 500, migrate: 0 },
@@ -542,7 +543,7 @@ const PRICING = {
       year: { label: 'Godišnje', badge: '2 meseca besplatno', unit: 'po objektu, godišnje' },
     },
     includesTitle: 'U ceni objekta',
-    includes: ['Terminal sale', 'Ekran kuhinje', 'Meni, magacin i normativi', 'Izveštaji i AI pomoćnik', 'Zaposleni i uloge'],
+    includes: ['Terminal sale', 'Ekran kuhinje', 'Meni, magacin i normativi', 'Fakture sa fotografije', 'Izveštaji i AI pomoćnik', 'Zaposleni i uloge'],
     tableTitle: 'Licence i moduli',
     cols: ['mesečno', 'godišnje'],
     groups: [
@@ -592,7 +593,7 @@ const PRICING = {
       year: { label: 'Yearly', badge: '2 months free', unit: 'per venue, a year' },
     },
     includesTitle: 'Included in a venue',
-    includes: ['A front terminal', 'A kitchen screen', 'Menu, stock and recipes', 'Reports and the AI assistant', 'Staff and roles'],
+    includes: ['A front terminal', 'A kitchen screen', 'Menu, stock and recipes', 'Invoices from a photo', 'Reports and the AI assistant', 'Staff and roles'],
     tableTitle: 'Licences and modules',
     cols: ['monthly', 'yearly'],
     groups: [
@@ -642,7 +643,7 @@ const PRICING = {
       year: { label: 'За год', badge: '2 месяца бесплатно', unit: 'за заведение в год' },
     },
     includesTitle: 'В цене заведения',
-    includes: ['Фронт', 'Экран кухни', 'Меню, склад и техкарты', 'Отчёты и ИИ-помощник', 'Сотрудники и роли'],
+    includes: ['Фронт', 'Экран кухни', 'Меню, склад и техкарты', 'Накладные по фото', 'Отчёты и ИИ-помощник', 'Сотрудники и роли'],
     tableTitle: 'Лицензии и модули',
     cols: ['в месяц', 'за год'],
     groups: [
