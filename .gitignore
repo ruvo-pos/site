@@ -1,3 +1,5 @@
 preview/
 node_modules/
 .DS_Store
+tools/.shots/
+tools/.look/

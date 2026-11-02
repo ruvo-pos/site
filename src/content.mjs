@@ -37,34 +37,27 @@ export const PRICES = {
 
 export const LANGS = ['sr', 'en', 'ru'];
 
-// The app's own words on the drawn screens (the owner, 14 October: the site after Apple's, every phone screen an iPhone
-// 18 Pro Max, every tablet an iPad): the front terminal's bar and order panel, the kitchen screen, the back office, the
-// waiter's iPhone — as the app says them (app/src/i18n.js; the back office's menu as in ui/office.jsx). The app has no
-// English: the English pages say the same in English. The clock on every screen is 21:41 — Apple's 9:41, at dinner.
+// The app's own words on the first screen's drawn iPad (the owner, 14 October: the site after Apple's, every tablet an
+// iPad): the front terminal's bar and order panel, the kitchen's ticket — as the app says them (app/src/i18n.js). The
+// clock on every screen is 21:41 — Apple's 9:41, at dinner; the screenshots (tools/shots.mjs) are taken at it too.
 export const APP = {
   sr: {
     time: '21:41', date: 'Sre 14. okt', place: 'Dorćol', search: 'Pretraga',
     bar: { hall: 'Sala', delivery: 'Dostava', checks: 'Zatvoreni', shift: 'Smena', stop: 'Stop lista' },
     order: { back: 'Sala', course: 'Sled', waits: 'čeka poziv', fire: 'Pozovi', draft: 'Nova', sent: 'Poslato', total: 'Ukupno', sendTo: 'Pošalji na pripremu', prebill: 'Račun', pay: 'Zatvori sto', more: ['Gost', 'Popust', 'Premesti'] },
-    kds: { all: 'Sve stanice', overview: 'Pregled', sound: 'Zvuk', inWork: 'Pregled · u radu', queue: 'Red kuhinje: {n} · ~{m} min', recent: 'Nedavno gotovo', norm: '{p}% u normi danas · {m} min prosečno', recall: 'Vrati', bump: 'Gotovo', no: '№' },
-    office: { title: 'Bekofis', all: 'Svi restorani', nav: { today: 'Pregled', analytics: 'Analitika', reports: 'Izveštaji', forecast: 'Prognoza', menu: 'Meni i cene', storage: 'Magacin', stock: 'Stanje', tech: 'Normativi', docs: 'Dokumenti', sef: 'Fakture dobavljača', loyalty: 'Lojalnost', team: 'Tim', people: 'Zaposleni', shifts: 'Smene i plate', log: 'Dnevnik radnji', integr: 'Integracije', settings: 'Podešavanja' } },
-    phone: { tables: 'Stolovi', ready: 'Spremno', profile: 'Profil', add: 'Dodaj jela' },
+    kds: { bump: 'Gotovo', no: '№' },
   },
   en: {
     time: '21:41', date: 'Wed 14 Oct', place: 'Dorćol', search: 'Search',
     bar: { hall: 'Floor', delivery: 'Delivery', checks: 'Closed', shift: 'Shift', stop: 'Stop list' },
     order: { back: 'Floor', course: 'Course', waits: 'waits for the call', fire: 'Fire', draft: 'New', sent: 'Sent', total: 'Total', sendTo: 'Send to the kitchen', prebill: 'Bill', pay: 'Close table', more: ['Guest', 'Discount', 'Move'] },
-    kds: { all: 'All stations', overview: 'Overview', sound: 'Sound', inWork: 'Overview · in progress', queue: 'Kitchen queue: {n} · ~{m} min', recent: 'Recently done', norm: '{p}% on time today · {m} min on average', recall: 'Recall', bump: 'Done', no: 'No. ' },
-    office: { title: 'Back office', all: 'All restaurants', nav: { today: 'Summary', analytics: 'Analytics', reports: 'Reports', forecast: 'Forecast', menu: 'Menu and prices', storage: 'Stock', stock: 'Stock levels', tech: 'Recipes', docs: 'Documents', sef: 'Supplier invoices', loyalty: 'Loyalty', team: 'Team', people: 'Staff', shifts: 'Shifts and pay', log: 'Action log', integr: 'Integrations', settings: 'Settings' } },
-    phone: { tables: 'Tables', ready: 'Ready', profile: 'Profile', add: 'Add dishes' },
+    kds: { bump: 'Done', no: 'No. ' },
   },
   ru: {
     time: '21:41', date: 'Ср 14 окт.', place: 'Дорчол', search: 'Поиск',
     bar: { hall: 'Зал', delivery: 'Доставка', checks: 'Закрытые', shift: 'Смена', stop: 'Стоп-лист' },
     order: { back: 'Зал', course: 'Курс', waits: 'ждёт вызова', fire: 'Вызвать', draft: 'Новая', sent: 'Отправлено', total: 'Итого', sendTo: 'Отправить в цех', prebill: 'Счёт', pay: 'Закрыть стол', more: ['Гость', 'Скидка', 'Пересадить'] },
-    kds: { all: 'Все цеха', overview: 'Сводка', sound: 'Звук', inWork: 'Сводка · в работе', queue: 'Очередь кухни: {n} · ~{m} мин', recent: 'Готово недавно', norm: '{p}% в норме сегодня · {m} мин в среднем', recall: 'Вернуть', bump: 'Готово', no: '№' },
-    office: { title: 'Бэкофис', all: 'Все рестораны', nav: { today: 'Сводка', analytics: 'Аналитика', reports: 'Отчёты', forecast: 'Прогноз', menu: 'Меню и цены', storage: 'Склад', stock: 'Остатки', tech: 'Техкарты', docs: 'Документы', sef: 'Счета поставщиков', loyalty: 'Лояльность', team: 'Команда', people: 'Сотрудники', shifts: 'Смены и зарплата', log: 'Журнал действий', integr: 'Интеграции', settings: 'Настройки' } },
-    phone: { tables: 'Столы', ready: 'Готово', profile: 'Профиль', add: 'Добавить блюда' },
+    kds: { bump: 'Готово', no: '№' },
   },
 };
 
@@ -153,11 +146,9 @@ const LIVE = {
   },
 };
 
-// «Kako izgleda u radu»: nine screens of RUVO drawn from the app's own parts, with the dishes and figures of one
-// restaurant (the owner, 13 October: «Как это выглядит в работе — надо больше примеров»). The figures add up: the tech
-// card's cost and food cost, the week's sales and its change, the guest's discounts and points are counted by build.mjs
-// from these rows. Supplier lines stay in Serbian in every language — that is how the e-invoice comes.
-const SALES = { now: [128400, 121900, 134700, 141200, 176800, 198300, 161500], before: [131000, 118000, 129000, 137000, 171000, 192000, 161000] };
+// «Sve što objektu treba»: ten screens of RUVO (the owner, 13 October: «Как это выглядит в работе — надо больше
+// примеров»), since 2 November screenshots of the demo (tools/shots.mjs: «наполняем наш лендинг актуальными примерами и
+// скриншотами»); here each tab's words, and what the first screen still draws: the floor and delivery of its evening.
 // the floor of the front terminal as the demo shows it at dinner: four tables open in the dining room and one on the
 // terrace (5 open), table 5 with three dishes ready, table 7 waiting for the bill
 const FLOOR = {
@@ -168,11 +159,6 @@ const FLOOR = {
   ],
   open: 5, ready: 3, revenue: 23230,
 };
-// the guest's bill: the level gives 10% (Zlato), happy hours 20% on drinks; discounts do not add up — each dish gets
-// the biggest; points: 3 for every 100 RSD paid (the app's loyalty programme)
-const LOYAL = { levelPct: 10, promoPct: 20, earn: 3, points: 1840 };
-// the team on shift and a waiter's week (the app's pay: hours × the hourly rate + 1.5% of the waiter's sales)
-const TEAM = { people: [['Marko', 'waiter', '16:02'], ['Jovana', 'waiter', '16:10'], ['Stefan', 'cook', '15:45'], ['Luka', 'bar', '17:00']], pay: { name: 'Marko', hours: 38, rate: 650, pct: 1.5, sales: 412000 } };
 // the kiosk, as the demo's: its own menu is the pastries and the drinks (the owner, 14 October: «давай тоже заменим
 // на булки и кофе»), so two folders; the owner's six pastries with their photos (src/dishes/*.webp), then the drinks led
 // by the owner's three iced drinks in RUVO cups; two in the basket
@@ -181,19 +167,12 @@ const KIOSK = { dishes: [['croissant', 220], ['painchoc', 260], ['cinnamon', 290
 // office's day ahead (app: forecast.js, ui/office-forecast.jsx) as its own section of the home page. Every claim is what
 // the app does: the usual day is the median of the same weekday over four past weeks, by the hour and by the dish;
 // holidays as the same holiday went last year; the range is the forecast's error on the past 14 days; the owner's words
-// («матч в 20:00») become changes by the hour — by AI, or without it by keywords (Russian and Serbian); people by the
+// («матч в 20:00») become changes by the hour — by AI, or without it by keywords (Russian, Serbian, English); people by the
 // hour from the bills, portions and drinks one person handles; prep by the tech cards; a draft supplier order = needed
 // for the day + the minimum − the stock. The app's own note is kept: for one venue a day is usually off by about 20%.
-// The screen's day: tomorrow — a Thursday, as the iPad's status bar says Wednesday 14 October — by the hour (bills in the hall and for delivery), and a match at 20:00 that the app reads
-// as «зал ×1,3 · 19:00–23:00» (parseEvents); the numbers on the screen are counted from it in build.mjs, the people as
-// staffByHour counts them (a waiter — 5 bills an hour, a cook — 20 portions).
-export const FORECAST_DAY = {
-  from: 8,
-  hall: [1.5, 4.5, 5, 4.5, 5, 9, 8.5, 6, 4.5, 4.5, 6, 9.5, 10.5, 8, 5.5, 1.5],
-  deliv: [0, 0, 0, 0.5, 2, 3, 3, 2, 1.5, 1.5, 2.5, 3.5, 4, 3, 1, 0],
-  event: { from: 19, to: 23, k: 1.3 },
-  check: 2180, kitchen: 1.98, bar: 0.96, err: 0.18, wape: 0.17, waiter: 5, cook: 20,
-};
+// The screenshot's day: tomorrow — Thursday 15 October, as the iPad's status bar says Wednesday 14 October — with a
+// match at 20:00 typed in, which the app reads by its keywords as «sala ×1,3 · 19:00–23:00» (tools/shots.mjs types
+// screen.typed)
 const FORECAST = {
   sr: {
     eyebrow: 'Prognoza',
@@ -207,14 +186,7 @@ const FORECAST = {
     ],
     note: 'Za jedan objekat greška prognoze po danu je obično oko 20%, po satu i jelu veća. Zato RUVO pokazuje raspon, a ne jedan broj.',
     label: 'Primer: prognoza za četvrtak sa utakmicom uveče — računi po satima i ljudi po satima',
-    screen: {
-      day: 'Sutra · čet', sub: 'Dorćol · četvrtak · prema 4 prethodna četvrtka',
-      tiles: ['Računi', 'Promet, RSD', 'Porcije', 'Tačnost'], hallW: 'sala', delivW: 'dostava', kitchenW: 'kuhinja', barW: 'šank', errW: 'greška za 14 dana',
-      events: 'Šta će biti tog dana', typed: 'Uveče utakmica Partizan — Zvezda u 20h', apply: 'Uzmi u obzir',
-      adj: ['Utakmica u 20:00: više gostiju u sali', 'sala ×1,3 · 19:00–23:00'],
-      hours: 'Po satima', hall: 'Sala', deliv: 'Dostava', base: 'Običan dan',
-      people: 'Ljudi po satima', hourCol: 'Sat', rows: ['Konobari', 'Kuvari'],
-    },
+    screen: { typed: 'Uveče utakmica Partizan — Zvezda u 20h' },
   },
   en: {
     eyebrow: 'Forecast',
@@ -222,20 +194,13 @@ const FORECAST = {
     lead: 'RUVO works out how many bills and how much revenue each hour will bring — from your own venue’s sales. And from that: how many people to staff, what to prep and what to order from suppliers.',
     items: [
       ['Bills and revenue by the hour', 'A usual day is the median of the same weekday over the last four weeks — for every hour and every dish. With a range: how far off the forecast was on the days before.'],
-      ['Say what you know', '“Match at 8 pm”, “rain”, “banquet for 30 at 1 pm”, “closed from 6” — write it in words. AI turns it into changes by the hour; without AI, RUVO picks up keywords in Serbian and Russian.'],
+      ['Say what you know', '“Match at 8 pm”, “rain”, “banquet for 30 at 1 pm”, “closed from 6” — write it in words. AI turns it into changes by the hour; without AI, RUVO picks up the keywords.'],
       ['People, prep, purchasing', 'How many waiters, cooks and bartenders each hour needs. Prep by the recipes of the dishes in the forecast. A draft supplier order: what the day needs, plus the minimum, minus what is in stock.'],
       ['Accuracy in plain sight', 'For every past day the forecast is built the same way and checked against what happened. A holiday counts the way it went last year.'],
     ],
     note: 'For a single venue a day’s forecast is usually off by about 20%, and by more for a single hour or dish. That’s why RUVO shows a range, not one number.',
     label: 'Example: Thursday’s forecast with a match in the evening — bills by the hour and people by the hour',
-    screen: {
-      day: 'Tomorrow · Thu', sub: 'Dorćol · Thursday · from the 4 previous Thursdays',
-      tiles: ['Bills', 'Revenue, RSD', 'Portions', 'Accuracy'], hallW: 'hall', delivW: 'delivery', kitchenW: 'kitchen', barW: 'bar', errW: 'error over 14 days',
-      events: 'What’s on that day', typed: 'Partizan — Zvezda match at 8 pm', apply: 'Apply',
-      adj: ['Match at 20:00: more guests in the hall', 'hall ×1.3 · 19:00–23:00'],
-      hours: 'By the hour', hall: 'Hall', deliv: 'Delivery', base: 'Usual day',
-      people: 'People by the hour', hourCol: 'Hour', rows: ['Waiters', 'Cooks'],
-    },
+    screen: { typed: 'Partizan — Zvezda match at 8 pm' },
   },
   ru: {
     eyebrow: 'Прогноз',
@@ -249,54 +214,40 @@ const FORECAST = {
     ],
     note: 'Для одного заведения ошибка прогноза по дню обычно около 20%, по часу и блюду — больше. Поэтому RUVO показывает диапазон, а не одно число.',
     label: 'Пример: прогноз на четверг с матчем вечером — счета по часам и люди по часам',
-    screen: {
-      day: 'Завтра · чт', sub: 'Дорчол · четверг · по 4 прошлым четвергам',
-      tiles: ['Счета', 'Выручка, RSD', 'Порции', 'Точность'], hallW: 'зал', delivW: 'доставка', kitchenW: 'кухня', barW: 'бар', errW: 'ошибка за 14 дн.',
-      events: 'Что будет в этот день', typed: 'Вечером матч Партизан — Звезда в 20:00', apply: 'Учесть',
-      adj: ['Матч в 20:00: больше гостей в зале', 'зал ×1,3 · 19:00–23:00'],
-      hours: 'По часам', hall: 'Зал', deliv: 'Доставка', base: 'Обычный день',
-      people: 'Люди по часам', hourCol: 'Час', rows: ['Официанты', 'Повара'],
-    },
+    screen: { typed: 'Вечером матч Партизан — Звезда в 20:00' },
   },
 };
 
 const EXAMPLES = {
   sr: {
     title: 'Sve što objektu treba',
-    lead: 'Deset ekrana iz RUVO-a — sa jelima i brojkama kao u pravom restoranu.',
+    lead: 'Deset ekrana iz RUVO-a — snimljenih u demo restoranu, onakvih kakvi su danas.',
     tabsLabel: 'Primeri ekrana',
     items: [
       {
         id: 'floor', tab: 'Sala', title: 'Plan sale na terminalu',
-        text: 'Cela sala na jednom ekranu: koji su stolovi zauzeti i koliko dugo, gde je jelo spremno za serviranje i gde gosti čekaju račun. Sa strane — dostava i promet smene.',
+        text: 'Cela sala na jednom ekranu: koji su stolovi zauzeti i koliko dugo, gde je jelo spremno za serviranje i gde gosti čekaju račun. Sa strane — porudžbine sa kioska i iz aplikacije, spremna jela i promet dana.',
         points: ['Sala i bašta — svaka na svom planu', 'Spremno za serviranje — odmah, sa brojem stola', 'Gosti prelaze za drugi sto bez nove porudžbine'],
         label: 'Primer: plan sale na terminalu — slobodni i zauzeti stolovi, sto sa spremnim jelima i sto koji čeka račun',
         floor: { ...FLOOR, halls: [['Sala', 4], ['Bašta', 1]], legend: ['Slobodan', 'Otvoren', 'Spremno', 'Račun'], seats: { 2: '2 mesta', 4: '4 mesta', 8: '8 mesta' }, readyTag: 'Spremno', billTag: 'Račun', bar: 'Šank', delivery: 'Dostava', dl: ['W-7F3A', 'Spremno 0/2 · Kurir 21:52'], readyTitle: 'Spremno za serviranje', readyText: '2× Ćevapi, 10 kom, 1× Šopska salata', served: 'Servirano', shift: 'Smena', openLabel: 'Otvorenih stolova', revLabel: 'Promet danas, RSD' },
       },
       {
         id: 'waiter', tab: 'Konobar', title: 'Konobar za stolom',
-        text: 'Porudžbina se kuca na iPhone-u i odmah ide u kuhinju i na šank. Gost plaća skeniranjem IPS QR koda — bez čekanja na terminal.',
-        points: ['Sledovi: drugi sled čeka „Pozovi”', 'Račun na ekranu, deljenje po stavkama', 'Kartica, gotovina ili IPS QR'],
-        label: 'Primer: porudžbina za stolom 7 na iPhone-u konobara i račun sa IPS QR kodom za plaćanje',
-        order: { back: 'Sala', table: 'Sto 7', meta: '2 gosta · 14 min · Marko', lines: [['Pljeskavica', 1, 1150], ['Pomfrit', 1, 350], ['Kisela voda', 2, 400]], course: 'Sled 2 · čeka poziv', later: [['Baklava', 2, 680]], send: 'Pošalji', bill: 'Račun' },
-        bill: { title: 'Račun za goste', table: 'Sto 7', total: 'Ukupno', qr: 'IPS QR — skenirajte aplikacijom banke', paid: 'Plaćeno' },
+        text: 'Porudžbina se kuca na iPhone-u i odmah ide u kuhinju i na šank. Za račun konobar pita kako gost plaća — gotovinom ili karticom — i račun stiže na kasu: kasir izdaje fiskalni račun, a konobar se vraća stolovima.',
+        points: ['Sledovi: drugi sled čeka „Pozovi”', 'Spremna jela — odmah na telefonu', 'Račun na kasu: gotovinom ili karticom'],
+        label: 'Primer: stolovi konobara na iPhone-u i račun stola 5 sa pitanjem kako gost plaća',
       },
       {
         id: 'kitchen', tab: 'Kuhinja', title: 'Ekran kuhinje',
         text: 'Svaka stanica vidi svoje: kuhinja jela, šank pića. Tajmer pokazuje koliko porudžbina čeka, a one koje kasne se ističu.',
         points: ['Sala, kiosk, Wolt i Glovo na jednom ekranu', 'Dodir — „sprema se”, još jedan — „gotovo”', 'Konobar odmah vidi šta je gotovo'],
-        label: 'Primer: ekran kuhinje sa tri porudžbine i tajmerima',
-        kds: { station: 'Kuhinja', other: 'Šank', count: '3 u radu', wait: 'Sled 2 čeka poziv', called: 'Pozvano', bar: 2, queueMin: 9, norm: [77, 8], recent: [['Sto 5', '2×\u00a0Ćevapi, 10 kom'], ['Glovo G-1179', '2×\u00a0Pljeskavica'], ['Sto 9', '1×\u00a0Rib-aj stek, 300 g']], tickets: [
-          { no: 22, src: 'Sto 7', time: '02:41', tone: 'ok', lines: [[1, 'Pljeskavica'], [1, 'Pomfrit']], wait: true },
-          { no: 21, src: 'Wolt', time: '07:15', tone: 'warn', lines: [[2, 'Ćevapi, 10 kom'], [1, 'Šopska salata']] },
-          { no: 19, src: 'Sto 3', time: '12:58', tone: 'late', lines: [[2, 'Palačinke sa čokoladom']], called: true },
-        ] },
+        label: 'Primer: ekran kuhinje — porudžbine sale, aplikacije i kioska sa tajmerima i zbir jela u radu',
       },
       {
         id: 'delivery', tab: 'Dostava', title: 'Dostava na istom ekranu',
         text: 'Porudžbine sa Wolt-a i Glovo-a idu u kuhinju i magacin kao i sve ostale, sa vremenom kurira. Za sada ih prenosite sa tableta platforme — direktna veza stiže uskoro.',
         points: ['U pripremi, čekaju kurira, preuzete', 'Posebne cene za Wolt i Glovo', 'Vreme kurira na svakoj porudžbini'],
-        label: 'Primer: dostava na terminalu sale — porudžbine Wolt-a i Glovo-a u pripremi i jedna koja čeka kurira',
+        label: 'Primer: dostava na terminalu sale — porudžbina Wolt-a u pripremi sa vremenom kurira i preuzete porudžbine',
         delivery: { tabs: ['Sala', 'Dostava', 'Zatvoreni'], manual: 'ručno sa tableta', cols: [
           ['U pripremi', [{ ch: 'Wolt', code: 'W-7F3A', items: ['2× Ćevapi, 10 kom', '1× Šopska salata'], state: 'Spremno 1/3', courier: 'Kurir 21:52' }, { ch: 'Glovo', code: 'G-1186', items: ['1× Burger sa junetinom', '2× Pomfrit'], state: 'Spremno 0/3', courier: 'Kurir 22:05' }]],
           ['Čekaju kurira', [{ ch: 'Wolt', code: 'W-7E91', items: ['1× Pasta karbonara', '1× Cezar salata sa piletinom'], state: 'Spremno 2/2', courier: 'Kurir 21:44', ready: true }]],
@@ -314,75 +265,64 @@ const EXAMPLES = {
         id: 'guests', tab: 'Gosti', title: 'Kartica gosta na računu',
         text: 'Popust nivoa gosta i poeni sa svakog računa. Akcije po rasporedu se uračunavaju same, a popusti se ne sabiraju: za svako jelo važi najveći.',
         points: ['Nivoi po potrošnji: Gost, Srebro, Zlato', 'Plaćanje poenima — uz kod iz SMS-a ili karticu', 'Srećni sati i ručak — po rasporedu'],
-        label: 'Primer: račun stola 4 sa karticom gosta, popustom nivoa i srećnim satima na pića',
-        guests: { ...LOYAL, table: 'Sto 4', guests: 2, meta: 'Sala · Jovana · otvoren 17:20', grid: { cats: MAINS.sr.cats, on: 5, dishes: [['Espreso', 220], ['Kapućino', 290], ['Domaća limunada', 350], ['Ceđena pomorandža', 390], ['Kisela voda', 200], ['Rakija od šljive', 300]] }, name: 'Milica Stojanović', level: 'Zlato', ptsWord: 'poena', lines: [['Ćevapi, 10 kom', 1, 1290, 'food'], ['Šopska salata', 1, 590, 'food'], ['Domaća limunada', 2, 700, 'drink']], disc: { food: 'Zlato −10% · hrana', drink: 'Srećni sati −20% · pića' }, subtotal: 'Bez popusta', due: 'Za naplatu', earnLabel: 'Dodajemo', payPoints: 'Plati poenima', close: 'Zatvori sto', now: 'Trenutno važi', promo: 'Srećni sati', promoText: 'Pića −20% · radnim danima 16:00–18:00' },
+        label: 'Primer: račun stola 5 sa karticom gosta i popustom nivoa Zlato',
       },
       {
         id: 'stock', tab: 'Magacin', title: 'Magacin i normativi',
-        text: 'Svaka prodaja otpisuje namirnice po normativu. Vidite nabavnu cenu porcije, food cost i šta je ispod minimuma.',
+        text: 'Svaka prodaja otpisuje namirnice po normativu — bruto, neto i gubitak pri obradi. Vidite cenu koštanja porcije, food cost svakog jela i šta je ispod minimuma.',
         points: ['Prijemnice, otpis i popis', 'Poluproizvodi sa svojim normativima', 'Prosečna nabavna cena se računa sama'],
-        label: 'Primer: normativ za ćevape sa nabavnom cenom porcije i namirnice ispod minimuma',
-        card: { crumb: 'Normativ', dish: 'Ćevapi, 10 kom', yield: '1 porcija', head: ['Namirnica', 'Količina', 'RSD'], rows: [['Mleveno meso', '0,25 kg', 287], ['Lepinja', '1 kom', 45], ['Kajmak', '0,04 kg', 48], ['Crni luk', '0,05 kg', 6]], price: 1290, cost: 'Nabavna cena porcije', menu: 'Prodajna cena', fc: 'Food cost', low: 'Ispod minimuma', lowRows: [['Kajmak', '0,8 kg', '2 kg'], ['Lepinja', '12 kom', '40 kom']], min: 'min' },
+        label: 'Primer: normativ za ćevape — namirnice bruto i neto, cena koštanja porcije i food cost svakog jela',
       },
       {
         id: 'reports', tab: 'Izveštaji', title: 'Izveštaji i AI pomoćnik',
         text: 'Pitajte običnim rečima i RUVO sastavi izveštaj: promet, prosečan račun, food cost, jela, konobari. Dugme „Objasni” kaže šta se promenilo.',
         points: ['16 gotovih izveštaja i vaši sačuvani', 'Poređenje sa prethodnim periodom', 'Svi objekti zajedno ili svaki posebno'],
-        label: 'Primer: pitanje o prometu prošle nedelje i izveštaj po danima sa objašnjenjem',
-        report: { ask: 'Kakav je bio promet prošle nedelje u odnosu na nedelju pre?', title: 'Promet po danima', period: '5–11. okt', cmp: 'prema 28. sep – 4. okt', total: '{n} mil. RSD', days: ['pon', 'uto', 'sre', 'čet', 'pet', 'sub', 'ned'], ...SALES, explain: 'Objasni', answer: 'Promet je veći za {pct}. Najviše su porasle subota (+6.300 RSD) i petak (+5.800 RSD), a ponedeljak je bio slabiji (−2.600 RSD).' },
+        label: 'Primer: izveštaj po pitanju — promet prošle nedelje po danima prema nedelji pre',
+        report: { ask: 'Kakav je bio promet prošle nedelje u odnosu na nedelju pre?' },
       },
       {
         id: 'sef', tab: 'SEF', title: 'Fakture dobavljača iz SEF-a',
         text: 'Ulazne e-fakture stižu same. Stavke dobavljača povežete sa svojim proizvodima jednom, a prijemnica u magacin nastaje jednim dugmetom.',
         points: ['Prihvatite ili odbijte fakturu iz RUVO-a', 'Rok za odgovor uvek pred očima', 'Više firmi (PIB) pod jednim nalogom', 'Papirna otpremnica — fotografijom: stavke popuni AI'],
-        label: 'Primer: ulazna faktura mlekare iz SEF-a, stavke povezane sa proizvodima magacina',
-        sef: { inbox: 'Fakture dobavljača', tabs: ['Nove · 2', 'Obrađene', 'Sve'], supplier: 'Mlekara Primer d.o.o.', meta: 'Faktura 2026-01183 · 9. okt', due: 'Odgovor do 24. okt', head: ['Stavka dobavljača', 'Naš proizvod'], rows: [['Mleko 2,8% 1 l', '24 kom', 'Mleko', '1 kom = 1 l'], ['Kajmak 500 g', '6 kom', 'Kajmak', '1 kom = 0,5 kg'], ['Pavlaka 20% 400 g', '10 kom', 'Pavlaka', '1 kom = 0,4 kg']], remembered: 'zapamćeno', accept: 'Prihvati i primi u magacin', reject: 'Odbij' },
+        label: 'Primer: ulazna faktura dobavljača povrća iz SEF-a — stavke povezane sa proizvodima magacina',
       },
       {
         id: 'team', tab: 'Tim', title: 'Tim i smene',
         text: 'Svako radi pod svojim PIN-om i sa svojom ulogom. Smena počinje i završava se PIN-om na terminalu sale, a plata se računa sama — po satima i procentu od prodaje.',
         points: ['Uloge: vlasnik, menadžer, konobar, kuvar, šank', 'Dnevnik radnji — ko je šta uradio i kada', 'Zaboravljena smena se ispravlja uz razlog'],
-        label: 'Primer: ko je sada na smeni i obračun plate konobara za nedelju',
-        team: { ...TEAM, title: 'Na smeni', count: '4 osobe', since: 'od', roles: { waiter: 'konobar', cook: 'kuvar', bar: 'šank' }, payTitle: 'Plata · 6–12. okt', hours: 'Sati', rate: 'Satnica', share: '{pct}% od prodaje', total: 'Ukupno' },
+        label: 'Primer: plate za nedelju — sati, satnica, procenat od prodaje i napojnice',
       },
     ],
   },
   en: {
     title: 'Everything a venue needs',
-    lead: 'Ten screens of RUVO, with the dishes and figures of a real restaurant.',
+    lead: 'Ten screens of RUVO — taken in the demo restaurant, as they are today.',
     tabsLabel: 'Example screens',
     items: [
       {
         id: 'floor', tab: 'Floor', title: 'The floor plan on the front terminal',
-        text: 'The whole floor on one screen: which tables are taken and for how long, where a dish is ready to serve and where guests wait for the bill. At the side — delivery and the shift’s sales.',
+        text: 'The whole floor on one screen: which tables are taken and for how long, where a dish is ready to serve and where guests wait for the bill. At the side — orders from the kiosk and the app, dishes ready and the day’s sales.',
         points: ['The dining room and the terrace — each on its own plan', 'Ready to serve — at once, with the table number', 'Guests move to another table without a new order'],
         label: 'Example: the floor plan on the front terminal — free and taken tables, a table with dishes ready and a table waiting for the bill',
         floor: { ...FLOOR, halls: [['Dining room', 4], ['Terrace', 1]], legend: ['Free', 'Open', 'Ready', 'Bill'], seats: { 2: '2 seats', 4: '4 seats', 8: '8 seats' }, readyTag: 'Ready', billTag: 'Bill', bar: 'Bar', delivery: 'Delivery', dl: ['W-7F3A', 'Ready 0/2 · Courier 21:52'], readyTitle: 'Ready to serve', readyText: '2× Ćevapi, 10 pcs, 1× Shopska salad', served: 'Served', shift: 'Shift', openLabel: 'Open tables', revLabel: 'Sales today, RSD' },
       },
       {
         id: 'waiter', tab: 'Waiter', title: 'The waiter at the table',
-        text: 'The order is typed on the iPhone and goes straight to the kitchen and the bar. The guest pays by scanning the IPS QR code — no waiting for the terminal.',
-        points: ['Courses: the second waits for “Fire”', 'The bill on screen, split by items', 'Card, cash or IPS QR'],
-        label: 'Example: the order for table 7 on a waiter’s iPhone and the bill with an IPS QR code to pay',
-        order: { back: 'Floor', table: 'Table 7', meta: '2 guests · 14 min · Marko', lines: [['Pljeskavica', 1, 1150], ['Fries', 1, 350], ['Sparkling water', 2, 400]], course: 'Course 2 · waits for the call', later: [['Baklava', 2, 680]], send: 'Send', bill: 'Bill' },
-        bill: { title: 'Bill for the guests', table: 'Table 7', total: 'Total', qr: 'IPS QR — scan with your bank’s app', paid: 'Paid' },
+        text: 'The order is typed on the iPhone and goes straight to the kitchen and the bar. For the bill the waiter asks how the guest pays — cash or card — and the bill goes to the till: the cashier issues the fiscal receipt, and the waiter goes back to the tables.',
+        points: ['Courses: the second waits for “Fire”', 'Dishes ready — at once on the phone', 'The bill to the till: cash or card'],
+        label: 'Example: a waiter’s tables on the iPhone and the bill of table 5 asking how the guest pays',
       },
       {
         id: 'kitchen', tab: 'Kitchen', title: 'The kitchen screen',
         text: 'Each station sees its own: the kitchen the dishes, the bar the drinks. A timer shows how long an order has waited, and late ones stand out.',
         points: ['The floor, the kiosk, Wolt and Glovo on one screen', 'Tap once — “cooking”, again — “ready”', 'The waiter sees at once what is ready'],
-        label: 'Example: the kitchen screen with three orders and their timers',
-        kds: { station: 'Kitchen', other: 'Bar', count: '3 in progress', wait: 'Course 2 waits for the call', called: 'Fired', bar: 2, queueMin: 9, norm: [77, 8], recent: [['Table 5', '2×\u00a0Ćevapi, 10 pcs'], ['Glovo G-1179', '2×\u00a0Pljeskavica'], ['Table 9', '1×\u00a0Rib-eye steak, 300 g']], tickets: [
-          { no: 22, src: 'Table 7', time: '02:41', tone: 'ok', lines: [[1, 'Pljeskavica'], [1, 'Fries']], wait: true },
-          { no: 21, src: 'Wolt', time: '07:15', tone: 'warn', lines: [[2, 'Ćevapi, 10 pcs'], [1, 'Shopska salad']] },
-          { no: 19, src: 'Table 3', time: '12:58', tone: 'late', lines: [[2, 'Pancakes with chocolate']], called: true },
-        ] },
+        label: 'Example: the kitchen screen — orders from the floor, the app and the kiosk with their timers, and the dishes in progress summed up',
       },
       {
         id: 'delivery', tab: 'Delivery', title: 'Delivery on the same screen',
         text: 'Wolt and Glovo orders go to the kitchen and stock like all the others, with the courier’s time. For now you carry them over from the platform’s tablet — the direct link is coming soon.',
         points: ['Cooking, waiting for the courier, picked up', 'Separate prices for Wolt and Glovo', 'The courier’s time on every order'],
-        label: 'Example: delivery on the front terminal — Wolt and Glovo orders cooking and one waiting for the courier',
+        label: 'Example: delivery on the front terminal — a Wolt order cooking with the courier’s time, and orders picked up',
         delivery: { tabs: ['Floor', 'Delivery', 'Closed'], manual: 'by hand from the tablet', cols: [
           ['Cooking', [{ ch: 'Wolt', code: 'W-7F3A', items: ['2× Ćevapi, 10 pcs', '1× Shopska salad'], state: 'Ready 1/3', courier: 'Courier 21:52' }, { ch: 'Glovo', code: 'G-1186', items: ['1× Beef burger', '2× Fries'], state: 'Ready 0/3', courier: 'Courier 22:05' }]],
           ['Waiting for courier', [{ ch: 'Wolt', code: 'W-7E91', items: ['1× Pasta carbonara', '1× Caesar salad with chicken'], state: 'Ready 2/2', courier: 'Courier 21:44', ready: true }]],
@@ -400,75 +340,64 @@ const EXAMPLES = {
         id: 'guests', tab: 'Guests', title: 'The guest’s card on the bill',
         text: 'The discount of the guest’s level and points from every bill. Scheduled promotions count by themselves, and discounts don’t add up: each dish gets the biggest one.',
         points: ['Levels by spend: Guest, Silver, Gold', 'Paying with points — with a code by SMS or the card', 'Happy hours and lunch — on a schedule'],
-        label: 'Example: the bill of table 4 with a guest card, the level discount and happy hours on drinks',
-        guests: { ...LOYAL, table: 'Table 4', guests: 2, meta: 'Floor · Jovana · opened 17:20', grid: { cats: MAINS.en.cats, on: 5, dishes: [['Espresso', 220], ['Cappuccino', 290], ['Homemade lemonade', 350], ['Fresh orange juice', 390], ['Sparkling water', 200], ['Plum rakija', 300]] }, name: 'Milica Stojanović', level: 'Gold', ptsWord: 'points', lines: [['Ćevapi, 10 pcs', 1, 1290, 'food'], ['Shopska salad', 1, 590, 'food'], ['Homemade lemonade', 2, 700, 'drink']], disc: { food: 'Gold −10% · food', drink: 'Happy hours −20% · drinks' }, subtotal: 'Before discounts', due: 'To pay', earnLabel: 'We add', payPoints: 'Pay with points', close: 'Close table', now: 'On now', promo: 'Happy hours', promoText: 'Drinks −20% · weekdays 16:00–18:00' },
+        label: 'Example: the bill of table 5 with a guest card and the Gold level’s discount',
       },
       {
         id: 'stock', tab: 'Stock', title: 'Stock and recipes',
-        text: 'Every sale writes off ingredients by recipe. You see what a portion costs, the food cost and what is below the minimum.',
+        text: 'Every sale writes off ingredients by recipe — gross, net and the loss in processing. You see what a portion costs, each dish’s food cost and what is below the minimum.',
         points: ['Receipts, write-offs and stocktakes', 'Semi-finished items with recipes of their own', 'The average cost is worked out by itself'],
-        label: 'Example: the recipe for ćevapi with the cost of a portion, and ingredients below the minimum',
-        card: { crumb: 'Recipe', dish: 'Ćevapi, 10 pcs', yield: '1 portion', head: ['Ingredient', 'Quantity', 'RSD'], rows: [['Minced meat', '0.25 kg', 287], ['Lepinja (flatbread)', '1 pc', 45], ['Kajmak', '0.04 kg', 48], ['Onion', '0.05 kg', 6]], price: 1290, cost: 'Cost of a portion', menu: 'Menu price', fc: 'Food cost', low: 'Below the minimum', lowRows: [['Kajmak', '0.8 kg', '2 kg'], ['Lepinja', '12 pcs', '40 pcs']], min: 'min' },
+        label: 'Example: the recipe for ćevapi — ingredients gross and net, the cost of a portion and every dish’s food cost',
       },
       {
         id: 'reports', tab: 'Reports', title: 'Reports and an AI assistant',
         text: 'Ask in plain words and RUVO builds the report: sales, average bill, food cost, dishes, waiters. “Explain” says what has changed.',
         points: ['16 ready reports, plus your own saved ones', 'Compared with the period before', 'All venues together or each on its own'],
-        label: 'Example: a question about last week’s sales and the report by day with an explanation',
-        report: { ask: 'How did last week’s sales compare with the week before?', title: 'Sales by day', period: '5–11 Oct', cmp: 'vs 28 Sep – 4 Oct', total: '{n}m RSD', days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], ...SALES, explain: 'Explain', answer: 'Sales are up {pct}. Saturday (+6,300 RSD) and Friday (+5,800 RSD) grew most; Monday was weaker (−2,600 RSD).' },
+        label: 'Example: a report from a question — last week’s sales by day against the week before',
+        report: { ask: 'How did last week’s sales compare with the week before?' },
       },
       {
         id: 'sef', tab: 'SEF', title: 'Supplier invoices from SEF',
         text: 'Incoming e-invoices arrive by themselves. Match a supplier’s items to your products once, and the stock receipt is one button.',
         points: ['Accept or reject the invoice from RUVO', 'The reply deadline always in sight', 'Several companies (PIB) in one account', 'A paper delivery note — by photo: AI fills in the lines'],
-        label: 'Example: a dairy’s incoming invoice from SEF, its items matched to stock products',
-        sef: { inbox: 'Supplier invoices', tabs: ['New · 2', 'Done', 'All'], supplier: 'Mlekara Primer d.o.o.', meta: 'Invoice 2026-01183 · 9 Oct', due: 'Reply by 24 Oct', head: ['Supplier’s item', 'Our product'], rows: [['Mleko 2,8% 1 l', '24 kom', 'Milk', '1 pc = 1 l'], ['Kajmak 500 g', '6 kom', 'Kajmak', '1 pc = 0.5 kg'], ['Pavlaka 20% 400 g', '10 kom', 'Sour cream', '1 pc = 0.4 kg']], remembered: 'remembered', accept: 'Accept and receive into stock', reject: 'Reject' },
+        label: 'Example: a vegetable supplier’s incoming invoice from SEF — its items matched to stock products',
       },
       {
         id: 'team', tab: 'Team', title: 'Team and shifts',
         text: 'Everyone works under their own PIN and role. A shift starts and ends with a PIN on the front terminal, and pay counts itself — by the hours and a share of the sales.',
         points: ['Roles: owner, manager, waiter, cook, bar', 'The action log — who did what and when', 'A forgotten shift is corrected with a reason'],
-        label: 'Example: who is on shift now, and a waiter’s pay for the week',
-        team: { ...TEAM, title: 'On shift', count: '4 people', since: 'since', roles: { waiter: 'waiter', cook: 'cook', bar: 'bar' }, payTitle: 'Pay · 6–12 Oct', hours: 'Hours', rate: 'Hourly rate', share: '{pct}% of sales', total: 'Total' },
+        label: 'Example: the week’s pay — hours, the hourly rate, a share of the sales and tips',
       },
     ],
   },
   ru: {
     title: 'Всё, что нужно заведению',
-    lead: 'Десять экранов RUVO — с блюдами и цифрами как в настоящем ресторане.',
+    lead: 'Десять экранов RUVO — сняты в демо-ресторане такими, какие они сегодня.',
     tabsLabel: 'Примеры экранов',
     items: [
       {
         id: 'floor', tab: 'Зал', title: 'План зала на фронте',
-        text: 'Весь зал на одном экране: какие столы заняты и как давно, где блюдо готово к подаче и где гости ждут счёт. Сбоку — доставка и выручка смены.',
+        text: 'Весь зал на одном экране: какие столы заняты и как давно, где блюдо готово к подаче и где гости ждут счёт. Сбоку — заказы из киоска и приложения, готовые блюда и выручка дня.',
         points: ['Зал и терраса — каждый на своём плане', 'Готово к подаче — сразу, с номером стола', 'Гостей пересаживают за другой стол без нового заказа'],
         label: 'Пример: план зала на фронте — свободные и занятые столы, стол с готовыми блюдами и стол, который ждёт счёт',
         floor: { ...FLOOR, halls: [['Зал', 4], ['Терраса', 1]], legend: ['Свободен', 'Открыт', 'Готово', 'Счёт'], seats: { 2: '2 места', 4: '4 места', 8: '8 мест' }, readyTag: 'Готово', billTag: 'Счёт', bar: 'Бар', delivery: 'Доставка', dl: ['W-7F3A', 'Готово 0/2 · Курьер 21:52'], readyTitle: 'Готово к подаче', readyText: '2× Чевапи, 10 шт, 1× Шопский салат', served: 'Подано', shift: 'Смена', openLabel: 'Открыто столов', revLabel: 'Выручка сегодня, RSD' },
       },
       {
         id: 'waiter', tab: 'Официант', title: 'Официант у стола',
-        text: 'Заказ набирается на iPhone и сразу уходит на кухню и в бар. Гость платит, отсканировав IPS QR, — без ожидания терминала.',
-        points: ['Курсы: второй ждёт «Вызвать»', 'Счёт на экране, деление по позициям', 'Карта, наличные или IPS QR'],
-        label: 'Пример: заказ стола 7 на iPhone официанта и счёт с IPS QR для оплаты',
-        order: { back: 'Зал', table: 'Стол 7', meta: '2 гостя · 14 мин · Marko', lines: [['Плескавица', 1, 1150], ['Картофель фри', 1, 350], ['Минеральная вода', 2, 400]], course: 'Курс 2 · ждёт вызова', later: [['Баклава', 2, 680]], send: 'Отправить', bill: 'Счёт' },
-        bill: { title: 'Счёт для гостей', table: 'Стол 7', total: 'Итого', qr: 'IPS QR — отсканируйте приложением банка', paid: 'Оплачено' },
+        text: 'Заказ набирается на iPhone и сразу уходит на кухню и в бар. За счётом официант спрашивает, как платит гость, — наличными или картой, — и счёт уходит на кассу: кассир пробивает фискальный чек, а официант возвращается к столам.',
+        points: ['Курсы: второй ждёт «Вызвать»', 'Готовые блюда — сразу на телефоне', 'Счёт на кассу: наличными или картой'],
+        label: 'Пример: столы официанта на iPhone и счёт стола 5 с вопросом, как платит гость',
       },
       {
         id: 'kitchen', tab: 'Кухня', title: 'Экран кухни',
         text: 'Каждый цех видит своё: кухня — блюда, бар — напитки. Таймер показывает, сколько ждёт заказ, а опаздывающие выделены.',
         points: ['Зал, киоск, Wolt и Glovo на одном экране', 'Касание — «готовлю», ещё одно — «готово»', 'Официант сразу видит, что готово'],
-        label: 'Пример: экран кухни с тремя заказами и таймерами',
-        kds: { station: 'Кухня', other: 'Бар', count: '3 в работе', wait: 'Курс 2 ждёт вызова', called: 'Вызвано', bar: 2, queueMin: 9, norm: [77, 8], recent: [['Стол 5', '2×\u00a0Чевапи, 10 шт'], ['Glovo G-1179', '2×\u00a0Плескавица'], ['Стол 9', '1×\u00a0Стейк рибай, 300 г']], tickets: [
-          { no: 22, src: 'Стол 7', time: '02:41', tone: 'ok', lines: [[1, 'Плескавица'], [1, 'Картофель фри']], wait: true },
-          { no: 21, src: 'Wolt', time: '07:15', tone: 'warn', lines: [[2, 'Чевапи, 10 шт'], [1, 'Шопский салат']] },
-          { no: 19, src: 'Стол 3', time: '12:58', tone: 'late', lines: [[2, 'Палачинки с шоколадом']], called: true },
-        ] },
+        label: 'Пример: экран кухни — заказы зала, приложения и киоска с таймерами и сводка блюд в работе',
       },
       {
         id: 'delivery', tab: 'Доставка', title: 'Доставка на том же экране',
         text: 'Заказы Wolt и Glovo идут на кухню и в склад, как все остальные, со временем курьера. Пока их переносят с планшета платформы — прямая связь скоро.',
         points: ['Готовятся, ждут курьера, выданы', 'Свои цены для Wolt и Glovo', 'Время курьера на каждом заказе'],
-        label: 'Пример: доставка на фронте — заказы Wolt и Glovo готовятся, один ждёт курьера',
+        label: 'Пример: доставка на фронте — заказ Wolt готовится, время курьера, и выданные заказы',
         delivery: { tabs: ['Зал', 'Доставка', 'Закрытые'], manual: 'вручную с планшета', cols: [
           ['Готовятся', [{ ch: 'Wolt', code: 'W-7F3A', items: ['2× Чевапи, 10 шт', '1× Шопский салат'], state: 'Готово 1/3', courier: 'Курьер 21:52' }, { ch: 'Glovo', code: 'G-1186', items: ['1× Бургер с говядиной', '2× Картофель фри'], state: 'Готово 0/3', courier: 'Курьер 22:05' }]],
           ['Ждут курьера', [{ ch: 'Wolt', code: 'W-7E91', items: ['1× Паста карбонара', '1× Цезарь с курицей'], state: 'Готово 2/2', courier: 'Курьер 21:44', ready: true }]],
@@ -486,36 +415,32 @@ const EXAMPLES = {
         id: 'guests', tab: 'Гости', title: 'Карта гостя в счёте',
         text: 'Скидка уровня гостя и баллы с каждого чека. Акции по расписанию считаются сами, а скидки не суммируются: на каждое блюдо действует самая большая.',
         points: ['Уровни по сумме покупок: Гость, Серебро, Золото', 'Оплата баллами — по коду из SMS или карте', 'Счастливые часы и обед — по расписанию'],
-        label: 'Пример: счёт стола 4 с картой гостя, скидкой уровня и счастливыми часами на напитки',
-        guests: { ...LOYAL, table: 'Стол 4', guests: 2, meta: 'Зал · Jovana · открыт 17:20', grid: { cats: MAINS.ru.cats, on: 5, dishes: [['Эспрессо', 220], ['Капучино', 290], ['Домашний лимонад', 350], ['Апельсиновый фреш', 390], ['Минеральная вода', 200], ['Сливовица', 300]] }, name: 'Milica Stojanović', level: 'Золото', ptsWord: 'баллов', lines: [['Чевапи, 10 шт', 1, 1290, 'food'], ['Шопский салат', 1, 590, 'food'], ['Домашний лимонад', 2, 700, 'drink']], disc: { food: 'Золото −10% · еда', drink: 'Счастливые часы −20% · напитки' }, subtotal: 'Без скидок', due: 'К оплате', earnLabel: 'Начислим', payPoints: 'Оплатить баллами', close: 'Закрыть стол', now: 'Сейчас действует', promo: 'Счастливые часы', promoText: 'Напитки −20% · по будням 16:00–18:00' },
+        label: 'Пример: счёт стола 5 с картой гостя и скидкой уровня «Золото»',
       },
       {
         id: 'stock', tab: 'Склад', title: 'Склад и техкарты',
-        text: 'Каждая продажа списывает продукты по техкарте. Видно себестоимость порции, фудкост и что ниже минимума.',
+        text: 'Каждая продажа списывает продукты по техкарте — брутто, нетто и потери при обработке. Видно себестоимость порции, фудкост каждого блюда и что ниже минимума.',
         points: ['Приход, списание и инвентаризация', 'Полуфабрикаты со своими техкартами', 'Средняя себестоимость считается сама'],
-        label: 'Пример: техкарта чевапи с себестоимостью порции и продукты ниже минимума',
-        card: { crumb: 'Техкарта', dish: 'Чевапи, 10 шт', yield: '1 порция', head: ['Продукт', 'Количество', 'RSD'], rows: [['Фарш', '0,25 кг', 287], ['Лепиня', '1 шт', 45], ['Каймак', '0,04 кг', 48], ['Лук', '0,05 кг', 6]], price: 1290, cost: 'Себестоимость порции', menu: 'Цена в меню', fc: 'Фудкост', low: 'Ниже минимума', lowRows: [['Каймак', '0,8 кг', '2 кг'], ['Лепиня', '12 шт', '40 шт']], min: 'мин' },
+        label: 'Пример: техкарта чевапи — продукты брутто и нетто, себестоимость порции и фудкост каждого блюда',
       },
       {
         id: 'reports', tab: 'Отчёты', title: 'Отчёты и ИИ-помощник',
         text: 'Спросите обычными словами — RUVO соберёт отчёт: выручка, средний чек, фудкост, блюда, официанты. «Объяснить» скажет, что изменилось.',
         points: ['16 готовых отчётов и ваши сохранённые', 'Сравнение с прошлым периодом', 'Все заведения вместе или каждое отдельно'],
-        label: 'Пример: вопрос о выручке за прошлую неделю и отчёт по дням с объяснением',
-        report: { ask: 'Какая была выручка на прошлой неделе по сравнению с позапрошлой?', title: 'Выручка по дням', period: '5–11 окт', cmp: 'к 28 сен – 4 окт', total: '{n} млн RSD', days: ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'], ...SALES, explain: 'Объяснить', answer: 'Выручка выше на {pct}. Больше всего выросли суббота (+6 300 RSD) и пятница (+5 800 RSD), понедельник был слабее (−2 600 RSD).' },
+        label: 'Пример: отчёт по вопросу — выручка прошлой недели по дням против недели до неё',
+        report: { ask: 'Какая была выручка на прошлой неделе по сравнению с позапрошлой?' },
       },
       {
         id: 'sef', tab: 'SEF', title: 'Счета поставщиков из SEF',
         text: 'Входящие e-фактуры приходят сами. Позиции поставщика связываются с вашими продуктами один раз, а приход на склад — одной кнопкой.',
         points: ['Принять или отклонить счёт из RUVO', 'Срок ответа всегда на виду', 'Несколько фирм (ПИБ) в одном аккаунте', 'Бумажная накладная — по фото: строки заполнит ИИ'],
-        label: 'Пример: входящий счёт молочного поставщика из SEF, позиции связаны с продуктами склада',
-        sef: { inbox: 'Счета поставщиков', tabs: ['Новые · 2', 'Обработанные', 'Все'], supplier: 'Mlekara Primer d.o.o.', meta: 'Счёт 2026-01183 · 9 окт', due: 'Ответить до 24 окт', head: ['Позиция поставщика', 'Наш продукт'], rows: [['Mleko 2,8% 1 l', '24 kom', 'Молоко', '1 шт = 1 л'], ['Kajmak 500 g', '6 kom', 'Каймак', '1 шт = 0,5 кг'], ['Pavlaka 20% 400 g', '10 kom', 'Сметана', '1 шт = 0,4 кг']], remembered: 'запомнено', accept: 'Принять и оприходовать', reject: 'Отклонить' },
+        label: 'Пример: входящий счёт поставщика овощей из SEF — позиции сопоставлены с продуктами склада',
       },
       {
         id: 'team', tab: 'Команда', title: 'Команда и смены',
         text: 'Каждый работает под своим PIN и со своей ролью. Смена начинается и заканчивается по PIN на фронте, а зарплата считается сама — по часам и проценту с продаж.',
         points: ['Роли: владелец, управляющий, официант, повар, бар', 'Журнал действий — кто что сделал и когда', 'Забытая смена исправляется с причиной'],
-        label: 'Пример: кто сейчас на смене и зарплата официанта за неделю',
-        team: { ...TEAM, title: 'На смене', count: '4 человека', since: 'с', roles: { waiter: 'официант', cook: 'повар', bar: 'бармен' }, payTitle: 'Зарплата · 6–12 окт', hours: 'Часы', rate: 'Ставка в час', share: '{pct}% с продаж', total: 'Итого' },
+        label: 'Пример: зарплата за неделю — часы, ставка, процент с продаж и чаевые',
       },
     ],
   },

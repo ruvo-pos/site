@@ -11,7 +11,7 @@ import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { APP, FORECAST_DAY, LANGS, MAINS, PHOTOS, PRICES, SITE, T } from './src/content.mjs';
+import { APP, LANGS, MAINS, PHOTOS, PRICES, SITE, T } from './src/content.mjs';
 import { SIGNUP as SG } from './src/signup.mjs';
 import { VENUE_KEYS, VENUE_SETUP, VENUE_SLUGS, VENUES, VENUE_SOON } from './src/venues.mjs';
 
@@ -335,12 +335,11 @@ ${col(t.ui.foot.contact, [mail, esc(SITE.address)])}
 
 // ---------- the devices (the owner, 14 October: «Все мобильные приложения — под размер iPhone Pro Max 18, всё, что на
 // планшете — под размер iPad»): a tablet's screen on an iPad — the 11-inch iPad Pro, 1210×834 points, on its side, or
-// upright for the kiosk —, a phone's on an iPhone 18 Pro Max, 440×956 points. Each screen is the app's own, drawn from
-// its parts, in its words (APP in content.mjs) and its colours (--a-… in site.css: light or dark with the site, as the
-// app follows its device's; the kitchen's always dark), to the screen's points (u() in site.css), so it scales with its
-// device like a picture. ----------
+// upright for the kiosk —, a phone's on an iPhone 18 Pro Max, 440×956 points. The examples' screens are screenshots of
+// the app (tools/shots.mjs); the first screen's are drawn from the app's parts, in its words (APP in content.mjs) and
+// its colours (--a-… in site.css: light or dark with the site, as the app follows its device's; the kitchen's always
+// dark), to the screen's points (u() in site.css), so it scales with its device like a picture. ----------
 const fmt = (lang, v, opts) => new Intl.NumberFormat(LOCALE[lang], opts).format(v);
-const rsd = (lang, v) => `${money(v)} RSD`;
 // money on the app's screens as the app writes it (app/src/domain.js, fmtMoney): whole dinars, the thousands apart by a
 // no-break space — «2 580» in every language
 const money = (v) => { const n = Math.round(v); return (n < 0 ? '−' : '') + String(Math.abs(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00A0'); };
@@ -352,12 +351,9 @@ function dev(kind, inner, label = '') {
   const aria = label ? ` role="img" aria-label="${esc(label)}"` : ' aria-hidden="true"';
   return `<div class="dv dv-${kind}"${aria}><div class="dv-f"><div class="scr">${inner}</div></div></div>`;
 }
-// the status bars: the iPad's — the time and the day, Wi-Fi, the battery; the iPhone's — around the Dynamic Island; the
-// iPhone's home indicator
+// the iPad's status bar — the time and the day, Wi-Fi, the battery (the first screen's drawn iPad)
 const BATTERY = '<span class="bat"><i></i></span>';
 const sbPad = (lang) => `<div class="sb"><span class="sb-t">${APP[lang].time}<span>${esc(APP[lang].date)}</span></span><span class="sb-r">${IC('wifi-high')}${BATTERY}</span></div>`;
-const sbPhone = (lang) => `<div class="sb sb-ph"><span class="sb-t">${APP[lang].time}</span><span class="di"></span><span class="sb-r">${IC('cell-signal-full')}${IC('wifi-high')}${BATTERY}</span></div>`;
-const HOME_BAR = '<span class="hb"></span>';
 
 // the front terminal's bar (ui/ipad.jsx): the wordmark and the venue; the floor, delivery and closed tables; the shift,
 // the stop list, who is working
@@ -538,31 +534,31 @@ function qrSvg(seed = 20261012) {
   return `<svg class="qr-svg" viewBox="-2 -2 ${n + 4} ${n + 4}" aria-hidden="true" focusable="false"><rect x="-2" y="-2" width="${n + 4}" height="${n + 4}" fill="#fff"/><path d="${d}" fill="#13171A"/></svg>`;
 }
 
-// ---------- «Sve što objektu treba»: a screen of the app for each tab, on its device ----------
+// ---------- the app's own screens (the owner, 2 November, 03:31: «наполняем наш лендинг актуальными примерами и
+// скриншотами»): screenshots of the demo on its devices, made by tools/shots.mjs — src/shots/<lang>/<name>-<theme>.webp,
+// on the pages under assets/shots/: the light one or the dark one with the page's theme; the kitchen's always dark, the
+// kiosk's always light, as they are. Each image as big as the device's screen; the device's label says what it shows.
+const SHOT_DIR = path.join(ROOT, 'src/shots');
+const SHOT_SIZE = { pad: [1210, 834], port: [834, 1210], phone: [440, 956] };
+const SHOT_ONE = { kitchen: 'dark', kiosk: 'light' };
+const SHOT_USED = new Set();
+const SHOT_V = new Map();
+function shotSrc(lang, file, name, theme) {
+  const rel = `${lang}/${name}-${theme}.webp`;
+  const f = path.join(SHOT_DIR, rel);
+  if (!existsSync(f)) throw new Error(`no screenshot src/shots/${rel} — node tools/shots.mjs`);
+  // a screenshot taken again is a new address (?v=), so no browser keeps the old one
+  if (!SHOT_V.has(rel)) SHOT_V.set(rel, createHash('sha256').update(readFileSync(f)).digest('hex').slice(0, 10));
+  SHOT_USED.add(rel);
+  return `${href(file, `assets/shots/${rel}`)}?v=${SHOT_V.get(rel)}`;
+}
+function shot(kind, lang, file, name) {
+  const [w, h] = SHOT_SIZE[kind];
+  const img = (theme, cls = '') => `<img class="shot${cls}" src="${shotSrc(lang, file, name, theme)}" alt="" width="${w}" height="${h}" loading="lazy" decoding="async">`;
+  return dev(kind, SHOT_ONE[name] ? img(SHOT_ONE[name]) : img('light', ' shot-l') + img('dark', ' shot-d'));
+}
 
-// the waiter's iPhone (ui/iphone.jsx): table 7's order — course 1 sent, course 2 held until «Pozovi» —, and the guests'
-// bill with the IPS QR on the second iPhone, paid
-function phoneOrder(lang, x) {
-  const A = APP[lang];
-  const o = x.order;
-  const total = [...o.lines, ...o.later].reduce((sum, l) => sum + l[2], 0);
-  const line = ([name, q, price], later = false) => `<div class="pl${later ? ' later' : ''}"><span class="pl-q">${q}×</span><span class="pl-n">${esc(name)}</span><span class="pl-p">${money(price)}</span>${later ? '' : `<span class="pl-st">${esc(A.order.sent)}</span>`}</div>`;
-  return `${sbPhone(lang)}<div class="ph">
-<div class="ph-head"><span class="ph-back">${IC('caret-left')}</span><span class="ph-t"><b>${esc(o.table)}</b><small>${esc(o.meta)}</small></span><span class="ph-ic">${IC('star')}${IC('tag')}</span></div>
-<div class="ph-body">${o.lines.map((l) => line(l)).join('')}<div class="ph-course"><span>${esc(o.course)}</span><span class="ph-fire">${IC('bell')}${esc(A.order.fire)}</span></div>${o.later.map((l) => line(l, true)).join('')}
-<div class="ph-total"><span>${esc(x.bill.total)}</span><b>${money(total)}<small>RSD</small></b></div></div>
-<div class="ph-acts"><span class="pb">${IC('receipt')}${esc(o.bill)}</span><span class="pb go">${IC('plus')}${esc(A.phone.add)}</span></div>
-${HOME_BAR}</div>`;
-}
-function phoneBill(lang, x) {
-  const o = x.order;
-  const b = x.bill;
-  const total = [...o.lines, ...o.later].reduce((sum, l) => sum + l[2], 0);
-  return `${sbPhone(lang)}<div class="ph ph--bill">
-<div class="ph-head c"><span class="ph-t"><b>${esc(b.title)}</b><small>${esc(b.table)}</small></span></div>
-<div class="ph-bill"><span class="ph-sum">${money(total)}<small>RSD</small></span>${qrSvg()}<span class="ph-cap">${esc(b.qr)}</span><span class="ph-paid">${IC('check')}${esc(b.paid)}</span></div>
-${HOME_BAR}</div>`;
-}
+// the drawn screens of the first screen (heroLive, heroArt): the front terminal's floor, delivery, the kiosk
 
 // the front terminal's floor at dinner, as the demo shows it: tables by state around the bar; at the side the delivery
 // that is coming, the dishes ready to serve and the shift
@@ -587,27 +583,6 @@ function floorScreen(lang, x) {
 <div class="fc"><p class="fc-h">${IC('clock')}${esc(f.shift)}</p><div class="fl-stats"><div><b>${f.open}</b><small>${esc(f.openLabel)}</small></div><div><b>${money(f.revenue)}</b><small>${esc(f.revLabel)}</small></div></div></div>
 </div>
 </div>`;
-}
-
-// the kitchen screen (ui/kds.jsx), dark: the stations, what is in work summed by dish, the tickets — on time, getting
-// long, late after the call —, what was done a moment ago
-function kitchenScreen(lang, x) {
-  const A = APP[lang];
-  const k = x.kds;
-  const n = k.tickets.length;
-  const sum = new Map();
-  for (const t of k.tickets) for (const [q, name] of t.lines) sum.set(name, (sum.get(name) || 0) + q);
-  const ticket = (t) => `<div class="tk ${t.tone}"><div class="tk-head"><b>${esc(t.src)}</b><span class="tk-time">${t.time}</span></div>
-<div class="tk-lines">${t.lines.map(([q, name]) => `<div class="tk-l"><span class="tk-q">${q}</span><span class="tk-n">${esc(name)}</span>${IC('fire')}</div>`).join('')}</div>${t.wait ? `<p class="tk-wait">${esc(k.wait)}</p>` : ''}${t.called ? `<p class="tk-called">${IC('bell')}${esc(k.called)}</p>` : ''}
-<div class="tk-foot"><span>${esc(A.kds.no)}${t.no} · ${esc(k.station)}</span><span class="tk-bump">${IC('check')}${esc(A.kds.bump)}</span></div></div>`;
-  return `<div class="kds">${sbPad(lang)}<div class="ab"><span class="ab-brand">RUVO</span><span class="ab-place">${esc(A.place)}</span>
-<span class="seg ab-seg"><span>${esc(A.kds.all)}<i>${n + k.bar}</i></span><span class="on">${esc(k.station)}<i>${n}</i></span><span>${esc(k.other)}<i>${k.bar}</i></span></span>
-<span class="ab-end"><span class="ab-btn">${IC('prohibit')}${esc(A.bar.stop)}</span><span class="ab-btn on">${IC('list-bullets')}${esc(A.kds.overview)}</span><span class="ab-btn">${IC('speaker-high')}${esc(A.kds.sound)}</span><span class="ab-clock">${A.time}</span></span></div>
-<div class="kb">
-<div class="kb-sum"><p class="kb-k">${esc(A.kds.inWork)}</p><p class="kb-q">${esc(A.kds.queue.replace('{n}', n).replace('{m}', k.queueMin))}</p><ul>${[...sum].sort((a, b) => b[1] - a[1]).map(([name, q]) => `<li><b>${q}</b><span>${esc(name)}</span></li>`).join('')}</ul></div>
-<div class="kb-tk">${k.tickets.map(ticket).join('')}</div>
-<div class="kb-done"><p class="kb-k">${esc(A.kds.recent)}</p><p class="kb-norm"><b>${k.norm[0]}%</b>${esc(A.kds.norm.replace('{p}%', '').replace('{m}', k.norm[1]))}</p>${k.recent.map(([src, what]) => `<div class="kr"><span><b>${esc(src)}</b><small>${esc(what)}</small></span><span class="kr-b">${esc(A.kds.recall)}</span></div>`).join('')}</div>
-</div></div>`;
 }
 
 // delivery on the front terminal: what is cooking, what waits for its courier, what has gone — carried over by hand from
@@ -638,176 +613,16 @@ function kioskScreen(lang, k, file, lazy = true) {
 </div>`;
 }
 
-// the bill of table 4 with the guest's card on the front terminal: each dish gets the biggest discount — the level's on
-// food, happy hours' on drinks — and the points are counted on what is paid, as the app counts them (actions.js:
-// floor(paid × earn / 100)); over the menu, what is on now
-function guestsScreen(lang, x) {
-  const A = APP[lang];
-  const g = x.guests;
-  const part = (kind) => g.lines.filter((l) => l[3] === kind).reduce((total, l) => total + l[2], 0);
-  const sub = part('food') + part('drink');
-  const offFood = Math.round((part('food') * g.levelPct) / 100);
-  const offDrink = Math.round((part('drink') * Math.max(g.levelPct, g.promoPct)) / 100);
-  const due = sub - offFood - offDrink;
-  const earned = Math.floor((due * g.earn) / 100);
-  const initials = g.name.split(' ').map((w) => w[0]).join('');
-  const line = ([name, q, price]) => `<div class="ol"><span class="ol-q">${q}×</span><span class="ol-n">${esc(name)}</span><span class="ol-p">${money(price)}</span><span class="ol-st"><span class="st-sent">${esc(A.order.sent)}</span></span></div>`;
-  const promo = `<div class="os-promo">${IC('tag')}<span><b>${esc(g.now)} · ${esc(g.promo)}</b>${esc(g.promoText)}</span></div>`;
-  const counts = Object.fromEntries(g.lines.map(([name, q]) => [name, q]));
-  return `${sbPad(lang)}${frontBar(lang)}<div class="os">
-${menuCols(lang, g.grid, counts, promo)}
-<div class="op op--guest">
-${panelHead(lang, { title: g.table, guests: g.guests, meta: g.meta })}
-<div class="gc"><span class="gc-av">${esc(initials)}</span><span class="gc-t"><b>${esc(g.name)}</b><small>${money(g.points)} ${esc(g.ptsWord)}</small></span><span class="gc-lvl">${esc(g.level)} · −${g.levelPct}%</span></div>
-<div class="op-lines">${g.lines.map(line).join('')}</div>
-<div class="op-foot">
-<div class="gb-sums"><div><span>${esc(g.subtotal)}</span><span>${money(sub)}</span></div><div class="gb-d"><span>${IC('tag')}${esc(g.disc.food)}</span><span>−${money(offFood)}</span></div><div class="gb-d"><span>${IC('tag')}${esc(g.disc.drink)}</span><span>−${money(offDrink)}</span></div></div>
-<div class="op-total"><span>${esc(g.due)}</span><b>${money(due)}<small>RSD</small></b></div>
-<p class="gb-earn"><span>${esc(g.earnLabel)}</span><b>+${earned} ${esc(g.ptsWord)}</b></p>
-<div class="op-acts"><span class="op-pay"><span class="pb">${IC('star')}${esc(g.payPoints)}</span><span class="pb go">${IC('check')}${esc(g.close)}</span></span></div>
-</div>
-</div>
-</div>`;
-}
-
-// The back office (ui/office.jsx): its menu on the left — the open section unfolded, its page marked —, the page
-const OFFICE_NAV = [['today', 'chart-bar'], ['analytics', 'sparkle', ['reports', 'forecast']], ['menu', 'list'], ['storage', 'package', ['stock', 'tech', 'docs', 'sef']], ['loyalty', 'star'], ['team', 'users', ['people', 'shifts', 'log']], ['integr', 'plug'], ['settings', 'sliders-horizontal']];
-function office(lang, pageId, body, tools = '') {
-  const O = APP[lang].office;
-  const nav = OFFICE_NAV.map(([id, icon, kids]) => {
-    const open = kids && kids.includes(pageId);
-    return `<span class="on-i${open ? ' open' : ''}">${IC(icon)}<span>${esc(O.nav[id])}</span>${kids ? IC('caret-down', 'on-c') : ''}</span>${open ? kids.map((c) => `<span class="on-s${c === pageId ? ' on' : ''}">${esc(O.nav[c])}</span>`).join('') : ''}`;
-  }).join('');
-  return `${sbPad(lang)}<div class="of">
-<div class="of-side"><div class="of-brand"><span class="ab-brand">RUVO</span><span>${esc(O.title)}</span><b class="of-av">M</b></div><span class="of-sel">${IC('storefront')}<span>${esc(O.all)}</span>${IC('caret-down')}</span><div class="of-nav">${nav}</div></div>
-<div class="of-main"><div class="of-head"><p class="of-h1">${esc(O.nav[pageId])}${IC('info')}</p>${tools}</div>${body}</div>
-</div>`;
-}
-const select = (text, icon = '') => `<span class="of-btn">${icon ? IC(icon) : ''}${esc(text)}${IC('caret-down')}</span>`;
-
-// the tech card of a dish: what a portion costs and its food cost, counted from its rows; and what runs low
-function stockScreen(lang, x) {
-  const c = x.card;
-  const cost = c.rows.reduce((sum, r) => sum + r[2], 0);
-  const fc = Math.round((cost / c.price) * 100);
-  const body = `<div class="of-cols">
-<div class="of-card tc">
-<div class="tc-head"><span class="of-caps">${esc(c.crumb)}</span><b class="tc-dish">${esc(c.dish)}</b><span class="of-meta">${esc(c.yield)}</span></div>
-<div class="tc-table"><div class="tc-row th">${c.head.map((h) => `<span>${esc(h)}</span>`).join('')}</div>${c.rows.map(([name, q, v]) => `<div class="tc-row"><span>${esc(name)}</span><span>${esc(q)}</span><span>${money(v)}</span></div>`).join('')}</div>
-<div class="tc-sum"><div><span>${esc(c.cost)}</span><b>${moneyRsd(cost)}</b></div><div><span>${esc(c.menu)}</span><b>${moneyRsd(c.price)}</b></div><div class="tc-fc"><span>${esc(c.fc)}</span><b>${fc}%</b><i style="--v:${fc}%"></i></div></div>
-</div>
-<div class="of-card low"><p class="low-head">${IC('warning-circle')}${esc(c.low)}</p>${c.lowRows.map(([name, have, min]) => `<div class="low-row"><span class="low-n">${esc(name)}</span><span class="low-have">${esc(have)}</span><span class="low-min">${esc(c.min)} ${esc(min)}</span></div>`).join('')}</div>
-</div>`;
-  return office(lang, 'tech', body, select(APP[lang].place, 'storefront'));
-}
-
-// a question in plain words → the week by day against the week before, and «Objasni»; the total and the change counted here
-function reportsScreen(lang, x) {
-  const r = x.report;
-  const sum = (a) => a.reduce((s, v) => s + v, 0);
-  const now = sum(r.now);
-  const before = sum(r.before);
-  const pct = fmt(lang, (now / before - 1) * 100, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
-  const total = r.total.replace('{n}', fmt(lang, now / 1e6, { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
-  const max = Math.max(...r.now, ...r.before);
-  const h = (v) => `${((v / max) * 100).toFixed(1)}%`;
-  const body = `<div class="ask">${IC('sparkle')}<span>${esc(r.ask)}</span></div>
-<div class="of-card rep">
-<div class="rep-head"><div><span class="of-caps">${esc(r.title)} · ${esc(r.period)}</span><span class="rep-total">${esc(total)}</span></div><span class="rep-delta">▲ ${esc(pct)}<small>${esc(r.cmp)}</small></span></div>
-<div class="bars">${r.days.map((d, i) => `<div class="bar"><span class="bar-plot"><span class="bar-c" style="--h:${h(r.now[i])}"></span><span class="bar-p" style="--h:${h(r.before[i])}"></span></span><span class="bar-d">${esc(d)}</span></div>`).join('')}</div>
-</div>
-<div class="ans"><span class="ans-k">${IC('sparkle')}${esc(r.explain)}</span><p>${esc(r.answer.replace('{pct}', pct))}</p></div>`;
-  return office(lang, 'reports', body, select(r.period, 'calendar-blank'));
-}
-
-// an incoming e-invoice from SEF: the supplier's lines matched to our products, the answer due, one button to receive
-function sefScreen(lang, x) {
-  const s = x.sef;
-  const body = `<div class="of-card sef">
-<div class="sef-inv"><div><b class="sef-sup">${esc(s.supplier)}</b><span class="of-meta">${esc(s.meta)}</span></div><span class="sef-due">${esc(s.due)}</span></div>
-<div class="sef-rows"><div class="sef-row th"><span>${esc(s.head[0])}</span><span></span><span>${esc(s.head[1])}</span></div>${s.rows.map(([item, q, product, factor]) => `<div class="sef-row"><span class="sef-item">${esc(item)}<small>${esc(q)}</small></span><span class="sef-arrow">${IC('arrow-right')}</span><span class="sef-prod">${esc(product)}<small>${esc(factor)} · ${esc(s.remembered)}</small></span></div>`).join('')}</div>
-<div class="sef-btns"><span class="pb">${IC('x')}${esc(s.reject)}</span><span class="pb go">${IC('check')}${esc(s.accept)}</span></div>
-</div>`;
-  return office(lang, 'sef', body, `<span class="seg of-seg">${s.tabs.map((tab, i) => `<span${i ? '' : ' class="on"'}>${esc(tab)}</span>`).join('')}</span>`);
-}
-
-// the team: who is on shift now (the last came a moment ago), and a waiter's week counted as the app counts pay —
-// hours × the hourly rate + a share of the sales
-function teamScreen(lang, x) {
-  const t = x.team;
-  const pay = t.pay;
-  const share = Math.round((pay.sales * pay.pct) / 100);
-  const total = pay.hours * pay.rate + share;
-  const pct = fmt(lang, pay.pct, { minimumFractionDigits: 1 });
-  const row = ([name, role, since], i) => `<div class="tm-row${i === t.people.length - 1 ? ' tm-new' : ''}"><span class="tm-av">${esc(name[0])}</span><span class="tm-n"><b>${esc(name)}</b><small>${esc(t.roles[role])}</small></span><span class="tm-since"><i></i>${esc(t.since)} ${esc(since)}</span></div>`;
-  const body = `<div class="of-cols">
-<div class="of-card tm"><div class="tm-head"><b>${esc(t.title)}</b><span class="of-meta">${esc(t.count)}</span></div><div class="tm-rows">${t.people.map(row).join('')}</div></div>
-<div class="of-card pay"><span class="of-caps">${esc(t.payTitle)}</span>
-<div class="pay-who"><span class="tm-av">${esc(pay.name[0])}</span><b>${esc(pay.name)}</b><small>${esc(t.roles.waiter)}</small></div>
-<div class="pay-rows"><div><span>${esc(t.hours)}</span><span>${pay.hours} h</span></div><div><span>${esc(t.rate)}</span><span>${moneyRsd(pay.rate)}</span></div><div><span>${esc(t.share.replace('{pct}', pct))}<small>${moneyRsd(pay.sales)}</small></span><span>${moneyRsd(share)}</span></div></div>
-<div class="pay-total"><span>${esc(t.total)}</span><b>${moneyRsd(total)}</b></div>
-</div>
-</div>`;
-  return office(lang, 'shifts', body, select(APP[lang].place, 'storefront'));
-}
-
-// «Prognoza» on the back office (ui/office-forecast.jsx): the day's tiles; what the owner knows about the day, in words,
-// and the change it made; the bills by the hour — the hall below, delivery above, the usual day dashed where the event
-// changes it; the people by the hour. Counted here from FORECAST_DAY as the app counts (forecast.js: forecastDay,
-// staffByHour). Once in sight the screen plays its moment: the words are typed, «Учесть» is pressed, the change appears,
-// the evening grows, and the numbers it moves change (.fc-was → .fc-now)
-function forecastScreen(lang, sc) {
-  const F = FORECAST_DAY;
-  const hours = F.hall.map((_, i) => F.from + i);
-  const ev = (h) => h >= F.event.from && h < F.event.to;
-  const hall = F.hall.map((v, i) => (ev(hours[i]) ? v * F.event.k : v));
-  const sum = (a) => a.reduce((s, v) => s + v, 0);
-  const checks = sum(hall) + sum(F.deliv);
-  const before = sum(F.hall) + sum(F.deliv);
-  const r = Math.round;
-  const range = (v, step = 1) => `${money(r((v * (1 - F.err)) / step) * step)}–${money(r((v * (1 + F.err)) / step) * step)}`;
-  const pct = (v) => `${r(v * 100)}%`;
-  const staff = (h, d) => ({ w: Math.max(1, Math.ceil(h / F.waiter - 0.05)), c: Math.max(1, Math.ceil(((h + d) * F.kitchen) / F.cook - 0.05)) });
-  const now = hall.map((h, i) => staff(h, F.deliv[i]));
-  const was = F.hall.map((h, i) => staff(h, F.deliv[i]));
-  const swap = (a, b) => (a === b ? `${a}` : `<span class="fc-sw"><span class="fc-was" aria-hidden="true">${a}</span><span class="fc-now">${b}</span></span>`);
-  const pc = (v) => `${((v / 20) * 100).toFixed(2)}%`;
-  // the tiles before the owner's words and after them (the accuracy stays)
-  const tile = (n, hallN) => [
-    [r(n), `${range(n)} · ${sc.hallW} ${r(hallN)}, ${sc.delivW} ${r(sum(F.deliv))}`],
-    [money(r((n * F.check) / 100) * 100), range(n * F.check, 1000)],
-    [r(n * (F.kitchen + F.bar)), `${sc.kitchenW} ${r(n * F.kitchen)} · ${sc.barW} ${r(n * F.bar)}`],
-  ];
-  const t0 = tile(before, sum(F.hall));
-  const t1 = tile(checks, sum(hall));
-  const tiles = [0, 1, 2].map((i) => [sc.tiles[i], swap(t0[i][0], t1[i][0]), swap(esc(t0[i][1]), esc(t1[i][1]))])
-    .concat([[sc.tiles[3], `±${pct(F.err)}`, esc(`${sc.errW}: ${pct(F.wape)}`)]]);
-  const bars = hours.map((h, i) => {
-    const e = ev(h);
-    return `<span class="fcb"><span class="fcb-s">${F.deliv[i] ? `<i class="fcb-d" style="--h:${pc(F.deliv[i])}"></i>` : ''}${e ? `<i class="fcb-x" style="--h:${pc(hall[i] - F.hall[i])}"></i>` : ''}<i class="fcb-h" style="--h:${pc(F.hall[i])}"></i></span>${e ? `<i class="fcb-base" style="--b:${pc(F.hall[i] + F.deliv[i])}"></i>` : ''}</span>`;
-  }).join('');
-  const row = (label, key) => `<b>${esc(label)}</b>${now.map((x, i) => `<span${x[key] > 1 ? ' class="hi"' : ''}>${swap(was[i][key], x[key])}</span>`).join('')}`;
-  const body = `<p class="of-meta fc-sub">${esc(sc.sub)}</p>
-<div class="fc-tiles">${tiles.map(([label, v, sub]) => `<div class="of-card fct"><span class="of-caps">${esc(label)}</span><b class="fct-v">${v}</b><span class="of-meta">${sub}</span></div>`).join('')}</div>
-<div class="of-card fc-ev"><p class="fc-h">${esc(sc.events)}${IC('info')}</p>
-<div class="fc-ask"><span class="fc-field"><span class="fc-typed">${esc(sc.typed)}</span></span><span class="pb go fc-apply">${IC('sparkle')}${esc(sc.apply)}</span></div>
-<p class="fc-adj">${IC('caret-up')}<span><b>${esc(sc.adj[0])}</b> · ${esc(sc.adj[1])}</span>${IC('x')}</p></div>
-<div class="of-card fc-ch"><div class="fc-ch-head"><p class="fc-h">${esc(sc.hours)}${IC('info')}</p><span class="fc-leg"><i class="s1"></i>${esc(sc.hall)}<i class="s2"></i>${esc(sc.deliv)}<i class="sb"></i>${esc(sc.base)}</span></div>
-<div class="fc-plot"><span class="fc-ax">${[20, 15, 10, 5, 0].map((v) => `<i style="--y:${v * 5}%">${v}</i>`).join('')}</span><span class="fc-area">${bars}</span><span></span><span class="fc-hrs">${hours.map((h) => `<i>${h}</i>`).join('')}</span></div></div>
-<div class="of-card fc-pp"><p class="fc-h">${esc(sc.people)}${IC('info')}</p>
-<div class="fc-pt"><span class="th">${esc(sc.hourCol)}</span>${hours.map((h) => `<span class="th">${h}</span>`).join('')}${row(sc.rows[0], 'w')}${row(sc.rows[1], 'c')}</div></div>`;
-  return office(lang, 'forecast', body, `<span class="of-tools">${select(sc.day, 'calendar-blank')}${select(APP[lang].place, 'storefront')}</span>`);
-}
-
 // «Prognoza» (14 October, the owner: «уделил бы внимание прогнозированию — хорошую фичу придумали»): its own section after
-// the screens — the day ahead on the iPad, playing its moment once in sight; the four things it does; how far to trust it
+// the screens — tomorrow on the iPad, with the evening's match taken into account; the four things it does; how far to
+// trust it
 const FC_ICON = ['chart-bar', 'sparkle', 'users', 'target'];
-function forecastSec(lang) {
+function forecastSec(lang, file) {
   const f = T[lang].home.forecast;
   return `<section class="band" id="forecast" aria-labelledby="forecast-h"><div class="wrap">
 <div class="sec-head"><p class="eyebrow">${IC('chart-line-up')}${esc(f.eyebrow)}</p><h2 id="forecast-h">${txt(f.title)}</h2><p>${txt(f.lead)}</p></div>
-<div class="fc" data-live>
-<div class="fc-shot" role="img" aria-label="${esc(f.label)}">${dev('pad', forecastScreen(lang, f.screen))}</div>
+<div class="fc">
+<div class="fc-shot" role="img" aria-label="${esc(f.label)}">${shot('pad', lang, file, 'forecast')}</div>
 <ul class="fc-list">${f.items.map(([title, text], i) => `
 <li>${IC(FC_ICON[i], 'fc-i')}<h3>${txt(title)}</h3><p>${txt(text)}</p></li>`).join('')}
 </ul>
@@ -818,16 +633,16 @@ function forecastSec(lang) {
 
 // each tab's picture: the device (or two) and, for the kiosk, the number the guest says at the till beside it
 const SHOTS = {
-  floor: (lang, x) => dev('pad', floorScreen(lang, x)),
-  waiter: (lang, x) => `<div class="pair">${dev('phone', phoneOrder(lang, x))}${dev('phone', phoneBill(lang, x))}</div>`,
-  kitchen: (lang, x) => dev('pad', kitchenScreen(lang, x)),
-  delivery: (lang, x) => dev('pad', deliveryScreen(lang, x)),
-  kiosk: (lang, x, file) => `<div class="pair">${dev('port', kioskScreen(lang, x.kiosk, file))}<div class="nc kio-no"><p class="nc-h">${IC('hand-tap')}<span>${esc(x.kiosk.yourNo)}</span></p><span class="kio-num">${x.kiosk.no}</span><p class="nc-note">${esc(x.kiosk.payAt)}</p></div></div>`,
-  guests: (lang, x) => dev('pad', guestsScreen(lang, x)),
-  stock: (lang, x) => dev('pad', stockScreen(lang, x)),
-  reports: (lang, x) => dev('pad', reportsScreen(lang, x)),
-  sef: (lang, x) => dev('pad', sefScreen(lang, x)),
-  team: (lang, x) => dev('pad', teamScreen(lang, x)),
+  floor: (lang, x, file) => shot('pad', lang, file, 'floor'),
+  waiter: (lang, x, file) => `<div class="pair">${shot('phone', lang, file, 'waiter-tables')}${shot('phone', lang, file, 'waiter-bill')}</div>`,
+  kitchen: (lang, x, file) => shot('pad', lang, file, 'kitchen'),
+  delivery: (lang, x, file) => shot('pad', lang, file, 'delivery'),
+  kiosk: (lang, x, file) => `<div class="pair">${shot('port', lang, file, 'kiosk')}<div class="nc kio-no"><p class="nc-h">${IC('hand-tap')}<span>${esc(x.kiosk.yourNo)}</span></p><span class="kio-num">${x.kiosk.no}</span><p class="nc-note">${esc(x.kiosk.payAt)}</p></div></div>`,
+  guests: (lang, x, file) => shot('pad', lang, file, 'guests'),
+  stock: (lang, x, file) => shot('pad', lang, file, 'tech'),
+  reports: (lang, x, file) => shot('pad', lang, file, 'reports'),
+  sef: (lang, x, file) => shot('pad', lang, file, 'sef'),
+  team: (lang, x, file) => shot('pad', lang, file, 'pay'),
 };
 const SHOT_KIND = { waiter: 'phones', kiosk: 'port' };
 
@@ -855,8 +670,8 @@ function photo(lang, file, id, caption = '') {
 // Everything a venue needs — one section (14 October: the card grid and «Kako izgleda u radu» told the same twice): the
 // app's screens on their devices, one per tab; under each its words; under them the connections and the way into the
 // demo. Without JavaScript the screens stand one under another; the script turns them into tabs (one shown, the rest kept
-// in the same grid cell, so switching does not move the page), and a shown screen plays a moment of its work once it is
-// in sight. A kind of venue shows its own tabs in its own order (VENUE_SETUP.tabs), under its own title.
+// in the same grid cell, so switching does not move the page). The screens are the app's screenshots (since 2 November).
+// A kind of venue shows its own tabs in its own order (VENUE_SETUP.tabs), under its own title.
 function features(lang, file, v = null, tabs = null) {
   const x = T[lang].home.examples;
   const h = T[lang].home;
@@ -865,7 +680,7 @@ function features(lang, file, v = null, tabs = null) {
   const items = tabs ? tabs.map((id) => x.items.find((it) => it.id === id)) : x.items;
   return `<section class="band alt" id="features" aria-labelledby="features-h"><span class="anchor" id="examples"></span><div class="wrap">
 <div class="sec-head"><h2 id="features-h">${esc(v ? v.featuresTitle : x.title)}</h2><p>${txt(v ? v.featuresLead : x.lead)}</p></div>
-<div class="ex" data-tabs data-live>
+<div class="ex" data-tabs>
 <div class="ex-tabs-wrap"><div class="ex-tabs" aria-label="${esc(x.tabsLabel)}" hidden>${items.map((it, i) => `<button type="button" id="ex-t-${it.id}" aria-controls="ex-p-${it.id}" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ''}>${esc(it.tab)}</button>`).join('')}</div></div>
 <div class="ex-panels">${items.map((it) => `
 <div class="ex-panel" id="ex-p-${it.id}">
@@ -1225,7 +1040,7 @@ function landing(lang, key) {
 ${heroArt(lang, file, key)}
 </div></section>
 ${features(lang, file, v, setup && setup.tabs)}
-${forecastSec(lang)}
+${forecastSec(lang, file)}
 ${rush(lang, setup && setup.rush)}
 ${why(lang, file)}
 ${pricing(lang, file, bills)}
@@ -2138,6 +1953,8 @@ put('assets/favicon.svg', FAVICON);
 // the kiosk example's dishes: the app's own drawings (taken from its kiosk), one file each
 for (const f of Object.values(DISH_FILE)) put(`assets/dishes/${f}`, readFileSync(path.join(ROOT, 'src/dishes', f)));
 for (const f of Object.values(PHOTO_FILES).filter(Boolean)) put(`img/${f}`, readFileSync(path.join(PHOTO_DIR, f)));
+// the app's screenshots the pages show
+for (const rel of [...SHOT_USED].sort()) put(`assets/shots/${rel}`, readFileSync(path.join(SHOT_DIR, rel)));
 put(DEMO.sr, demoPage('sr'));
 put(DEMO.en, demoPage('en'));
 put(DEMO.ru, demoPage('ru'));
