@@ -43,19 +43,19 @@ export const LANGS = ['sr', 'en', 'ru'];
 export const APP = {
   sr: {
     time: '21:41', date: 'Sre 14. okt', place: 'Dorćol', search: 'Pretraga',
-    bar: { hall: 'Sala', delivery: 'Dostava', checks: 'Zatvoreni', shift: 'Smena', stop: 'Stop lista' },
+    bar: { hall: 'Sala', delivery: 'Dostava', checks: 'Zatvoreni', profile: 'Profil' },
     order: { back: 'Sala', course: 'Sled', waits: 'čeka poziv', fire: 'Pozovi', draft: 'Nova', sent: 'Poslato', total: 'Ukupno', sendTo: 'Pošalji na pripremu', prebill: 'Račun', pay: 'Zatvori sto', more: ['Gost', 'Popust', 'Premesti'] },
     kds: { bump: 'Gotovo', no: '№' },
   },
   en: {
     time: '21:41', date: 'Wed 14 Oct', place: 'Dorćol', search: 'Search',
-    bar: { hall: 'Floor', delivery: 'Delivery', checks: 'Closed', shift: 'Shift', stop: 'Stop list' },
+    bar: { hall: 'Floor', delivery: 'Delivery', checks: 'Closed', profile: 'Profile' },
     order: { back: 'Floor', course: 'Course', waits: 'waits for the call', fire: 'Fire', draft: 'New', sent: 'Sent', total: 'Total', sendTo: 'Send to the kitchen', prebill: 'Bill', pay: 'Close table', more: ['Guest', 'Discount', 'Move'] },
     kds: { bump: 'Done', no: 'No. ' },
   },
   ru: {
     time: '21:41', date: 'Ср 14 окт.', place: 'Дорчол', search: 'Поиск',
-    bar: { hall: 'Зал', delivery: 'Доставка', checks: 'Закрытые', shift: 'Смена', stop: 'Стоп-лист' },
+    bar: { hall: 'Зал', delivery: 'Доставка', checks: 'Закрытые', profile: 'Профиль' },
     order: { back: 'Зал', course: 'Курс', waits: 'ждёт вызова', fire: 'Вызвать', draft: 'Новая', sent: 'Отправлено', total: 'Итого', sendTo: 'Отправить в цех', prebill: 'Счёт', pay: 'Закрыть стол', more: ['Гость', 'Скидка', 'Пересадить'] },
     kds: { bump: 'Готово', no: '№' },
   },
@@ -229,7 +229,7 @@ const EXAMPLES = {
         text: 'Cela sala na jednom ekranu: koji su stolovi zauzeti i koliko dugo, gde je jelo spremno za serviranje i gde gosti čekaju račun. Sa strane — porudžbine sa kioska i iz aplikacije, spremna jela i promet dana.',
         points: ['Sala i bašta — svaka na svom planu', 'Spremno za serviranje — odmah, sa brojem stola', 'Gosti prelaze za drugi sto bez nove porudžbine'],
         label: 'Primer: plan sale na terminalu — slobodni i zauzeti stolovi, sto sa spremnim jelima i sto koji čeka račun',
-        floor: { ...FLOOR, halls: [['Sala', 4], ['Bašta', 1]], legend: ['Slobodan', 'Otvoren', 'Spremno', 'Račun'], seats: { 2: '2 mesta', 4: '4 mesta', 8: '8 mesta' }, readyTag: 'Spremno', billTag: 'Račun', bar: 'Šank', delivery: 'Dostava', dl: ['W-7F3A', 'Spremno 0/2 · Kurir 21:52'], readyTitle: 'Spremno za serviranje', readyText: '2× Ćevapi, 10 kom, 1× Šopska salata', served: 'Servirano', shift: 'Smena', openLabel: 'Otvorenih stolova', revLabel: 'Promet danas, RSD' },
+        floor: { ...FLOOR, halls: [['Sala', 4], ['Bašta', 1]], seats: { 2: '2 mesta', 4: '4 mesta', 8: '8 mesta' }, billTag: 'Račun', bar: 'Šank', kiosk: ['Kiosk', 'čeka plaćanje'], app: ['Aplikacija', 'spremaju se'], readyTitle: 'Spremno za serviranje', readySub: 'sto 05', served: 'Servirano', cash: ['Smena na kasi', 'od 14:45'], openLabel: 'Otvorenih stolova', revLabel: 'Promet danas' },
       },
       {
         id: 'waiter', tab: 'Konobar', title: 'Konobar za stolom',
@@ -304,7 +304,7 @@ const EXAMPLES = {
         text: 'The whole floor on one screen: which tables are taken and for how long, where a dish is ready to serve and where guests wait for the bill. At the side — orders from the kiosk and the app, dishes ready and the day’s sales.',
         points: ['The dining room and the terrace — each on its own plan', 'Ready to serve — at once, with the table number', 'Guests move to another table without a new order'],
         label: 'Example: the floor plan on the front terminal — free and taken tables, a table with dishes ready and a table waiting for the bill',
-        floor: { ...FLOOR, halls: [['Dining room', 4], ['Terrace', 1]], legend: ['Free', 'Open', 'Ready', 'Bill'], seats: { 2: '2 seats', 4: '4 seats', 8: '8 seats' }, readyTag: 'Ready', billTag: 'Bill', bar: 'Bar', delivery: 'Delivery', dl: ['W-7F3A', 'Ready 0/2 · Courier 21:52'], readyTitle: 'Ready to serve', readyText: '2× Ćevapi, 10 pcs, 1× Shopska salad', served: 'Served', shift: 'Shift', openLabel: 'Open tables', revLabel: 'Sales today, RSD' },
+        floor: { ...FLOOR, halls: [['Dining room', 4], ['Terrace', 1]], seats: { 2: '2 seats', 4: '4 seats', 8: '8 seats' }, billTag: 'Bill', bar: 'Bar', kiosk: ['Kiosk', 'to pay'], app: ['App', 'cooking'], readyTitle: 'Ready to serve', readySub: 'table 05', served: 'Served', cash: ['Cash shift', 'since 14:45'], openLabel: 'Open tables', revLabel: 'Sales today' },
       },
       {
         id: 'waiter', tab: 'Waiter', title: 'The waiter at the table',
@@ -379,7 +379,7 @@ const EXAMPLES = {
         text: 'Весь зал на одном экране: какие столы заняты и как давно, где блюдо готово к подаче и где гости ждут счёт. Сбоку — заказы из киоска и приложения, готовые блюда и выручка дня.',
         points: ['Зал и терраса — каждый на своём плане', 'Готово к подаче — сразу, с номером стола', 'Гостей пересаживают за другой стол без нового заказа'],
         label: 'Пример: план зала на фронте — свободные и занятые столы, стол с готовыми блюдами и стол, который ждёт счёт',
-        floor: { ...FLOOR, halls: [['Зал', 4], ['Терраса', 1]], legend: ['Свободен', 'Открыт', 'Готово', 'Счёт'], seats: { 2: '2 места', 4: '4 места', 8: '8 мест' }, readyTag: 'Готово', billTag: 'Счёт', bar: 'Бар', delivery: 'Доставка', dl: ['W-7F3A', 'Готово 0/2 · Курьер 21:52'], readyTitle: 'Готово к подаче', readyText: '2× Чевапи, 10 шт, 1× Шопский салат', served: 'Подано', shift: 'Смена', openLabel: 'Открыто столов', revLabel: 'Выручка сегодня, RSD' },
+        floor: { ...FLOOR, halls: [['Зал', 4], ['Терраса', 1]], seats: { 2: '2 места', 4: '4 места', 8: '8 мест' }, billTag: 'Счёт', bar: 'Бар', kiosk: ['Киоск', 'ждёт оплаты'], app: ['Приложение', 'готовятся'], readyTitle: 'Готово к подаче', readySub: 'стол 05', served: 'Подано', cash: ['Кассовая смена', 'с 14:45'], openLabel: 'Открыто столов', revLabel: 'Выручка сегодня' },
       },
       {
         id: 'waiter', tab: 'Официант', title: 'Официант у стола',
@@ -636,8 +636,8 @@ const MORE = {
       title: 'Sitnice koje spasavaju smenu',
       lead: 'Ono što se dešava usred gužve, rešeno u samom sistemu.',
       items: [
-        ['bell', 'Sledovi i „Pozovi”', 'Drugi sled čeka u kuhinji dok ga konobar ne pozove — tada tiket zazvoni i trepće.', { course: 'Sled 2 · čeka poziv', dish: 'Palačinke sa čokoladom', qty: 2, btn: 'Pozovi' }],
-        ['stop', 'Stop-lista sa porcijama', 'Jelo samo prelazi u stop kad se porcije potroše; više od ostatka ne može da se poruči.', { rows: [['Ćevapi, 10 kom', 'ostalo 3'], ['Rib-aj stek, 300 g', 'Nema']] }],
+        ['bell', 'Sledovi i „Pozovi”', 'Drugi sled čeka u kuhinji dok ga konobar ne pozove — tada tiket zazvoni i trepće.', { course: 'Sled 2 · čeka poziv', dish: 'Palačinke sa čokoladom', qty: 2, sum: 1040, btn: 'Pozovi' }],
+        ['stop', 'Stop-lista sa porcijama', 'Jelo samo prelazi u stop kad se porcije potroše; više od ostatka ne može da se poruči.', { rows: [['Ćevapi, 10 kom', 'ostalo 3', 1290], ['Rib-aj stek, 300 g', 'Nema', 3690]] }],
         ['split', 'Deljenje računa', 'Plaćanje po stavkama ili u delovima, svaki deo svojim načinom plaćanja.', { seg: ['Ceo račun', 'Po stavkama'], parts: [['Deo 1 · kartica', 1290], ['Deo 2 · gotovina', 940]] }],
         ['cash', 'Kusur bez greške', 'Unesete koliko je gost dao, a RUVO krupno pokaže kusur.', { due: 'Za naplatu', got: 'Primljeno', change: 'Kusur', sum: 3730, paid: 5000 }],
         ['lock', 'Otkazivanje uz PIN', 'Poslato jelo otkazuje samo onaj ko ima pravo, uz razlog; ako je kuhinja počela, namirnice idu u otpis.', { title: 'Potvrdite svojim PIN-om', reason: 'Gost se predomislio' }],
@@ -678,8 +678,8 @@ const MORE = {
       title: 'Small things that save a shift',
       lead: 'What happens mid-rush, handled in the system itself.',
       items: [
-        ['bell', 'Courses and “Fire”', 'The second course waits in the kitchen until the waiter fires it — then the ticket rings and flashes.', { course: 'Course 2 · waits for the call', dish: 'Pancakes with chocolate', qty: 2, btn: 'Fire' }],
-        ['stop', 'Stop list with portions', 'A dish goes on stop by itself when its portions run out; nobody can order more than is left.', { rows: [['Ćevapi, 10 pcs', '3 left'], ['Rib-eye steak, 300 g', 'Out']] }],
+        ['bell', 'Courses and “Fire”', 'The second course waits in the kitchen until the waiter fires it — then the ticket rings and flashes.', { course: 'Course 2 · waits for the call', dish: 'Pancakes with chocolate', qty: 2, sum: 1040, btn: 'Fire' }],
+        ['stop', 'Stop list with portions', 'A dish goes on stop by itself when its portions run out; nobody can order more than is left.', { rows: [['Ćevapi, 10 pcs', '3 left', 1290], ['Rib-eye steak, 300 g', 'Out', 3690]] }],
         ['split', 'Split bills', 'Pay by items or in parts, each part with its own payment method.', { seg: ['Whole bill', 'By items'], parts: [['Part 1 · card', 1290], ['Part 2 · cash', 940]] }],
         ['cash', 'Change without mistakes', 'Type what the guest handed over, and RUVO shows the change in big digits.', { due: 'To pay', got: 'Received', change: 'Change', sum: 3730, paid: 5000 }],
         ['lock', 'Cancelling with a PIN', 'A sent dish is cancelled only by someone allowed to, with a reason; if the kitchen had started, the ingredients go to waste.', { title: 'Confirm with your PIN', reason: 'Guest changed their mind' }],
@@ -720,8 +720,8 @@ const MORE = {
       title: 'Мелочи, которые спасают смену',
       lead: 'То, что случается в разгар смены, решено в самой системе.',
       items: [
-        ['bell', 'Курсы и «Вызвать»', 'Второй курс ждёт на кухне, пока официант его не вызовет, — тогда тикет звенит и мигает.', { course: 'Курс 2 · ждёт вызова', dish: 'Палачинки с шоколадом', qty: 2, btn: 'Вызвать' }],
-        ['stop', 'Стоп-лист с порциями', 'Блюдо само уходит в стоп, когда порции закончились; больше остатка не заказать.', { rows: [['Чевапи, 10 шт', 'осталось 3'], ['Стейк рибай, 300 г', 'Стоп']] }],
+        ['bell', 'Курсы и «Вызвать»', 'Второй курс ждёт на кухне, пока официант его не вызовет, — тогда тикет звенит и мигает.', { course: 'Курс 2 · ждёт вызова', dish: 'Палачинки с шоколадом', qty: 2, sum: 1040, btn: 'Вызвать' }],
+        ['stop', 'Стоп-лист с порциями', 'Блюдо само уходит в стоп, когда порции закончились; больше остатка не заказать.', { rows: [['Чевапи, 10 шт', 'осталось 3', 1290], ['Стейк рибай, 300 г', 'Стоп', 3690]] }],
         ['split', 'Деление счёта', 'Оплата по позициям или частями, у каждой части свой способ оплаты.', { seg: ['Весь счёт', 'По позициям'], parts: [['Часть 1 · карта', 1290], ['Часть 2 · наличные', 940]] }],
         ['cash', 'Сдача без ошибок', 'Вводите, сколько дал гость, а RUVO крупно показывает сдачу.', { due: 'К оплате', got: 'Получено', change: 'Сдача', sum: 3730, paid: 5000 }],
         ['lock', 'Отмена по PIN', 'Отправленное блюдо отменяет только тот, у кого есть право, с причиной; если кухня начала готовить, продукты уходят в списание.', { title: 'Подтвердите своим PIN', reason: 'Гость передумал' }],

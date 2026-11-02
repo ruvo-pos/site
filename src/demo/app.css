@@ -3828,6 +3828,281 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
   .ko-form { margin-left: 0; }
 }
 
+/* ---------- the kiosk in the front's look (2 November) ----------
+   The owner, 2 November, 10:27: «дорисуем киоск до нашего нового визуала. То есть уберем пустые места и закругленные
+   углы». As the iPad's front and the kitchen screen (88-ipad-look.css, 60-kds.css): straight edges — the cards, the
+   pictures, the sheets without a radius; only keys are pills and marks round. No empty places: the dishes are the brand
+   grid's tiles from edge to edge with a line between them, the rows even and full (ui/even-grid.jsx), no gaps, no
+   margins at the sides. The header as tall as a key on the screen's shade, its pills at the right; the menu's folders a
+   strip of keys under it, as the iPad's categories; a folder's name a row of the shade. Three styles of letters —
+   22 semibold (a title, a total), 16 semibold (a dish, a key), 14 regular (the rest) — and the figures of an instrument
+   for prices and numbers; no capitals. Always light, as before (55-kiosk.css). The guest app keeps its own look
+   (57-guest.css): everything here is under .app.kiosk. */
+.app.kiosk { --key-h: 64px; --ks-row: 64px; --ks-img: 200px; --pill: #FFFFFF; --pill-press: #DCE0E8; --zl: var(--line-2); }
+/* the header's shade reaches under the status bar, as on the iPad and the kitchen screen (10-base.css) */
+.app.kiosk { padding-top: 0; }
+
+/* ---------- the header ---------- */
+.app.kiosk .ks-head {
+  position: relative; z-index: 2; min-height: calc(var(--key-h) + env(safe-area-inset-top, 0px)); padding: env(safe-area-inset-top, 0px) var(--sp-5) 0;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--bg), var(--accent) 4%), color-mix(in oklab, var(--bg), var(--surface) 35%));
+  box-shadow: 0 1px 0 0 var(--zl);
+}
+.app.kiosk .ks-head .brand-loc { font-size: var(--fs-xl); font-weight: var(--fw-semibold); line-height: 28px; }
+.app.kiosk .ks-lang { gap: var(--sp-1); padding: 0; border-radius: 0; background: none; }
+.app.kiosk .ks-lang button { height: 44px; min-height: 0; padding: 0 var(--sp-4); border-radius: var(--r-pill); background: var(--pill); color: var(--ink); font-size: var(--fs-sm); font-weight: var(--fw-regular); box-shadow: none; }
+.app.kiosk .ks-lang button:active { background: var(--pill-press); }
+.app.kiosk .ks-lang button.on { background: var(--accent); color: var(--accent-ink); }
+/* the staff's way out: a round key, quiet — guests should not reach for it */
+.app.kiosk .ks-staff { border-radius: var(--r-pill); }
+
+/* ---------- the folders: a strip of keys across the screen, as the iPad's categories ---------- */
+.app.kiosk .ks-nav { gap: 0; padding: 0; background: var(--bg); box-shadow: inset 0 -1px 0 0 var(--zl); }
+.app.kiosk .ks-search-btn {
+  width: var(--ks-row); height: var(--ks-row); border-radius: 0; background: var(--bg); color: var(--ink);
+  box-shadow: inset -1px 0 0 0 var(--zl), inset 0 -1px 0 0 var(--zl);
+}
+.app.kiosk .ks-search-btn:active { background: var(--surface-3); }
+.app.kiosk .ks-search-btn.on { background: var(--surface); }
+.app.kiosk .ks-pills { gap: 0; padding: 0; -webkit-mask-image: none; mask-image: none; }
+.app.kiosk .ks-pill {
+  flex: 1 0 auto; min-width: 160px; height: var(--ks-row); min-height: 0; padding: 0 var(--sp-5); border-radius: 0;
+  background: var(--bg); color: var(--ink-2); font-size: var(--fs-md); font-weight: var(--fw-semibold); transition: none;
+  box-shadow: inset -1px 0 0 0 var(--zl), inset 0 -1px 0 0 var(--zl);
+}
+.app.kiosk .ks-pill:active { background: var(--surface-3); }
+.app.kiosk .ks-pill.on { background: var(--accent); color: var(--accent-ink); font-weight: var(--fw-semibold); box-shadow: none; }
+.app.kiosk .ks-search {
+  height: var(--ks-row); padding: 0 var(--sp-5); border: 0; border-radius: 0; background: var(--surface); font-size: var(--fs-md);
+  box-shadow: inset 0 -1px 0 0 var(--zl);
+}
+.app.kiosk .ks-search:focus { border: 0; box-shadow: inset 0 -2px 0 0 var(--accent); }
+
+/* ---------- the menu: a folder's name a row of the shade; its dishes the brand grid's tiles ---------- */
+.app.kiosk .ks-menu { padding: 0; background: var(--bg); }
+.app.kiosk .ks-sec { padding: 0; }
+.app.kiosk .ks-h {
+  display: flex; align-items: center; min-height: 52px; margin: 0; padding: 0 var(--sp-5); background: var(--bg); color: var(--ink);
+  font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; letter-spacing: 0; text-transform: none;
+  box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl);
+}
+.app.kiosk .ks-sec:first-child .ks-h { box-shadow: inset 0 -1px 0 0 var(--zl); }
+.app.kiosk .ks-grid { gap: 0; background: var(--surface); }
+/* a tile: its picture as tall in every row (a wider tile of a short row shows the picture whole, with more room at the
+   sides), the dish 16 semibold, its price in the figures of an instrument; a line at its left and above it — not at the
+   start of a row, not in the first row (ui/even-grid.jsx marks them) */
+.app.kiosk .ks-card {
+  gap: var(--sp-1); padding: var(--sp-4) var(--sp-5) var(--sp-5); border-radius: 0; background: var(--surface); transition: background 0.12s;
+  box-shadow: inset 1px 0 0 0 var(--zl), inset 0 1px 0 0 var(--zl);
+}
+.app.kiosk .ks-grid > .ks-card[data-rf] { box-shadow: inset 0 1px 0 0 var(--zl); }
+.app.kiosk .ks-grid > .ks-card[data-r0] { box-shadow: inset 1px 0 0 0 var(--zl); }
+.app.kiosk .ks-grid > .ks-card[data-r0][data-rf] { box-shadow: none; }
+.app.kiosk .ks-card:active { transform: none; background: var(--surface-3); }
+.app.kiosk .ks-card:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+/* in the basket: tinted, as a dish in the order on the iPhone */
+.app.kiosk .ks-card:has(> .ks-badge) { background: var(--accent-soft); }
+.app.kiosk .ks-img { height: var(--ks-img); aspect-ratio: auto; margin: 0 0 var(--sp-2); border-radius: 0; }
+.app.kiosk .ks-img img { object-fit: contain; }
+.app.kiosk .ks-name { min-height: 0; font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; }
+.app.kiosk .ks-price { padding-top: var(--sp-1); color: var(--ink); font-family: var(--font-timer); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.app.kiosk .ks-cur { color: var(--ink-2); font-family: var(--font-ui); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.app.kiosk .ks-left { margin-top: 0; color: #8A5300; font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.app.kiosk .ks-badge { top: var(--sp-3); right: var(--sp-3); min-width: 32px; height: 32px; font-family: var(--font-timer); font-size: var(--fs-md); }
+.app.kiosk .ks-card.off { opacity: 1; }
+.app.kiosk .ks-card.off > * { opacity: 0.45; }
+.app.kiosk .ks-card.off .ks-price { color: var(--ink-2); font-family: var(--font-ui); font-weight: var(--fw-regular); font-size: var(--fs-sm); }
+.app.kiosk .ks-none { padding: var(--sp-6) var(--sp-5); color: var(--ink-2); font-size: var(--fs-md); }
+.app.kiosk .ks-end { height: 120px; background: var(--bg); box-shadow: inset 0 1px 0 0 var(--zl); }
+
+/* ---------- the basket's key at the foot: one big pill, the accent's ---------- */
+.app.kiosk .ks-bar { padding: var(--sp-6) var(--sp-5) calc(var(--sp-4) + env(safe-area-inset-bottom, 0px)); background: linear-gradient(rgb(234 237 243 / 0), var(--bg) 45%); }
+.app.kiosk .ks-bar-btn { gap: var(--sp-3); min-height: 72px; padding: 0 var(--sp-2) 0 10px; background: var(--accent); color: var(--accent-ink); }
+.app.kiosk .ks-bar-btn:active { background: var(--accent-2); }
+.app.kiosk .ks-bar-n { min-width: 52px; height: 52px; padding: 0 var(--sp-2); border-radius: var(--r-pill); color: var(--accent); font-family: var(--font-timer); font-size: var(--fs-xl); font-weight: var(--fw-semibold); }
+.app.kiosk .ks-bar-t { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.app.kiosk .ks-bar-sum { font-family: var(--font-timer); font-size: var(--fs-xl); font-weight: var(--fw-semibold); }
+.app.kiosk .ks-bar-go { min-height: 52px; padding: 0 var(--sp-4); background: none; font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+
+/* ---------- the sheets: from edge to edge, no radius; on a lying iPad a column in the middle ---------- */
+.app.kiosk .ks-scrim { padding: var(--key-h) 0 0; }
+.app.kiosk .ks-modal { width: 100%; max-height: 100%; border-radius: 0; box-shadow: 0 -1px 0 0 var(--zl); }
+.app.kiosk .ks-x { top: var(--sp-3); right: var(--sp-4); width: 44px; height: 44px; border-radius: var(--r-pill); background: var(--surface-3); box-shadow: none; }
+.app.kiosk .ks-x:active { background: var(--pill-press); }
+.app.kiosk .ks-modal-img { height: min(320px, 30vh); background: var(--bg); box-shadow: inset 0 -1px 0 0 var(--zl); }
+.app.kiosk .ks-modal-img img { object-fit: contain; }
+.app.kiosk .ks-modal-img .ks-x, .app.kiosk .ks-modal > .ks-x { background: var(--surface-3); }
+.app.kiosk .ks-modal-body { gap: var(--sp-1); padding: var(--sp-5) 0 0; }
+.app.kiosk .ks-modal-body > :is(.ks-modal-title, .ks-modal-price, .ks-desc, .ks-alg, .ks-muted, .ks-kept, .ks-none) { margin-right: var(--sp-5); margin-left: var(--sp-5); }
+.app.kiosk :is(.ks-basket, .ks-up) .ks-modal-body { padding-top: var(--sp-4); }
+.app.kiosk .ks-modal-title { padding-right: 60px; font-size: var(--fs-xl); font-weight: var(--fw-semibold); line-height: 28px; }
+.app.kiosk .ks-modal-price { color: var(--ink); font-family: var(--font-timer); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.app.kiosk .ks-weight { font-family: var(--font-ui); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.app.kiosk .ks-desc { margin-top: var(--sp-1); color: var(--ink-2); font-size: var(--fs-sm); line-height: 20px; }
+/* the allergens: the words, not chips — a pill is a key */
+.app.kiosk .ks-alg { gap: 0 var(--sp-2); margin-top: var(--sp-1); font-size: var(--fs-sm); }
+.app.kiosk .ks-alg-t { color: var(--ink-3); font-size: var(--fs-sm); font-weight: var(--fw-regular); letter-spacing: 0; text-transform: none; }
+.app.kiosk .ks-alg-chip { padding: 0; border-radius: 0; background: none; box-shadow: none; color: var(--ink); font-size: var(--fs-sm); }
+.app.kiosk .ks-alg-chip:not(:last-child)::after { content: ','; }
+.app.kiosk .ks-muted { color: var(--ink-2); font-size: var(--fs-sm); }
+/* a group of options: its name a row of the shade between two lines; the options the brand grid's tiles, 64 high, the
+   chosen one tinted — as the iPad's dish options */
+.app.kiosk .ks-group { gap: 0; margin-top: var(--sp-5); }
+.app.kiosk .ks-group-t {
+  display: flex; align-items: center; min-height: 44px; padding: 0 var(--sp-5); background: var(--bg); color: var(--ink-2);
+  font-size: var(--fs-sm); font-weight: var(--fw-regular); letter-spacing: 0; text-transform: none;
+  box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl);
+}
+.app.kiosk .ks-opts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
+.app.kiosk .ks-opt {
+  justify-content: space-between; min-width: 0; min-height: var(--key-h); padding: 0 var(--sp-5); border: 0; border-radius: 0;
+  background: var(--surface); color: var(--ink); font-size: var(--fs-md); font-weight: var(--fw-semibold); text-align: left;
+  box-shadow: inset 1px 0 0 0 var(--zl), inset 0 1px 0 0 var(--zl);
+}
+.app.kiosk .ks-opts > .ks-opt[data-rf] { box-shadow: inset 0 1px 0 0 var(--zl); }
+.app.kiosk .ks-opts > .ks-opt[data-r0] { box-shadow: inset 1px 0 0 0 var(--zl); }
+.app.kiosk .ks-opts > .ks-opt[data-r0][data-rf] { box-shadow: none; }
+.app.kiosk .ks-opt:active { background: var(--surface-3); }
+.app.kiosk .ks-opt.on { background: var(--accent-soft); color: var(--accent-2); font-weight: var(--fw-semibold); }
+.app.kiosk .ks-opt-p { color: var(--ink-2); font-family: var(--font-timer); font-size: var(--fs-sm); }
+.app.kiosk .ks-kept { border-radius: 0; }
+.app.kiosk .ks-kept-reset { border-radius: var(--r-pill); }
+/* the foot: a line over it; the quantity one pill — «−», how many, «+» — as tall as the key beside it */
+.app.kiosk .ks-modal-foot {
+  gap: var(--sp-3); padding: var(--sp-4) var(--sp-5) calc(var(--sp-4) + env(safe-area-inset-bottom, 0px)); border-top: 0;
+  box-shadow: inset 0 1px 0 0 var(--zl);
+}
+.app.kiosk .ks-step { gap: 0; height: var(--key-h); padding: 0; border-radius: var(--r-pill); background: var(--surface-3); }
+.app.kiosk .ks-modal-foot > .ks-step { align-self: center; }
+.app.kiosk .ks-step button { width: var(--key-h); height: var(--key-h); border-radius: var(--r-pill); background: none; box-shadow: none; }
+.app.kiosk .ks-step button:active:not(:disabled) { background: var(--pill-press); }
+.app.kiosk .ks-step span { min-width: 32px; font-family: var(--font-timer); font-size: var(--fs-xl); font-weight: var(--fw-semibold); }
+.app.kiosk .ks-step.sm { height: 52px; }
+.app.kiosk .ks-step.sm button { width: 52px; height: 52px; }
+.app.kiosk .ks-step.sm span { min-width: 28px; font-size: var(--fs-md); }
+.app.kiosk .ks-primary { min-height: var(--key-h); border-radius: var(--r-pill); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.app.kiosk .ks-primary:active:not(:disabled) { background: var(--accent-2); }
+.app.kiosk .ks-secondary { min-height: var(--key-h); border: 0; border-radius: var(--r-pill); background: var(--surface-3); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.app.kiosk .ks-secondary:active { background: var(--pill-press); }
+.app.kiosk .ks-total .mono { font-size: var(--fs-xl); font-weight: var(--fw-semibold); }
+.app.kiosk .ks-total .ks-muted { font-size: var(--fs-sm); }
+.app.kiosk .ks-promo { font-size: var(--fs-sm); }
+.app.kiosk .ks-promo-row:not(:first-child) { color: var(--ok); font-weight: var(--fw-regular); }
+
+/* ---------- the basket: the guest's row and the lines from edge to edge; here or to go — two keys of the grid ---------- */
+.app.kiosk .ks-guest {
+  gap: var(--sp-3); margin-top: var(--sp-4); padding: var(--sp-3) var(--sp-5); border-radius: 0; background: var(--bg);
+  box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl);
+}
+.app.kiosk .ks-guest.ks-guest-known { background: var(--accent-soft); }
+.app.kiosk .ks-guest-hi { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.app.kiosk .ks-guest.ks-guest-none .ks-guest-hi { font-weight: var(--fw-semibold); }
+.app.kiosk .ks-guest-sub { font-size: var(--fs-sm); }
+.app.kiosk .ks-link { min-height: 44px; border-radius: var(--r-pill); background: var(--pill); box-shadow: none; font-size: var(--fs-sm); font-weight: var(--fw-semibold); }
+.app.kiosk .ks-lines { margin-top: 0; }
+.app.kiosk .ks-line { gap: var(--sp-3); padding: var(--sp-3) var(--sp-5); border-bottom: 0; box-shadow: inset 0 -1px 0 0 var(--zl); }
+.app.kiosk .ks-line-img { width: 64px; height: 64px; border-radius: 0; background: var(--bg); }
+.app.kiosk .ks-line-img img { object-fit: contain; }
+.app.kiosk .ks-line-name { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.app.kiosk .ks-line-sum { color: var(--ink-2); font-family: var(--font-timer); font-size: var(--fs-sm); }
+.app.kiosk .ks-where { gap: 0; }
+.app.kiosk .ks-where-btn {
+  min-height: 96px; border: 0; border-radius: 0; background: var(--surface); color: var(--ink); font-size: var(--fs-md); font-weight: var(--fw-semibold);
+  box-shadow: inset 1px 0 0 0 var(--zl);
+}
+.app.kiosk .ks-where-btn:first-child { box-shadow: none; }
+.app.kiosk .ks-where-btn:active { background: var(--surface-3); }
+.app.kiosk .ks-where-btn.on { background: var(--accent); color: var(--accent-ink); box-shadow: none; }
+
+/* ---------- «Dodati uz porudžbinu?»: the menu's tiles, each with its own key ---------- */
+.app.kiosk .ks-up-list { gap: 0; margin: var(--sp-4) 0 0; box-shadow: inset 0 1px 0 0 var(--zl); }
+.app.kiosk .ks-up-card {
+  gap: var(--sp-1); padding: var(--sp-4) var(--sp-5) var(--sp-5); border-radius: 0; background: var(--surface);
+  box-shadow: inset 1px 0 0 0 var(--zl), inset 0 1px 0 0 var(--zl);
+}
+.app.kiosk .ks-up-list > .ks-up-card[data-rf] { box-shadow: inset 0 1px 0 0 var(--zl); }
+.app.kiosk .ks-up-list > .ks-up-card[data-r0] { box-shadow: inset 1px 0 0 0 var(--zl); }
+.app.kiosk .ks-up-list > .ks-up-card[data-r0][data-rf] { box-shadow: none; }
+.app.kiosk .ks-up-card.on { background: var(--accent-soft); box-shadow: inset 1px 0 0 0 var(--zl), inset 0 1px 0 0 var(--zl); }
+.app.kiosk .ks-up-list > .ks-up-card.on[data-rf] { box-shadow: inset 0 1px 0 0 var(--zl); }
+.app.kiosk .ks-up-card .ks-img { height: 160px; border-radius: 0; }
+.app.kiosk .ks-up-name { min-height: 0; font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; }
+.app.kiosk .ks-up-card .ks-price { margin-top: auto; }
+.app.kiosk .ks-up-btn { margin-top: var(--sp-2); min-height: 52px; border-radius: var(--r-pill); font-size: var(--fs-md); }
+.app.kiosk .ks-up-btn.on { background: var(--ok); color: #FFFFFF; }
+
+/* ---------- the guest's phone: the number a row of the shade; the keypad from edge to edge ---------- */
+.app.kiosk .ks-phone .ks-modal-body { gap: 0; padding-top: var(--sp-5); }
+.app.kiosk .ks-phone-ic { width: 56px; height: 56px; margin-bottom: var(--sp-3); }
+.app.kiosk .ks-phone .ks-modal-title { max-width: 600px; padding: 0 var(--sp-6); font-size: var(--fs-xl); }
+.app.kiosk .ks-tel {
+  width: 100%; min-height: 80px; margin-top: var(--sp-4); padding: var(--sp-3) var(--sp-5); border-radius: 0; background: var(--bg);
+  box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl);
+}
+.app.kiosk .ks-tel.ks-tel-ok { box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -3px 0 0 var(--accent); }
+.app.kiosk .ks-tel-cc { font-family: var(--font-timer); font-size: var(--fs-xl); font-weight: var(--fw-semibold); }
+.app.kiosk .ks-tel-n { font-size: var(--fs-2xl); letter-spacing: 0; }
+.app.kiosk .ks-tel-hint { min-height: 44px; margin: 0; padding: var(--sp-3) var(--sp-5) 0; color: var(--ink-2); font-size: var(--fs-sm); }
+.app.kiosk .ks-keys { gap: 0; width: 100%; margin: 0; box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); }
+.app.kiosk .ks-key {
+  min-height: 80px; border-radius: 0; background: var(--surface); font-family: var(--font-timer); font-size: var(--fs-2xl); font-weight: var(--fw-semibold);
+  box-shadow: inset 1px 0 0 0 var(--zl), inset 0 1px 0 0 var(--zl);
+}
+.app.kiosk .ks-key:nth-child(3n + 1) { box-shadow: inset 0 1px 0 0 var(--zl); }
+.app.kiosk .ks-key:nth-child(-n + 3) { box-shadow: inset 1px 0 0 0 var(--zl); }
+.app.kiosk .ks-key:first-child { box-shadow: none; }
+.app.kiosk .ks-key:active:not(:disabled) { transform: none; background: var(--surface-3); }
+.app.kiosk .ks-key-fn { background: var(--bg); color: var(--ink); }
+.app.kiosk .ks-consent {
+  width: 100%; min-height: 72px; margin-top: 0; padding: var(--sp-3) var(--sp-5); border-radius: 0; background: var(--surface);
+  box-shadow: inset 0 -1px 0 0 var(--zl);
+}
+.app.kiosk .ks-consent.ks-consent-ask { background: var(--accent-soft); box-shadow: inset 0 -1px 0 0 var(--zl); }
+.app.kiosk .ks-consent-box { width: 32px; height: 32px; border-radius: 0; }
+.app.kiosk .ks-consent-t { font-size: var(--fs-sm); }
+.app.kiosk .ks-demo-note { margin: 0; padding: var(--sp-3) var(--sp-5); color: var(--ink-2); font-size: var(--fs-sm); }
+.app.kiosk .ks-modal-foot.ks-two { gap: var(--sp-3); }
+
+/* ---------- the number: two zones — the header, then the number on the screen's surface; the key at the foot ---------- */
+.app.kiosk .ks-done { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; place-content: stretch; place-items: stretch; gap: 0; padding: 0; background: var(--surface); }
+.app.kiosk .ks-done > .brand {
+  display: flex; align-items: center; min-height: calc(var(--key-h) + env(safe-area-inset-top, 0px)); padding: env(safe-area-inset-top, 0px) var(--sp-5) 0;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--bg), var(--accent) 4%), color-mix(in oklab, var(--bg), var(--surface) 35%));
+  box-shadow: 0 1px 0 0 var(--zl);
+}
+.app.kiosk .ks-done .brand-loc { font-size: var(--fs-xl); font-weight: var(--fw-semibold); line-height: 28px; }
+.app.kiosk .ks-done-card { justify-content: center; gap: var(--sp-2); width: 100%; padding: var(--sp-6) var(--sp-5); border-radius: 0; background: none; box-shadow: none; }
+.app.kiosk .ks-done-l { color: var(--ink-2); font-size: var(--fs-md); font-weight: var(--fw-semibold); letter-spacing: 0; text-transform: none; }
+.app.kiosk .ks-done-n { color: var(--accent); font-family: var(--font-timer); font-size: 168px; font-weight: var(--fw-semibold); line-height: 1; }
+.app.kiosk .ks-done-t { margin-top: var(--sp-2); font-size: var(--fs-xl); }
+.app.kiosk .ks-done .ks-muted { font-size: var(--fs-sm); }
+.app.kiosk .ks-done-sms { margin-top: var(--sp-3); border-radius: 0; font-size: var(--fs-sm); }
+.app.kiosk .ks-done > .ks-primary { width: auto; margin: 0 var(--sp-5) calc(var(--sp-5) + env(safe-area-inset-bottom, 0px)); }
+
+/* ---------- a lying iPad: four tiles to a row (55-kiosk.css); the sheets a column in the middle, its edges lines ---------- */
+@media (min-width: 1000px) {
+  .app.kiosk .ks-modal { width: min(760px, 100%); box-shadow: -1px 0 0 0 var(--zl), 1px 0 0 0 var(--zl), 0 -1px 0 0 var(--zl); }
+  .app.kiosk .ks-done-card { width: min(760px, 100%); justify-self: center; }
+  .app.kiosk .ks-done > .ks-primary { width: min(720px, calc(100% - 40px)); justify-self: center; margin-right: 0; margin-left: 0; }
+}
+/* a narrow window (the kiosk in a phone's width): two tiles to a row, the pictures lower */
+@media (max-width: 640px) {
+  .app.kiosk { --ks-img: 140px; }
+  .app.kiosk .ks-head { padding-right: var(--sp-4); padding-left: var(--sp-4); }
+  .app.kiosk .ks-lang button { padding: 0 var(--sp-3); }
+  .app.kiosk .ks-pill { min-width: 120px; padding: 0 var(--sp-4); }
+  .app.kiosk .ks-card { padding: var(--sp-3) var(--sp-4) var(--sp-4); }
+  .app.kiosk .ks-grid { gap: 0; }
+  .app.kiosk .ks-bar { padding-right: var(--sp-4); padding-left: var(--sp-4); }
+  .app.kiosk .ks-opts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .app.kiosk .ks-up-list { grid-template-columns: minmax(0, 1fr); }
+  .app.kiosk .ks-up-card { grid-template-columns: 76px minmax(0, 1fr) auto; padding: var(--sp-3) var(--sp-4); border-radius: 0; }
+  .app.kiosk .ks-up-card .ks-img { width: 76px; height: 76px; }
+  .app.kiosk .ks-up-btn { margin-top: 0; }
+  .app.kiosk .ks-key { min-height: 64px; }
+  .app.kiosk .ks-done-n { font-size: 120px; }
+}
+
 /* ---------- the guest app (#guest): RUVO on a guest's own phone ----------
    Always light, like the kiosk's menu (its cards, dish sheet and basket are reused, sized here for a phone). On a wide
    screen the app stands in a phone-wide column; the column is the containing block of its sheets and toasts

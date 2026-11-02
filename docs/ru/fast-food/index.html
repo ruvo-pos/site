@@ -67,33 +67,38 @@
 --dev-shadow: 0 30px 50px -22px rgb(0 0 0 / 0.34), 0 10px 22px -10px rgb(0 0 0 / 0.2);
 --shadow-1: 0 1px 2px rgb(0 0 0 / 0.05), 0 2px 12px rgb(0 0 0 / 0.04);
 --shadow-2: 0 18px 44px -8px rgb(0 0 0 / 0.18), 0 3px 10px rgb(0 0 0 / 0.06);
---a-bg: #E8EBE7;
---a-bg-2: #DCE0DA;
+--a-bg: #EAEDF3;
+--a-bg-2: #DEE1E9;
 --a-surface: #FFFFFF;
---a-surface-2: #F3F5F2;
---a-surface-3: #E5E8E3;
---a-ink: #13171A;
---a-ink-2: #4A5258;
---a-ink-3: #68727A;
---a-line: #D4D9D2;
---a-line-2: #BDC4BB;
+--a-surface-2: #F5F7FA;
+--a-surface-3: #E4E8EF;
+--a-ink: #131824;
+--a-ink-2: #49505E;
+--a-ink-3: #5D6370;
+--a-line: #D5D9E1;
+--a-line-2: #BFC4CF;
 --a-accent: #1E44B0;
 --a-accent-ink: #FFFFFF;
---a-accent-soft: #E2E8F8;
---a-s2: #0B8FB5;
---a-ok: #157043;
+--a-accent-soft: #D8E5FF;
+--a-s2: #5C82DA;
+--a-ok: #007440;
 --a-ok-ink: #FFFFFF;
---a-ok-soft: #DCF0E3;
---a-warn: #9A5C00;
---a-warn-soft: #FAEBCF;
---a-bad: #B8322A;
---a-bad-soft: #F9E0DB;
---a-bill: #663B95;
---a-bill-soft: #EEE6F7;
---a-gold: #7A5A00;
---a-gold-soft: #F6E9BF;
+--a-ok-soft: #CBEFD6;
+--a-warn: #805202;
+--a-warn-ink: #FFFFFF;
+--a-warn-soft: #FAE0C1;
+--a-bad: #BE2E31;
+--a-bad-soft: #FEDBD7;
+--a-bill: #7F3395;
+--a-bill-soft: #F3DBFB;
+--a-gold: #805202;
+--a-gold-soft: #FAE0C1;
 --a-seg-on: #FFFFFF;
---a-shadow: 0 1px 2px rgb(19 23 26 / 0.06), 0 2px 10px rgb(19 23 26 / 0.05);
+--a-pill: #FFFFFF;
+--a-wolt: #009DE0;
+--a-glovo: #FFC244;
+--a-glovo-ink: #1D1D1B;
+--a-shadow: 0 1px 2px rgb(19 24 36 / 0.06), 0 2px 10px rgb(19 24 36 / 0.05);
 --font-sys: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 --font-app: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 --font-brand: "Unbounded", "Onest", system-ui, sans-serif;
@@ -125,12 +130,12 @@ color-scheme: light;
 --dev-glass: #0A0A0B; --dev-edge: #55565B;
 --dev-shadow: 0 30px 50px -22px rgb(0 0 0 / 0.9), 0 0 0 1px rgb(255 255 255 / 0.04);
 --shadow-1: 0 1px 2px rgb(0 0 0 / 0.5); --shadow-2: 0 18px 44px -8px rgb(0 0 0 / 0.8), 0 0 0 1px rgb(255 255 255 / 0.06);
---a-bg: #0F1214; --a-bg-2: #0A0C0E; --a-surface: #171B1E; --a-surface-2: #1D2226; --a-surface-3: #283036;
---a-ink: #ECEFF1; --a-ink-2: #AEB6BC; --a-ink-3: #828C93; --a-line: #2A3238; --a-line-2: #3B454C;
---a-accent: #7D97F0; --a-accent-ink: #0B1124; --a-accent-soft: #1C2647; --a-s2: #0E9E9A;
---a-ok: #4CC788; --a-ok-ink: #06140C; --a-ok-soft: #13301F; --a-warn: #F0A93E; --a-warn-soft: #382910;
---a-bad: #F2725F; --a-bad-soft: #3B1A15; --a-bill: #BB98EE; --a-bill-soft: #2A2041; --a-gold: #EAC761; --a-gold-soft: #3A2F12;
---a-seg-on: #46515A; --a-shadow: 0 1px 2px rgb(0 0 0 / 0.45);
+--a-bg: #0E1016; --a-bg-2: #080A0E; --a-surface: #161920; --a-surface-2: #1C1F27; --a-surface-3: #262A33;
+--a-ink: #ECEEF4; --a-ink-2: #B5BBC5; --a-ink-3: #969BA7; --a-line: #272B34; --a-line-2: #373C46;
+--a-accent: #81A8FF; --a-accent-ink: #0E1016; --a-accent-soft: #1E2F54; --a-s2: #A8C4FE;
+--a-ok: #5AC485; --a-ok-ink: #0E1016; --a-ok-soft: #083A20; --a-warn: #EFB146; --a-warn-ink: #0E1016; --a-warn-soft: #442A00;
+--a-bad: #F17074; --a-bad-soft: #4E201E; --a-bill: #CE8EE2; --a-bill-soft: #3F2447; --a-gold: #EFB146; --a-gold-soft: #442A00;
+--a-seg-on: #383D47; --a-pill: #262A33; --a-shadow: 0 1px 2px rgb(0 0 0 / 0.45);
 color-scheme: dark;
 }
 }
@@ -144,20 +149,20 @@ color-scheme: dark;
 --dev-glass: #0A0A0B; --dev-edge: #55565B;
 --dev-shadow: 0 30px 50px -22px rgb(0 0 0 / 0.9), 0 0 0 1px rgb(255 255 255 / 0.04);
 --shadow-1: 0 1px 2px rgb(0 0 0 / 0.5); --shadow-2: 0 18px 44px -8px rgb(0 0 0 / 0.8), 0 0 0 1px rgb(255 255 255 / 0.06);
---a-bg: #0F1214; --a-bg-2: #0A0C0E; --a-surface: #171B1E; --a-surface-2: #1D2226; --a-surface-3: #283036;
---a-ink: #ECEFF1; --a-ink-2: #AEB6BC; --a-ink-3: #828C93; --a-line: #2A3238; --a-line-2: #3B454C;
---a-accent: #7D97F0; --a-accent-ink: #0B1124; --a-accent-soft: #1C2647; --a-s2: #0E9E9A;
---a-ok: #4CC788; --a-ok-ink: #06140C; --a-ok-soft: #13301F; --a-warn: #F0A93E; --a-warn-soft: #382910;
---a-bad: #F2725F; --a-bad-soft: #3B1A15; --a-bill: #BB98EE; --a-bill-soft: #2A2041; --a-gold: #EAC761; --a-gold-soft: #3A2F12;
---a-seg-on: #46515A; --a-shadow: 0 1px 2px rgb(0 0 0 / 0.45);
+--a-bg: #0E1016; --a-bg-2: #080A0E; --a-surface: #161920; --a-surface-2: #1C1F27; --a-surface-3: #262A33;
+--a-ink: #ECEEF4; --a-ink-2: #B5BBC5; --a-ink-3: #969BA7; --a-line: #272B34; --a-line-2: #373C46;
+--a-accent: #81A8FF; --a-accent-ink: #0E1016; --a-accent-soft: #1E2F54; --a-s2: #A8C4FE;
+--a-ok: #5AC485; --a-ok-ink: #0E1016; --a-ok-soft: #083A20; --a-warn: #EFB146; --a-warn-ink: #0E1016; --a-warn-soft: #442A00;
+--a-bad: #F17074; --a-bad-soft: #4E201E; --a-bill: #CE8EE2; --a-bill-soft: #3F2447; --a-gold: #EFB146; --a-gold-soft: #442A00;
+--a-seg-on: #383D47; --a-pill: #262A33; --a-shadow: 0 1px 2px rgb(0 0 0 / 0.45);
 color-scheme: dark;
 }
 .kt {
---a-bg: #0E1113; --a-bg-2: #0A0C0E; --a-surface: #171B1E; --a-surface-2: #1E2327; --a-surface-3: #2A3238;
---a-ink: #EEF1F2; --a-ink-2: #B3BBC1; --a-ink-3: #85909A; --a-line: #2B3339; --a-line-2: #3D474E;
---a-accent: #7D97F0; --a-accent-ink: #0B1124; --a-accent-soft: #1C2647; --a-s2: #0E9E9A;
---a-ok: #4CC788; --a-ok-ink: #06140C; --a-ok-soft: #13301F; --a-warn: #F0A93E; --a-warn-soft: #3A2A10;
---a-bad: #F2725F; --a-bad-soft: #3D1A15; --a-seg-on: #46515A; --a-plan: #8FA6F5;
+--a-bg: #0E1016; --a-bg-2: #080A0E; --a-surface: #161920; --a-surface-2: #1C1F27; --a-surface-3: #262A33;
+--a-ink: #ECEEF4; --a-ink-2: #B5BBC5; --a-ink-3: #969BA7; --a-line: #272B34; --a-line-2: #373C46;
+--a-accent: #81A8FF; --a-accent-ink: #0E1016; --a-accent-soft: #1E2F54; --a-s2: #A8C4FE;
+--a-ok: #5AC485; --a-ok-ink: #0E1016; --a-ok-soft: #083A20; --a-warn: #EFB146; --a-warn-ink: #0E1016; --a-warn-soft: #442A00;
+--a-bad: #F17074; --a-bad-soft: #4E201E; --a-seg-on: #383D47; --a-pill: #262A33;
 color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -408,200 +413,208 @@ font-family: var(--font-app); font-size: calc(var(--u)*15); line-height: 1.3; le
 }
 .scr .i { width: 1.15em; height: 1.15em; vertical-align: -0.2em; }
 .scr p { margin: 0; }
-.sb { flex: none; display: flex; align-items: center; justify-content: space-between; height: calc(var(--u)*24); padding: 0 calc(var(--u)*22); background: var(--a-surface); color: var(--a-ink); font-family: var(--font-sys); font-size: calc(var(--u)*12); font-weight: 600; letter-spacing: 0; }
+.sb { position: absolute; top: 0; right: 0; left: 0; z-index: 6; display: flex; align-items: center; justify-content: space-between; height: calc(var(--u)*24); padding: 0 calc(var(--u)*22); color: var(--a-ink); font-family: var(--font-sys); font-size: calc(var(--u)*12); font-weight: 600; letter-spacing: 0; pointer-events: none; }
 .sb-t span { margin-left: calc(var(--u)*6); }
 .sb-r { display: inline-flex; align-items: center; gap: calc(var(--u)*6); }
 .sb-r .i { width: calc(var(--u)*15); height: calc(var(--u)*15); vertical-align: 0; }
 .bat { position: relative; width: calc(var(--u)*24); height: calc(var(--u)*11.5); border: calc(var(--u)*1.1) solid currentColor; border-radius: calc(var(--u)*3.6); opacity: 0.92; }
 .bat::after { content: ''; position: absolute; top: 50%; right: calc(var(--u)*-3.4); width: calc(var(--u)*1.6); height: calc(var(--u)*4); margin-top: calc(var(--u)*-2); border-radius: 0 calc(var(--u)*1) calc(var(--u)*1) 0; background: currentColor; opacity: 0.5; }
 .bat i { position: absolute; inset: calc(var(--u)*1.4); border-radius: calc(var(--u)*1.8); background: currentColor; }
-position: absolute; left: 50%; bottom: calc(var(--u)*8); width: calc(var(--u)*140); height: calc(var(--u)*5); margin-left: calc(var(--u)*-70); border-radius: calc(var(--u)*3); background: var(--a-ink); }
-.seg { display: inline-flex; gap: calc(var(--u)*2); padding: calc(var(--u)*4); border-radius: calc(var(--u)*12); background: var(--a-surface-3); }
-.seg > span { display: inline-flex; align-items: center; gap: calc(var(--u)*6); padding: calc(var(--u)*7) calc(var(--u)*13); border-radius: calc(var(--u)*9); color: var(--a-ink-2); font-weight: 600; white-space: nowrap; }
-.seg > .on { background: var(--a-seg-on); color: var(--a-ink); box-shadow: 0 calc(var(--u)*1) calc(var(--u)*3) rgb(0 0 0 / 0.12); }
-.seg i, .fc-h i, .dl-h i { display: inline-flex; align-items: center; justify-content: center; min-width: calc(var(--u)*20); height: calc(var(--u)*20); padding-inline: calc(var(--u)*6); border-radius: calc(var(--u)*10); background: var(--a-accent); color: var(--a-accent-ink); font-size: calc(var(--u)*12); font-style: normal; font-weight: 700; }
-.pf { display: inline-flex; align-items: center; padding: 0.12em 0.6em; border-radius: 999px; font-size: 0.85em; font-weight: 700; letter-spacing: 0; }
-.pf.wolt { background: #D8F1FB; color: #006C94; }
-.pf.glovo { background: #FFEFC2; color: #6E4E00; }
-.pb { display: flex; align-items: center; justify-content: center; gap: calc(var(--u)*8); height: calc(var(--u)*52); padding-inline: calc(var(--u)*14); border: calc(var(--u)*1) solid var(--a-line-2); border-radius: calc(var(--u)*12); background: var(--a-surface); color: var(--a-ink); font-size: calc(var(--u)*16); font-weight: 600; white-space: nowrap; }
-.pb.go { border-color: transparent; background: var(--a-accent); color: var(--a-accent-ink); }
-.ab { flex: none; display: flex; align-items: center; gap: calc(var(--u)*14); height: calc(var(--u)*60); padding: 0 calc(var(--u)*16); background: var(--a-surface); border-bottom: calc(var(--u)*1) solid var(--a-line); font-size: calc(var(--u)*15); font-weight: 600; white-space: nowrap; }
-.ab-brand { position: relative; flex: none; padding: calc(var(--u)*6) calc(var(--u)*10) calc(var(--u)*5) calc(var(--u)*11); border-radius: calc(var(--u)*6); background: #1E44B0; color: #fff; font-family: var(--font-brand); font-size: calc(var(--u)*13); font-weight: 700; line-height: 1; letter-spacing: 0.08em; }
-.ab-brand::after { content: ''; position: absolute; inset: calc(var(--u)*2); border: calc(var(--u)*1.2) solid rgb(255 255 255 / 0.92); border-radius: calc(var(--u)*4.5); }
-.ab-place { font-size: calc(var(--u)*16); font-weight: 700; }
-.ab-seg { margin-left: calc(var(--u)*6); }
-.ab-end { display: flex; align-items: center; gap: calc(var(--u)*8); margin-left: auto; }
-.ab-btn { display: inline-flex; align-items: center; gap: calc(var(--u)*8); height: calc(var(--u)*44); padding: 0 calc(var(--u)*14); border: calc(var(--u)*1) solid var(--a-line-2); border-radius: calc(var(--u)*12); background: var(--a-surface); }
-.ab-btn i { display: inline-flex; align-items: center; justify-content: center; min-width: calc(var(--u)*22); height: calc(var(--u)*22); border-radius: calc(var(--u)*11); background: var(--a-ok); color: var(--a-ok-ink); font-size: calc(var(--u)*12); font-style: normal; font-weight: 700; }
-.ab-btn.on { background: var(--a-surface-3); }
-.ab-user { display: inline-flex; align-items: center; gap: calc(var(--u)*8); height: calc(var(--u)*44); padding: 0 calc(var(--u)*12) 0 calc(var(--u)*6); border: calc(var(--u)*1) solid var(--a-line); border-radius: calc(var(--u)*12); }
-.ab-user b { display: inline-flex; align-items: center; justify-content: center; width: calc(var(--u)*30); height: calc(var(--u)*30); border-radius: 50%; background: var(--a-accent-soft); color: var(--a-accent); font-size: calc(var(--u)*14); }
-.ab-user .i { color: var(--a-ink-3); width: calc(var(--u)*14); height: calc(var(--u)*14); }
-.ab-ic { display: inline-flex; padding: calc(var(--u)*8); color: var(--a-ink-2); }
-.ab-ic .i { width: calc(var(--u)*20); height: calc(var(--u)*20); }
-.os { flex: 1; min-height: 0; display: grid; grid-template-columns: calc(var(--u)*196) minmax(0, 1fr) calc(var(--u)*400); }
-.os-cats { display: flex; flex-direction: column; gap: calc(var(--u)*4); padding: calc(var(--u)*12); background: var(--a-surface); border-right: calc(var(--u)*1) solid var(--a-line); }
-.os-search { display: flex; align-items: center; gap: calc(var(--u)*8); height: calc(var(--u)*44); margin-bottom: calc(var(--u)*10); padding: 0 calc(var(--u)*12); border: calc(var(--u)*1) solid var(--a-line-2); border-radius: calc(var(--u)*12); color: var(--a-ink-3); }
-.os-cat { display: flex; align-items: center; min-height: calc(var(--u)*52); padding: 0 calc(var(--u)*12); border-radius: calc(var(--u)*12); color: var(--a-ink-2); font-size: calc(var(--u)*16); font-weight: 600; }
-.os-cat.on { background: var(--a-accent); color: var(--a-accent-ink); }
-.os-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: start; gap: calc(var(--u)*12); padding: calc(var(--u)*12); }
-.mc { position: relative; display: flex; flex-direction: column; justify-content: space-between; height: calc(var(--u)*112); padding: calc(var(--u)*12) calc(var(--u)*14); border-radius: calc(var(--u)*12); background: var(--a-surface); box-shadow: var(--a-shadow); }
-.mc b { font-size: calc(var(--u)*16); font-weight: 600; line-height: 1.25; }
-.mc span { color: var(--a-ink-3); font-size: calc(var(--u)*14); }
-.mc i { position: absolute; top: calc(var(--u)*-7); right: calc(var(--u)*-7); display: inline-flex; align-items: center; justify-content: center; min-width: calc(var(--u)*26); height: calc(var(--u)*26); padding-inline: calc(var(--u)*7); border-radius: calc(var(--u)*13); background: var(--a-accent); color: var(--a-accent-ink); font-size: calc(var(--u)*13); font-style: normal; font-weight: 700; box-shadow: 0 0 0 calc(var(--u)*3) var(--a-bg); }
-.op { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--a-surface); border-left: calc(var(--u)*1) solid var(--a-line); }
-.op-head { flex: none; padding: calc(var(--u)*14) calc(var(--u)*18) calc(var(--u)*12); border-bottom: calc(var(--u)*1) solid var(--a-line); }
-.op-back { display: inline-flex; align-items: center; gap: calc(var(--u)*4); color: var(--a-accent); font-size: calc(var(--u)*16); font-weight: 600; }
-.op-title { display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u)*12); margin-top: calc(var(--u)*8); }
-.op-title > b { display: inline-flex; align-items: center; gap: calc(var(--u)*8); font-size: calc(var(--u)*26); font-weight: 700; letter-spacing: -0.01em; white-space: nowrap; }
-.op-title .pf { font-size: calc(var(--u)*14); }
-.op-guests { display: inline-flex; align-items: center; gap: calc(var(--u)*10); color: var(--a-ink-3); }
-.gst { display: inline-flex; align-items: center; gap: calc(var(--u)*14); height: calc(var(--u)*44); padding: 0 calc(var(--u)*12); border: calc(var(--u)*1) solid var(--a-line-2); border-radius: calc(var(--u)*12); color: var(--a-ink); }
-.gst b { min-width: calc(var(--u)*20); font-size: calc(var(--u)*17); font-weight: 600; text-align: center; }
-.op-meta { margin-top: calc(var(--u)*6); color: var(--a-ink-3); font-size: calc(var(--u)*14); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.op-lines { flex: 1; min-height: 0; overflow: hidden; padding: 0 calc(var(--u)*18); }
-.op-course { display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u)*10); min-height: calc(var(--u)*36); padding: calc(var(--u)*12) 0 calc(var(--u)*4); color: var(--a-ink-3); font-size: calc(var(--u)*12); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
-.op-fire { display: inline-flex; align-items: center; gap: calc(var(--u)*6); height: calc(var(--u)*40); padding: 0 calc(var(--u)*14); border-radius: calc(var(--u)*10); background: var(--a-accent); color: var(--a-accent-ink); font-size: calc(var(--u)*15); font-weight: 600; letter-spacing: 0; text-transform: none; }
-.ol { display: grid; grid-template-columns: calc(var(--u)*36) minmax(0, 1fr) auto; grid-template-areas: "q n p" ". . s"; gap: calc(var(--u)*5) calc(var(--u)*6); padding: calc(var(--u)*12) 0; border-bottom: calc(var(--u)*1) solid var(--a-line); font-size: calc(var(--u)*16); }
-.ol-q { grid-area: q; font-weight: 700; }
+.scr { --hd: linear-gradient(180deg, color-mix(in oklab, var(--a-bg), var(--a-accent) 4%), color-mix(in oklab, var(--a-bg), var(--a-surface) 35%)); }
+.hd { position: relative; z-index: 2; flex: none; display: flex; align-items: center; gap: calc(var(--u)*10); min-height: calc(var(--u)*88); padding: calc(var(--u)*24) calc(var(--u)*20) 0; background: var(--hd); box-shadow: 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
+.hd-t { display: grid; min-width: 0; margin-right: auto; }
+.hd-t b { display: inline-flex; align-items: center; gap: calc(var(--u)*10); font-size: calc(var(--u)*22); font-weight: 600; line-height: calc(var(--u)*28); white-space: nowrap; }
+.hd-t small { overflow: hidden; color: var(--a-ink-2); font-size: calc(var(--u)*14); line-height: calc(var(--u)*18); white-space: nowrap; text-overflow: ellipsis; }
+.hd > .pl.ic { margin-right: calc(var(--u)*4); }
+.hd-r { display: flex; flex: none; align-items: center; gap: calc(var(--u)*8); }
+.hd-n { min-width: calc(var(--u)*22); font-family: var(--font-timer); font-size: calc(var(--u)*16); font-weight: 600; text-align: center; }
+.dot { width: calc(var(--u)*10); height: calc(var(--u)*10); border-radius: 50%; background: var(--a-ok); box-shadow: 0 0 0 calc(var(--u)*5) color-mix(in oklab, var(--a-ok) 22%, transparent); }
+.pl { display: inline-flex; align-items: center; justify-content: center; gap: calc(var(--u)*6); height: calc(var(--u)*44); padding: 0 calc(var(--u)*18); border-radius: 999px; background: var(--a-pill); color: var(--a-ink); font-size: calc(var(--u)*14); white-space: nowrap; }
+.pl.ic { width: calc(var(--u)*44); padding: 0; }
+.pl.on { background: var(--a-accent); color: var(--a-accent-ink); }
+.pl.wolt { background: var(--a-wolt); color: #FFFFFF; }
+.pl.glovo { background: var(--a-glovo); color: var(--a-glovo-ink); }
+.pl .i { width: calc(var(--u)*18); height: calc(var(--u)*18); }
+.pf { display: inline-flex; align-items: center; height: calc(var(--u)*26); padding: 0 calc(var(--u)*10); border-radius: 999px; font-size: calc(var(--u)*14); font-weight: 600; letter-spacing: 0; }
+.pf.wolt { background: var(--a-wolt); color: #FFFFFF; }
+.pf.glovo { background: var(--a-glovo); color: var(--a-glovo-ink); }
+.pb { display: flex; align-items: center; justify-content: center; gap: calc(var(--u)*8); height: calc(var(--u)*56); padding-inline: calc(var(--u)*14); border-radius: 999px; background: var(--a-surface); box-shadow: inset 0 0 0 calc(var(--u)*1) var(--a-line-2); color: var(--a-ink); font-size: calc(var(--u)*16); font-weight: 600; white-space: nowrap; }
+.pb.go { background: var(--a-accent); box-shadow: none; color: var(--a-accent-ink); }
+.pb .i { width: calc(var(--u)*20); height: calc(var(--u)*20); }
+.os { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) calc(var(--u)*400); grid-template-rows: calc(var(--u)*52) calc(var(--u)*56) minmax(0, 1fr); }
+.os-search { grid-column: 1 / -1; display: flex; align-items: center; gap: calc(var(--u)*10); padding: 0 calc(var(--u)*18); background: var(--a-surface); box-shadow: inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); color: var(--a-ink-2); font-size: calc(var(--u)*16); }
+.os-search .i { width: calc(var(--u)*20); height: calc(var(--u)*20); }
+.os-cats { grid-column: 1 / -1; display: flex; min-width: 0; overflow: hidden; background: var(--a-bg); box-shadow: inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
+.os-cats > span { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; padding: 0 calc(var(--u)*16); color: var(--a-ink-2); font-size: calc(var(--u)*16); font-weight: 600; white-space: nowrap; box-shadow: inset calc(var(--u)*-1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
+.os-cats > span:last-child { box-shadow: inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
+.os-cats > .on { background: var(--a-accent); color: var(--a-accent-ink); box-shadow: none; }
+.os-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: calc(var(--u)*110); align-content: start; min-width: 0; background: var(--a-bg); }
+.mc { position: relative; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; padding: calc(var(--u)*12) calc(var(--u)*14); background: var(--a-surface); box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*1) 0 0 var(--a-line-2), 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
+.mc[data-rf] { box-shadow: inset 0 calc(var(--u)*1) 0 0 var(--a-line-2), 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
+.mc[data-r0] { box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
+.mc[data-r0][data-rf] { box-shadow: 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
+.mc b { padding-right: calc(var(--u)*26); font-size: calc(var(--u)*16); font-weight: 600; line-height: calc(var(--u)*22); }
+.mc span { color: var(--a-ink-2); font-family: var(--font-timer); font-size: calc(var(--u)*14); font-weight: 600; }
+.mc span small { margin-left: calc(var(--u)*5); font-family: var(--font-app); font-size: calc(var(--u)*12); }
+.mc i { position: absolute; top: calc(var(--u)*10); right: calc(var(--u)*10); display: inline-flex; align-items: center; justify-content: center; min-width: calc(var(--u)*24); height: calc(var(--u)*24); padding-inline: calc(var(--u)*6); border-radius: 999px; background: var(--a-accent); color: var(--a-accent-ink); font-family: var(--font-timer); font-size: calc(var(--u)*13); font-style: normal; font-weight: 600; }
+.op { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--a-surface); box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2); }
+.op-lines { flex: 1; min-height: 0; overflow: hidden; }
+.op-course { display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u)*10); min-height: calc(var(--u)*52); padding: 0 calc(var(--u)*12) 0 calc(var(--u)*18); background: var(--a-bg); box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); color: var(--a-ink-2); font-size: calc(var(--u)*14); }
+.op-course + .ol { box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*-1) 0 0 var(--a-line); }
+.op-fire { height: calc(var(--u)*40); padding: 0 calc(var(--u)*14); }
+.ol { display: grid; grid-template-columns: calc(var(--u)*34) minmax(0, 1fr) auto; grid-template-areas: "q n p" ". . s"; gap: calc(var(--u)*4) calc(var(--u)*6); padding: calc(var(--u)*12) calc(var(--u)*18); box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*-1) 0 0 var(--a-line); font-size: calc(var(--u)*16); }
+.ol-q { grid-area: q; font-weight: 600; }
 .ol-n { grid-area: n; min-width: 0; font-weight: 600; overflow-wrap: anywhere; }
-.ol-p { grid-area: p; text-align: right; }
+.ol-p { grid-area: p; font-family: var(--font-timer); font-weight: 600; text-align: right; }
 .ol-st { grid-area: s; display: grid; justify-items: end; }
-.ol-st > span { grid-area: 1 / 1; padding: calc(var(--u)*2) calc(var(--u)*8); border-radius: calc(var(--u)*6); font-size: calc(var(--u)*12); font-weight: 600; }
+.ol-st > span { grid-area: 1 / 1; padding: calc(var(--u)*2) calc(var(--u)*10); border-radius: 999px; font-size: calc(var(--u)*13); font-weight: 600; }
 .st-new { background: var(--a-accent-soft); color: var(--a-accent); opacity: 0; }
 .st-sent { background: var(--a-surface-3); color: var(--a-ink-2); }
-.op-foot { flex: none; display: grid; gap: calc(var(--u)*10); padding: calc(var(--u)*12) calc(var(--u)*18) calc(var(--u)*14); border-top: calc(var(--u)*1) solid var(--a-line); }
+.op-foot { flex: none; display: grid; gap: calc(var(--u)*12); padding: calc(var(--u)*14) calc(var(--u)*16) calc(var(--u)*16); box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
 .op-total { display: flex; align-items: baseline; justify-content: space-between; gap: calc(var(--u)*12); font-size: calc(var(--u)*16); font-weight: 600; }
-.op-total b { font-size: calc(var(--u)*26); font-weight: 700; letter-spacing: -0.01em; }
-.op-total small { margin-left: calc(var(--u)*4); color: var(--a-ink-3); font-size: calc(var(--u)*14); font-weight: 600; }
+.op-total b { font-family: var(--font-timer); font-size: calc(var(--u)*22); font-weight: 600; }
+.op-total small { margin-left: calc(var(--u)*5); color: var(--a-ink-2); font-family: var(--font-app); font-size: calc(var(--u)*14); }
 .op-acts { display: grid; }
 .op-acts > span { grid-area: 1 / 1; }
-.op-send { display: flex; align-items: center; justify-content: center; gap: calc(var(--u)*8); height: calc(var(--u)*52); border-radius: calc(var(--u)*12); background: var(--a-accent); color: var(--a-accent-ink); font-size: calc(var(--u)*16); font-weight: 600; opacity: 0; }
+.op-send { display: flex; align-items: center; justify-content: center; gap: calc(var(--u)*8); height: calc(var(--u)*56); border-radius: 999px; background: var(--a-accent); color: var(--a-accent-ink); font-size: calc(var(--u)*16); font-weight: 600; opacity: 0; }
+.op-send .i { width: calc(var(--u)*20); height: calc(var(--u)*20); }
 .op-pay { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: calc(var(--u)*10); }
-.op-more { display: flex; justify-content: space-between; padding-inline: calc(var(--u)*6); color: var(--a-ink-2); font-size: calc(var(--u)*15); font-weight: 600; }
-.op-more span { display: inline-flex; align-items: center; gap: calc(var(--u)*6); }
-.fl { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) calc(var(--u)*320); }
-.fl-main { display: flex; flex-direction: column; gap: calc(var(--u)*14); min-width: 0; padding: calc(var(--u)*16); }
-.fl-top { display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u)*16); }
-.fl-legend { display: flex; flex-wrap: wrap; gap: calc(var(--u)*6) calc(var(--u)*16); color: var(--a-ink-2); font-size: calc(var(--u)*14); }
-.lg { display: inline-flex; align-items: center; gap: calc(var(--u)*6); white-space: nowrap; }
-.lg::before { content: ''; width: calc(var(--u)*14); height: calc(var(--u)*14); border: calc(var(--u)*1.5) solid var(--a-ink); border-radius: calc(var(--u)*4); background: var(--a-surface); }
-.lg-free::before { border-style: dashed; border-color: var(--a-line-2); background: transparent; }
-.lg-ready::before { border-color: var(--a-ok); background: var(--a-ok-soft); }
-.lg-bill::before { border-color: var(--a-bill); background: var(--a-bill-soft); }
+.tabs {
+position: absolute; bottom: calc(var(--u)*18); left: 50%; z-index: 3; display: flex; gap: calc(var(--u)*2); padding: calc(var(--u)*6); transform: translateX(-50%); border-radius: 999px;
+background: color-mix(in oklab, var(--a-surface) 72%, transparent); -webkit-backdrop-filter: blur(calc(var(--u)*14)); backdrop-filter: blur(calc(var(--u)*14));
+box-shadow: 0 calc(var(--u)*12) calc(var(--u)*30) rgb(19 24 36 / 0.16), inset 0 0 0 calc(var(--u)*1) color-mix(in oklab, var(--a-surface) 70%, var(--a-line));
+}
+.tabs > span { position: relative; display: grid; justify-items: center; gap: calc(var(--u)*2); width: calc(var(--u)*184); padding: calc(var(--u)*9) 0 calc(var(--u)*8); border-radius: 999px; color: var(--a-ink); font-size: calc(var(--u)*14); }
+.tabs > .on { background: var(--a-accent); color: var(--a-accent-ink); }
+.tabs .i { width: calc(var(--u)*22); height: calc(var(--u)*22); }
+.tabs em { font-style: normal; }
+.tabs > span > i { position: absolute; top: calc(var(--u)*2); left: calc(50% + calc(var(--u)*4)); display: inline-flex; align-items: center; justify-content: center; min-width: calc(var(--u)*20); height: calc(var(--u)*20); padding-inline: calc(var(--u)*5); border-radius: 999px; background: var(--a-ok); color: var(--a-ok-ink); font-family: var(--font-timer); font-size: calc(var(--u)*12); font-style: normal; font-weight: 600; box-shadow: 0 0 0 calc(var(--u)*2) var(--a-surface); }
+.tabs .av { display: inline-flex; align-items: center; justify-content: center; width: calc(var(--u)*22); height: calc(var(--u)*22); border: calc(var(--u)*1.5) solid currentColor; border-radius: 50%; font-size: calc(var(--u)*12); font-weight: 600; }
+.fl { position: relative; flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) calc(var(--u)*380); }
+.fl-main { min-width: 0; padding: calc(var(--u)*18) calc(var(--u)*20) calc(var(--u)*96); background: var(--a-surface); }
 .fl-plan {
-flex: 1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) calc(var(--u)*120); grid-template-rows: repeat(3, minmax(0, 1fr)); gap: calc(var(--u)*20) calc(var(--u)*22); align-items: center;
-padding: calc(var(--u)*26) calc(var(--u)*24); border: calc(var(--u)*1) solid var(--a-line); border-radius: calc(var(--u)*18);
+display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) calc(var(--u)*96); grid-template-rows: repeat(3, minmax(0, 1fr)); gap: calc(var(--u)*26) calc(var(--u)*28); align-items: center;
+height: 100%; padding: calc(var(--u)*28); border: calc(var(--u)*1) solid var(--a-line-2); border-radius: calc(var(--u)*14);
 background: radial-gradient(circle, var(--a-line-2) calc(var(--u)*1.1), transparent calc(var(--u)*1.4)) 0 0 / calc(var(--u)*18) calc(var(--u)*18), var(--a-surface-2);
 }
-.tb { position: relative; display: grid; justify-items: center; align-content: center; gap: calc(var(--u)*4); min-width: 0; height: calc(var(--u)*132); padding: calc(var(--u)*6); border: calc(var(--u)*1.5) dashed var(--a-line-2); border-radius: calc(var(--u)*14); background: var(--a-surface); text-align: center; }
-.tb.round { width: calc(var(--u)*112); height: calc(var(--u)*112); justify-self: center; border-radius: 50%; }
+.tb { position: relative; display: grid; justify-items: center; align-content: center; gap: calc(var(--u)*2); min-width: 0; height: calc(var(--u)*118); padding: calc(var(--u)*6); border: calc(var(--u)*1.5) solid var(--a-line-2); border-radius: calc(var(--u)*12); background: var(--a-surface); text-align: center; }
+.tb.round { width: calc(var(--u)*96); height: calc(var(--u)*96); justify-self: center; border-radius: 50%; }
 .tb.wide { grid-column: span 2; }
 .tb.open { border: calc(var(--u)*2) solid var(--a-ink); }
-.tb.ready { border: calc(var(--u)*2) solid var(--a-ok); background: var(--a-ok-soft); }
-.tb.bill { border: calc(var(--u)*2) solid var(--a-bill); background: var(--a-bill-soft); }
-.tb b { font-size: calc(var(--u)*28); font-weight: 700; line-height: 1; }
+.tb.ready { border: calc(var(--u)*2.5) solid var(--a-ok); background: var(--a-ok-soft); }
+.tb.bill { border: calc(var(--u)*2.5) solid var(--a-bill); background: var(--a-bill-soft); }
+.tb b { font-family: var(--font-timer); font-size: calc(var(--u)*28); font-weight: 600; line-height: 1; }
 .tb-seats, .tb-who { color: var(--a-ink-2); font-size: calc(var(--u)*14); white-space: nowrap; }
-.tb-who .i { width: calc(var(--u)*13); height: calc(var(--u)*13); margin-right: calc(var(--u)*2); }
-.tb-sum { font-size: calc(var(--u)*15); font-weight: 700; }
-.tb-tag { position: absolute; top: calc(var(--u)*-12); right: calc(var(--u)*8); padding: calc(var(--u)*3) calc(var(--u)*9); border-radius: 999px; color: #fff; font-size: calc(var(--u)*12); font-weight: 700; white-space: nowrap; }
-.tb.ready .tb-tag { background: var(--a-ok); color: var(--a-ok-ink); }
-.tb.bill .tb-tag { background: var(--a-bill); color: #fff; }
-.fl-bar { grid-column: 5; grid-row: 1 / span 3; align-self: stretch; display: flex; align-items: center; justify-content: center; border: calc(var(--u)*1) solid var(--a-line-2); border-radius: calc(var(--u)*12); background: repeating-linear-gradient(135deg, var(--a-surface) 0 calc(var(--u)*8), var(--a-surface-2) calc(var(--u)*8) calc(var(--u)*16)); color: var(--a-ink-3); font-size: calc(var(--u)*12); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
-.fl-side { display: flex; flex-direction: column; gap: calc(var(--u)*12); min-width: 0; padding: calc(var(--u)*16); background: var(--a-surface); border-left: calc(var(--u)*1) solid var(--a-line); }
-.fc { display: grid; gap: calc(var(--u)*10); padding: calc(var(--u)*14); border: calc(var(--u)*1) solid var(--a-line); border-radius: calc(var(--u)*16); background: var(--a-surface); }
-.fc-h { display: flex; align-items: center; gap: calc(var(--u)*8); font-size: calc(var(--u)*17); font-weight: 700; }
-.fc-h i { margin-left: auto; background: var(--a-surface-3); color: var(--a-ink-2); }
-.fl-dl { display: flex; flex-wrap: wrap; align-items: center; gap: calc(var(--u)*6) calc(var(--u)*8); padding: calc(var(--u)*10) calc(var(--u)*12); border-radius: calc(var(--u)*12); background: var(--a-surface-2); font-size: calc(var(--u)*15); }
-.fl-dl small { flex-basis: 100%; color: var(--a-ink-3); font-size: calc(var(--u)*13); }
-.fl-ready { display: flex; gap: calc(var(--u)*10); padding: calc(var(--u)*10) calc(var(--u)*12); border-radius: calc(var(--u)*12); background: var(--a-ok-soft); font-size: calc(var(--u)*14); line-height: 1.35; }
-.fl-ready b { font-size: calc(var(--u)*22); line-height: 1; }
-.fl-served { display: flex; align-items: center; justify-content: center; gap: calc(var(--u)*6); height: calc(var(--u)*44); border-radius: calc(var(--u)*12); background: var(--a-ok); color: var(--a-ok-ink); font-size: calc(var(--u)*15); font-weight: 700; }
-.fl-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: calc(var(--u)*10); }
-.fl-stats b { display: block; font-size: calc(var(--u)*22); }
-.fl-stats small { display: block; color: var(--a-ink-3); font-size: calc(var(--u)*12); line-height: 1.3; }
-.dl { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: calc(var(--u)*14); padding: calc(var(--u)*16); }
-.dl-top { display: flex; align-items: center; gap: calc(var(--u)*10); }
-.dl-add { display: inline-flex; align-items: center; gap: calc(var(--u)*6); height: calc(var(--u)*44); padding: 0 calc(var(--u)*16); border: calc(var(--u)*1) solid var(--a-line-2); border-radius: calc(var(--u)*12); background: var(--a-surface); font-weight: 600; }
-.dl-note { margin-left: auto; color: var(--a-ink-3); font-size: calc(var(--u)*14); }
-.dl-cols { flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(var(--u)*14); align-items: start; }
-.dl-col { display: grid; gap: calc(var(--u)*10); padding: calc(var(--u)*12); border-radius: calc(var(--u)*16); background: var(--a-surface-3); }
-.dl-h { display: flex; align-items: center; justify-content: space-between; padding: calc(var(--u)*2) calc(var(--u)*4); color: var(--a-ink-2); font-size: calc(var(--u)*13); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
-.dl-h i { background: var(--a-surface); color: var(--a-ink-2); }
-.dc { display: grid; gap: calc(var(--u)*8); padding: calc(var(--u)*14); border-radius: calc(var(--u)*14); background: var(--a-surface); box-shadow: var(--a-shadow); }
-.dc-h { display: flex; align-items: center; gap: calc(var(--u)*8); font-size: calc(var(--u)*17); }
-.dc-items { display: grid; gap: calc(var(--u)*2); color: var(--a-ink-2); font-size: calc(var(--u)*15); line-height: 1.35; }
-.dc-f { display: flex; flex-wrap: wrap; justify-content: space-between; gap: calc(var(--u)*4) calc(var(--u)*10); font-size: calc(var(--u)*14); font-weight: 700; }
-.dc-st { color: var(--a-warn); }
-.dc.rdy { box-shadow: 0 0 0 calc(var(--u)*2) var(--a-ok); }
-.dc.rdy .dc-st { color: var(--a-ok); }
-.dc-c { display: inline-flex; align-items: center; gap: calc(var(--u)*4); color: var(--a-ink-3); font-weight: 600; }
-.dc.done { opacity: 0.6; }
-.dc.done .dc-st { color: var(--a-ink-3); }
-.ks { flex: 1; min-height: 0; display: flex; flex-direction: column; background: var(--a-bg); }
+.tb-sum { font-family: var(--font-timer); font-size: calc(var(--u)*14); font-weight: 600; }
+.tb-n { position: absolute; top: calc(var(--u)*-14); right: calc(var(--u)*-14); display: inline-flex; align-items: center; justify-content: center; width: calc(var(--u)*30); height: calc(var(--u)*30); border-radius: 50%; background: var(--a-ok); color: var(--a-ok-ink); font-family: var(--font-timer); font-size: calc(var(--u)*15); font-style: normal; font-weight: 600; box-shadow: 0 0 0 calc(var(--u)*5) color-mix(in oklab, var(--a-ok) 22%, transparent); }
+.tb-tag { position: absolute; top: calc(var(--u)*-15); left: 50%; display: inline-flex; align-items: center; gap: calc(var(--u)*5); padding: calc(var(--u)*3) calc(var(--u)*10); transform: translateX(-50%); border: calc(var(--u)*1.5) solid var(--a-bill); border-radius: 999px; background: var(--a-surface); color: var(--a-bill); font-size: calc(var(--u)*13); font-weight: 600; white-space: nowrap; }
+.tb-tag::before { content: ''; width: calc(var(--u)*8); height: calc(var(--u)*8); border-radius: 50%; background: var(--a-bill); }
+.fl-bar { grid-column: 5; grid-row: 1 / span 2; align-self: stretch; display: flex; align-items: center; justify-content: center; border: calc(var(--u)*1) solid var(--a-line-2); border-radius: calc(var(--u)*10); background: repeating-linear-gradient(135deg, var(--a-surface) 0 calc(var(--u)*8), var(--a-surface-2) calc(var(--u)*8) calc(var(--u)*16)); color: var(--a-ink-2); font-size: calc(var(--u)*13); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+.fl-side { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: calc(var(--u)*178); align-content: start; background: var(--a-surface); box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2); }
+.ft { position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: calc(var(--u)*2); min-width: 0; padding: calc(var(--u)*18); box-shadow: inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
+.ft:nth-child(odd) { box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), inset calc(var(--u)*-1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
+.ft.ft-fig { justify-content: space-between; box-shadow: inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
+.ft.ft-fig:nth-child(odd) { box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
+.ft > .i { position: absolute; top: calc(var(--u)*20); left: calc(var(--u)*18); width: calc(var(--u)*26); height: calc(var(--u)*26); }
+.ft b { font-size: calc(var(--u)*16); font-weight: 600; line-height: calc(var(--u)*22); }
+.ft small { color: var(--a-ink-2); font-size: calc(var(--u)*14); line-height: calc(var(--u)*18); }
+.ft-fig b { font-family: var(--font-timer); font-size: calc(var(--u)*26); line-height: calc(var(--u)*32); }
+.ft-fig b em { margin-left: calc(var(--u)*5); color: var(--a-ink-2); font-family: var(--font-app); font-size: calc(var(--u)*14); font-style: normal; }
+.ft-n { position: absolute; top: calc(var(--u)*16); right: calc(var(--u)*16); display: flex; gap: calc(var(--u)*8); }
+.ft-n i { display: inline-flex; align-items: center; justify-content: center; min-width: calc(var(--u)*30); height: calc(var(--u)*30); padding-inline: calc(var(--u)*8); border-radius: 999px; background: var(--a-surface-3); color: var(--a-ink); font-family: var(--font-timer); font-size: calc(var(--u)*15); font-style: normal; font-weight: 600; }
+.ft-n i.ok { background: var(--a-ok); color: var(--a-ok-ink); box-shadow: 0 0 0 calc(var(--u)*5) color-mix(in oklab, var(--a-ok) 22%, transparent); }
+.ft-n i.warn { background: var(--a-warn); color: var(--a-warn-ink); }
+.fl-served { display: inline-flex; align-items: center; align-self: flex-start; gap: calc(var(--u)*5); margin-top: calc(var(--u)*8); padding: calc(var(--u)*4) calc(var(--u)*12); border-radius: 999px; background: var(--a-ok-soft); color: var(--a-ok); font-size: calc(var(--u)*14); font-weight: 600; }
+.fl-served .i { width: calc(var(--u)*16); height: calc(var(--u)*16); }
+.dl { position: relative; flex: 1; min-height: 0; display: flex; }
+.dl-cols { flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.dl-col { display: flex; flex-direction: column; min-width: 0; background: var(--a-surface); box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2); }
+.dl-col:first-child { box-shadow: none; }
+.dl-h { display: flex; align-items: center; justify-content: space-between; min-height: calc(var(--u)*64); padding: 0 calc(var(--u)*20); box-shadow: inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); font-size: calc(var(--u)*16); font-weight: 600; }
+.dl-h i { display: inline-flex; align-items: center; justify-content: center; min-width: calc(var(--u)*28); height: calc(var(--u)*28); padding-inline: calc(var(--u)*8); border-radius: 999px; background: var(--a-surface-3); color: var(--a-ink); font-family: var(--font-timer); font-size: calc(var(--u)*14); font-style: normal; font-weight: 600; }
+.dc { display: grid; gap: calc(var(--u)*6); padding: calc(var(--u)*16) calc(var(--u)*20) calc(var(--u)*18) calc(var(--u)*24); box-shadow: inset calc(var(--u)*4) 0 0 0 var(--a-wolt), inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); font-size: calc(var(--u)*16); }
+.dc.glovo { box-shadow: inset calc(var(--u)*4) 0 0 0 var(--a-glovo), inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
+.dc-h { display: flex; align-items: center; gap: calc(var(--u)*10); }
+.dc-h b { font-family: var(--font-timer); font-size: calc(var(--u)*16); font-weight: 600; }
+.dc-items { display: grid; gap: calc(var(--u)*2); line-height: 1.35; }
+.dc-f { display: flex; flex-wrap: wrap; justify-content: space-between; gap: calc(var(--u)*4) calc(var(--u)*10); color: var(--a-ink-2); font-size: calc(var(--u)*14); }
+.dc-st { color: var(--a-ink); }
+.dc.rdy .dc-st { color: var(--a-ok); font-weight: 600; }
+.dc-c { display: inline-flex; align-items: center; gap: calc(var(--u)*4); }
+.dc-c .i { width: calc(var(--u)*16); height: calc(var(--u)*16); }
+.dc.done { opacity: 0.55; }
+.ks {
+--a-bg: #EAEDF3; --a-surface: #FFFFFF; --a-surface-2: #F5F7FA; --a-surface-3: #E4E8EF; --a-ink: #131824; --a-ink-2: #49505E; --a-ink-3: #5D6370;
+--a-line: #D5D9E1; --a-line-2: #BFC4CF; --a-accent: #1E44B0; --a-accent-ink: #FFFFFF; --a-accent-soft: #D8E5FF; --a-pill: #FFFFFF;
+position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; background: var(--a-surface); color: var(--a-ink); color-scheme: light;
+}
 .ks > * { flex: none; }
-.ks > .sb { background: var(--a-bg); }
-.ks-top { display: flex; align-items: center; gap: calc(var(--u)*14); padding: calc(var(--u)*18) calc(var(--u)*28) calc(var(--u)*8); }
-.ks-place { font-size: calc(var(--u)*18); font-weight: 700; }
-.ks-lang { margin-left: auto; border-radius: 999px; }
-.ks-lang > span { padding: calc(var(--u)*9) calc(var(--u)*18); border-radius: 999px; font-size: calc(var(--u)*16); font-weight: 500; }
-.ks-ic { display: inline-flex; color: var(--a-ink-3); }
-.ks-ic .i { width: calc(var(--u)*18); height: calc(var(--u)*18); }
-.ks-cats { display: flex; align-items: center; gap: calc(var(--u)*8); padding: calc(var(--u)*12) calc(var(--u)*28); overflow: hidden; white-space: nowrap; }
-.ks-cats > span { flex: none; padding: calc(var(--u)*12) calc(var(--u)*22); border-radius: 999px; color: var(--a-ink-2); font-size: calc(var(--u)*20); }
-.ks-cats .on { background: var(--a-accent); color: var(--a-accent-ink); font-weight: 600; }
-.ks-cats > .ks-search { display: inline-flex; align-items: center; justify-content: center; width: calc(var(--u)*56); height: calc(var(--u)*56); padding: 0; background: var(--a-surface); color: var(--a-ink); box-shadow: var(--a-shadow); }
-.ks-search .i { width: calc(var(--u)*22); height: calc(var(--u)*22); }
-.ks-sec { padding: calc(var(--u)*24) calc(var(--u)*32) calc(var(--u)*16); font-size: calc(var(--u)*30); font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; }
-.ks-grid { display: grid; gap: calc(var(--u)*18); padding: 0 calc(var(--u)*28); }
-.ks-grid.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.ks-grid.c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.kd { position: relative; display: grid; gap: calc(var(--u)*10); padding: calc(var(--u)*18) calc(var(--u)*18) calc(var(--u)*20); border-radius: calc(var(--u)*26); background: var(--a-surface-2); }
-.kd-img { display: block; aspect-ratio: 4 / 3; }
+.ks-top { display: flex; align-items: center; gap: calc(var(--u)*12); min-height: calc(var(--u)*88); padding: calc(var(--u)*24) calc(var(--u)*20) 0; background: var(--hd); box-shadow: 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
+.ab-brand { position: relative; flex: none; padding: calc(var(--u)*6) calc(var(--u)*10) calc(var(--u)*5) calc(var(--u)*11); border-radius: calc(var(--u)*6); background: #1E44B0; color: #fff; font-family: var(--font-brand); font-size: calc(var(--u)*13); font-weight: 700; line-height: 1; letter-spacing: 0.08em; }
+.ab-brand::after { content: ''; position: absolute; inset: calc(var(--u)*2); border: calc(var(--u)*1.2) solid rgb(255 255 255 / 0.92); border-radius: calc(var(--u)*4.5); }
+.ks-place { font-size: calc(var(--u)*22); font-weight: 600; }
+.ks-lang { display: flex; gap: calc(var(--u)*6); margin-left: auto; }
+.ks-lang > span { display: inline-flex; align-items: center; height: calc(var(--u)*44); padding: 0 calc(var(--u)*16); border-radius: 999px; background: var(--a-pill); font-size: calc(var(--u)*14); }
+.ks-lang > .on { background: var(--a-accent); color: var(--a-accent-ink); }
+.ks-cats { display: flex; height: calc(var(--u)*64); background: var(--a-bg); box-shadow: inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
+.ks-cats > span { flex: 1 0 auto; display: flex; align-items: center; justify-content: center; padding: 0 calc(var(--u)*18); color: var(--a-ink-2); font-size: calc(var(--u)*16); font-weight: 600; white-space: nowrap; box-shadow: inset calc(var(--u)*-1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
+.ks-cats > span:last-child { box-shadow: inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
+.ks-cats > .on { background: var(--a-accent); color: var(--a-accent-ink); box-shadow: none; }
+.ks-cats > .ks-search { flex: 0 0 calc(var(--u)*64); padding: 0; color: var(--a-ink); }
+.ks-search .i { width: calc(var(--u)*24); height: calc(var(--u)*24); }
+.ks-sec { display: flex; align-items: center; height: calc(var(--u)*52); padding: 0 calc(var(--u)*20); background: var(--a-bg); box-shadow: inset 0 calc(var(--u)*1) 0 0 var(--a-line-2), inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); font-size: calc(var(--u)*16); font-weight: 600; }
+.ks-cats + .ks-sec { box-shadow: inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
+.ks-grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); background: var(--a-surface); }
+.kd { position: relative; display: flex; flex-direction: column; gap: calc(var(--u)*4); min-width: 0; padding: calc(var(--u)*16) calc(var(--u)*20) calc(var(--u)*20); background: var(--a-surface); box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
+.kd[data-rf] { box-shadow: inset 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
+.kd[data-r0] { box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2); }
+.kd[data-r0][data-rf] { box-shadow: none; }
+.kd.in { background: var(--a-accent-soft); }
+.kd-img { display: block; height: calc(var(--u)*210); margin-bottom: calc(var(--u)*8); }
 .kd-img img { display: block; width: 100%; height: 100%; object-fit: contain; }
-.kd-n { min-height: 2.6em; font-size: calc(var(--u)*18); line-height: 1.3; }
-.kd-p { color: var(--a-accent); font-size: calc(var(--u)*20); font-weight: 600; }
-.kd-p small { margin-left: calc(var(--u)*4); font-size: 0.7em; font-weight: 500; }
-.kd.in { box-shadow: inset 0 0 0 calc(var(--u)*3) var(--a-accent); }
-.kd.in::after { content: '1'; position: absolute; top: calc(var(--u)*14); right: calc(var(--u)*14); display: inline-flex; align-items: center; justify-content: center; width: calc(var(--u)*34); height: calc(var(--u)*34); border-radius: 50%; background: var(--a-accent); color: var(--a-accent-ink); font-size: calc(var(--u)*16); font-weight: 700; }
-.ks-cart { position: absolute; left: calc(var(--u)*20); right: calc(var(--u)*20); bottom: calc(var(--u)*20); display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u)*14); padding: calc(var(--u)*14) calc(var(--u)*14) calc(var(--u)*14) calc(var(--u)*24); border-radius: calc(var(--u)*22); background: var(--a-ink); color: var(--a-bg); box-shadow: 0 calc(var(--u)*10) calc(var(--u)*30) rgb(0 0 0 / 0.25); }
-.ks-b { display: grid; gap: calc(var(--u)*2); min-width: 0; }
-.ks-b b { font-size: calc(var(--u)*20); }
-.ks-b small { font-size: calc(var(--u)*16); opacity: 0.8; }
-.kio-go { flex: none; padding: calc(var(--u)*16) calc(var(--u)*30); border-radius: calc(var(--u)*16); background: var(--a-accent); color: var(--a-accent-ink); font-size: calc(var(--u)*20); font-weight: 700; }
-.dv-port .kio-go { background: #1E44B0; color: #fff; }
-.qr-svg { display: block; width: calc(var(--u)*236); height: calc(var(--u)*236); border-radius: calc(var(--u)*14); box-shadow: 0 0 0 calc(var(--u)*1) var(--a-line); }
-.kt { overflow: hidden; border-radius: 18px; background: var(--a-surface); color: var(--a-ink); box-shadow: var(--shadow-2); font-family: var(--font-app); font-variant-numeric: tabular-nums; letter-spacing: 0; }
-.kt-head { display: flex; align-items: baseline; gap: 8px; padding: 12px 14px 10px; border-bottom: 3px solid var(--a-ok); background: var(--a-surface-2); }
-.kt-head b { font-size: 20px; font-weight: 700; white-space: nowrap; }
-.kt-time { margin-left: auto; color: var(--a-ok); font-family: var(--font-timer); font-size: 17px; font-weight: 600; }
-.kt-lines { display: grid; gap: 10px; padding: 12px 14px 12px; }
-.kl { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; line-height: 1.3; }
-.kl-q { font-size: 18px; font-weight: 700; }
+.kd-n { font-size: calc(var(--u)*16); font-weight: 600; line-height: calc(var(--u)*22); }
+.kd-p { font-family: var(--font-timer); font-size: calc(var(--u)*16); font-weight: 600; }
+.kd-p small { margin-left: calc(var(--u)*6); color: var(--a-ink-2); font-family: var(--font-app); font-size: calc(var(--u)*14); font-weight: 400; }
+.kd-c { position: absolute; top: calc(var(--u)*14); right: calc(var(--u)*14); display: inline-flex; align-items: center; justify-content: center; width: calc(var(--u)*32); height: calc(var(--u)*32); border-radius: 50%; background: var(--a-accent); color: var(--a-accent-ink); font-family: var(--font-timer); font-size: calc(var(--u)*16); font-style: normal; font-weight: 600; }
+.ks-cart { position: absolute; right: calc(var(--u)*20); bottom: calc(var(--u)*20); left: calc(var(--u)*20); display: flex; align-items: center; gap: calc(var(--u)*12); min-height: calc(var(--u)*72); padding: 0 calc(var(--u)*8) 0 calc(var(--u)*10); border-radius: 999px; background: var(--a-accent); color: var(--a-accent-ink); box-shadow: 0 calc(var(--u)*10) calc(var(--u)*30) rgb(19 24 36 / 0.22); }
+.ks-cn { display: inline-flex; align-items: center; justify-content: center; width: calc(var(--u)*52); height: calc(var(--u)*52); border-radius: 50%; background: #FFFFFF; color: var(--a-accent); font-family: var(--font-timer); font-size: calc(var(--u)*22); font-weight: 600; }
+.ks-b { font-size: calc(var(--u)*16); font-weight: 600; }
+.ks-sum { margin-left: auto; font-family: var(--font-timer); font-size: calc(var(--u)*22); font-weight: 600; }
+.ks-sum small { margin-left: calc(var(--u)*5); font-family: var(--font-app); font-size: calc(var(--u)*14); font-weight: 400; }
+.kio-go { display: inline-flex; align-items: center; gap: calc(var(--u)*8); padding: 0 calc(var(--u)*18); font-size: calc(var(--u)*16); font-weight: 600; }
+.kio-go .i { width: calc(var(--u)*20); height: calc(var(--u)*20); }
+.qr-svg { display: block; width: calc(var(--u)*236); height: calc(var(--u)*236); }
+.kt { overflow: hidden; background: var(--a-surface); color: var(--a-ink); box-shadow: var(--shadow-2), 0 0 0 1px var(--a-line-2); font-family: var(--font-app); font-variant-numeric: tabular-nums; letter-spacing: 0; }
+.kt-head { display: flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 14px; background: var(--a-surface-2); box-shadow: inset 0 -1px 0 0 var(--a-line-2); }
+.kt-head b { font-size: 20px; font-weight: 600; white-space: nowrap; }
+.kt-time { margin-left: auto; color: var(--a-ok); font-family: var(--font-timer); font-size: 20px; font-weight: 600; }
+.kt-lines { display: grid; }
+.kl { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center; gap: 8px; min-height: 46px; padding: 8px 14px; box-shadow: inset 0 -1px 0 0 var(--a-line-2); font-size: 16px; font-weight: 600; line-height: 1.3; }
+.kl-q { font-family: var(--font-timer); font-size: 18px; font-weight: 600; }
 .kl-n { min-width: 0; text-decoration-color: transparent; text-decoration-line: line-through; text-decoration-thickness: 2px; }
 .kl-ok { display: inline-flex; color: var(--a-ok); opacity: 0; }
-.kl-ok .i { width: 17px; height: 17px; }
-.kt-wait { margin: 0 14px 12px; padding: 7px 10px; border-radius: 8px; background: var(--a-warn-soft); color: var(--a-warn); font-size: 13px; font-weight: 600; }
+.kl-ok .i { width: 18px; height: 18px; }
+.kt-wait { margin: 0; padding: 10px 14px; background: var(--a-warn-soft); color: var(--a-warn); font-size: 14px; box-shadow: inset 0 -1px 0 0 var(--a-line-2); }
 .kt-wait.note { background: var(--a-surface-2); color: var(--a-ink-2); }
-.kt-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 10px 10px 14px; border-top: 1px solid var(--a-line); color: var(--a-ink-3); font-size: 12px; }
-.kt-bump { display: inline-flex; align-items: center; gap: 5px; padding: 8px 12px; border-radius: 10px; background: var(--a-ok); color: var(--a-ok-ink); font-size: 13px; font-weight: 700; white-space: nowrap; }
-.kt-bump .i { width: 14px; height: 14px; }
-.kt.fcast .kt-head { border-color: var(--a-plan); }
-.kt-when { margin-left: auto; color: var(--a-plan); font-size: 14px; font-weight: 600; }
-.kt-station { padding: 12px 14px 0; color: var(--a-ink-2); font-size: 12px; font-weight: 700; letter-spacing: var(--track-caps); text-transform: uppercase; }
-.kp-rows { display: grid; gap: 8px; padding: 10px 14px 4px; }
-.kp { display: flex; justify-content: space-between; gap: 10px; font-size: 15px; font-weight: 600; }
+.kt-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 10px 10px 14px; color: var(--a-ink-2); font-size: 13px; }
+.kt-bump { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 16px; border-radius: 999px; background: var(--a-ok); color: var(--a-ok-ink); font-size: 14px; font-weight: 600; white-space: nowrap; }
+.kt-bump .i { width: 16px; height: 16px; }
+.kt.fcast .kt-head { background: var(--a-accent-soft); }
+.kt-when { margin-left: auto; color: var(--a-accent); font-size: 14px; }
+.kt-station { margin: 0; padding: 10px 14px; color: var(--a-ink-2); font-size: 14px; box-shadow: inset 0 -1px 0 0 var(--a-line-2); }
+.kp-rows { display: grid; }
+.kp { display: flex; justify-content: space-between; gap: 10px; min-height: 42px; align-items: center; padding: 0 14px; box-shadow: inset 0 -1px 0 0 var(--a-line); font-size: 14px; }
 .kp span { min-width: 0; }
-.kp b { flex: none; color: var(--a-plan); }
-.kp-note { padding: 8px 14px 14px; color: var(--a-ink-3); font-size: 12px; line-height: 1.4; }
-.nc { padding: 14px 16px 12px; border-radius: 18px; background: var(--surface); color: var(--ink); box-shadow: var(--shadow-2); font-size: 14px; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
-.nc-h { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 13px; font-weight: 600; }
-.nc-h .i { width: 18px; height: 18px; color: var(--accent); }
-.nc-r { display: flex; justify-content: space-between; gap: 10px; padding-block: 4px; color: var(--ink-2); }
+.kp b { flex: none; font-family: var(--font-timer); font-size: 15px; font-weight: 600; }
+.kp-note { margin: 0; padding: 10px 14px 12px; color: var(--a-ink-2); font-size: 13px; line-height: 1.4; }
+.nc { background: var(--a-surface); color: var(--a-ink); box-shadow: var(--shadow-2), 0 0 0 1px var(--a-line-2); font-family: var(--font-app); font-size: 14px; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.nc-h { display: flex; align-items: center; gap: 8px; min-height: 48px; margin: 0; padding: 0 14px; background: var(--a-surface-2); box-shadow: inset 0 -1px 0 0 var(--a-line-2); font-size: 16px; font-weight: 600; }
+.nc-h .i { width: 18px; height: 18px; color: var(--a-accent); }
+.nc-r { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 40px; padding: 0 14px; box-shadow: inset 0 -1px 0 0 var(--a-line); color: var(--a-ink-2); }
 .nc-r span { min-width: 0; }
-.nc-r b { color: var(--ink); font-weight: 600; white-space: nowrap; }
-.nc-r b.ok { color: var(--ok); }
-.nc-note { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 12px; }
+.nc-r b { color: var(--a-ink); font-family: var(--font-timer); font-size: 15px; font-weight: 600; white-space: nowrap; }
+.nc-r b.ok { color: var(--a-ok); }
+.nc-note { margin: 0; padding: 10px 14px 12px; color: var(--a-ink-2); font-size: 13px; }
 @media (prefers-reduced-motion: no-preference) {
 .stage.live:not(.multi) :is(.op-send, .st-new, .st-sent, .op-pay, .pb.go, .kio-go, .kt, .kl-ok, .kl-n, .kt-bump, .nc) { animation-delay: -6.2s !important; }
 .stage.live:not(.multi) .op-send { animation: h-send 10s infinite; }
@@ -632,17 +645,22 @@ background: radial-gradient(circle, var(--a-line-2) calc(var(--u)*1.1), transpar
 .stage.multi .stage-dev { position: relative; }
 .stage.multi .scr > .hl { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; background: var(--a-bg); opacity: 0; visibility: hidden; }
 .stage.multi .scr > .hl-3 { z-index: 3; }
-.hl-pay { position: absolute; inset: 0; z-index: 4; display: grid; place-items: center; background: rgb(19 23 26 / 0.36); opacity: 0; visibility: hidden; }
-.pay-sh { display: grid; justify-items: center; gap: calc(var(--u)*12); width: calc(var(--u)*360); padding: calc(var(--u)*22) calc(var(--u)*24) calc(var(--u)*20); border-radius: calc(var(--u)*22); background: var(--a-surface); color: var(--a-ink); box-shadow: 0 calc(var(--u)*24) calc(var(--u)*60) rgb(0 0 0 / 0.32); }
-.pay-t { color: var(--a-ink-2); font-size: calc(var(--u)*15); font-weight: 600; }
-.pay-sum { font-size: calc(var(--u)*34); font-weight: 700; line-height: 1; letter-spacing: -0.01em; }
-.pay-sum small { margin-left: calc(var(--u)*6); color: var(--a-ink-3); font-size: calc(var(--u)*15); font-weight: 600; }
-.pay-seg > span { padding: calc(var(--u)*6) calc(var(--u)*12); font-size: calc(var(--u)*14); }
-.pay-qr { position: relative; width: calc(var(--u)*176); padding: calc(var(--u)*10); border: calc(var(--u)*1) solid var(--a-line); border-radius: calc(var(--u)*16); background: #FFFFFF; }
+.hl-pay { position: absolute; inset: 0; z-index: 4; display: grid; align-items: end; justify-items: center; background: rgb(19 24 36 / 0.42); opacity: 0; visibility: hidden; }
+.pay-sh { display: grid; justify-items: center; gap: calc(var(--u)*16); width: calc(var(--u)*560); padding: 0 0 calc(var(--u)*26); background: var(--a-surface); color: var(--a-ink); box-shadow: 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
+.pay-hd { justify-self: stretch; display: flex; align-items: center; justify-content: space-between; min-height: calc(var(--u)*64); padding: 0 calc(var(--u)*14) 0 calc(var(--u)*22); box-shadow: inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
+.pay-hd b { font-size: calc(var(--u)*22); font-weight: 600; }
+.pay-hd .pl { background: var(--a-surface-3); }
+.pay-sum { font-family: var(--font-timer); font-size: calc(var(--u)*36); font-weight: 600; line-height: 1; }
+.pay-sum small { margin-left: calc(var(--u)*6); color: var(--a-ink-2); font-family: var(--font-app); font-size: calc(var(--u)*16); }
+.pay-seg { justify-self: stretch; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); box-shadow: inset 0 calc(var(--u)*1) 0 0 var(--a-line-2), inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
+.pay-seg > span { display: flex; align-items: center; justify-content: center; height: calc(var(--u)*64); font-size: calc(var(--u)*16); font-weight: 600; box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2); }
+.pay-seg > span:first-child { box-shadow: none; }
+.pay-seg > .on { background: var(--a-accent); color: var(--a-accent-ink); box-shadow: none; }
+.pay-qr { position: relative; width: calc(var(--u)*220); padding: calc(var(--u)*10); background: #FFFFFF; box-shadow: 0 0 0 calc(var(--u)*1) var(--a-line-2); }
 .pay-qr .qr-svg { display: block; width: 100%; height: auto; }
-.pay-ok { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: calc(var(--u)*6); border-radius: calc(var(--u)*16); background: rgb(255 255 255 / 0.88); color: #157043; font-size: calc(var(--u)*22); font-weight: 700; opacity: 0; }
+.pay-ok { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: calc(var(--u)*6); background: rgb(255 255 255 / 0.9); color: #007440; font-size: calc(var(--u)*22); font-weight: 600; opacity: 0; }
 .pay-ok .i { width: calc(var(--u)*26); height: calc(var(--u)*26); }
-.pay-cap { color: var(--a-ink-3); font-size: calc(var(--u)*13); }
+.pay-cap { color: var(--a-ink-2); font-size: calc(var(--u)*14); }
 .stage.multi .stage-side { display: grid; }
 .stage.multi .sg { grid-area: 1 / 1; display: grid; align-content: start; gap: 14px; min-width: 0; }
 .stage.multi .sg:not(.sg-1) { opacity: 0; visibility: hidden; }
@@ -651,14 +669,14 @@ background: radial-gradient(circle, var(--a-line-2) calc(var(--u)*1.1), transpar
 .stage.multi .sg { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
 }
 @media (max-width: 520px) { .stage.multi .sg { grid-template-columns: minmax(0, 1fr); } }
-.nc-h em { margin-left: auto; color: var(--ink-3); font-size: 12px; font-style: normal; font-weight: 500; }
-.rd-t { display: flex; align-items: center; gap: 6px; margin: 0 0 4px; color: var(--ok); font-size: 17px; font-weight: 700; letter-spacing: -0.02em; }
+.nc-h em { margin-left: auto; color: var(--a-ink-2); font-size: 13px; font-style: normal; font-weight: 400; }
+.rd-t { display: flex; align-items: center; gap: 6px; margin: 0; padding: 10px 14px; color: var(--a-ok); font-size: 16px; font-weight: 600; box-shadow: inset 0 -1px 0 0 var(--a-line); }
 .rd-t .i { width: 18px; height: 18px; }
-.rd-ok { display: inline-flex; color: var(--ok); }
-.rd-ok .i { width: 16px; height: 16px; }
-.rd-b { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 8px 12px; border-radius: 10px; background: var(--ok); color: #FFFFFF; font-size: 13px; font-weight: 700; }
-.rd-b .i { width: 14px; height: 14px; }
-.nc-note.ok { display: flex; align-items: center; gap: 6px; color: var(--ok); }
+.rd-ok { display: inline-flex; color: var(--a-ok); }
+.rd-ok .i { width: 18px; height: 18px; }
+.rd-b { display: flex; align-items: center; justify-content: center; gap: 6px; height: 40px; margin: 10px 14px 12px; border-radius: 999px; background: var(--a-ok); color: var(--a-ok-ink); font-size: 14px; font-weight: 600; }
+.rd-b .i { width: 16px; height: 16px; }
+.nc-note.ok { display: flex; align-items: center; gap: 6px; color: var(--a-ok); }
 .nc-note.ok .i { width: 14px; height: 14px; }
 .nc-r b { display: inline-block; }
 .evs { position: absolute; z-index: 5; top: -46px; left: -30px; width: min(344px, 62%); pointer-events: none; }
@@ -781,10 +799,12 @@ background: transparent; color: var(--ink-2); font: inherit; font-size: 14px; fo
 .pair { display: flex; align-items: flex-start; justify-content: center; gap: clamp(18px, 4vw, 56px); width: 100%; }
 .ex-shot--phones .dv-phone { width: min(44%, 296px); }
 .ex-shot--port .dv-port { width: min(62%, 446px); }
-.kio-no { flex: none; display: grid; justify-items: center; width: 220px; margin-top: clamp(40px, 9vw, 150px); text-align: center; }
-.kio-no .nc-h { margin-bottom: 4px; }
-.kio-num { color: var(--accent); font-family: var(--font-brand); font-size: 60px; font-weight: 700; line-height: 1.1; }
-.kio-no .nc-note { margin-top: 6px; }
+.kio-no {
+--a-surface: #FFFFFF; --a-surface-2: #F5F7FA; --a-ink: #131824; --a-ink-2: #49505E; --a-line: #D5D9E1; --a-line-2: #BFC4CF; --a-accent: #1E44B0;
+flex: none; display: grid; width: 220px; margin-top: clamp(40px, 9vw, 150px); text-align: center; color-scheme: light;
+}
+.kio-num { padding-top: 14px; color: var(--a-accent); font-family: var(--font-timer); font-size: 64px; font-weight: 600; line-height: 1; }
+.kio-no .nc-note { padding-top: 8px; }
 @media (max-width: 640px) { .kio-no { display: none; } .ex-shot--port .dv-port { width: min(86%, 400px); } }
 .ex-text { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px clamp(32px, 5vw, 72px); width: 100%; max-width: 960px; margin-inline: auto; }
 .ex-text h3 { grid-column: 1; font-size: var(--fs-h3); font-weight: 600; line-height: 1.2; letter-spacing: -0.022em; }
@@ -854,80 +874,109 @@ border: 0; border-radius: 50%; background: rgb(255 255 255 / 0.14); color: var(-
 .rush-pp .i { width: 14px; height: 14px; }
 .rush-pp:not([data-state="paused"]) .rp-play, .rush-pp[data-state="paused"] .rp-pause { display: none; }
 @media (max-width: 640px) { .rush-rows { --rush-gap: 14px; } .rush-rows { gap: 14px; } }
+.rush li { padding: 0 0 26px; overflow: hidden; }
+.rush h3 { margin: 20px 24px 6px; }
+.rush p { margin-inline: 24px; }
 .mu {
---m-ink: #13171A; --m-ink-2: #4A5258; --m-ink-3: #68727A; --m-line: #D4D9D2; --m-bg: #EEF0ED; --m-card: #FFFFFF; --m-accent: #1E44B0;
-position: relative; display: grid; align-content: center; justify-items: stretch; gap: 7px;
-height: 136px; padding: 12px; overflow: hidden; border-radius: 18px; background: var(--m-bg); color: var(--m-ink);
-font-family: var(--font-app); font-size: 13px; line-height: 1.3; letter-spacing: 0; font-variant-numeric: tabular-nums;
+--u: 0.9px;
+--a-bg: #EAEDF3; --a-surface: #FFFFFF; --a-surface-2: #F5F7FA; --a-surface-3: #E4E8EF; --a-ink: #131824; --a-ink-2: #49505E; --a-ink-3: #5D6370;
+--a-line: #D5D9E1; --a-line-2: #BFC4CF; --a-accent: #1E44B0; --a-accent-ink: #FFFFFF; --a-accent-soft: #D8E5FF; --a-pill: #FFFFFF;
+--a-ok: #007440; --a-ok-soft: #CBEFD6; --a-warn: #805202; --a-warn-soft: #FAE0C1; --a-bad: #BE2E31; --a-wolt: #009DE0;
+position: relative; display: grid; grid-auto-rows: minmax(0, 1fr); height: 148px; overflow: hidden;
+background: var(--a-surface); color: var(--a-ink); color-scheme: light;
+font-family: var(--font-app); font-size: 15px; font-weight: 600; line-height: 1.25; letter-spacing: 0; font-variant-numeric: tabular-nums;
 }
-.mu .i { width: 14px; height: 14px; }
-.mu-line { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; padding: 7px 10px; border-radius: 9px; background: var(--m-card); }
-.mu-line > span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.mu-line.dim { color: var(--m-ink-3); }
-.mu-line.start { justify-content: flex-start; }
-.mu-line b { font-weight: 700; white-space: nowrap; }
-.mu-q { color: var(--m-ink-3); }
-.mu-div { display: flex; align-items: center; gap: 8px; color: #9A5C00; font-size: 10.5px; font-weight: 700; letter-spacing: var(--track-caps); text-transform: uppercase; white-space: nowrap; }
-.mu-div::before, .mu-div::after { content: ''; flex: 1; height: 1px; background: var(--m-line); }
-.mu-btn { justify-self: start; display: inline-flex; align-items: center; height: 30px; padding-inline: 14px; border: 1px solid var(--m-line); border-radius: 8px; background: var(--m-card); font-weight: 600; white-space: nowrap; }
-.mu-btn.go { border-color: transparent; background: var(--m-accent); color: #fff; }
-.mu-btn.sm { height: 26px; padding-inline: 10px; font-size: 12px; }
-.mu-tag { justify-self: start; display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px; background: #E2E6E1; color: var(--m-ink-2); font-size: 12px; font-weight: 600; white-space: nowrap; }
-.mu-tag.warn { background: #FAEBCF; color: #9A5C00; }
-.mu-tag.late { background: #FBE1DC; color: #B3321E; }
-.mu-tag.ok { background: #DDF2E6; color: #1F7A4D; }
-.mu-tag.gold { background: #F6E9BF; color: #7A5A00; }
-.mu-tag.big { padding: 7px 14px; font-size: 15px; }
-.mu-t { font-weight: 600; }
-.mu-seg { justify-self: start; display: inline-flex; gap: 2px; padding: 2px; border-radius: 9px; background: #DDE1DC; }
-.mu-seg span { padding: 4px 10px; border-radius: 7px; color: var(--m-ink-2); font-size: 12px; font-weight: 600; white-space: nowrap; }
-.mu-seg .on { background: var(--m-card); color: var(--m-ink); box-shadow: 0 1px 2px rgb(19 23 26 / 0.12); }
-.mu-big { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 6px 10px; border-radius: 9px; background: #DDF2E6; color: #1F7A4D; font-weight: 600; }
-.mu-big b { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
-.mu--lock, .mu--user { justify-items: center; text-align: center; }
-.mu-dots { display: inline-flex; gap: 10px; }
-.mu-dots i { width: 13px; height: 13px; border: 1.5px solid var(--m-ink); border-radius: 50%; }
-.mu-dots i.f { background: var(--m-ink); }
-.mu--lock .mu-tag { justify-self: center; }
-.mu-ok { display: inline-flex; align-items: center; gap: 6px; color: #1F7A4D; font-weight: 600; }
-.mu-floor { position: relative; height: 66px; border-radius: 9px; background: radial-gradient(circle, #C9CFC7 1px, transparent 1.2px) 0 0 / 10px 10px, var(--m-card); }
-.mf { position: absolute; top: 14px; display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 1.5px solid var(--m-ink); border-radius: 8px; background: var(--m-card); font-weight: 700; }
-.mf:nth-child(1) { left: 8%; }
-.mf:nth-child(2) { left: 32%; border-style: dashed; border-color: #BDC4BB; color: var(--m-ink-3); }
-.mf.ghost { left: 58%; border: 1.5px dashed var(--m-accent); background: rgb(30 68 176 / 0.06); }
-.mf.lift { left: 66%; top: 6px; border-color: var(--m-accent); color: var(--m-accent); box-shadow: 0 10px 18px rgb(19 23 26 / 0.18); transform: rotate(-5deg); }
-.mu-who { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
-.mu-av { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: #E2E8F8; color: var(--m-accent); font-size: 12px; font-weight: 700; }
-.mu-keys { justify-self: stretch; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 4px; }
-.mu-keys i { display: inline-flex; align-items: center; justify-content: center; height: 24px; border-radius: 6px; background: var(--m-card); font-size: 11px; font-style: normal; font-weight: 600; }
-.mu-day { position: relative; height: 10px; border-radius: 999px; background: #DDE1DC; }
-.mu-day .d-fill { position: absolute; inset: 0 14.6% 0 0; border-radius: 999px; background: var(--m-accent); }
-.mu-day .d-mid { position: absolute; top: -3px; bottom: -3px; left: 79.2%; width: 2px; background: var(--m-ink); }
-.mu-day .d-now { position: absolute; top: 50%; left: 85.4%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border: 3px solid var(--m-card); border-radius: 50%; background: var(--m-accent); box-shadow: 0 0 0 1px var(--m-accent); }
-.mu-times { position: relative; height: 14px; color: var(--m-ink-3); font-size: 11px; }
-.mu-times span { position: absolute; top: 0; }
-.mu-times span:nth-child(1) { left: 0; }
-.mu-times span:nth-child(2) { left: 79.2%; transform: translateX(calc(-100% - 4px)); }
-.mu-times span:nth-child(3) { right: 0; }
-.mu-line.bare { padding: 0; background: none; }
-.mu-tag.now { background: #E2E8F8; color: var(--m-accent); }
-.mu-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.mu-note { color: var(--m-ink-3); font-size: 12px; }
-.mu .pf.wolt { font-size: 11px; }
-.mu-warn { display: flex; align-items: flex-start; gap: 6px; padding: 7px 10px; border-radius: 9px; background: #FAEBCF; color: #7A4A00; font-size: 12px; font-weight: 600; line-height: 1.3; }
-.mu-warn .i { flex: none; width: 14px; height: 14px; margin-top: 1px; }
-.mu-tag .i { width: 12px; height: 12px; margin-right: 4px; }
-.mu-minus { color: #1F7A4D; }
-.mu--board { background: #0E1113; color: #EEF1F2; }
-.mu-bd { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; height: 100%; }
-.mb-col { display: grid; align-content: start; gap: 8px; min-width: 0; padding: 8px; border-radius: 10px; background: #171B1E; }
-.mb-col.ok { background: linear-gradient(180deg, #13301F, #171B1E); }
-.mb-h { color: #B3BBC1; font-size: 10.5px; font-weight: 700; letter-spacing: var(--track-caps); text-transform: uppercase; white-space: nowrap; }
-.mb-col.ok .mb-h { color: #4CC788; }
-.mb-ns { display: flex; flex-wrap: wrap; gap: 6px; }
-.mb-n { display: inline-flex; flex-direction: column; justify-content: center; min-width: 40px; padding: 4px 7px; border-radius: 8px; background: #1E2327; color: #B3BBC1; font-size: 19px; font-weight: 700; line-height: 1.05; }
-.mb-n small { color: #EEF1F2; font-size: 10px; font-weight: 600; }
-.mb-col.ok .mb-n { box-shadow: inset 0 0 0 1.5px #4CC788; background: #13301F; color: #4CC788; }
+.mu .i { flex: none; width: 16px; height: 16px; }
+.mr { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-width: 0; padding: 0 18px; box-shadow: inset 0 -1px 0 0 var(--a-line); }
+.mr:last-child { box-shadow: none; }
+.mr-a { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.mr-x { display: -webkit-box; min-width: 0; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.mr-a em { color: var(--a-ink-2); font-style: normal; }
+.mr small { flex: none; display: inline-flex; align-items: baseline; gap: 6px; color: var(--a-ink-2); font-size: 13px; font-weight: 400; white-space: nowrap; }
+.mr.m3 .mr-a { color: var(--a-ink-2); font-size: 13px; font-weight: 400; }
+.mr.sh { background: var(--a-bg); box-shadow: inset 0 -1px 0 0 var(--a-line-2); }
+.mr.sh:last-child { box-shadow: inset 0 1px 0 0 var(--a-line-2); }
+.mr.sh .mr-a { color: var(--a-ink-2); font-size: 13px; font-weight: 400; }
+.mr.on { background: var(--a-accent-soft); box-shadow: inset 0 -1px 0 0 var(--a-line-2); }
+.mr.on:last-child { box-shadow: inset 0 1px 0 0 var(--a-line-2); }
+.mr.on > .i { color: var(--a-accent); }
+.mr.on.m3 .mr-a { color: var(--a-ink); }
+.mr.on .mr-a .i { color: var(--a-accent); }
+.mr.ok { background: var(--a-ok-soft); color: var(--a-ok); box-shadow: inset 0 -1px 0 0 var(--a-line-2); }
+.mr.ok:last-child { box-shadow: inset 0 1px 0 0 var(--a-line-2); }
+.mr.ok.m3 .mr-a { color: var(--a-ok); font-weight: 600; }
+.mr.warn { background: var(--a-warn-soft); color: var(--a-warn); font-size: 13px; line-height: 1.3; }
+.mr.warn .mr-a { align-items: flex-start; }
+.mr.warn .mr-x { -webkit-line-clamp: 3; }
+.mr.warn .mr-a .i { margin-top: 1px; }
+.mf { flex: none; font-family: var(--font-timer); font-size: 15px; font-weight: 600; white-space: nowrap; }
+.mf.big { font-size: 22px; letter-spacing: -0.01em; }
+.mr.on .mf { color: var(--a-accent); }
+.mu .pl { font-size: 13px; }
+.mu .pl .i { width: 16px; height: 16px; }
+.mu--bell .mr-a em { flex: none; width: 24px; font-weight: 600; }
+.mrow .mr-a { flex-direction: column; align-items: flex-start; gap: 3px; }
+.mrow .mr-a b { max-width: 100%; overflow: hidden; text-overflow: ellipsis; font-weight: 600; }
+.mrow small { gap: 4px; }
+.mrow small em { color: var(--a-warn); font-style: normal; font-weight: 600; }
+.mrow small em.bad { color: var(--a-bad); }
+.mrow.off { background: var(--a-surface-2); }
+.mrow.off b { opacity: 0.55; }
+.ms { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); background: var(--a-bg); box-shadow: inset 0 -1px 0 0 var(--a-line-2); }
+.ms span { display: flex; align-items: center; justify-content: center; min-width: 0; padding: 0 8px; overflow: hidden; color: var(--a-ink-2); font-size: 13px; font-weight: 400; white-space: nowrap; text-overflow: ellipsis; }
+.ms span + span { box-shadow: inset 1px 0 0 0 var(--a-line-2); }
+.ms .on { background: var(--a-accent); color: var(--a-accent-ink); font-weight: 600; box-shadow: none; }
+.mr.mpin { flex-direction: column; justify-content: center; gap: 10px; text-align: center; }
+.mdots { display: inline-flex; gap: 10px; }
+.mdots i { width: 12px; height: 12px; border: 1.5px solid var(--a-ink); border-radius: 50%; }
+.mdots i.f { background: var(--a-ink); }
+.mr.mk { justify-content: center; }
+.mr.mk .pl { width: 100%; box-shadow: inset 0 0 0 1px var(--a-line-2); }
+.mp { position: relative; background: radial-gradient(circle, var(--a-line-2) 1px, transparent 1.3px) 0 0 / 12px 12px, var(--a-surface); }
+.mpt { position: absolute; top: 34px; display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border: 1.5px solid var(--a-line-2); border-radius: 14px; background: var(--a-surface); font-family: var(--font-timer); font-size: 15px; }
+.mpt:nth-child(1) { left: 18px; }
+.mpt:nth-child(2) { left: 84px; border-radius: 50%; }
+.mpt.ghost { left: 150px; border: 1.5px dashed var(--a-accent); background: color-mix(in oklab, var(--a-accent-soft) 60%, transparent); }
+.mpt.lift { left: 164px; top: 22px; border-color: var(--a-accent); color: var(--a-accent); box-shadow: 0 12px 20px rgb(19 24 36 / 0.18); transform: rotate(-5deg); }
+.mp .pl { position: absolute; right: 12px; bottom: 12px; box-shadow: inset 0 0 0 1px var(--a-line-2), 0 2px 8px rgb(19 24 36 / 0.08); }
+.mu2 { display: grid; grid-template-columns: minmax(0, 1fr) 138px; }
+.mw { display: grid; align-content: center; justify-items: center; gap: 4px; min-width: 0; padding: 0 8px; background: var(--a-bg); text-align: center; }
+.mw b { font-weight: 600; }
+.mw small { color: var(--a-ink-2); font-size: 13px; font-weight: 400; }
+.mw .mdots { margin-top: 6px; gap: 8px; }
+.mw .mdots i { width: 10px; height: 10px; }
+.mav { display: grid; place-items: center; width: 30px; height: 30px; margin-bottom: 2px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px currentColor; font-size: 13px; }
+.mkeys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: minmax(0, 1fr); box-shadow: inset 1px 0 0 0 var(--a-line-2); }
+.mkeys i { display: grid; place-items: center; font-family: var(--font-timer); font-size: 15px; font-style: normal; box-shadow: inset 1px 0 0 0 var(--a-line), inset 0 -1px 0 0 var(--a-line); }
+.mkeys i:nth-child(3n + 1) { box-shadow: inset 0 -1px 0 0 var(--a-line); }
+.mkeys i:nth-child(n + 7) { box-shadow: inset 1px 0 0 0 var(--a-line); }
+.mkeys i:nth-child(7) { box-shadow: none; }
+.mr.mdc { box-shadow: inset 4px 0 0 0 var(--a-wolt); padding-left: 20px; }
+.mr.mdc .mr-a { gap: 10px; }
+.mu .pf { height: 24px; font-size: 13px; }
+.mday { flex-direction: column; align-items: stretch; justify-content: center; gap: 8px; }
+.md-bar { position: relative; height: 10px; background: var(--a-surface-3); }
+.md-bar .d-fill { position: absolute; inset: 0 14.6% 0 0; background: var(--a-accent); }
+.md-bar .d-mid { position: absolute; top: -4px; bottom: -4px; left: 79.2%; width: 2px; background: var(--a-ink); }
+.md-t { position: relative; height: 16px; color: var(--a-ink-2); font-family: var(--font-timer); font-size: 13px; font-weight: 400; }
+.md-t span { position: absolute; top: 0; }
+.md-t span:nth-child(1) { left: 0; }
+.md-t span:nth-child(2) { left: 79.2%; transform: translateX(calc(-100% - 6px)); }
+.md-t span:nth-child(3) { right: 0; }
+.mu--clock .mr small .mf { color: var(--a-accent); }
+.mq { flex: none; font-weight: 600; white-space: nowrap; }
+.mu--board { --a-surface: #161920; --a-ink: #ECEEF4; --a-ink-2: #B5BBC5; --a-line: #272B34; --a-line-2: #373C46; color-scheme: dark; }
+.mbd { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.mbc { display: grid; grid-template-rows: 40px minmax(0, 1fr); min-width: 0; }
+.mbc + .mbc { box-shadow: inset 1px 0 0 0 var(--a-line-2); }
+.mbh { display: flex; align-items: center; padding: 0 12px; color: var(--a-ink-2); box-shadow: inset 0 -1px 0 0 var(--a-line-2); }
+.mbn { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+.mbn > span { display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 0; padding: 0 12px; }
+.mbn > span + span { box-shadow: inset 1px 0 0 0 var(--a-line); }
+.mbn b { color: var(--a-ink-2); font-family: var(--font-timer); font-size: 26px; font-weight: 600; line-height: 1; }
+.mbn small { overflow: hidden; color: var(--a-ink); font-size: 13px; font-weight: 400; white-space: nowrap; text-overflow: ellipsis; }
+.mbc.ok { background: linear-gradient(180deg, rgb(90 196 133 / 0.12), rgb(90 196 133 / 0.04)); }
+.mbc.ok .mbh, .mbc.ok .mbn b { color: #5AC485; }
 .why { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(36px, 4vw, 56px) clamp(24px, 3vw, 40px); }
 .why li { display: grid; align-content: start; gap: 12px; }
 .why-i { width: 44px; height: 44px; margin-bottom: 4px; color: var(--accent); }
@@ -1261,7 +1310,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 </style>
 </head>
 <body>
-<svg class="sprite" aria-hidden="true" focusable="false"><defs><symbol id="i-hamburger" viewBox="0 0 256 256" fill="currentColor"><path d="M48.07,104H207.93a16,16,0,0,0,15.72-19.38C216.22,49.5,176,24,128,24S39.78,49.5,32.35,84.62A16,16,0,0,0,48.07,104ZM128,40c39.82,0,74.21,20.61,79.93,48H48.07L48,87.93C53.79,60.61,88.18,40,128,40ZM229.26,152.48l-41.13,15L151,152.57a8,8,0,0,0-5.94,0l-37,14.81L71,152.57a8,8,0,0,0-5.7-.09l-44,16a8,8,0,0,0,5.47,15L40,178.69V184a40,40,0,0,0,40,40h96a40,40,0,0,0,40-40v-9.67l18.73-6.81a8,8,0,1,0-5.47-15ZM200,184a24,24,0,0,1-24,24H80a24,24,0,0,1-24-24V172.88l11.87-4.32L105,183.43a8,8,0,0,0,5.94,0l37-14.81,37,14.81a8,8,0,0,0,5.7.09l9.27-3.37ZM16,128a8,8,0,0,1,8-8H232a8,8,0,0,1,0,16H24A8,8,0,0,1,16,128Z"/></symbol><symbol id="i-caret-down" viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></symbol><symbol id="i-fork-knife" viewBox="0 0 256 256" fill="currentColor"><path d="M72,88V40a8,8,0,0,1,16,0V88a8,8,0,0,1-16,0ZM216,40V224a8,8,0,0,1-16,0V176H152a8,8,0,0,1-8-8,268.75,268.75,0,0,1,7.22-56.88c9.78-40.49,28.32-67.63,53.63-78.47A8,8,0,0,1,216,40ZM200,53.9c-32.17,24.57-38.47,84.42-39.7,106.1H200ZM119.89,38.69a8,8,0,1,0-15.78,2.63L112,88.63a32,32,0,0,1-64,0l7.88-47.31a8,8,0,1,0-15.78-2.63l-8,48A8.17,8.17,0,0,0,32,88a48.07,48.07,0,0,0,40,47.32V224a8,8,0,0,0,16,0V135.32A48.07,48.07,0,0,0,128,88a8.17,8.17,0,0,0-.11-1.31Z"/></symbol><symbol id="i-coffee" viewBox="0 0 256 256" fill="currentColor"><path d="M80,56V24a8,8,0,0,1,16,0V56a8,8,0,0,1-16,0Zm40,8a8,8,0,0,0,8-8V24a8,8,0,0,0-16,0V56A8,8,0,0,0,120,64Zm32,0a8,8,0,0,0,8-8V24a8,8,0,0,0-16,0V56A8,8,0,0,0,152,64Zm96,56v8a40,40,0,0,1-37.51,39.91,96.59,96.59,0,0,1-27,40.09H208a8,8,0,0,1,0,16H32a8,8,0,0,1,0-16H56.54A96.3,96.3,0,0,1,24,136V88a8,8,0,0,1,8-8H208A40,40,0,0,1,248,120ZM200,96H40v40a80.27,80.27,0,0,0,45.12,72h69.76A80.27,80.27,0,0,0,200,136Zm32,24a24,24,0,0,0-16-22.62V136a95.78,95.78,0,0,1-1.2,15A24,24,0,0,0,232,128Z"/></symbol><symbol id="i-bread" viewBox="0 0 256 256" fill="currentColor"><path d="M240,80a40,40,0,0,0-40-40H48a40,40,0,0,0-16,76.65V200a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V116.65A40.06,40.06,0,0,0,240,80ZM48,120a8,8,0,0,0,0-16,24,24,0,0,1,0-48h96a24,24,0,0,1,0,48,8,8,0,0,0,0,16v80H48Zm152-16a8,8,0,0,0,0,16v80H160V116.65A40,40,0,0,0,176,56h24a24,24,0,0,1,0,48Z"/></symbol><symbol id="i-bed" viewBox="0 0 256 256" fill="currentColor"><path d="M216,72H32V48a8,8,0,0,0-16,0V208a8,8,0,0,0,16,0V176H240v32a8,8,0,0,0,16,0V112A40,40,0,0,0,216,72ZM32,88h72v72H32Zm88,72V88h96a24,24,0,0,1,24,24v48Z"/></symbol><symbol id="i-cooking-pot" viewBox="0 0 256 256" fill="currentColor"><path d="M88,48V16a8,8,0,0,1,16,0V48a8,8,0,0,1-16,0Zm40,8a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0V48A8,8,0,0,0,128,56Zm32,0a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0V48A8,8,0,0,0,160,56Zm92.8,46.4L224,124v60a32,32,0,0,1-32,32H64a32,32,0,0,1-32-32V124L3.2,102.4a8,8,0,0,1,9.6-12.8L32,104V80a8,8,0,0,1,8-8H216a8,8,0,0,1,8,8v24l19.2-14.4a8,8,0,0,1,9.6,12.8ZM208,88H48v96a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16Z"/></symbol><symbol id="i-moped" viewBox="0 0 256 256" fill="currentColor"><path d="M216,128a39.3,39.3,0,0,0-6.27.5L175.49,37.19A8,8,0,0,0,168,32H136a8,8,0,0,0,0,16h26.46l32.3,86.13a40.13,40.13,0,0,0-18,25.87H136.54l-25-66.81A8,8,0,0,0,104,88H24a8,8,0,0,0,0,16h8v13.39A56.12,56.12,0,0,0,0,168a8,8,0,0,0,8,8h8.8a40,40,0,0,0,78.4,0h81.6A40,40,0,1,0,216,128ZM42.67,130.27A8,8,0,0,0,48,122.73V104H98.46l21,56H16.81A40.07,40.07,0,0,1,42.67,130.27ZM56,192a24,24,0,0,1-22.62-16H78.62A24,24,0,0,1,56,192Zm160,0a24,24,0,0,1-15.43-42.36l7.94,21.17a8,8,0,0,0,15-5.62L215.55,144H216a24,24,0,0,1,0,48Z"/></symbol><symbol id="i-buildings" viewBox="0 0 256 256" fill="currentColor"><path d="M240,208H224V96a16,16,0,0,0-16-16H144V32a16,16,0,0,0-24.88-13.32L39.12,72A16,16,0,0,0,32,85.34V208H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM208,96V208H144V96ZM48,85.34,128,32V208H48ZM112,112v16a8,8,0,0,1-16,0V112a8,8,0,1,1,16,0Zm-32,0v16a8,8,0,0,1-16,0V112a8,8,0,1,1,16,0Zm0,56v16a8,8,0,0,1-16,0V168a8,8,0,0,1,16,0Zm32,0v16a8,8,0,0,1-16,0V168a8,8,0,0,1,16,0Z"/></symbol><symbol id="i-caret-right" viewBox="0 0 256 256" fill="currentColor"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></symbol><symbol id="i-moon" viewBox="0 0 256 256" fill="currentColor"><path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z"/></symbol><symbol id="i-sun" viewBox="0 0 256 256" fill="currentColor"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"/></symbol><symbol id="i-wifi-high" viewBox="0 0 256 256" fill="currentColor"><path d="M140,204a12,12,0,1,1-12-12A12,12,0,0,1,140,204ZM237.08,87A172,172,0,0,0,18.92,87,8,8,0,0,0,29.08,99.37a156,156,0,0,1,197.84,0A8,8,0,0,0,237.08,87ZM205,122.77a124,124,0,0,0-153.94,0A8,8,0,0,0,61,135.31a108,108,0,0,1,134.06,0,8,8,0,0,0,11.24-1.3A8,8,0,0,0,205,122.77Zm-32.26,35.76a76.05,76.05,0,0,0-89.42,0,8,8,0,0,0,9.42,12.94,60,60,0,0,1,70.58,0,8,8,0,1,0,9.42-12.94Z"/></symbol><symbol id="i-squares-four" viewBox="0 0 256 256" fill="currentColor"><path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48v48Z"/></symbol><symbol id="i-magnifying-glass" viewBox="0 0 256 256" fill="currentColor"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></symbol><symbol id="i-check" viewBox="0 0 256 256" fill="currentColor"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></symbol><symbol id="i-monitor" viewBox="0 0 256 256" fill="currentColor"><path d="M208,40H48A24,24,0,0,0,24,64V176a24,24,0,0,0,24,24H208a24,24,0,0,0,24-24V64A24,24,0,0,0,208,40Zm8,136a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8Zm-48,48a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,224Z"/></symbol><symbol id="i-hand-tap" viewBox="0 0 256 256" fill="currentColor"><path d="M56,76a60,60,0,0,1,120,0,8,8,0,0,1-16,0,44,44,0,0,0-88,0,8,8,0,1,1-16,0Zm140,44a27.9,27.9,0,0,0-13.36,3.39A28,28,0,0,0,144,106.7V76a28,28,0,0,0-56,0v80l-3.82-6.13a28,28,0,0,0-48.41,28.17l29.32,50A8,8,0,1,0,78.89,220L49.6,170a12,12,0,1,1,20.78-12l.14.23,18.68,30A8,8,0,0,0,104,184V76a12,12,0,0,1,24,0v68a8,8,0,1,0,16,0V132a12,12,0,0,1,24,0v20a8,8,0,0,0,16,0v-4a12,12,0,0,1,24,0v36c0,21.61-7.1,36.3-7.16,36.42a8,8,0,0,0,3.58,10.73A7.9,7.9,0,0,0,208,232a8,8,0,0,0,7.16-4.42c.37-.73,8.85-18,8.85-43.58V148A28,28,0,0,0,196,120Z"/></symbol><symbol id="i-qr-code" viewBox="0 0 256 256" fill="currentColor"><path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm0,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48ZM200,40H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-64,72V144a8,8,0,0,1,16,0v32a8,8,0,0,1-16,0Zm80-16a8,8,0,0,1-8,8H184v40a8,8,0,0,1-8,8H144a8,8,0,0,1,0-16h24V144a8,8,0,0,1,16,0v8h24A8,8,0,0,1,216,160Zm0,32v16a8,8,0,0,1-16,0V192a8,8,0,0,1,16,0Z"/></symbol><symbol id="i-credit-card" viewBox="0 0 256 256" fill="currentColor"><path d="M224,48H32A16,16,0,0,0,16,64V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm0,16V88H32V64Zm0,128H32V104H224v88Zm-16-24a8,8,0,0,1-8,8H168a8,8,0,0,1,0-16h32A8,8,0,0,1,208,168Zm-64,0a8,8,0,0,1-8,8H120a8,8,0,0,1,0-16h16A8,8,0,0,1,144,168Z"/></symbol><symbol id="i-file-text" viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Zm-32-80a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,136Zm0,32a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,168Z"/></symbol><symbol id="i-paper-plane-tilt" viewBox="0 0 256 256" fill="currentColor"><path d="M227.32,28.68a16,16,0,0,0-15.66-4.08l-.15,0L19.57,82.84a16,16,0,0,0-2.49,29.8L102,154l41.3,84.87A15.86,15.86,0,0,0,157.74,248q.69,0,1.38-.06a15.88,15.88,0,0,0,14-11.51l58.2-191.94c0-.05,0-.1,0-.15A16,16,0,0,0,227.32,28.68ZM157.83,231.85l-.05.14,0-.07-40.06-82.3,48-48a8,8,0,0,0-11.31-11.31l-48,48L24.08,98.25l-.07,0,.14,0L216,40Z"/></symbol><symbol id="i-arrows-left-right" viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,181.66l-32,32a8,8,0,0,1-11.32-11.32L188.69,184H48a8,8,0,0,1,0-16H188.69l-18.35-18.34a8,8,0,0,1,11.32-11.32l32,32A8,8,0,0,1,213.66,181.66Zm-139.32-64a8,8,0,0,0,11.32-11.32L67.31,88H208a8,8,0,0,0,0-16H67.31L85.66,53.66A8,8,0,0,0,74.34,42.34l-32,32a8,8,0,0,0,0,11.32Z"/></symbol><symbol id="i-chart-line-up" viewBox="0 0 256 256" fill="currentColor"><path d="M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V48a8,8,0,0,1,16,0V156.69l50.34-50.35a8,8,0,0,1,11.32,0L128,132.69,180.69,80H160a8,8,0,0,1,0-16h40a8,8,0,0,1,8,8v40a8,8,0,0,1-16,0V91.31l-58.34,58.35a8,8,0,0,1-11.32,0L96,123.31l-56,56V200H224A8,8,0,0,1,232,208Z"/></symbol><symbol id="i-chart-bar" viewBox="0 0 256 256" fill="currentColor"><path d="M224,200h-8V40a8,8,0,0,0-8-8H152a8,8,0,0,0-8,8V80H96a8,8,0,0,0-8,8v40H48a8,8,0,0,0-8,8v64H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16ZM160,48h40V200H160ZM104,96h40V200H104ZM56,144H88v56H56Z"/></symbol><symbol id="i-sparkle" viewBox="0 0 256 256" fill="currentColor"><path d="M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88ZM137,164.22a8,8,0,0,0-4.74,4.74L112,223.85,91.78,169A8,8,0,0,0,87,164.22L32.15,144,87,123.78A8,8,0,0,0,91.78,119L112,64.15,132.22,119a8,8,0,0,0,4.74,4.74L191.85,144ZM144,40a8,8,0,0,1,8-8h16V16a8,8,0,0,1,16,0V32h16a8,8,0,0,1,0,16H184V64a8,8,0,0,1-16,0V48H152A8,8,0,0,1,144,40ZM248,88a8,8,0,0,1-8,8h-8v8a8,8,0,0,1-16,0V96h-8a8,8,0,0,1,0-16h8V72a8,8,0,0,1,16,0v8h8A8,8,0,0,1,248,88Z"/></symbol><symbol id="i-users" viewBox="0 0 256 256" fill="currentColor"><path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"/></symbol><symbol id="i-target" viewBox="0 0 256 256" fill="currentColor"><path d="M221.87,83.16A104.1,104.1,0,1,1,195.67,49l22.67-22.68a8,8,0,0,1,11.32,11.32l-96,96a8,8,0,0,1-11.32-11.32l27.72-27.72a40,40,0,1,0,17.87,31.09,8,8,0,1,1,16-.9,56,56,0,1,1-22.38-41.65L184.3,60.39a87.88,87.88,0,1,0,23.13,29.67,8,8,0,0,1,14.44-6.9Z"/></symbol><symbol id="i-clock" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/></symbol><symbol id="i-tag" viewBox="0 0 256 256" fill="currentColor"><path d="M243.31,136,144,36.69A15.86,15.86,0,0,0,132.69,32H40a8,8,0,0,0-8,8v92.69A15.86,15.86,0,0,0,36.69,144L136,243.31a16,16,0,0,0,22.63,0l84.68-84.68a16,16,0,0,0,0-22.63Zm-96,96L48,132.69V48h84.69L232,147.31ZM96,84A12,12,0,1,1,84,72,12,12,0,0,1,96,84Z"/></symbol><symbol id="i-pause-fill" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48V208a16,16,0,0,1-16,16H160a16,16,0,0,1-16-16V48a16,16,0,0,1,16-16h40A16,16,0,0,1,216,48ZM96,32H56A16,16,0,0,0,40,48V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V48A16,16,0,0,0,96,32Z"/></symbol><symbol id="i-play-fill" viewBox="0 0 256 256" fill="currentColor"><path d="M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z"/></symbol><symbol id="i-cash-register" viewBox="0 0 256 256" fill="currentColor"><path d="M239.76,158.06,217.28,68.12A16,16,0,0,0,201.75,56H136V40a16,16,0,0,0-16-16H80A16,16,0,0,0,64,40V56H54.25A16,16,0,0,0,38.72,68.12L16.24,158.06A7.93,7.93,0,0,0,16,160v32a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V160A7.93,7.93,0,0,0,239.76,158.06ZM80,40h40V56H80ZM54.25,72h147.5l20,80H34.25ZM32,192V168H224v24ZM64,96a8,8,0,0,1,8-8H88a8,8,0,0,1,0,16H72A8,8,0,0,1,64,96Zm48,0a8,8,0,0,1,8-8h16a8,8,0,0,1,0,16H120A8,8,0,0,1,112,96Zm48,0a8,8,0,0,1,8-8h16a8,8,0,0,1,0,16H168A8,8,0,0,1,160,96ZM64,128a8,8,0,0,1,8-8H88a8,8,0,0,1,0,16H72A8,8,0,0,1,64,128Zm48,0a8,8,0,0,1,8-8h16a8,8,0,0,1,0,16H120A8,8,0,0,1,112,128Zm48,0a8,8,0,0,1,8-8h16a8,8,0,0,1,0,16H168A8,8,0,0,1,160,128Z"/></symbol><symbol id="i-lock-simple-open" viewBox="0 0 256 256" fill="currentColor"><path d="M208,80H96V56a32,32,0,0,1,32-32c15.37,0,29.2,11,32.16,25.59a8,8,0,0,0,15.68-3.18C171.32,24.15,151.2,8,128,8A48.05,48.05,0,0,0,80,56V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80Zm0,128H48V96H208V208Z"/></symbol><symbol id="i-shield-check" viewBox="0 0 256 256" fill="currentColor"><path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"/></symbol><symbol id="i-chef-hat" viewBox="0 0 256 256" fill="currentColor"><path d="M240,112a56.06,56.06,0,0,0-56-56c-1.77,0-3.54.1-5.29.26a56,56,0,0,0-101.42,0C75.54,56.1,73.77,56,72,56A56,56,0,0,0,48,162.59V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V162.59A56.09,56.09,0,0,0,240,112Zm-48,96H64V167.42a55.49,55.49,0,0,0,8,.58H184a55.49,55.49,0,0,0,8-.58Zm-8-56H170.25l5.51-22.06a8,8,0,0,0-15.52-3.88L153.75,152H136V128a8,8,0,0,0-16,0v24H102.25l-6.49-25.94a8,8,0,1,0-15.52,3.88L85.75,152H72a40,40,0,0,1,0-80l.58,0A55.21,55.21,0,0,0,72,80a8,8,0,0,0,16,0,40,40,0,0,1,80,0,8,8,0,0,0,16,0,55.21,55.21,0,0,0-.58-8l.58,0a40,40,0,0,1,0,80Z"/></symbol><symbol id="i-device-tablet" viewBox="0 0 256 256" fill="currentColor"><path d="M192,24H64A24,24,0,0,0,40,48V208a24,24,0,0,0,24,24H192a24,24,0,0,0,24-24V48A24,24,0,0,0,192,24ZM56,72H200V184H56Zm8-32H192a8,8,0,0,1,8,8v8H56V48A8,8,0,0,1,64,40ZM192,216H64a8,8,0,0,1-8-8v-8H200v8A8,8,0,0,1,192,216Z"/></symbol><symbol id="i-device-tablet-camera" viewBox="0 0 256 256" fill="currentColor"><path d="M192,24H64A24,24,0,0,0,40,48V208a24,24,0,0,0,24,24H192a24,24,0,0,0,24-24V48A24,24,0,0,0,192,24Zm8,184a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V48a8,8,0,0,1,8-8H192a8,8,0,0,1,8,8ZM140,68a12,12,0,1,1-12-12A12,12,0,0,1,140,68Z"/></symbol><symbol id="i-package" viewBox="0 0 256 256" fill="currentColor"><path d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32l80.34,44-29.77,16.3-80.35-44ZM128,120,47.66,76l33.9-18.56,80.34,44ZM40,90l80,43.78v85.79L40,175.82Zm176,85.78h0l-80,43.79V133.82l32-17.51V152a8,8,0,0,0,16,0V107.55L216,90v85.77Z"/></symbol><symbol id="i-receipt" viewBox="0 0 256 256" fill="currentColor"><path d="M72,104a8,8,0,0,1,8-8h96a8,8,0,0,1,0,16H80A8,8,0,0,1,72,104Zm8,40h96a8,8,0,0,0,0-16H80a8,8,0,0,0,0,16ZM232,56V208a8,8,0,0,1-11.58,7.15L192,200.94l-28.42,14.21a8,8,0,0,1-7.16,0L128,200.94,99.58,215.15a8,8,0,0,1-7.16,0L64,200.94,35.58,215.15A8,8,0,0,1,24,208V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56Zm-16,0H40V195.06l20.42-10.22a8,8,0,0,1,7.16,0L96,199.06l28.42-14.22a8,8,0,0,1,7.16,0L160,199.06l28.42-14.22a8,8,0,0,1,7.16,0L216,195.06Z"/></symbol></defs></svg>
+<svg class="sprite" aria-hidden="true" focusable="false"><defs><symbol id="i-hamburger" viewBox="0 0 256 256" fill="currentColor"><path d="M48.07,104H207.93a16,16,0,0,0,15.72-19.38C216.22,49.5,176,24,128,24S39.78,49.5,32.35,84.62A16,16,0,0,0,48.07,104ZM128,40c39.82,0,74.21,20.61,79.93,48H48.07L48,87.93C53.79,60.61,88.18,40,128,40ZM229.26,152.48l-41.13,15L151,152.57a8,8,0,0,0-5.94,0l-37,14.81L71,152.57a8,8,0,0,0-5.7-.09l-44,16a8,8,0,0,0,5.47,15L40,178.69V184a40,40,0,0,0,40,40h96a40,40,0,0,0,40-40v-9.67l18.73-6.81a8,8,0,1,0-5.47-15ZM200,184a24,24,0,0,1-24,24H80a24,24,0,0,1-24-24V172.88l11.87-4.32L105,183.43a8,8,0,0,0,5.94,0l37-14.81,37,14.81a8,8,0,0,0,5.7.09l9.27-3.37ZM16,128a8,8,0,0,1,8-8H232a8,8,0,0,1,0,16H24A8,8,0,0,1,16,128Z"/></symbol><symbol id="i-caret-down" viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></symbol><symbol id="i-fork-knife" viewBox="0 0 256 256" fill="currentColor"><path d="M72,88V40a8,8,0,0,1,16,0V88a8,8,0,0,1-16,0ZM216,40V224a8,8,0,0,1-16,0V176H152a8,8,0,0,1-8-8,268.75,268.75,0,0,1,7.22-56.88c9.78-40.49,28.32-67.63,53.63-78.47A8,8,0,0,1,216,40ZM200,53.9c-32.17,24.57-38.47,84.42-39.7,106.1H200ZM119.89,38.69a8,8,0,1,0-15.78,2.63L112,88.63a32,32,0,0,1-64,0l7.88-47.31a8,8,0,1,0-15.78-2.63l-8,48A8.17,8.17,0,0,0,32,88a48.07,48.07,0,0,0,40,47.32V224a8,8,0,0,0,16,0V135.32A48.07,48.07,0,0,0,128,88a8.17,8.17,0,0,0-.11-1.31Z"/></symbol><symbol id="i-coffee" viewBox="0 0 256 256" fill="currentColor"><path d="M80,56V24a8,8,0,0,1,16,0V56a8,8,0,0,1-16,0Zm40,8a8,8,0,0,0,8-8V24a8,8,0,0,0-16,0V56A8,8,0,0,0,120,64Zm32,0a8,8,0,0,0,8-8V24a8,8,0,0,0-16,0V56A8,8,0,0,0,152,64Zm96,56v8a40,40,0,0,1-37.51,39.91,96.59,96.59,0,0,1-27,40.09H208a8,8,0,0,1,0,16H32a8,8,0,0,1,0-16H56.54A96.3,96.3,0,0,1,24,136V88a8,8,0,0,1,8-8H208A40,40,0,0,1,248,120ZM200,96H40v40a80.27,80.27,0,0,0,45.12,72h69.76A80.27,80.27,0,0,0,200,136Zm32,24a24,24,0,0,0-16-22.62V136a95.78,95.78,0,0,1-1.2,15A24,24,0,0,0,232,128Z"/></symbol><symbol id="i-bread" viewBox="0 0 256 256" fill="currentColor"><path d="M240,80a40,40,0,0,0-40-40H48a40,40,0,0,0-16,76.65V200a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V116.65A40.06,40.06,0,0,0,240,80ZM48,120a8,8,0,0,0,0-16,24,24,0,0,1,0-48h96a24,24,0,0,1,0,48,8,8,0,0,0,0,16v80H48Zm152-16a8,8,0,0,0,0,16v80H160V116.65A40,40,0,0,0,176,56h24a24,24,0,0,1,0,48Z"/></symbol><symbol id="i-bed" viewBox="0 0 256 256" fill="currentColor"><path d="M216,72H32V48a8,8,0,0,0-16,0V208a8,8,0,0,0,16,0V176H240v32a8,8,0,0,0,16,0V112A40,40,0,0,0,216,72ZM32,88h72v72H32Zm88,72V88h96a24,24,0,0,1,24,24v48Z"/></symbol><symbol id="i-cooking-pot" viewBox="0 0 256 256" fill="currentColor"><path d="M88,48V16a8,8,0,0,1,16,0V48a8,8,0,0,1-16,0Zm40,8a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0V48A8,8,0,0,0,128,56Zm32,0a8,8,0,0,0,8-8V16a8,8,0,0,0-16,0V48A8,8,0,0,0,160,56Zm92.8,46.4L224,124v60a32,32,0,0,1-32,32H64a32,32,0,0,1-32-32V124L3.2,102.4a8,8,0,0,1,9.6-12.8L32,104V80a8,8,0,0,1,8-8H216a8,8,0,0,1,8,8v24l19.2-14.4a8,8,0,0,1,9.6,12.8ZM208,88H48v96a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16Z"/></symbol><symbol id="i-moped" viewBox="0 0 256 256" fill="currentColor"><path d="M216,128a39.3,39.3,0,0,0-6.27.5L175.49,37.19A8,8,0,0,0,168,32H136a8,8,0,0,0,0,16h26.46l32.3,86.13a40.13,40.13,0,0,0-18,25.87H136.54l-25-66.81A8,8,0,0,0,104,88H24a8,8,0,0,0,0,16h8v13.39A56.12,56.12,0,0,0,0,168a8,8,0,0,0,8,8h8.8a40,40,0,0,0,78.4,0h81.6A40,40,0,1,0,216,128ZM42.67,130.27A8,8,0,0,0,48,122.73V104H98.46l21,56H16.81A40.07,40.07,0,0,1,42.67,130.27ZM56,192a24,24,0,0,1-22.62-16H78.62A24,24,0,0,1,56,192Zm160,0a24,24,0,0,1-15.43-42.36l7.94,21.17a8,8,0,0,0,15-5.62L215.55,144H216a24,24,0,0,1,0,48Z"/></symbol><symbol id="i-buildings" viewBox="0 0 256 256" fill="currentColor"><path d="M240,208H224V96a16,16,0,0,0-16-16H144V32a16,16,0,0,0-24.88-13.32L39.12,72A16,16,0,0,0,32,85.34V208H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16ZM208,96V208H144V96ZM48,85.34,128,32V208H48ZM112,112v16a8,8,0,0,1-16,0V112a8,8,0,1,1,16,0Zm-32,0v16a8,8,0,0,1-16,0V112a8,8,0,1,1,16,0Zm0,56v16a8,8,0,0,1-16,0V168a8,8,0,0,1,16,0Zm32,0v16a8,8,0,0,1-16,0V168a8,8,0,0,1,16,0Z"/></symbol><symbol id="i-caret-right" viewBox="0 0 256 256" fill="currentColor"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></symbol><symbol id="i-moon" viewBox="0 0 256 256" fill="currentColor"><path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z"/></symbol><symbol id="i-sun" viewBox="0 0 256 256" fill="currentColor"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"/></symbol><symbol id="i-wifi-high" viewBox="0 0 256 256" fill="currentColor"><path d="M140,204a12,12,0,1,1-12-12A12,12,0,0,1,140,204ZM237.08,87A172,172,0,0,0,18.92,87,8,8,0,0,0,29.08,99.37a156,156,0,0,1,197.84,0A8,8,0,0,0,237.08,87ZM205,122.77a124,124,0,0,0-153.94,0A8,8,0,0,0,61,135.31a108,108,0,0,1,134.06,0,8,8,0,0,0,11.24-1.3A8,8,0,0,0,205,122.77Zm-32.26,35.76a76.05,76.05,0,0,0-89.42,0,8,8,0,0,0,9.42,12.94,60,60,0,0,1,70.58,0,8,8,0,1,0,9.42-12.94Z"/></symbol><symbol id="i-squares-four" viewBox="0 0 256 256" fill="currentColor"><path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-96,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48Zm96-64H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Zm0,64H152V152h48v48Z"/></symbol><symbol id="i-magnifying-glass" viewBox="0 0 256 256" fill="currentColor"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></symbol><symbol id="i-arrow-right" viewBox="0 0 256 256" fill="currentColor"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></symbol><symbol id="i-check" viewBox="0 0 256 256" fill="currentColor"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></symbol><symbol id="i-monitor" viewBox="0 0 256 256" fill="currentColor"><path d="M208,40H48A24,24,0,0,0,24,64V176a24,24,0,0,0,24,24H208a24,24,0,0,0,24-24V64A24,24,0,0,0,208,40Zm8,136a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8Zm-48,48a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,224Z"/></symbol><symbol id="i-hand-tap" viewBox="0 0 256 256" fill="currentColor"><path d="M56,76a60,60,0,0,1,120,0,8,8,0,0,1-16,0,44,44,0,0,0-88,0,8,8,0,1,1-16,0Zm140,44a27.9,27.9,0,0,0-13.36,3.39A28,28,0,0,0,144,106.7V76a28,28,0,0,0-56,0v80l-3.82-6.13a28,28,0,0,0-48.41,28.17l29.32,50A8,8,0,1,0,78.89,220L49.6,170a12,12,0,1,1,20.78-12l.14.23,18.68,30A8,8,0,0,0,104,184V76a12,12,0,0,1,24,0v68a8,8,0,1,0,16,0V132a12,12,0,0,1,24,0v20a8,8,0,0,0,16,0v-4a12,12,0,0,1,24,0v36c0,21.61-7.1,36.3-7.16,36.42a8,8,0,0,0,3.58,10.73A7.9,7.9,0,0,0,208,232a8,8,0,0,0,7.16-4.42c.37-.73,8.85-18,8.85-43.58V148A28,28,0,0,0,196,120Z"/></symbol><symbol id="i-qr-code" viewBox="0 0 256 256" fill="currentColor"><path d="M104,40H56A16,16,0,0,0,40,56v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,104,40Zm0,64H56V56h48v48Zm0,32H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm0,64H56V152h48v48ZM200,40H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm0,64H152V56h48v48Zm-64,72V144a8,8,0,0,1,16,0v32a8,8,0,0,1-16,0Zm80-16a8,8,0,0,1-8,8H184v40a8,8,0,0,1-8,8H144a8,8,0,0,1,0-16h24V144a8,8,0,0,1,16,0v8h24A8,8,0,0,1,216,160Zm0,32v16a8,8,0,0,1-16,0V192a8,8,0,0,1,16,0Z"/></symbol><symbol id="i-credit-card" viewBox="0 0 256 256" fill="currentColor"><path d="M224,48H32A16,16,0,0,0,16,64V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm0,16V88H32V64Zm0,128H32V104H224v88Zm-16-24a8,8,0,0,1-8,8H168a8,8,0,0,1,0-16h32A8,8,0,0,1,208,168Zm-64,0a8,8,0,0,1-8,8H120a8,8,0,0,1,0-16h16A8,8,0,0,1,144,168Z"/></symbol><symbol id="i-file-text" viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Zm-32-80a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,136Zm0,32a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,168Z"/></symbol><symbol id="i-paper-plane-tilt" viewBox="0 0 256 256" fill="currentColor"><path d="M227.32,28.68a16,16,0,0,0-15.66-4.08l-.15,0L19.57,82.84a16,16,0,0,0-2.49,29.8L102,154l41.3,84.87A15.86,15.86,0,0,0,157.74,248q.69,0,1.38-.06a15.88,15.88,0,0,0,14-11.51l58.2-191.94c0-.05,0-.1,0-.15A16,16,0,0,0,227.32,28.68ZM157.83,231.85l-.05.14,0-.07-40.06-82.3,48-48a8,8,0,0,0-11.31-11.31l-48,48L24.08,98.25l-.07,0,.14,0L216,40Z"/></symbol><symbol id="i-arrows-left-right" viewBox="0 0 256 256" fill="currentColor"><path d="M213.66,181.66l-32,32a8,8,0,0,1-11.32-11.32L188.69,184H48a8,8,0,0,1,0-16H188.69l-18.35-18.34a8,8,0,0,1,11.32-11.32l32,32A8,8,0,0,1,213.66,181.66Zm-139.32-64a8,8,0,0,0,11.32-11.32L67.31,88H208a8,8,0,0,0,0-16H67.31L85.66,53.66A8,8,0,0,0,74.34,42.34l-32,32a8,8,0,0,0,0,11.32Z"/></symbol><symbol id="i-chart-line-up" viewBox="0 0 256 256" fill="currentColor"><path d="M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V48a8,8,0,0,1,16,0V156.69l50.34-50.35a8,8,0,0,1,11.32,0L128,132.69,180.69,80H160a8,8,0,0,1,0-16h40a8,8,0,0,1,8,8v40a8,8,0,0,1-16,0V91.31l-58.34,58.35a8,8,0,0,1-11.32,0L96,123.31l-56,56V200H224A8,8,0,0,1,232,208Z"/></symbol><symbol id="i-chart-bar" viewBox="0 0 256 256" fill="currentColor"><path d="M224,200h-8V40a8,8,0,0,0-8-8H152a8,8,0,0,0-8,8V80H96a8,8,0,0,0-8,8v40H48a8,8,0,0,0-8,8v64H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16ZM160,48h40V200H160ZM104,96h40V200H104ZM56,144H88v56H56Z"/></symbol><symbol id="i-sparkle" viewBox="0 0 256 256" fill="currentColor"><path d="M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88ZM137,164.22a8,8,0,0,0-4.74,4.74L112,223.85,91.78,169A8,8,0,0,0,87,164.22L32.15,144,87,123.78A8,8,0,0,0,91.78,119L112,64.15,132.22,119a8,8,0,0,0,4.74,4.74L191.85,144ZM144,40a8,8,0,0,1,8-8h16V16a8,8,0,0,1,16,0V32h16a8,8,0,0,1,0,16H184V64a8,8,0,0,1-16,0V48H152A8,8,0,0,1,144,40ZM248,88a8,8,0,0,1-8,8h-8v8a8,8,0,0,1-16,0V96h-8a8,8,0,0,1,0-16h8V72a8,8,0,0,1,16,0v8h8A8,8,0,0,1,248,88Z"/></symbol><symbol id="i-users" viewBox="0 0 256 256" fill="currentColor"><path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"/></symbol><symbol id="i-target" viewBox="0 0 256 256" fill="currentColor"><path d="M221.87,83.16A104.1,104.1,0,1,1,195.67,49l22.67-22.68a8,8,0,0,1,11.32,11.32l-96,96a8,8,0,0,1-11.32-11.32l27.72-27.72a40,40,0,1,0,17.87,31.09,8,8,0,1,1,16-.9,56,56,0,1,1-22.38-41.65L184.3,60.39a87.88,87.88,0,1,0,23.13,29.67,8,8,0,0,1,14.44-6.9Z"/></symbol><symbol id="i-info" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"/></symbol><symbol id="i-bell" viewBox="0 0 256 256" fill="currentColor"><path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"/></symbol><symbol id="i-clock" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/></symbol><symbol id="i-tag" viewBox="0 0 256 256" fill="currentColor"><path d="M243.31,136,144,36.69A15.86,15.86,0,0,0,132.69,32H40a8,8,0,0,0-8,8v92.69A15.86,15.86,0,0,0,36.69,144L136,243.31a16,16,0,0,0,22.63,0l84.68-84.68a16,16,0,0,0,0-22.63Zm-96,96L48,132.69V48h84.69L232,147.31ZM96,84A12,12,0,1,1,84,72,12,12,0,0,1,96,84Z"/></symbol><symbol id="i-pause-fill" viewBox="0 0 256 256" fill="currentColor"><path d="M216,48V208a16,16,0,0,1-16,16H160a16,16,0,0,1-16-16V48a16,16,0,0,1,16-16h40A16,16,0,0,1,216,48ZM96,32H56A16,16,0,0,0,40,48V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V48A16,16,0,0,0,96,32Z"/></symbol><symbol id="i-play-fill" viewBox="0 0 256 256" fill="currentColor"><path d="M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z"/></symbol><symbol id="i-cash-register" viewBox="0 0 256 256" fill="currentColor"><path d="M239.76,158.06,217.28,68.12A16,16,0,0,0,201.75,56H136V40a16,16,0,0,0-16-16H80A16,16,0,0,0,64,40V56H54.25A16,16,0,0,0,38.72,68.12L16.24,158.06A7.93,7.93,0,0,0,16,160v32a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V160A7.93,7.93,0,0,0,239.76,158.06ZM80,40h40V56H80ZM54.25,72h147.5l20,80H34.25ZM32,192V168H224v24ZM64,96a8,8,0,0,1,8-8H88a8,8,0,0,1,0,16H72A8,8,0,0,1,64,96Zm48,0a8,8,0,0,1,8-8h16a8,8,0,0,1,0,16H120A8,8,0,0,1,112,96Zm48,0a8,8,0,0,1,8-8h16a8,8,0,0,1,0,16H168A8,8,0,0,1,160,96ZM64,128a8,8,0,0,1,8-8H88a8,8,0,0,1,0,16H72A8,8,0,0,1,64,128Zm48,0a8,8,0,0,1,8-8h16a8,8,0,0,1,0,16H120A8,8,0,0,1,112,128Zm48,0a8,8,0,0,1,8-8h16a8,8,0,0,1,0,16H168A8,8,0,0,1,160,128Z"/></symbol><symbol id="i-lock-simple-open" viewBox="0 0 256 256" fill="currentColor"><path d="M208,80H96V56a32,32,0,0,1,32-32c15.37,0,29.2,11,32.16,25.59a8,8,0,0,0,15.68-3.18C171.32,24.15,151.2,8,128,8A48.05,48.05,0,0,0,80,56V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80Zm0,128H48V96H208V208Z"/></symbol><symbol id="i-shield-check" viewBox="0 0 256 256" fill="currentColor"><path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"/></symbol><symbol id="i-chef-hat" viewBox="0 0 256 256" fill="currentColor"><path d="M240,112a56.06,56.06,0,0,0-56-56c-1.77,0-3.54.1-5.29.26a56,56,0,0,0-101.42,0C75.54,56.1,73.77,56,72,56A56,56,0,0,0,48,162.59V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V162.59A56.09,56.09,0,0,0,240,112Zm-48,96H64V167.42a55.49,55.49,0,0,0,8,.58H184a55.49,55.49,0,0,0,8-.58Zm-8-56H170.25l5.51-22.06a8,8,0,0,0-15.52-3.88L153.75,152H136V128a8,8,0,0,0-16,0v24H102.25l-6.49-25.94a8,8,0,1,0-15.52,3.88L85.75,152H72a40,40,0,0,1,0-80l.58,0A55.21,55.21,0,0,0,72,80a8,8,0,0,0,16,0,40,40,0,0,1,80,0,8,8,0,0,0,16,0,55.21,55.21,0,0,0-.58-8l.58,0a40,40,0,0,1,0,80Z"/></symbol><symbol id="i-device-tablet" viewBox="0 0 256 256" fill="currentColor"><path d="M192,24H64A24,24,0,0,0,40,48V208a24,24,0,0,0,24,24H192a24,24,0,0,0,24-24V48A24,24,0,0,0,192,24ZM56,72H200V184H56Zm8-32H192a8,8,0,0,1,8,8v8H56V48A8,8,0,0,1,64,40ZM192,216H64a8,8,0,0,1-8-8v-8H200v8A8,8,0,0,1,192,216Z"/></symbol><symbol id="i-device-tablet-camera" viewBox="0 0 256 256" fill="currentColor"><path d="M192,24H64A24,24,0,0,0,40,48V208a24,24,0,0,0,24,24H192a24,24,0,0,0,24-24V48A24,24,0,0,0,192,24Zm8,184a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V48a8,8,0,0,1,8-8H192a8,8,0,0,1,8,8ZM140,68a12,12,0,1,1-12-12A12,12,0,0,1,140,68Z"/></symbol><symbol id="i-package" viewBox="0 0 256 256" fill="currentColor"><path d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32l80.34,44-29.77,16.3-80.35-44ZM128,120,47.66,76l33.9-18.56,80.34,44ZM40,90l80,43.78v85.79L40,175.82Zm176,85.78h0l-80,43.79V133.82l32-17.51V152a8,8,0,0,0,16,0V107.55L216,90v85.77Z"/></symbol><symbol id="i-receipt" viewBox="0 0 256 256" fill="currentColor"><path d="M72,104a8,8,0,0,1,8-8h96a8,8,0,0,1,0,16H80A8,8,0,0,1,72,104Zm8,40h96a8,8,0,0,0,0-16H80a8,8,0,0,0,0,16ZM232,56V208a8,8,0,0,1-11.58,7.15L192,200.94l-28.42,14.21a8,8,0,0,1-7.16,0L128,200.94,99.58,215.15a8,8,0,0,1-7.16,0L64,200.94,35.58,215.15A8,8,0,0,1,24,208V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56Zm-16,0H40V195.06l20.42-10.22a8,8,0,0,1,7.16,0L96,199.06l28.42-14.22a8,8,0,0,1,7.16,0L160,199.06l28.42-14.22a8,8,0,0,1,7.16,0L216,195.06Z"/></symbol></defs></svg>
 <a class="skip" href="#main">К содержанию</a>
 <header class="top"><div class="wrap top-in">
 <a class="wordmark" href="../" aria-label="RUVO — Главная">RUVO</a>
@@ -1292,11 +1341,11 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 </div>
 <div class="stage stage--port" role="img" aria-label="Пример: заказ на киоске, тот же заказ на экране кухни и номер 47 на табло выдачи" data-live>
 <div class="stage-dev"><div class="dv dv-port" aria-hidden="true"><div class="dv-f"><div class="scr"><div class="ks"><div class="sb"><span class="sb-t">21:41<span>Ср 14 окт.</span></span><span class="sb-r"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-wifi-high"/></svg><span class="bat"><i></i></span></span></div>
-<div class="ks-top"><span class="ab-brand">RUVO</span><span class="ks-place">Дорчол</span><span class="seg ks-lang"><span>Srpski</span><span>Русский</span></span><span class="ks-ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-squares-four"/></svg></span></div>
-<div class="ks-cats"><span class="ks-search"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-magnifying-glass"/></svg></span><span>завтраки</span><span class="on">основные блюда</span><span>гарниры</span><span>напитки</span></div>
+<div class="ks-top"><span class="ab-brand">RUVO</span><span class="ks-place">Дорчол</span><span class="ks-lang"><span>Srpski</span><span class="on">Русский</span></span><span class="pl ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-squares-four"/></svg></span></div>
+<div class="ks-cats"><span class="ks-search"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-magnifying-glass"/></svg></span><span>Завтраки</span><span class="on">Основные блюда</span><span>Гарниры</span><span>Напитки</span></div>
 <p class="ks-sec">Основные блюда</p>
-<div class="ks-grid c2"><div class="kd in"><span class="kd-img"><img src="../../assets/dishes/burger.svg" alt="" decoding="async"></span><span class="kd-n">Бургер с говядиной</span><span class="kd-p">1 290<small>RSD</small></span></div><div class="kd in"><span class="kd-img"><img src="../../assets/dishes/pljeskavica.svg" alt="" decoding="async"></span><span class="kd-n">Плескавица</span><span class="kd-p">1 190<small>RSD</small></span></div><div class="kd"><span class="kd-img"><img src="../../assets/dishes/cevapi.svg" alt="" decoding="async"></span><span class="kd-n">Чевапи, 10 шт</span><span class="kd-p">1 290<small>RSD</small></span></div><div class="kd"><span class="kd-img"><img src="../../assets/dishes/carbonara.svg" alt="" decoding="async"></span><span class="kd-n">Паста карбонара</span><span class="kd-p">990<small>RSD</small></span></div></div><p class="ks-sec">Напитки</p><div class="ks-grid c2"><div class="kd"><span class="kd-img"><img src="../../assets/dishes/lemonade.svg" alt="" decoding="async"></span><span class="kd-n">Домашний лимонад</span><span class="kd-p">350<small>RSD</small></span></div><div class="kd"><span class="kd-img"><img src="../../assets/dishes/orange.svg" alt="" decoding="async"></span><span class="kd-n">Апельсиновый фреш</span><span class="kd-p">390<small>RSD</small></span></div></div>
-<div class="ks-cart"><span class="ks-b"><b>Ваш заказ</b><small>2 позиции · 2 480 RSD</small></span><span class="kio-go">Заказать</span></div>
+<div class="ks-grid" style="--cols: 2"><div class="kd in" data-rf data-r0><span class="kd-img"><img src="../../assets/dishes/burger.svg" alt="" decoding="async"></span><span class="kd-n">Бургер с говядиной</span><span class="kd-p">1 290<small>RSD</small></span><i class="kd-c">1</i></div><div class="kd in" data-r0><span class="kd-img"><img src="../../assets/dishes/pljeskavica.svg" alt="" decoding="async"></span><span class="kd-n">Плескавица</span><span class="kd-p">1 190<small>RSD</small></span><i class="kd-c">1</i></div><div class="kd" data-rf><span class="kd-img"><img src="../../assets/dishes/cevapi.svg" alt="" decoding="async"></span><span class="kd-n">Чевапи, 10 шт</span><span class="kd-p">1 290<small>RSD</small></span></div><div class="kd"><span class="kd-img"><img src="../../assets/dishes/carbonara.svg" alt="" decoding="async"></span><span class="kd-n">Паста карбонара</span><span class="kd-p">990<small>RSD</small></span></div></div><p class="ks-sec">Напитки</p><div class="ks-grid" style="--cols: 2"><div class="kd" data-rf data-r0><span class="kd-img"><img src="../../assets/dishes/lemonade.svg" alt="" decoding="async"></span><span class="kd-n">Домашний лимонад</span><span class="kd-p">350<small>RSD</small></span></div><div class="kd" data-r0><span class="kd-img"><img src="../../assets/dishes/orange.svg" alt="" decoding="async"></span><span class="kd-n">Апельсиновый фреш</span><span class="kd-p">390<small>RSD</small></span></div></div>
+<div class="ks-cart"><span class="ks-cn">2</span><span class="ks-b">Ваш заказ</span><span class="ks-sum">2 480<small>RSD</small></span><span class="kio-go">Заказать<svg class="i" aria-hidden="true" focusable="false"><use href="#i-arrow-right"/></svg></span></div>
 </div></div></div></div></div>
 <div class="stage-side"><div class="kt">
 <div class="kt-head"><b>Киоск</b><span class="kt-time">02:10</span></div>
@@ -1312,7 +1361,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="ex-tabs-wrap"><div class="ex-tabs" aria-label="Примеры экранов" hidden><button type="button" id="ex-t-kiosk" aria-controls="ex-p-kiosk" aria-selected="true">Киоск</button><button type="button" id="ex-t-kitchen" aria-controls="ex-p-kitchen" aria-selected="false" tabindex="-1">Кухня</button><button type="button" id="ex-t-delivery" aria-controls="ex-p-delivery" aria-selected="false" tabindex="-1">Доставка</button><button type="button" id="ex-t-stock" aria-controls="ex-p-stock" aria-selected="false" tabindex="-1">Склад</button><button type="button" id="ex-t-reports" aria-controls="ex-p-reports" aria-selected="false" tabindex="-1">Отчёты</button><button type="button" id="ex-t-team" aria-controls="ex-p-team" aria-selected="false" tabindex="-1">Команда</button><button type="button" id="ex-t-sef" aria-controls="ex-p-sef" aria-selected="false" tabindex="-1">SEF</button></div></div>
 <div class="ex-panels">
 <div class="ex-panel" id="ex-p-kiosk">
-<div class="ex-shot ex-shot--port" role="img" aria-label="Пример: киоск с выпечкой на фото и номер заказа для оплаты на кассе"><div class="pair"><div class="dv dv-port" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot" src="../../assets/shots/ru/kiosk-light.webp?v=b685506922" alt="" width="834" height="1210" loading="lazy" decoding="async"></div></div></div><div class="nc kio-no"><p class="nc-h"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-hand-tap"/></svg><span>Ваш номер</span></p><span class="kio-num">47</span><p class="nc-note">Оплатите на кассе и назовите этот номер.</p></div></div></div>
+<div class="ex-shot ex-shot--port" role="img" aria-label="Пример: киоск с выпечкой на фото и номер заказа для оплаты на кассе"><div class="pair"><div class="dv dv-port" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot" src="../../assets/shots/ru/kiosk-light.webp?v=324831f1da" alt="" width="834" height="1210" loading="lazy" decoding="async"></div></div></div><div class="nc kio-no"><p class="nc-h"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-hand-tap"/></svg><span>Ваш номер</span></p><span class="kio-num">47</span><p class="nc-note">Оплатите на кассе и назовите этот номер.</p></div></div></div>
 <div class="ex-text"><h3>Киоск для гостей</h3><p>Гость сам выбирает блюда по фото, видит описание и аллергены и получает номер. Заказ сразу уходит на кухню, а оплата — на кассе по номеру.</p><ul><li>Сербский, английский или русский — одним касанием</li><li>Аллергены и описание у каждого блюда</li><li>Акции по расписанию действуют и здесь</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-kitchen">
@@ -1362,42 +1411,42 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 </div>
 <div class="rush-rows" data-live data-rush>
 <div class="rush-row r1"><div class="rush-track"><ul class="rush">
-<li><div class="mu mu--stop" aria-hidden="true"><div class="mu-line"><span>Чевапи, 10 шт</span><span class="mu-tag warn">осталось 3</span></div><div class="mu-line dim"><span>Стейк рибай, 300 г</span><span class="mu-tag late">Стоп</span></div></div><h3><span class="nw">Стоп-лист</span> с порциями</h3><p>Блюдо само уходит в стоп, когда порции закончились; больше остатка не заказать.</p></li>
-<li><div class="mu mu--cash" aria-hidden="true"><div class="mu-line dim"><span>К оплате</span><b>3 730</b></div><div class="mu-line"><span>Получено</span><b>5 000</b></div><div class="mu-big"><span>Сдача</span><b>1 270</b></div></div><h3>Сдача без ошибок</h3><p>Вводите, сколько дал гость, а RUVO крупно показывает сдачу.</p></li>
-<li><div class="mu mu--info" aria-hidden="true"><span class="mu-t">Палачинки с шоколадом</span><span class="mu-tags"><span class="mu-tag">Глютен</span><span class="mu-tag">Молоко</span><span class="mu-tag">Яйца</span></span><span class="mu-note">14 аллергенов ЕС</span></div><h3>Аллергены для гостей</h3><p>14 аллергенов ЕС у каждого блюда — по техкарте, в киоске и у официанта.</p></li>
-<li><div class="mu mu--bike" aria-hidden="true"><div class="mu-line start"><span><span class="pf wolt">Wolt</span></span><b>W-7F3A</b></div><div class="mu-line dim"><span>2× Чевапи, 10 шт</span></div><span class="mu-tag ok">Курьер 21:52</span></div><h3>Доставка на том же экране</h3><p>Заказы для Wolt и Glovo идут на кухню вместе с залом — со временем приезда курьера.</p></li>
-<li><div class="mu mu--user" aria-hidden="true"><span class="mu-who"><span class="mu-av">M</span>Marko</span><span class="mu-t">Введите свой PIN</span><span class="mu-keys"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i></span></div><h3>Личный PIN</h3><p>Каждый работает под своим именем, а фронт сам блокируется через пять минут.</p></li>
-<li><div class="mu mu--lock" aria-hidden="true"><span class="mu-t">Подтвердите своим PIN</span><span class="mu-dots"><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span><span class="mu-tag">Гость передумал</span></div><h3>Отмена по PIN</h3><p>Отправленное блюдо отменяет только тот, у кого есть право, с причиной; если кухня начала готовить, продукты уходят в списание.</p></li>
-<li><div class="mu mu--tag" aria-hidden="true"><span class="mu-tag gold big">Персонал −30%</span><span class="mu-ok"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>одобрено · Dragana</span></div><h3>Скидки под контролем</h3><p>Скидка персоналу и комплимент — только с PIN менеджера, и всё остаётся в журнале действий.</p></li>
-<li><div class="mu mu--clock" aria-hidden="true"><div class="mu-line bare"><span class="mu-t">Рабочий день</span><span class="mu-tag now">сейчас 01:30</span></div><span class="mu-day"><i class="d-fill"></i><i class="d-mid"></i><i class="d-now"></i></span><span class="mu-times"><span>05:00</span><span>00:00</span><span>05:00</span></span></div><h3>Рабочий день до 5 утра</h3><p>Для заведений, которые работают после полуночи: выручка попадает в нужный день.</p></li>
+<li><div class="mu mu--stop" aria-hidden="true"><div class="mr mrow"><span class="mr-a"><b>Чевапи, 10 шт</b><small>1 290 RSD <em>· осталось 3</em></small></span></div><div class="mr mrow off"><span class="mr-a"><b>Стейк рибай, 300 г</b><small><em class="bad">Стоп</em></small></span></div></div><h3><span class="nw">Стоп-лист</span> с порциями</h3><p>Блюдо само уходит в стоп, когда порции закончились; больше остатка не заказать.</p></li>
+<li><div class="mu mu--cash" aria-hidden="true"><div class="mr m3"><span class="mr-a"><span class="mr-x">К оплате</span></span><b class="mf">3 730</b></div><div class="mr"><span class="mr-a"><span class="mr-x">Получено</span></span><b class="mf">5 000</b></div><div class="mr ok"><span class="mr-a"><span class="mr-x">Сдача</span></span><b class="mf big">1 270</b></div></div><h3>Сдача без ошибок</h3><p>Вводите, сколько дал гость, а RUVO крупно показывает сдачу.</p></li>
+<li><div class="mu mu--info" aria-hidden="true"><div class="mr"><span class="mr-a"><span class="mr-x">Палачинки с шоколадом</span></span></div><div class="mr m3"><span class="mr-a"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-info"/></svg><span class="mr-x">Глютен, молоко, яйца</span></span></div><div class="mr sh"><span class="mr-a"><span class="mr-x">14 аллергенов ЕС</span></span></div></div><h3>Аллергены для гостей</h3><p>14 аллергенов ЕС у каждого блюда — по техкарте, в киоске и у официанта.</p></li>
+<li><div class="mu mu--bike" aria-hidden="true"><div class="mr mdc"><span class="mr-a"><span class="pf wolt">Wolt</span><b class="mf">W-7F3A</b></span></div><div class="mr mdc"><span class="mr-a"><span class="mr-x">2× Чевапи, 10 шт</span></span></div><div class="mr mdc m3"><span class="mr-a"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-moped"/></svg><span class="mr-x">Курьер 21:52</span></span></div></div><h3>Доставка на том же экране</h3><p>Заказы для Wolt и Glovo идут на кухню вместе с залом — со временем приезда курьера.</p></li>
+<li><div class="mu mu--user" aria-hidden="true"><div class="mu2"><div class="mw"><span class="mav">M</span><b>Marko</b><small>Введите свой PIN</small><span class="mdots"><i class="f"></i><i></i><i></i><i></i></span></div><div class="mkeys"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i></div></div></div><h3>Личный PIN</h3><p>Каждый работает под своим именем, а фронт сам блокируется через пять минут.</p></li>
+<li><div class="mu mu--lock" aria-hidden="true"><div class="mr on"><span class="mr-a"><span class="mr-x">Гость передумал</span></span><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg></div><div class="mr mpin"><span class="mr-x">Подтвердите своим PIN</span><span class="mdots"><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span></div></div><h3>Отмена по PIN</h3><p>Отправленное блюдо отменяет только тот, у кого есть право, с причиной; если кухня начала готовить, продукты уходят в списание.</p></li>
+<li><div class="mu mu--tag" aria-hidden="true"><div class="mr on"><span class="mr-a"><span class="mr-x">Персонал</span></span><b class="mf big">−30%</b></div><div class="mr ok m3"><span class="mr-a"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span class="mr-x">одобрено · Dragana</span></span></div></div><h3>Скидки под контролем</h3><p>Скидка персоналу и комплимент — только с PIN менеджера, и всё остаётся в журнале действий.</p></li>
+<li><div class="mu mu--clock" aria-hidden="true"><div class="mr"><span class="mr-a"><span class="mr-x">Рабочий день</span></span><small>сейчас <b class="mf">01:30</b></small></div><div class="mr mday"><span class="md-bar"><i class="d-fill"></i><i class="d-mid"></i></span><span class="md-t"><span>05:00</span><span>00:00</span><span>05:00</span></span></div></div><h3>Рабочий день до 5 утра</h3><p>Для заведений, которые работают после полуночи: выручка попадает в нужный день.</p></li>
 </ul><ul class="rush rush-copy" aria-hidden="true">
-<li><div class="mu mu--stop" aria-hidden="true"><div class="mu-line"><span>Чевапи, 10 шт</span><span class="mu-tag warn">осталось 3</span></div><div class="mu-line dim"><span>Стейк рибай, 300 г</span><span class="mu-tag late">Стоп</span></div></div><h3><span class="nw">Стоп-лист</span> с порциями</h3><p>Блюдо само уходит в стоп, когда порции закончились; больше остатка не заказать.</p></li>
-<li><div class="mu mu--cash" aria-hidden="true"><div class="mu-line dim"><span>К оплате</span><b>3 730</b></div><div class="mu-line"><span>Получено</span><b>5 000</b></div><div class="mu-big"><span>Сдача</span><b>1 270</b></div></div><h3>Сдача без ошибок</h3><p>Вводите, сколько дал гость, а RUVO крупно показывает сдачу.</p></li>
-<li><div class="mu mu--info" aria-hidden="true"><span class="mu-t">Палачинки с шоколадом</span><span class="mu-tags"><span class="mu-tag">Глютен</span><span class="mu-tag">Молоко</span><span class="mu-tag">Яйца</span></span><span class="mu-note">14 аллергенов ЕС</span></div><h3>Аллергены для гостей</h3><p>14 аллергенов ЕС у каждого блюда — по техкарте, в киоске и у официанта.</p></li>
-<li><div class="mu mu--bike" aria-hidden="true"><div class="mu-line start"><span><span class="pf wolt">Wolt</span></span><b>W-7F3A</b></div><div class="mu-line dim"><span>2× Чевапи, 10 шт</span></div><span class="mu-tag ok">Курьер 21:52</span></div><h3>Доставка на том же экране</h3><p>Заказы для Wolt и Glovo идут на кухню вместе с залом — со временем приезда курьера.</p></li>
-<li><div class="mu mu--user" aria-hidden="true"><span class="mu-who"><span class="mu-av">M</span>Marko</span><span class="mu-t">Введите свой PIN</span><span class="mu-keys"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i></span></div><h3>Личный PIN</h3><p>Каждый работает под своим именем, а фронт сам блокируется через пять минут.</p></li>
-<li><div class="mu mu--lock" aria-hidden="true"><span class="mu-t">Подтвердите своим PIN</span><span class="mu-dots"><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span><span class="mu-tag">Гость передумал</span></div><h3>Отмена по PIN</h3><p>Отправленное блюдо отменяет только тот, у кого есть право, с причиной; если кухня начала готовить, продукты уходят в списание.</p></li>
-<li><div class="mu mu--tag" aria-hidden="true"><span class="mu-tag gold big">Персонал −30%</span><span class="mu-ok"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>одобрено · Dragana</span></div><h3>Скидки под контролем</h3><p>Скидка персоналу и комплимент — только с PIN менеджера, и всё остаётся в журнале действий.</p></li>
-<li><div class="mu mu--clock" aria-hidden="true"><div class="mu-line bare"><span class="mu-t">Рабочий день</span><span class="mu-tag now">сейчас 01:30</span></div><span class="mu-day"><i class="d-fill"></i><i class="d-mid"></i><i class="d-now"></i></span><span class="mu-times"><span>05:00</span><span>00:00</span><span>05:00</span></span></div><h3>Рабочий день до 5 утра</h3><p>Для заведений, которые работают после полуночи: выручка попадает в нужный день.</p></li>
+<li><div class="mu mu--stop" aria-hidden="true"><div class="mr mrow"><span class="mr-a"><b>Чевапи, 10 шт</b><small>1 290 RSD <em>· осталось 3</em></small></span></div><div class="mr mrow off"><span class="mr-a"><b>Стейк рибай, 300 г</b><small><em class="bad">Стоп</em></small></span></div></div><h3><span class="nw">Стоп-лист</span> с порциями</h3><p>Блюдо само уходит в стоп, когда порции закончились; больше остатка не заказать.</p></li>
+<li><div class="mu mu--cash" aria-hidden="true"><div class="mr m3"><span class="mr-a"><span class="mr-x">К оплате</span></span><b class="mf">3 730</b></div><div class="mr"><span class="mr-a"><span class="mr-x">Получено</span></span><b class="mf">5 000</b></div><div class="mr ok"><span class="mr-a"><span class="mr-x">Сдача</span></span><b class="mf big">1 270</b></div></div><h3>Сдача без ошибок</h3><p>Вводите, сколько дал гость, а RUVO крупно показывает сдачу.</p></li>
+<li><div class="mu mu--info" aria-hidden="true"><div class="mr"><span class="mr-a"><span class="mr-x">Палачинки с шоколадом</span></span></div><div class="mr m3"><span class="mr-a"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-info"/></svg><span class="mr-x">Глютен, молоко, яйца</span></span></div><div class="mr sh"><span class="mr-a"><span class="mr-x">14 аллергенов ЕС</span></span></div></div><h3>Аллергены для гостей</h3><p>14 аллергенов ЕС у каждого блюда — по техкарте, в киоске и у официанта.</p></li>
+<li><div class="mu mu--bike" aria-hidden="true"><div class="mr mdc"><span class="mr-a"><span class="pf wolt">Wolt</span><b class="mf">W-7F3A</b></span></div><div class="mr mdc"><span class="mr-a"><span class="mr-x">2× Чевапи, 10 шт</span></span></div><div class="mr mdc m3"><span class="mr-a"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-moped"/></svg><span class="mr-x">Курьер 21:52</span></span></div></div><h3>Доставка на том же экране</h3><p>Заказы для Wolt и Glovo идут на кухню вместе с залом — со временем приезда курьера.</p></li>
+<li><div class="mu mu--user" aria-hidden="true"><div class="mu2"><div class="mw"><span class="mav">M</span><b>Marko</b><small>Введите свой PIN</small><span class="mdots"><i class="f"></i><i></i><i></i><i></i></span></div><div class="mkeys"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i></div></div></div><h3>Личный PIN</h3><p>Каждый работает под своим именем, а фронт сам блокируется через пять минут.</p></li>
+<li><div class="mu mu--lock" aria-hidden="true"><div class="mr on"><span class="mr-a"><span class="mr-x">Гость передумал</span></span><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg></div><div class="mr mpin"><span class="mr-x">Подтвердите своим PIN</span><span class="mdots"><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span></div></div><h3>Отмена по PIN</h3><p>Отправленное блюдо отменяет только тот, у кого есть право, с причиной; если кухня начала готовить, продукты уходят в списание.</p></li>
+<li><div class="mu mu--tag" aria-hidden="true"><div class="mr on"><span class="mr-a"><span class="mr-x">Персонал</span></span><b class="mf big">−30%</b></div><div class="mr ok m3"><span class="mr-a"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg><span class="mr-x">одобрено · Dragana</span></span></div></div><h3>Скидки под контролем</h3><p>Скидка персоналу и комплимент — только с PIN менеджера, и всё остаётся в журнале действий.</p></li>
+<li><div class="mu mu--clock" aria-hidden="true"><div class="mr"><span class="mr-a"><span class="mr-x">Рабочий день</span></span><small>сейчас <b class="mf">01:30</b></small></div><div class="mr mday"><span class="md-bar"><i class="d-fill"></i><i class="d-mid"></i></span><span class="md-t"><span>05:00</span><span>00:00</span><span>05:00</span></span></div></div><h3>Рабочий день до 5 утра</h3><p>Для заведений, которые работают после полуночи: выручка попадает в нужный день.</p></li>
 </ul></div></div>
 <div class="rush-row r2"><div class="rush-track"><ul class="rush">
-<li><div class="mu mu--bell" aria-hidden="true"><div class="mu-div">Курс 2 · ждёт вызова</div><div class="mu-line dim"><span>Палачинки с шоколадом</span><span class="mu-q">×2</span></div><span class="mu-btn go">Вызвать</span></div><h3>Курсы и «Вызвать»</h3><p>Второй курс ждёт на кухне, пока официант его не вызовет, — тогда тикет звенит и мигает.</p></li>
-<li><div class="mu mu--split" aria-hidden="true"><span class="mu-seg"><span>Весь счёт</span><span class="on">По позициям</span></span><div class="mu-line"><span>Часть 1 · карта</span><b>1 290</b></div><div class="mu-line"><span>Часть 2 · наличные</span><b>940</b></div></div><h3>Деление счёта</h3><p>Оплата по позициям или частями, у каждой части свой способ оплаты.</p></li>
-<li><div class="mu mu--rotate" aria-hidden="true"><div class="mu-line"><span>Стол 4 · закрыт 21:40</span></div><span class="mu-btn">Вернуть стол</span></div><h3>«Вернуть стол»</h3><p>Закрытый стол открывается снова с PIN и причиной; склад и выручка исправляются сами.</p></li>
-<li><div class="mu mu--move" aria-hidden="true"><div class="mu-floor"><span class="mf">1</span><span class="mf">2</span><span class="mf ghost"></span><span class="mf lift">3</span></div><span class="mu-btn sm">Изменить зал</span></div><h3>План зала за минуту</h3><p>Столы, залы и подписи перетаскиваются прямо на фронте.</p></li>
-<li><div class="mu mu--queue" aria-hidden="true"><div class="mu-line"><span>Очередь кухни</span><b>12 порций · ~18 мин</b></div><span class="mu-warn"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg><span>Кухня загружена — ближайшее время выдачи 21:59</span></span></div><h3>Загрузка кухни — заранее</h3><p>RUVO знает, сколько у кухни работы и сколько ей нужно времени; приложение для гостей предупредит о загрузке и предложит время позже.</p></li>
-<li><div class="mu mu--norm" aria-hidden="true"><div class="mu-big"><span>в норме сегодня</span><b>67%</b></div><div class="mu-line"><span>В среднем</span><b>8 мин</b></div><div class="mu-line dim"><span>Норма · Чевапи</span><b>12 мин</b></div></div><h3>Норма на каждое блюдо</h3><p>У каждого блюда своя норма времени; кухня видит, сколько сегодня отдано в норму и сколько в среднем это занимает.</p></li>
-<li><div class="mu mu--pair" aria-hidden="true"><div class="mu-line"><span>Сырники</span><b>690</b></div><div class="mu-line"><span>Эспрессо</span><b>220</b></div><div class="mu-line bare"><span class="mu-tag gold"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-tag"/></svg>Кофе к завтраку −30%</span><b class="mu-minus">−66</b></div></div><h3>Пары со скидкой</h3><p>Кофе к завтраку −30%: RUVO сам применит скидку, когда оба блюда в счёте, — помнить не нужно.</p></li>
-<li><div class="mu mu--board" aria-hidden="true"><div class="mu-bd"><div class="mb-col"><span class="mb-h">Готовим</span><span class="mb-ns"><span class="mb-n">A4<small>Ivana</small></span><span class="mb-n">2</span></span></div><div class="mb-col ok"><span class="mb-h">Готово</span><span class="mb-ns"><span class="mb-n">1</span><span class="mb-n">A5<small>Stefan</small></span></span></div></div></div><h3>Табло выдачи</h3><p>Номер и имя над стойкой: «Готовим», потом «Готово — заберите» — для киоска и предзаказов.</p></li>
+<li><div class="mu mu--bell" aria-hidden="true"><div class="mr sh"><span class="mr-a"><span class="mr-x">Курс 2 · ждёт вызова</span></span><span class="pl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bell"/></svg>Вызвать</span></div><div class="mr"><span class="mr-a"><em>2×</em><span class="mr-x">Палачинки с шоколадом</span></span><b class="mf">1 040</b></div></div><h3>Курсы и «Вызвать»</h3><p>Второй курс ждёт на кухне, пока официант его не вызовет, — тогда тикет звенит и мигает.</p></li>
+<li><div class="mu mu--split" aria-hidden="true"><div class="ms"><span>Весь счёт</span><span class="on">По позициям</span></div><div class="mr"><span class="mr-a"><span class="mr-x">Часть 1 · карта</span></span><b class="mf">1 290</b></div><div class="mr"><span class="mr-a"><span class="mr-x">Часть 2 · наличные</span></span><b class="mf">940</b></div></div><h3>Деление счёта</h3><p>Оплата по позициям или частями, у каждой части свой способ оплаты.</p></li>
+<li><div class="mu mu--rotate" aria-hidden="true"><div class="mr"><span class="mr-a"><span class="mr-x">Стол 4</span></span><small>закрыт 21:40</small></div><div class="mr sh mk"><span class="pl">Вернуть стол</span></div></div><h3>«Вернуть стол»</h3><p>Закрытый стол открывается снова с PIN и причиной; склад и выручка исправляются сами.</p></li>
+<li><div class="mu mu--move" aria-hidden="true"><div class="mp"><span class="mpt">01</span><span class="mpt">02</span><span class="mpt ghost"></span><span class="mpt lift">03</span><span class="pl">Изменить зал</span></div></div><h3>План зала за минуту</h3><p>Столы, залы и подписи перетаскиваются прямо на фронте.</p></li>
+<li><div class="mu mu--queue" aria-hidden="true"><div class="mr m3"><span class="mr-a"><span class="mr-x">Очередь кухни</span></span><b class="mq">12 порций · ~18 мин</b></div><div class="mr warn"><span class="mr-a"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg><span class="mr-x">Кухня загружена — ближайшее время выдачи 21:59</span></span></div></div><h3>Загрузка кухни — заранее</h3><p>RUVO знает, сколько у кухни работы и сколько ей нужно времени; приложение для гостей предупредит о загрузке и предложит время позже.</p></li>
+<li><div class="mu mu--norm" aria-hidden="true"><div class="mr ok"><span class="mr-a"><span class="mr-x">в норме сегодня</span></span><b class="mf big">67%</b></div><div class="mr m3"><span class="mr-a"><span class="mr-x">В среднем</span></span><b class="mf">8 мин</b></div><div class="mr m3"><span class="mr-a"><span class="mr-x">Норма · Чевапи</span></span><b class="mf">12 мин</b></div></div><h3>Норма на каждое блюдо</h3><p>У каждого блюда своя норма времени; кухня видит, сколько сегодня отдано в норму и сколько в среднем это занимает.</p></li>
+<li><div class="mu mu--pair" aria-hidden="true"><div class="mr"><span class="mr-a"><span class="mr-x">Сырники</span></span><b class="mf">690</b></div><div class="mr"><span class="mr-a"><span class="mr-x">Эспрессо</span></span><b class="mf">220</b></div><div class="mr on m3"><span class="mr-a"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-tag"/></svg><span class="mr-x">Кофе к завтраку −30%</span></span><b class="mf">−66</b></div></div><h3>Пары со скидкой</h3><p>Кофе к завтраку −30%: RUVO сам применит скидку, когда оба блюда в счёте, — помнить не нужно.</p></li>
+<li><div class="mu mu--board" aria-hidden="true"><div class="mbd"><div class="mbc"><span class="mbh">Готовим</span><span class="mbn"><span><b>A4</b><small>Ivana</small></span><span><b>2</b></span></span></div><div class="mbc ok"><span class="mbh">Готово</span><span class="mbn"><span><b>A5</b><small>Stefan</small></span><span><b>1</b></span></span></div></div></div><h3>Табло выдачи</h3><p>Номер и имя над стойкой: «Готовим», потом «Готово — заберите» — для киоска и предзаказов.</p></li>
 </ul><ul class="rush rush-copy" aria-hidden="true">
-<li><div class="mu mu--bell" aria-hidden="true"><div class="mu-div">Курс 2 · ждёт вызова</div><div class="mu-line dim"><span>Палачинки с шоколадом</span><span class="mu-q">×2</span></div><span class="mu-btn go">Вызвать</span></div><h3>Курсы и «Вызвать»</h3><p>Второй курс ждёт на кухне, пока официант его не вызовет, — тогда тикет звенит и мигает.</p></li>
-<li><div class="mu mu--split" aria-hidden="true"><span class="mu-seg"><span>Весь счёт</span><span class="on">По позициям</span></span><div class="mu-line"><span>Часть 1 · карта</span><b>1 290</b></div><div class="mu-line"><span>Часть 2 · наличные</span><b>940</b></div></div><h3>Деление счёта</h3><p>Оплата по позициям или частями, у каждой части свой способ оплаты.</p></li>
-<li><div class="mu mu--rotate" aria-hidden="true"><div class="mu-line"><span>Стол 4 · закрыт 21:40</span></div><span class="mu-btn">Вернуть стол</span></div><h3>«Вернуть стол»</h3><p>Закрытый стол открывается снова с PIN и причиной; склад и выручка исправляются сами.</p></li>
-<li><div class="mu mu--move" aria-hidden="true"><div class="mu-floor"><span class="mf">1</span><span class="mf">2</span><span class="mf ghost"></span><span class="mf lift">3</span></div><span class="mu-btn sm">Изменить зал</span></div><h3>План зала за минуту</h3><p>Столы, залы и подписи перетаскиваются прямо на фронте.</p></li>
-<li><div class="mu mu--queue" aria-hidden="true"><div class="mu-line"><span>Очередь кухни</span><b>12 порций · ~18 мин</b></div><span class="mu-warn"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg><span>Кухня загружена — ближайшее время выдачи 21:59</span></span></div><h3>Загрузка кухни — заранее</h3><p>RUVO знает, сколько у кухни работы и сколько ей нужно времени; приложение для гостей предупредит о загрузке и предложит время позже.</p></li>
-<li><div class="mu mu--norm" aria-hidden="true"><div class="mu-big"><span>в норме сегодня</span><b>67%</b></div><div class="mu-line"><span>В среднем</span><b>8 мин</b></div><div class="mu-line dim"><span>Норма · Чевапи</span><b>12 мин</b></div></div><h3>Норма на каждое блюдо</h3><p>У каждого блюда своя норма времени; кухня видит, сколько сегодня отдано в норму и сколько в среднем это занимает.</p></li>
-<li><div class="mu mu--pair" aria-hidden="true"><div class="mu-line"><span>Сырники</span><b>690</b></div><div class="mu-line"><span>Эспрессо</span><b>220</b></div><div class="mu-line bare"><span class="mu-tag gold"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-tag"/></svg>Кофе к завтраку −30%</span><b class="mu-minus">−66</b></div></div><h3>Пары со скидкой</h3><p>Кофе к завтраку −30%: RUVO сам применит скидку, когда оба блюда в счёте, — помнить не нужно.</p></li>
-<li><div class="mu mu--board" aria-hidden="true"><div class="mu-bd"><div class="mb-col"><span class="mb-h">Готовим</span><span class="mb-ns"><span class="mb-n">A4<small>Ivana</small></span><span class="mb-n">2</span></span></div><div class="mb-col ok"><span class="mb-h">Готово</span><span class="mb-ns"><span class="mb-n">1</span><span class="mb-n">A5<small>Stefan</small></span></span></div></div></div><h3>Табло выдачи</h3><p>Номер и имя над стойкой: «Готовим», потом «Готово — заберите» — для киоска и предзаказов.</p></li>
+<li><div class="mu mu--bell" aria-hidden="true"><div class="mr sh"><span class="mr-a"><span class="mr-x">Курс 2 · ждёт вызова</span></span><span class="pl"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-bell"/></svg>Вызвать</span></div><div class="mr"><span class="mr-a"><em>2×</em><span class="mr-x">Палачинки с шоколадом</span></span><b class="mf">1 040</b></div></div><h3>Курсы и «Вызвать»</h3><p>Второй курс ждёт на кухне, пока официант его не вызовет, — тогда тикет звенит и мигает.</p></li>
+<li><div class="mu mu--split" aria-hidden="true"><div class="ms"><span>Весь счёт</span><span class="on">По позициям</span></div><div class="mr"><span class="mr-a"><span class="mr-x">Часть 1 · карта</span></span><b class="mf">1 290</b></div><div class="mr"><span class="mr-a"><span class="mr-x">Часть 2 · наличные</span></span><b class="mf">940</b></div></div><h3>Деление счёта</h3><p>Оплата по позициям или частями, у каждой части свой способ оплаты.</p></li>
+<li><div class="mu mu--rotate" aria-hidden="true"><div class="mr"><span class="mr-a"><span class="mr-x">Стол 4</span></span><small>закрыт 21:40</small></div><div class="mr sh mk"><span class="pl">Вернуть стол</span></div></div><h3>«Вернуть стол»</h3><p>Закрытый стол открывается снова с PIN и причиной; склад и выручка исправляются сами.</p></li>
+<li><div class="mu mu--move" aria-hidden="true"><div class="mp"><span class="mpt">01</span><span class="mpt">02</span><span class="mpt ghost"></span><span class="mpt lift">03</span><span class="pl">Изменить зал</span></div></div><h3>План зала за минуту</h3><p>Столы, залы и подписи перетаскиваются прямо на фронте.</p></li>
+<li><div class="mu mu--queue" aria-hidden="true"><div class="mr m3"><span class="mr-a"><span class="mr-x">Очередь кухни</span></span><b class="mq">12 порций · ~18 мин</b></div><div class="mr warn"><span class="mr-a"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-clock"/></svg><span class="mr-x">Кухня загружена — ближайшее время выдачи 21:59</span></span></div></div><h3>Загрузка кухни — заранее</h3><p>RUVO знает, сколько у кухни работы и сколько ей нужно времени; приложение для гостей предупредит о загрузке и предложит время позже.</p></li>
+<li><div class="mu mu--norm" aria-hidden="true"><div class="mr ok"><span class="mr-a"><span class="mr-x">в норме сегодня</span></span><b class="mf big">67%</b></div><div class="mr m3"><span class="mr-a"><span class="mr-x">В среднем</span></span><b class="mf">8 мин</b></div><div class="mr m3"><span class="mr-a"><span class="mr-x">Норма · Чевапи</span></span><b class="mf">12 мин</b></div></div><h3>Норма на каждое блюдо</h3><p>У каждого блюда своя норма времени; кухня видит, сколько сегодня отдано в норму и сколько в среднем это занимает.</p></li>
+<li><div class="mu mu--pair" aria-hidden="true"><div class="mr"><span class="mr-a"><span class="mr-x">Сырники</span></span><b class="mf">690</b></div><div class="mr"><span class="mr-a"><span class="mr-x">Эспрессо</span></span><b class="mf">220</b></div><div class="mr on m3"><span class="mr-a"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-tag"/></svg><span class="mr-x">Кофе к завтраку −30%</span></span><b class="mf">−66</b></div></div><h3>Пары со скидкой</h3><p>Кофе к завтраку −30%: RUVO сам применит скидку, когда оба блюда в счёте, — помнить не нужно.</p></li>
+<li><div class="mu mu--board" aria-hidden="true"><div class="mbd"><div class="mbc"><span class="mbh">Готовим</span><span class="mbn"><span><b>A4</b><small>Ivana</small></span><span><b>2</b></span></span></div><div class="mbc ok"><span class="mbh">Готово</span><span class="mbn"><span><b>A5</b><small>Stefan</small></span><span><b>1</b></span></span></div></div></div><h3>Табло выдачи</h3><p>Номер и имя над стойкой: «Готовим», потом «Готово — заберите» — для киоска и предзаказов.</p></li>
 </ul></div></div>
 </div>
 <div class="wrap rush-foot"><button type="button" class="rush-pp" data-rush-pp aria-label="Остановить движение" data-pause="Остановить движение" data-play="Запустить движение" hidden><svg class="i rp-pause" aria-hidden="true" focusable="false"><use href="#i-pause-fill"/></svg><svg class="i rp-play" aria-hidden="true" focusable="false"><use href="#i-play-fill"/></svg></button></div>

@@ -3,7 +3,8 @@
 // demo pages run) with the app's own letters (Onest, JetBrains Mono, from the ruvo checkout beside this one; FONTS= to
 // point elsewhere), the demo's restaurant in Serbian, English and Russian, light and dark (the kitchen dark only and the
 // kiosk light only, as they always are), at the sizes of the devices the site draws round them: an iPad Pro 11″ on its side 1210×834 (the front,
-// the kitchen, the back office) and upright 834×1210 (the kiosk), an iPhone 18 Pro Max 440×956 (the waiter). Each as the
+// the kitchen, the back office) and upright 834×1210 (the kiosk), an iPhone 18 Pro Max 440×956 (the waiter, the guests'
+// app), and for the demo's start page a laptop 1440×900 (the back office) and a screen 1440×810 (the board). Each as the
 // device shows it: the app under the status bar (the safe areas of the device given to its CSS: 24/20 points on the
 // iPad, 62/34 on the iPhone), the time and the day, Wi-Fi, the battery, on the iPhone the Dynamic Island and the home
 // indicator. The clock is the site's, 21:41 on Wednesday 14 October (APP in content.mjs: Apple's 9:41, at dinner), set
@@ -34,6 +35,10 @@ const DEV = {
   pad: { size: { width: 1210, height: 834 }, top: 24, bottom: 20 },
   port: { size: { width: 834, height: 1210 }, top: 24, bottom: 20 },
   phone: { size: { width: 440, height: 956 }, top: 62, bottom: 34 },
+  // the demo's start page draws two more (app/src/ui/demo-art.jsx): the back office on a laptop and the pickup board on
+  // a screen over the counter — no status bar on either
+  lap: { size: { width: 1440, height: 900 }, top: 0, bottom: 0, bare: true },
+  tv: { size: { width: 1440, height: 810 }, top: 0, bottom: 0, bare: true },
 };
 
 // ---------- the demo's page for each language and device, with the app's own letters ----------
@@ -198,6 +203,11 @@ const SHOTS = {
   // the team: the week's pay — hours × the rate, a share of the sales, the tips
   pay: { kind: 'pad', go: async (d) => { await officePage(d, 'team', 'shifts'); await d.p.getByRole('tab', { name: { sr: 'Plate', en: 'Pay', ru: 'Зарплата' }[d.lang] }).click(); await d.settle(900); } },
   forecast: { kind: 'pad', go: forecastDay },
+  // for the demo's start page (build.mjs, demoPage): the back office's first page on a laptop; the guests' app on their
+  // phone, always light; the pickup board over the counter, always dark
+  office: { kind: 'lap', go: async (d) => { await d.open('office'); await d.p.waitForSelector('.of-nav'); await d.settle(900); } },
+  'guest-app': { kind: 'phone', theme: 'light', go: async (d) => { await d.open('guest'); await d.settle(900); } },
+  board: { kind: 'tv', theme: 'dark', go: async (d) => { await d.open('board'); await d.settle(900); } },
 };
 
 const b = await chromium.launch();
@@ -207,7 +217,8 @@ for (const lang of LANGS) {
   for (const theme of THEMES) {
     for (const [name, s] of Object.entries(SHOTS)) {
       if (ONLY && !ONLY.includes(name)) continue;
-      // a screen with a theme of its own (the kitchen's dark, the kiosk's light) is taken once
+      // a screen with a theme of its own (the kitchen's and the board's dark, the kiosk's and the guests' app's light) is
+      // taken once
       if (s.theme && theme !== s.theme) continue;
       const d = await device(b, s.kind, lang, theme);
       try {
@@ -215,7 +226,7 @@ for (const lang of LANGS) {
         await d.p.mouse.move(0, DEV[s.kind].size.height - 1);
         await d.p.evaluate(() => { if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur(); });
         await d.p.waitForTimeout(400);
-        await statusBar(d.p, s.kind, lang, theme === 'dark' ? '#FFFFFF' : '#000000');
+        if (!DEV[s.kind].bare) await statusBar(d.p, s.kind, lang, theme === 'dark' ? '#FFFFFF' : '#000000');
         const dir = path.join(OUT, lang);
         mkdirSync(dir, { recursive: true });
         await d.p.screenshot({ path: path.join(dir, `${name}-${theme}.png`) });

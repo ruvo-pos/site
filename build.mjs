@@ -355,36 +355,37 @@ function dev(kind, inner, label = '') {
 const BATTERY = '<span class="bat"><i></i></span>';
 const sbPad = (lang) => `<div class="sb"><span class="sb-t">${APP[lang].time}<span>${esc(APP[lang].date)}</span></span><span class="sb-r">${IC('wifi-high')}${BATTERY}</span></div>`;
 
-// the front terminal's bar (ui/ipad.jsx): the wordmark and the venue; the floor, delivery and closed tables; the shift,
-// the stop list, who is working
-function frontBar(lang, { tab = 'hall', place = null } = {}) {
+// The first screen's iPad is drawn in the app's look of 1–2 November (app/src/styles/88-ipad-look.css; 2 November,
+// 10:27, the owner: «надо на сайте поменять hero блок, потому что он уже не актуален»): each screen its own header — as
+// tall as a key under the clock, the screen's shade, a line under it, its pills at the right —; zones and tiles from edge
+// to edge with a line between them; pills are keys only; three styles of letters (22 semibold, 16 semibold, 14 regular)
+// and the figures of an instrument for numbers and sums.
+const pill = (text, cls = '', icon = '') => `<span class="pl${cls ? ` ${cls}` : ''}">${icon ? IC(icon) : ''}${text ? esc(text) : ''}</span>`;
+function scrHead({ title, sub = '', back = false, dot = false, badge = '', right = '' }) {
+  return `<div class="hd">${back ? `<span class="pl ic">${IC('caret-left')}</span>` : ''}<span class="hd-t"><b>${badge}${esc(title)}${dot ? '<i class="dot"></i>' : ''}</b>${sub ? `<small>${esc(sub)}</small>` : ''}</span><span class="hd-r">${right}</span></div>`;
+}
+// the tabs at the foot of the front's screens: one glass pill — the floor, delivery (one new), the closed bills, the profile
+function tabPill(lang, on = 'hall') {
   const A = APP[lang];
-  const tabs = [['hall', 'squares-four', A.bar.hall, 0], ['delivery', 'moped', A.bar.delivery, 1], ['checks', 'receipt', A.bar.checks, 0]];
-  return `<div class="ab"><span class="ab-brand">RUVO</span><span class="ab-place">${esc(place || A.place)}</span>
-<span class="seg ab-seg">${tabs.map(([id, icon, label, n]) => `<span${id === tab ? ' class="on"' : ''}>${IC(icon)}${esc(label)}${n ? `<i>${n}</i>` : ''}</span>`).join('')}</span>
-<span class="ab-end"><span class="ab-btn">${IC('clock')}${esc(A.bar.shift)}<i class="ok">8</i></span><span class="ab-btn">${IC('prohibit')}${esc(A.bar.stop)}</span><span class="ab-user"><b>M</b>Marko${IC('lock-simple')}</span><span class="ab-ic">${IC('squares-four')}</span></span></div>`;
+  const tabs = [['hall', 'squares-four', A.bar.hall, 0], ['delivery', 'moped', A.bar.delivery, 1], ['checks', 'receipt', A.bar.checks, 0], ['profile', '', A.bar.profile, 0]];
+  return `<div class="tabs">${tabs.map(([id, icon, label, n]) => `<span${id === on ? ' class="on"' : ''}>${icon ? IC(icon) : '<b class="av">M</b>'}${n ? `<i>${n}</i>` : ''}<em>${esc(label)}</em></span>`).join('')}</div>`;
+}
+// a tile of the brand grid knows whether it starts its row and whether it is in the first one: its lines go by that
+const gridMark = (i, cols) => `${i % cols === 0 ? ' data-rf' : ''}${i < cols ? ' data-r0' : ''}`;
+
+// the menu beside an open table, as the iPad shows it: the search across the screen, the categories a strip of keys under
+// it (the chosen one the accent's), the dishes the brand grid's tiles — each with how many of it the order has
+function menuCols(lang, g, counts = {}) {
+  return `<div class="os-search">${IC('magnifying-glass')}<span>${esc(APP[lang].search)}</span></div>
+<div class="os-cats">${g.cats.map((c, i) => `<span${i === g.on ? ' class="on"' : ''}>${esc(c)}</span>`).join('')}</div>
+<div class="os-grid">${g.dishes.map(([name, price], i) => `<div class="mc"${gridMark(i, 3)}><b>${esc(name)}</b><span>${money(price)}<small>RSD</small></span>${counts[name] ? `<i>${counts[name]}</i>` : ''}</div>`).join('')}</div>`;
 }
 
-// the menu beside an open table: the categories, the open one's dishes — each with how many of it the order has; above
-// them, what is on now (the guests' happy hours)
-function menuCols(lang, g, counts = {}, promo = '') {
-  return `<div class="os-cats"><span class="os-search">${IC('magnifying-glass')}${esc(APP[lang].search)}</span>${g.cats.map((c, i) => `<span class="os-cat${i === g.on ? ' on' : ''}">${esc(c)}</span>`).join('')}</div>
-<div class="os-grid">${promo}${g.dishes.map(([name, price]) => `<div class="mc"><b>${esc(name)}</b><span>${money(price)}</span>${counts[name] ? `<i>${counts[name]}</i>` : ''}</div>`).join('')}</div>`;
-}
-// the order panel's head: back to the floor (or to delivery), the table and its guests, who opened it and when
-function panelHead(lang, p) {
-  const A = APP[lang];
-  const badge = p.badge ? `<span class="pf ${p.badge.toLowerCase()}">${esc(p.badge)}</span>` : '';
-  const guests = p.guests ? `<span class="op-guests">${IC('users')}<span class="gst">${IC('minus')}<b>${p.guests}</b>${IC('plus')}</span></span>` : '';
-  return `<div class="op-head"><span class="op-back">${IC('caret-left')}${esc(p.tab === 'delivery' ? A.bar.delivery : A.order.back)}</span>
-<div class="op-title"><b>${badge}${esc(p.title)}</b>${guests}</div>
-<p class="op-meta">${esc(p.meta)}</p></div>`;
-}
-
-// The front terminal with a table open (ui/ipad.jsx): the menu, and the order — course 1 to send («Nova»), course 2 held
-// until «Pozovi», «Pošalji na pripremu · 8». In the hero's loop the button is pressed: the lines say «Poslato» and the
-// panel offers the bill and closing the table, which is also how the screen stands still. A counter's sale
-// (`mode: 'pay'`, the bakery) has nothing to send: it is charged.
+// The front terminal with a table open (ui/ipad.jsx): its header (the table, who opened it and when; the guests, «Gost»,
+// «Popust», «Premesti»), the menu, and the bill — course 1 to send («Nova»), course 2 held until «Pozovi»,
+// «Pošalji na pripremu · 8». In the hero's loop the key is pressed: the lines say «Poslato» and the bill offers «Račun»
+// and closing the table, which is also how the screen stands still. A counter's sale (`mode: 'pay'`, the bakery) has
+// nothing to send: it is charged.
 function orderScreen(lang, p) {
   const A = APP[lang];
   const O = A.order;
@@ -396,16 +397,19 @@ function orderScreen(lang, p) {
   const pay = p.mode === 'pay';
   const st = pay ? '' : `<span class="ol-st"><span class="st-new">${esc(O.draft)}</span><span class="st-sent">${esc(O.sent)}</span></span>`;
   const line = ([name, q, price]) => `<div class="ol"><span class="ol-q">${q}×</span><span class="ol-n">${esc(name)}</span><span class="ol-p">${money(price)}</span>${st}</div>`;
-  const course = (n, held) => `<div class="op-course"><span>${esc(O.course)} ${n}${held ? ` · ${esc(O.waits)}` : ''}</span>${held ? `<span class="op-fire">${IC('bell')}${esc(O.fire)}</span>` : ''}</div>`;
+  const course = (n, held) => `<div class="op-course"><span>${esc(O.course)} ${n}${held ? ` · ${esc(O.waits)}` : ''}</span>${held ? pill(O.fire, 'op-fire', 'bell') : ''}</div>`;
   const lines = later.length ? `${course(1)}${p.lines.map(line).join('')}${course(2, true)}${later.map(line).join('')}` : p.lines.map(line).join('');
   const payBtns = (go) => `<span class="op-pay"><span class="pb">${IC('receipt')}${esc(O.prebill)}</span><span class="pb go">${IC('check')}${esc(go)}</span></span>`;
   const acts = pay ? payBtns(p.send) : `<span class="op-send">${IC('chef-hat')}${esc(O.sendTo)} · ${qty}</span>${payBtns(O.pay)}`;
-  return `<div class="os">
+  const guests = p.guests ? `${pill('', 'ic', 'minus')}<span class="hd-n">${p.guests}</span>${pill('', 'ic', 'plus')}` : '';
+  // a counter's sale and a platform's order: no table to move
+  const more = pay || p.tab === 'delivery' ? O.more.slice(0, 2) : O.more;
+  const badge = p.badge ? `<span class="pf ${p.badge.toLowerCase()}">${esc(p.badge)}</span>` : '';
+  return `${scrHead({ title: p.title, sub: p.meta, back: true, badge, right: guests + more.map((m) => pill(m)).join('') })}<div class="os">
 ${menuCols(lang, p.grid || MAINS[lang], counts)}
 <div class="op${pay ? ' op--pay' : ''}">
-${panelHead(lang, p)}
 <div class="op-lines">${lines}</div>
-<div class="op-foot"><div class="op-total"><span>${esc(O.total)}</span><b>${money(total)}<small>RSD</small></b></div><div class="op-acts">${acts}</div><div class="op-more">${O.more.map((m, i) => `<span>${IC(['star', 'tag', 'arrows-left-right'][i])}${esc(m)}</span>`).join('')}</div></div>
+<div class="op-foot"><div class="op-total"><span>${esc(O.total)}</span><b>${money(total)}<small>RSD</small></b></div><div class="op-acts">${acts}</div></div>
 </div>
 </div>`;
 }
@@ -471,8 +475,8 @@ function heroLive(lang, file, s) {
   const ready = `<div class="nc rd"><p class="nc-h">${IC('device-mobile')}<span>${esc(L.ready.who)}</span><em>${esc(L.now)}</em></p><p class="rd-t">${IC('bell')}${esc(L.ready.title)}</p>${L.ready.lines.map(([q, n]) => `<div class="nc-r"><span>${q}× ${esc(n)}</span><b class="rd-ok">${IC('check')}</b></div>`).join('')}<span class="rd-b">${IC('check')}${esc(L.ready.done)}</span></div>`;
   const stock = s.chip;
   const written = chipCard(lang, { title: stock.title, rows: stock.rows.map(([n, v]) => [n, v]), note: L.written }, 'package').replace('<p class="nc-note">', `<p class="nc-note ok">${IC('check')}`);
-  const pay = `<div class="hl-pay"><div class="pay-sh"><p class="pay-t">${esc(L.pay.title)}</p><p class="pay-sum">${money(total)}<small>RSD</small></p><span class="seg pay-seg">${L.pay.methods.map((m, i) => `<span${i === L.pay.methods.length - 1 ? ' class="on"' : ''}>${esc(m)}</span>`).join('')}</span><div class="pay-qr">${qrSvg(20261014)}<span class="pay-ok">${IC('check')}${esc(L.pay.paid)}</span></div><p class="pay-cap">${esc(L.pay.scan)}</p></div></div>`;
-  const screen = dev('pad', `${sbPad(lang)}${frontBar(lang, { tab: s.pad.tab, place: s.pad.place })}${orderScreen(lang, s.pad)}<div class="hl hl-2">${floorScreen(lang, ex('floor'))}</div><div class="hl hl-3">${deliveryScreen(lang, ex('delivery'))}</div>${pay}`);
+  const pay = `<div class="hl-pay"><div class="pay-sh"><div class="pay-hd"><b>${esc(L.pay.title)}</b>${pill('', 'ic', 'x')}</div><p class="pay-sum">${money(total)}<small>RSD</small></p><div class="pay-seg">${L.pay.methods.map((m, i) => `<span${i === L.pay.methods.length - 1 ? ' class="on"' : ''}>${esc(m)}</span>`).join('')}</div><div class="pay-qr">${qrSvg(20261014)}<span class="pay-ok">${IC('check')}${esc(L.pay.paid)}</span></div><p class="pay-cap">${esc(L.pay.scan)}</p></div></div>`;
+  const screen = dev('pad', `${sbPad(lang)}${orderScreen(lang, s.pad)}<div class="hl hl-2">${floorScreen(lang, ex('floor'))}</div><div class="hl hl-3">${deliveryScreen(lang, ex('delivery'))}</div>${pay}`);
   const events = `<div class="evs">${L.events.map(([icon, title, text]) => `<div class="ev"><span class="ev-ic">${IC(icon)}</span><span class="ev-t"><b>${esc(title)}</b><small>${esc(text.replace('{sum}', money(total)))}</small></span><span class="ev-now">${esc(L.now)}</span></div>`).join('')}</div>`;
   return `<div class="stage multi" role="img" aria-label="${esc(L.label)}" data-live>
 <div class="stage-dev">${screen}${events}</div>
@@ -489,7 +493,7 @@ function heroArt(lang, file, key) {
   if (!s.kiosk && !s.plan && (key === 'home' || VENUES[lang].items[key.slice(2)].scene.ticket12)) return heroLive(lang, file, s);
   const screen = s.kiosk
     ? dev('port', kioskScreen(lang, s.kiosk, file, false))
-    : dev('pad', `${sbPad(lang)}${frontBar(lang, { tab: s.pad.tab, place: s.pad.place })}${orderScreen(lang, s.pad)}`);
+    : dev('pad', `${sbPad(lang)}${orderScreen(lang, s.pad)}`);
   return `<div class="stage${s.kiosk ? ' stage--port' : ''}" role="img" aria-label="${esc(s.label)}" data-live>
 <div class="stage-dev">${screen}</div>
 <div class="stage-side">${s.plan ? planCard(s.plan) : ticketCard(lang, s.ticket)}${chipCard(lang, s.chip, CHIP_ICON[key === 'home' ? 'home' : key.slice(2)])}</div>
@@ -540,7 +544,7 @@ function qrSvg(seed = 20261012) {
 // kiosk's always light, as they are. Each image as big as the device's screen; the device's label says what it shows.
 const SHOT_DIR = path.join(ROOT, 'src/shots');
 const SHOT_SIZE = { pad: [1210, 834], port: [834, 1210], phone: [440, 956] };
-const SHOT_ONE = { kitchen: 'dark', kiosk: 'light' };
+const SHOT_ONE = { kitchen: 'dark', kiosk: 'light', 'guest-app': 'light', board: 'dark' };
 const SHOT_USED = new Set();
 const SHOT_V = new Map();
 function shotSrc(lang, file, name, theme) {
@@ -560,56 +564,65 @@ function shot(kind, lang, file, name) {
 
 // the drawn screens of the first screen (heroLive, heroArt): the front terminal's floor, delivery, the kiosk
 
-// the front terminal's floor at dinner, as the demo shows it: tables by state around the bar; at the side the delivery
-// that is coming, the dishes ready to serve and the shift
+// the front terminal's floor at dinner, as the iPad shows it: the venue's header with its halls; the plan — tables by
+// state around the bar: free, open, ready (how many dishes), waiting for the bill; at the side the brand grid's tiles —
+// the kiosk, the guest app, the dishes ready to serve, the till's shift, the open tables and the day's sales; the tabs a
+// glass pill at the foot
 function floorScreen(lang, x) {
   const f = x.floor;
   const table = (t) => {
     const st = t.st || (t.guests ? 'open' : 'free');
-    const tag = st === 'ready' ? `<span class="tb-tag">${esc(f.readyTag)} ${f.ready}</span>` : st === 'bill' ? `<span class="tb-tag">${esc(f.billTag)}</span>` : '';
+    const mark = st === 'ready' ? `<i class="tb-n">${f.ready}</i>` : st === 'bill' ? `<span class="tb-tag">${esc(f.billTag)}</span>` : '';
     const body = t.guests
-      ? `<span class="tb-who">${IC('user')}${t.guests} · ${t.mins}′</span>${t.sum ? `<span class="tb-sum">${money(t.sum)}</span>` : ''}`
+      ? `<span class="tb-who">${t.guests} · ${t.mins}′</span>${t.sum ? `<span class="tb-sum">${money(t.sum)}</span>` : ''}`
       : `<span class="tb-seats">${esc(f.seats[t.seats])}</span>`;
-    return `<div class="tb ${t.shape} ${st}">${tag}<b>${t.n}</b>${body}</div>`;
+    return `<div class="tb ${t.shape} ${st}">${mark}<b>${String(t.n).padStart(2, '0')}</b>${body}</div>`;
   };
-  return `${sbPad(lang)}${frontBar(lang)}<div class="fl">
-<div class="fl-main">
-<div class="fl-top"><span class="seg">${f.halls.map(([name, n], i) => `<span${i ? '' : ' class="on"'}>${esc(name)}<i>${n}</i></span>`).join('')}</span><span class="fl-legend">${f.legend.map((l, i) => `<span class="lg lg-${['free', 'open', 'ready', 'bill'][i]}">${esc(l)}</span>`).join('')}</span></div>
-<div class="fl-plan">${f.tables.map(table).join('')}<div class="fl-bar"><span>${esc(f.bar)}</span></div></div>
-</div>
+  const tile = (icon, [title, sub], marks = '') => `<div class="ft">${IC(icon)}${marks ? `<span class="ft-n">${marks}</span>` : ''}<b>${esc(title)}</b><small>${esc(sub)}</small></div>`;
+  return `${scrHead({ title: APP[lang].place, dot: true, right: f.halls.map(([name], i) => pill(name, i ? '' : 'on')).join('') })}<div class="fl">
+<div class="fl-main"><div class="fl-plan">${f.tables.map(table).join('')}<div class="fl-bar"><span>${esc(f.bar)}</span></div></div></div>
 <div class="fl-side">
-<div class="fc"><p class="fc-h">${IC('moped')}${esc(f.delivery)}<i>1</i></p><div class="fl-dl"><span class="pf wolt">Wolt</span><b>${esc(f.dl[0])}</b><small>${esc(f.dl[1])}</small></div></div>
-<div class="fc"><p class="fc-h">${IC('bell')}${esc(f.readyTitle)}<i>${f.ready}</i></p><div class="fl-ready"><b>5</b><span>${esc(f.readyText)}</span></div><span class="fl-served">${IC('check')}${esc(f.served)}</span></div>
-<div class="fc"><p class="fc-h">${IC('clock')}${esc(f.shift)}</p><div class="fl-stats"><div><b>${f.open}</b><small>${esc(f.openLabel)}</small></div><div><b>${money(f.revenue)}</b><small>${esc(f.revLabel)}</small></div></div></div>
+${tile('hand-tap', f.kiosk, '<i class="warn">1</i><i class="ok">1</i>')}
+${tile('device-mobile', f.app, '<i>2</i>')}
+<div class="ft ft-ready">${IC('bell')}<span class="ft-n"><i class="ok">${f.ready}</i></span><b>${esc(f.readyTitle)}</b><small>${esc(f.readySub)}</small><span class="fl-served">${IC('check')}${esc(f.served)}</span></div>
+${tile('cash-register', f.cash)}
+<div class="ft ft-fig"><b>${f.open}</b><small>${esc(f.openLabel)}</small></div>
+<div class="ft ft-fig"><b>${money(f.revenue)}<em>RSD</em></b><small>${esc(f.revLabel)}</small></div>
 </div>
+${tabPill(lang, 'hall')}
 </div>`;
 }
 
-// delivery on the front terminal: what is cooking, what waits for its courier, what has gone — carried over by hand from
-// the platforms' tablets until the direct link (stage 2)
+// delivery on the front terminal: the header with «+ Wolt» and «+ Glovo» in their own colours; three columns from edge to
+// edge — cooking, waiting for the courier, picked up —, each order a row with its platform's colour at its edge; carried
+// over by hand from the platforms' tablets until the direct link (stage 2)
 function deliveryScreen(lang, x) {
   const d = x.delivery;
-  const card = (c) => `<div class="dc${c.done ? ' done' : ''}${c.ready ? ' rdy' : ''}"><div class="dc-h"><span class="pf ${c.ch.toLowerCase()}">${esc(c.ch)}</span><b>${esc(c.code)}</b></div><div class="dc-items">${c.items.map((i) => `<span>${esc(i)}</span>`).join('')}</div><div class="dc-f"><span class="dc-st">${esc(c.state)}</span>${c.courier ? `<span class="dc-c">${IC('moped')}${esc(c.courier)}</span>` : ''}</div></div>`;
-  return `${sbPad(lang)}${frontBar(lang, { tab: 'delivery' })}<div class="dl">
-<div class="dl-top"><span class="dl-add">${IC('plus')}Wolt</span><span class="dl-add">${IC('plus')}Glovo</span><span class="dl-note">${esc(d.manual)}</span></div>
+  const card = (c) => `<div class="dc ${c.ch.toLowerCase()}${c.done ? ' done' : ''}${c.ready ? ' rdy' : ''}"><div class="dc-h"><span class="pf ${c.ch.toLowerCase()}">${esc(c.ch)}</span><b>${esc(c.code)}</b></div><div class="dc-items">${c.items.map((i) => `<span>${esc(i)}</span>`).join('')}</div><div class="dc-f"><span class="dc-st">${esc(c.state)}</span>${c.courier ? `<span class="dc-c">${IC('moped')}${esc(c.courier)}</span>` : ''}</div></div>`;
+  return `${scrHead({ title: APP[lang].bar.delivery, dot: true, right: pill('Wolt', 'wolt', 'plus') + pill('Glovo', 'glovo', 'plus') })}<div class="dl">
 <div class="dl-cols">${d.cols.map(([title, cards], i) => `<div class="dl-col${i === d.cols.length - 1 ? ' dl-done' : ''}"><p class="dl-h">${esc(title)}<i>${cards.length}</i></p>${cards.map(card).join('')}</div>`).join('')}</div>
+${tabPill(lang, 'delivery')}
 </div>`;
 }
 
-// The guests' kiosk (ui/kiosk.jsx), upright, with the app's own pictures of the dishes (src/dishes/: its drawings, and the
-// photos of the pastries), two in the basket
+// The guests' kiosk (ui/kiosk.jsx, 2 November in the front's look), upright, always light, with the app's own pictures
+// of the dishes (src/dishes/: its drawings, and the photos of the pastries): the header, the folders a strip of keys, a
+// folder's name a row of the shade, the dishes the brand grid's tiles — two in the basket, tinted —, the basket's key
 const DISH_FILE = Object.fromEntries(readdirSync(path.join(ROOT, 'src/dishes')).filter((f) => /\.(svg|webp)$/.test(f)).map((f) => [f.replace(/\.\w+$/, ''), f]));
+const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
 function kioskScreen(lang, k, file, lazy = true) {
   const price = Object.fromEntries(k.dishes);
   const sum = k.basket.reduce((total, id) => total + price[id], 0);
-  const dish = ([id, p]) => `<div class="kd${k.basket.includes(id) ? ' in' : ''}"><span class="kd-img"><img src="${href(file, `assets/dishes/${DISH_FILE[id]}`)}" alt=""${lazy ? ' loading="lazy"' : ''} decoding="async"></span><span class="kd-n">${txt(k.names[id])}</span><span class="kd-p">${money(p)}<small>RSD</small></span></div>`;
-  // the menu goes on under the open category — its next section, cut by the basket at the foot of the screen
+  const cols = k.dishes.length > 4 ? 3 : 2;
+  const dish = ([id, p], i) => `<div class="kd${k.basket.includes(id) ? ' in' : ''}"${gridMark(i, cols)}><span class="kd-img"><img src="${href(file, `assets/dishes/${DISH_FILE[id]}`)}" alt=""${lazy ? ' loading="lazy"' : ''} decoding="async"></span><span class="kd-n">${txt(k.names[id])}</span><span class="kd-p">${money(p)}<small>RSD</small></span>${k.basket.includes(id) ? '<i class="kd-c">1</i>' : ''}</div>`;
+  const grid = (list) => `<div class="ks-grid" style="--cols: ${cols}">${list.map(dish).join('')}</div>`;
+  // the menu goes on under the open folder — its next one, cut by the basket's key at the foot of the screen
   return `<div class="ks">${sbPad(lang)}
-<div class="ks-top"><span class="ab-brand">RUVO</span><span class="ks-place">${esc(k.place)}</span><span class="seg ks-lang">${k.langs.map((l, i) => `<span${i === ['sr', 'en', 'ru'].indexOf(lang) ? ' class="on"' : ''}>${esc(l)}</span>`).join('')}</span><span class="ks-ic">${IC('squares-four')}</span></div>
-<div class="ks-cats"><span class="ks-search">${IC('magnifying-glass')}</span>${k.cats.map((c, i) => `<span${i === k.on ? ' class="on"' : ''}>${esc(c)}</span>`).join('')}</div>
+<div class="ks-top"><span class="ab-brand">RUVO</span><span class="ks-place">${esc(k.place)}</span><span class="ks-lang">${k.langs.map((l) => `<span${l === { sr: 'Srpski', en: 'English', ru: 'Русский' }[lang] ? ' class="on"' : ''}>${esc(l)}</span>`).join('')}</span><span class="pl ic">${IC('squares-four')}</span></div>
+<div class="ks-cats"><span class="ks-search">${IC('magnifying-glass')}</span>${k.cats.map((c, i) => `<span${i === k.on ? ' class="on"' : ''}>${esc(cap(c))}</span>`).join('')}</div>
 <p class="ks-sec">${esc(k.section)}</p>
-<div class="ks-grid c${k.dishes.length > 4 ? 3 : 2}">${k.dishes.map(dish).join('')}</div>${k.next ? `<p class="ks-sec">${esc(k.next[0])}</p><div class="ks-grid c${k.dishes.length > 4 ? 3 : 2}">${k.next[1].map(dish).join('')}</div>` : ''}
-<div class="ks-cart"><span class="ks-b"><b>${esc(k.basketTitle)}</b><small>${esc(k.items)} · ${moneyRsd(sum)}</small></span><span class="kio-go">${esc(k.checkout)}</span></div>
+${grid(k.dishes)}${k.next ? `<p class="ks-sec">${esc(k.next[0])}</p>${grid(k.next[1])}` : ''}
+<div class="ks-cart"><span class="ks-cn">${k.basket.length}</span><span class="ks-b">${esc(k.basketTitle)}</span><span class="ks-sum">${money(sum)}<small>RSD</small></span><span class="kio-go">${esc(k.checkout)}${IC('arrow-right')}</span></div>
 </div>`;
 }
 
@@ -695,27 +708,34 @@ function features(lang, file, v = null, tabs = null) {
 }
 
 // The small things of a shift (14 October): a dark band like the kitchen screen; instead of an icon each shows its
-// piece of the app's own screen, in the app's own words.
+// piece of the app's own screen, in the app's own words. (2 November, the owner: «посмотреть, что еще на сайте не
+// актуальное по новому визуалу») each piece in the app's look of 1–2 November, at nine tenths of its size: cut from
+// the screen from edge to edge — rows with a line between them, the screen's shade under a head, a chosen row its
+// blue's shade, ready and paid green, attention amber; the figures of an instrument; pills only for keys; no capitals
 function micro(lang, key, u) {
-  const n = (v) => fmt(lang, v);
-  const line = (a, b = '', cls = '') => `<div class="mu-line${cls}"><span>${a}</span>${b}</div>`;
+  // a row: an icon, its words (two lines at most), a figure or a key at the right
+  const row = (text, right = '', cls = '', icon = '') => `<div class="mr${cls}"><span class="mr-a">${icon ? IC(icon) : ''}<span class="mr-x">${text}</span></span>${right}</div>`;
+  const fig = (v, cls = '') => `<b class="mf${cls}">${v}</b>`;
+  const low = (list) => list.map((t, i) => (i ? t.toLocaleLowerCase(LOCALE[lang]) : t)).join(', ');
+  const [discName, discPct] = u.disc ? u.disc.split(/\s(?=[−-]\d)/) : [];
+  const [table, ...closed] = u.row ? u.row.split(' · ') : [];
   const M = {
-    bell: () => `<div class="mu-div">${esc(u.course)}</div>${line(esc(u.dish), `<span class="mu-q">×${u.qty}</span>`, ' dim')}<span class="mu-btn go">${esc(u.btn)}</span>`,
-    stop: () => line(esc(u.rows[0][0]), `<span class="mu-tag warn">${esc(u.rows[0][1])}</span>`) + line(esc(u.rows[1][0]), `<span class="mu-tag late">${esc(u.rows[1][1])}</span>`, ' dim'),
-    split: () => `<span class="mu-seg"><span>${esc(u.seg[0])}</span><span class="on">${esc(u.seg[1])}</span></span>${u.parts.map(([a, v]) => line(esc(a), `<b>${n(v)}</b>`)).join('')}`,
-    cash: () => line(esc(u.due), `<b>${n(u.sum)}</b>`, ' dim') + line(esc(u.got), `<b>${n(u.paid)}</b>`) + `<div class="mu-big"><span>${esc(u.change)}</span><b>${n(u.paid - u.sum)}</b></div>`,
-    lock: () => `<span class="mu-t">${esc(u.title)}</span><span class="mu-dots"><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span><span class="mu-tag">${esc(u.reason)}</span>`,
-    tag: () => `<span class="mu-tag gold big">${esc(u.disc)}</span><span class="mu-ok">${IC('check')}${esc(u.ok)}</span>`,
-    rotate: () => line(esc(u.row)) + `<span class="mu-btn">${esc(u.btn)}</span>`,
-    move: () => `<div class="mu-floor"><span class="mf">1</span><span class="mf">2</span><span class="mf ghost"></span><span class="mf lift">3</span></div><span class="mu-btn sm">${esc(u.btn)}</span>`,
-    user: () => `<span class="mu-who"><span class="mu-av">${esc(u.name[0])}</span>${esc(u.name)}</span><span class="mu-t">${esc(u.title)}</span><span class="mu-keys">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((k) => `<i>${k}</i>`).join('')}</span>`,
-    bike: () => line('<span class="pf wolt">Wolt</span>', `<b>${esc(u.code)}</b>`, ' start') + line(esc(u.item), '', ' dim') + `<span class="mu-tag ok">${esc(u.courier)}</span>`,
-    clock: () => `<div class="mu-line bare"><span class="mu-t">${esc(u.day)}</span><span class="mu-tag now">${esc(u.now)} 01:30</span></div><span class="mu-day"><i class="d-fill"></i><i class="d-mid"></i><i class="d-now"></i></span><span class="mu-times"><span>05:00</span><span>00:00</span><span>05:00</span></span>`,
-    info: () => `<span class="mu-t">${esc(u.dish)}</span><span class="mu-tags">${u.tags.map((t) => `<span class="mu-tag">${esc(t)}</span>`).join('')}</span><span class="mu-note">${esc(u.note)}</span>`,
-    queue: () => line(esc(u.label), `<b>${esc(u.load)}</b>`) + `<span class="mu-warn">${IC('clock')}<span>${esc(u.note)}</span></span>`,
-    norm: () => `<div class="mu-big"><span>${esc(u.label)}</span><b>${u.pct}%</b></div>${u.rows.map(([a, b], i) => line(esc(a), `<b>${esc(b)}</b>`, i ? ' dim' : '')).join('')}`,
-    pair: () => u.rows.map(([a, v]) => line(esc(a), `<b>${n(v)}</b>`)).join('') + `<div class="mu-line bare"><span class="mu-tag gold">${IC('tag')}${esc(u.disc)}</span><b class="mu-minus">−${n(u.minus)}</b></div>`,
-    board: () => `<div class="mu-bd">${[[u.cooking, u.wait, ''], [u.ready, u.done, ' ok']].map(([h, list, c]) => `<div class="mb-col${c}"><span class="mb-h">${esc(h)}</span><span class="mb-ns">${list.map(([no, nm]) => `<span class="mb-n">${esc(no)}${nm ? `<small>${esc(nm)}</small>` : ''}</span>`).join('')}</span></div>`).join('')}</div>`,
+    bell: () => row(esc(u.course), pill(u.btn, '', 'bell'), ' sh') + `<div class="mr"><span class="mr-a"><em>${u.qty}×</em><span class="mr-x">${esc(u.dish)}</span></span>${fig(money(u.sum))}</div>`,
+    stop: () => u.rows.map(([name, tag, price], i) => `<div class="mr mrow${i ? ' off' : ''}"><span class="mr-a"><b>${esc(name.replace(/ (?=\S+$)/, '\u00A0'))}</b><small>${i ? `<em class="bad">${esc(tag)}</em>` : `${money(price)} RSD <em>· ${esc(tag)}</em>`}</small></span></div>`).join(''),
+    split: () => `<div class="ms">${u.seg.map((t, i) => `<span${i ? ' class="on"' : ''}>${esc(t)}</span>`).join('')}</div>${u.parts.map(([a, v]) => row(esc(a), fig(money(v)))).join('')}`,
+    cash: () => row(esc(u.due), fig(money(u.sum)), ' m3') + row(esc(u.got), fig(money(u.paid))) + row(esc(u.change), fig(money(u.paid - u.sum), ' big'), ' ok'),
+    lock: () => row(esc(u.reason), IC('check'), ' on') + `<div class="mr mpin"><span class="mr-x">${esc(u.title)}</span><span class="mdots"><i class="f"></i><i class="f"></i><i class="f"></i><i></i></span></div>`,
+    tag: () => row(esc(discName), fig(esc(discPct), ' big'), ' on') + row(esc(u.ok), '', ' ok m3', 'check'),
+    rotate: () => row(esc(table), `<small>${esc(closed.join(' · '))}</small>`) + `<div class="mr sh mk">${pill(u.btn)}</div>`,
+    move: () => `<div class="mp"><span class="mpt">01</span><span class="mpt">02</span><span class="mpt ghost"></span><span class="mpt lift">03</span>${pill(u.btn)}</div>`,
+    user: () => `<div class="mu2"><div class="mw"><span class="mav">${esc(u.name[0])}</span><b>${esc(u.name)}</b><small>${esc(u.title)}</small><span class="mdots"><i class="f"></i><i></i><i></i><i></i></span></div><div class="mkeys">${[1, 2, 3, 4, 5, 6, 7, 8, 9].map((k) => `<i>${k}</i>`).join('')}</div></div>`,
+    bike: () => `<div class="mr mdc"><span class="mr-a"><span class="pf wolt">Wolt</span>${fig(esc(u.code))}</span></div>${row(esc(u.item), '', ' mdc')}${row(esc(u.courier), '', ' mdc m3', 'moped')}`,
+    clock: () => row(esc(u.day), `<small>${esc(u.now)} ${fig('01:30')}</small>`) + `<div class="mr mday"><span class="md-bar"><i class="d-fill"></i><i class="d-mid"></i></span><span class="md-t"><span>05:00</span><span>00:00</span><span>05:00</span></span></div>`,
+    info: () => row(esc(u.dish)) + row(esc(low(u.tags)), '', ' m3', 'info') + row(esc(u.note), '', ' sh'),
+    queue: () => row(esc(u.label), `<b class="mq">${esc(u.load)}</b>`, ' m3') + row(esc(u.note), '', ' warn', 'clock'),
+    norm: () => row(esc(u.label), fig(`${u.pct}%`, ' big'), ' ok') + u.rows.map(([a, b]) => row(esc(a), fig(esc(b)), ' m3')).join(''),
+    pair: () => u.rows.map(([a, v]) => row(esc(a), fig(money(v)))).join('') + row(esc(u.disc), fig(`−${money(u.minus)}`), ' on m3', 'tag'),
+    board: () => `<div class="mbd">${[[u.cooking, u.wait, ''], [u.ready, u.done, ' ok']].map(([h, list, c]) => `<div class="mbc${c}"><span class="mbh">${esc(h)}</span><span class="mbn">${[...list].sort((x, y) => (y[1] ? 1 : 0) - (x[1] ? 1 : 0)).map(([no, nm]) => `<span><b>${esc(no)}</b>${nm ? `<small>${esc(nm)}</small>` : ''}</span>`).join('')}</span></div>`).join('')}</div>`,
   };
   return `<div class="mu mu--${key}" aria-hidden="true">${M[key]()}</div>`;
 }
@@ -1850,6 +1870,8 @@ const ACCOUNT_JS = `(() => {
   refresh();
 })();`;
 
+// the screenshot of each device on the demo's start page (its ids, app/src/ui/launcher.jsx) — tools/shots.mjs takes them
+const DEMO_SHOT = { ipad: 'floor', iphone: 'waiter-tables', kds: 'kitchen', kiosk: 'kiosk', office: 'office', guest: 'guest-app', board: 'board' };
 // The demo: the app itself — the iPad, the waiter's iPhone, the kitchen screen and the kiosk of a demo restaurant —
 // running in the visitor's browser: what they do stays there (open tabs share it). window.RUVO_DEMO tells the app it
 // is the demo: in which language to open, and the way back to the site. Not for search engines.
@@ -1859,6 +1881,11 @@ function demoPage(lang) {
   const asset = (name) => `${href(file, `demo/${name}`)}?v=${DEMO_V}`;
   // the app's demo counts the demo company's month with the site's own prices (no RUVO console there)
   const config = JSON.stringify({ lang, site: href(file, fileOf(lang, 'home')), prices: PRICES }).replace(/</g, '\\u003c');
+  // (2 November) its start page shows each device with the app's own screenshot, as these pages do, in each of its
+  // languages — the light one and the dark one (app/src/ui/demo-art.jsx, DeviceArt): its drawings were the app of 14 October
+  const shots = JSON.stringify(Object.fromEntries(LANGS.map((l) => [l, Object.fromEntries(Object.entries(DEMO_SHOT).map(([id, name]) => [id, {
+    light: shotSrc(l, file, name, SHOT_ONE[name] || 'light'), dark: shotSrc(l, file, name, SHOT_ONE[name] || 'dark'),
+  }]))]))).replace(/</g, '\\u003c');
   return `<!doctype html>
 <html lang="${T[lang].ui.lang}">
 <head>
@@ -1877,7 +1904,7 @@ ${THEME_EARLY}
 </head>
 <body>
 <div id="app"><noscript><p style="padding:24px;font-family:system-ui,sans-serif">${esc(d.noscript)}</p></noscript></div>
-<script>window.RUVO_DEMO = ${config};</script>
+<script>window.RUVO_DEMO = ${config}; window.RUVO_DEMO_SHOTS = ${shots};</script>
 <script src="${asset('app.js')}"></script>
 </body>
 </html>
@@ -1953,11 +1980,11 @@ put('assets/favicon.svg', FAVICON);
 // the kiosk example's dishes: the app's own drawings (taken from its kiosk), one file each
 for (const f of Object.values(DISH_FILE)) put(`assets/dishes/${f}`, readFileSync(path.join(ROOT, 'src/dishes', f)));
 for (const f of Object.values(PHOTO_FILES).filter(Boolean)) put(`img/${f}`, readFileSync(path.join(PHOTO_DIR, f)));
-// the app's screenshots the pages show
-for (const rel of [...SHOT_USED].sort()) put(`assets/shots/${rel}`, readFileSync(path.join(SHOT_DIR, rel)));
 put(DEMO.sr, demoPage('sr'));
 put(DEMO.en, demoPage('en'));
 put(DEMO.ru, demoPage('ru'));
+// the app's screenshots the pages show (the demo's start page's too)
+for (const rel of [...SHOT_USED].sort()) put(`assets/shots/${rel}`, readFileSync(path.join(SHOT_DIR, rel)));
 put('demo/app.js', DEMO_JS);
 put('demo/app.css', DEMO_CSS);
 if (!PREVIEW) {
