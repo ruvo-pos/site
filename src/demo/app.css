@@ -4600,45 +4600,600 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 
 /* ---------- the pickup board (#board): a screen over the counter ----------
    Dark like the kitchen screen, to be read across the room: big numbers, «Готовим» quiet on the left, «Готово —
-   заберите» in green on the right; a number that has just become ready flashes. */
+   заберите» in green on the right; a number that has just become ready flashes.
+   (2 November, the owner: «Г — да») In the front's look, as the kitchen screen (60-kds.css): the header as tall as a
+   key on the screen's shade, its keys pills; two zones from edge to edge with a line between them, each its name a row
+   of the shade, no capitals; the numbers the brand grid's tiles (ui/even-grid.jsx — one column each, the lines round a
+   short row's end), the figures of an instrument; where an order came from in words of its colour, not a tag. The
+   board scales its letters with the screen it hangs on (the visual audit does not count them). */
 .board {
-  --bg: #0E1016; --surface: #161920; --surface-2: #1C1F27; --ink: #ECEEF4; --ink-2: #B5BBC5; --ink-3: #969BA7; --line: #272B34;
-  --ok: #5AC485; --ok-soft: #083A20; --accent: #81A8FF; --accent-soft: #1E2F54; --seg-on: #383D47;
+  --bg: #0E1016; --bg-2: #080A0E; --surface: #161920; --surface-2: #1C1F27; --surface-3: #262A33;
+  --ink: #ECEEF4; --ink-2: #B5BBC5; --ink-3: #969BA7; --line: #272B34; --line-2: #373C46;
+  --ok: #5AC485; --ok-soft: #083A20; --accent: #81A8FF; --accent-ink: #0E1016; --accent-soft: #1E2F54; --seg-on: #383D47;
+  --pill: #262A33; --pill-press: #373C46; --zl: var(--line-2); --key-h: 64px;
+  --bd-no: clamp(44px, 5.2vw, 84px); --bd-h: clamp(22px, 2.3vw, 36px); --bd-name: clamp(16px, 1.7vw, 26px); --bd-s: clamp(14px, 1.2vw, 18px);
   color-scheme: dark; background: var(--bg); color: var(--ink);
 }
-.bd-head { display: flex; flex: none; align-items: center; justify-content: space-between; gap: var(--sp-3); padding: var(--sp-3) var(--sp-5); border-bottom: 1px solid var(--line); }
-.bd-head-r { display: flex; align-items: center; gap: var(--sp-2); }
-.bd-clock { font-size: var(--fs-xl); }
+.app.board { padding-top: 0; }
+
+/* the header: as tall as a key, the screen's shade, its pills at the right, a line under it — as the kitchen's */
+.board .bd-head {
+  position: relative; z-index: 2; display: flex; flex: none; align-items: center; justify-content: space-between; gap: var(--sp-2);
+  min-height: calc(var(--key-h) + env(safe-area-inset-top, 0px));
+  padding: env(safe-area-inset-top, 0px) var(--sp-5) 0; border-bottom: 0;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--bg), var(--accent) 4%), color-mix(in oklab, var(--bg), var(--surface) 35%));
+  box-shadow: 0 1px 0 0 var(--zl);
+}
+.board .bd-head .brand-loc { font-size: var(--fs-xl); font-weight: var(--fw-semibold); line-height: 28px; }
+.board .bd-head-r { display: flex; align-items: center; gap: var(--sp-2); }
+.board .tool-btn {
+  position: relative; height: 44px; min-height: 0; gap: var(--sp-1); padding: 0 var(--sp-4); border: 0; border-radius: var(--r-pill);
+  background: var(--pill); color: var(--ink); font-size: var(--fs-sm); font-weight: var(--fw-regular);
+}
+.board .tool-btn:active { background: var(--pill-press); }
+.board .tool-btn.on { background: var(--accent); color: var(--accent-ink); }
+.board .bd-clock { margin: 0 var(--sp-2); font-family: var(--font-timer); font-size: var(--fs-xl); font-weight: var(--fw-semibold); line-height: 28px; }
+.board .lang { gap: var(--sp-1); overflow: visible; border-radius: 0; outline: 0; background: none; }
+.board .lang-btn { min-width: 44px; height: 44px; min-height: 0; padding: 0 var(--sp-3); border: 0; border-radius: var(--r-pill); background: var(--pill); color: var(--ink); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.board .lang-btn.on { background: var(--accent); color: var(--accent-ink); }
+.board .bd-head .sync-live, .board .bd-head .sync-local { display: none; }
+.board .bd-head .icon-btn { width: 44px; height: 44px; border-radius: var(--r-pill); background: var(--pill); color: var(--ink); }
+.board .bd-head .icon-btn:active { background: var(--pill-press); }
+
+/* two zones from edge to edge, a line between them */
 .bd-cols { display: grid; flex: 1; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); min-height: 0; }
-.bd-col { display: flex; flex-direction: column; min-height: 0; padding: var(--sp-5) var(--sp-6); overflow: hidden; }
-.bd-ready { border-left: 1px solid var(--line); background: linear-gradient(180deg, rgb(90 196 133 / 0.08), transparent 40%); }
-.bd-h { margin-bottom: var(--sp-4); color: var(--ink-2); font-size: clamp(var(--fs-lg), 2.4vw, 34px); font-weight: var(--fw-semibold); letter-spacing: var(--track-caps); text-transform: uppercase; }
-.bd-ready .bd-h { color: var(--ok); }
-.bd-list { display: flex; flex-wrap: wrap; align-content: flex-start; gap: var(--sp-3) var(--sp-4); margin: 0; padding: 0; overflow: hidden; list-style: none; }
-.bd-item { display: flex; flex-direction: column; gap: 4px; min-width: 7.5em; padding: var(--sp-3) var(--sp-4); border-radius: var(--r-lg); background: var(--surface); }
-.bd-no { font-size: clamp(36px, 5vw, 72px); font-weight: var(--fw-bold); line-height: 1; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
-.bd-cooking .bd-no { color: var(--ink-2); font-size: clamp(28px, 3.4vw, 52px); }
-.bd-ready .bd-item { background: var(--ok-soft); box-shadow: inset 0 0 0 1px rgb(90 196 133 / 0.35); }
+.bd-col { display: flex; flex-direction: column; min-height: 0; padding: 0; overflow: hidden; background: var(--bg); }
+.bd-ready { box-shadow: inset 1px 0 0 0 var(--zl); }
+/* a zone's name: a row of the shade, a line under it, no capitals */
+.bd-h {
+  display: flex; flex: none; align-items: center; min-height: calc(var(--bd-h) * 2.4); margin: 0; padding: 0 var(--sp-6);
+  background: var(--surface); color: var(--ink-2); font-size: var(--bd-h); font-weight: var(--fw-semibold); line-height: 1.2; letter-spacing: 0; text-transform: none;
+  box-shadow: inset 0 -1px 0 0 var(--zl);
+}
+.bd-ready .bd-h { box-shadow: inset 1px 0 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); color: var(--ok); }
+/* the numbers: the brand grid's tiles, a line at the left of each (not at a row's start) and under it, as the kitchen's
+   tickets */
+.bd-list {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(clamp(168px, 15vw, 264px), 1fr)); grid-auto-rows: auto; align-content: start;
+  gap: 0; margin: 0; padding: 0; overflow: hidden; list-style: none;
+}
+.bd-item {
+  display: flex; flex-direction: column; justify-content: center; gap: var(--sp-1); min-width: 0; min-height: calc(var(--bd-no) * 2.1);
+  padding: var(--sp-4) var(--sp-6); border-radius: 0; background: var(--surface);
+  box-shadow: inset 1px 0 0 0 var(--zl), inset 0 -1px 0 0 var(--zl), var(--rim, 0 0 #0000);
+}
+.bd-list > .bd-item[data-rf] { box-shadow: inset 0 -1px 0 0 var(--zl), var(--rim, 0 0 #0000); }
+/* (the ready zone's first column keeps the zone's line at its left) */
+.bd-ready .bd-list > .bd-item[data-rf] { box-shadow: inset 1px 0 0 0 var(--zl), inset 0 -1px 0 0 var(--zl), var(--rim, 0 0 #0000); }
+.bd-no { font-family: var(--font-timer); font-size: var(--bd-no); font-weight: var(--fw-semibold); line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.bd-cooking .bd-no { color: var(--ink-2); }
+.bd-ready .bd-item { background: var(--ok-soft); }
 .bd-ready .bd-no { color: var(--ok); }
-.bd-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
-.bd-name { font-size: clamp(var(--fs-md), 1.8vw, 26px); font-weight: var(--fw-semibold); }
-.bd-src { padding: 1px 8px; border-radius: var(--r-pill); background: var(--surface-2); color: var(--ink-3); font-size: var(--fs-xs); font-weight: var(--fw-bold); letter-spacing: var(--track-caps); text-transform: uppercase; }
-.bd-app { color: var(--accent); background: var(--accent-soft); }
-.bd-at { color: var(--ink-3); font-size: var(--fs-sm); }
-.bd-none { color: var(--ink-3); font-size: var(--fs-lg); }
+.bd-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px var(--sp-2); min-width: 0; }
+.bd-name { overflow: hidden; font-size: var(--bd-name); font-weight: var(--fw-semibold); line-height: 1.25; white-space: nowrap; text-overflow: ellipsis; }
+/* where it came from: words of its colour */
+.bd-src { padding: 0; border-radius: 0; background: none; color: var(--ink-3); font-size: var(--bd-s); font-weight: var(--fw-regular); letter-spacing: 0; text-transform: none; }
+.bd-app { background: none; color: var(--accent); }
+.bd-at { color: var(--ink-3); font-family: var(--font-timer); font-size: var(--bd-s); }
+.bd-none { margin: 0; padding: var(--sp-5) var(--sp-6); color: var(--ink-3); font-size: var(--bd-name); }
 .bd-item.fresh { animation: bd-flash 1.1s ease-in-out 6; }
 @keyframes bd-flash { 50% { background: var(--ok); } }
 .bd-item.fresh .bd-no { animation: bd-no 1.1s ease-in-out 6; }
 @keyframes bd-no { 50% { color: #0E1016; } }
-.bd-foot { display: flex; flex: none; align-items: center; gap: var(--sp-3); padding: var(--sp-3) var(--sp-5); border-top: 1px solid var(--line); color: var(--ink-2); font-size: var(--fs-md); }
+@media (prefers-reduced-motion: reduce) { .bd-item.fresh, .bd-item.fresh .bd-no { animation: none; } }
+/* the foot: a row of the shade, a line over it */
+.bd-foot {
+  display: flex; flex: none; align-items: center; gap: var(--sp-4); min-height: 64px; padding: var(--sp-3) var(--sp-6) calc(var(--sp-3) + env(safe-area-inset-bottom, 0px));
+  border-top: 0; background: var(--surface); color: var(--ink-2); font-size: var(--bd-s); box-shadow: inset 0 1px 0 0 var(--zl);
+}
 @media (max-width: 760px) {
   .bd-cols { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
-  .bd-ready { order: -1; border-left: 0; border-bottom: 1px solid var(--line); }
-  .bd-head { flex-wrap: wrap; padding-inline: var(--sp-4); }
-  .bd-head-r { flex-wrap: wrap; }
-  .bd-head-r .tool-btn { padding: 0 10px; }
-  .bd-clock { display: none; }
-  .bd-col { padding: var(--sp-4); }
+  .bd-ready { order: -1; box-shadow: inset 0 -1px 0 0 var(--zl); }
+  .bd-ready .bd-h { box-shadow: inset 0 -1px 0 0 var(--zl); }
+  .bd-ready .bd-list > .bd-item[data-rf] { box-shadow: inset 0 -1px 0 0 var(--zl), var(--rim, 0 0 #0000); }
+  .board .bd-head { flex-wrap: wrap; padding: calc(env(safe-area-inset-top, 0px) + var(--sp-2)) var(--sp-4) var(--sp-2); }
+  .board .bd-head-r { flex-wrap: wrap; }
+  .board .bd-head-r .tool-btn { padding: 0 10px; }
+  .board .bd-clock { display: none; }
+  .bd-h, .bd-item, .bd-none { padding-inline: var(--sp-4); }
+}
+
+/* ---------- the guest app in the front's look (2 November) ----------
+   The owner, 2 November, 13:51: «Г — да» — the guest app and the pickup board as the front, the kitchen and the kiosk
+   are now (88-ipad-look.css, 50-phone.css, 56-kiosk-look.css): straight edges, no box inside a box; zones from edge to
+   edge with a line between them; the dishes, the tables, the tips and the hours the brand grid's tiles (ui/even-grid.jsx:
+   one column each, a short row short, the lines round its end); a group's name a row of the shade; pills only for keys
+   (the round marks — a count, a number — stay round); words, not tags; no capitals. Three styles of letters — 22 semibold
+   (a title, a total), 16 semibold (a dish, a place, a key), 14 regular (the rest) — and the figures of an instrument for
+   prices, numbers and hours. The header as the waiter's iPhone: as tall as a key under the clock, the screen's shade, a
+   line under it, «‹» a round pill; the tabs one glass pill over the screen, the chosen one the accent's. Always light, as
+   before (57-guest.css keeps the palette); the kiosk's sheets and tiles at a phone's size. */
+.guest {
+  --key-h: 56px; --zl: var(--line-2); --pill: #FFFFFF; --pill-press: #DCE0E8;
+  --head-bg: linear-gradient(180deg, color-mix(in oklab, var(--bg), var(--accent) 4%), color-mix(in oklab, var(--bg), var(--surface) 35%));
+  --tab-top: calc(64px + max(var(--sp-3), env(safe-area-inset-bottom, 0px)));
+  --glass: rgb(255 255 255 / 0.55); --glass-rim: rgb(255 255 255 / 0.75); --glass-top: rgb(255 255 255 / 0.9); --glass-shadow: 0 12px 30px rgb(19 24 36 / 0.16);
+}
+/* the header's shade reaches under the status bar, as the iPhone's */
+.app.guest-shell { padding-top: 0; }
+.guest .gu-cam { padding-top: calc(48px + env(safe-area-inset-top, 0px)); }
+.guest .gu-cam-x { top: calc(12px + env(safe-area-inset-top, 0px)); }
+.guest .gu-cam-t { font-weight: var(--fw-semibold); opacity: 1; }
+
+/* ---------- the header: one row as tall as a key; «‹» a round pill, the place 22 semibold, where 14 under it ---------- */
+.guest :is(.gu-top, .gu-head) {
+  position: relative; z-index: 3; flex: none; min-height: calc(var(--key-h) + env(safe-area-inset-top, 0px));
+  padding: env(safe-area-inset-top, 0px) var(--sp-4) 0; border-bottom: 0; background: var(--head-bg); box-shadow: 0 1px 0 0 var(--zl);
+}
+.guest .gu-top { grid-template-columns: auto minmax(0, 1fr) auto; gap: 0; padding-right: 0; padding-left: 0; }
+.guest .gu-top > .gu-icon { width: 36px; height: 36px; margin-left: var(--sp-4); border-radius: var(--r-pill); background: var(--pill); color: var(--ink); }
+.guest .gu-top > .gu-icon::before { content: ''; position: absolute; inset: calc((36px - var(--key-h)) / 2) calc(var(--sp-5) / -2) calc((36px - var(--key-h)) / 2) calc(var(--sp-4) * -1); }
+.guest .gu-top > .gu-icon { position: relative; }
+.guest .gu-top > .gu-icon:hover { background: var(--pill); }
+.guest .gu-top > .gu-icon:active { background: var(--pill-press); }
+.guest .gu-top-t { align-items: flex-start; padding: 0 var(--sp-3) 0 var(--sp-5); text-align: left; }
+.guest .gu-top-h { font-size: var(--fs-xl); font-weight: var(--fw-semibold); letter-spacing: 0; line-height: 28px; }
+.guest .gu-top-s { color: var(--ink-2); font-size: var(--fs-sm); line-height: 18px; }
+.guest .gu-top-r { margin-right: var(--sp-4); color: var(--ink-2); }
+/* the table and the order's number: round marks, the figures of an instrument */
+.guest :is(.gu-top-table, .gu-top-no) {
+  display: inline-grid; place-items: center; min-width: 36px; height: 36px; padding: 0 var(--sp-3); border-radius: var(--r-pill);
+  background: var(--accent); color: var(--accent-ink); font-family: var(--font-timer); font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 1;
+}
+.guest .gu-head { display: flex; align-items: center; }
+.guest .gu-brand-for { color: var(--ink-2); font-size: var(--fs-sm); font-weight: var(--fw-regular); letter-spacing: 0; text-transform: none; }
+/* the languages: three pills, the chosen one the accent's */
+.guest .gu-lang { gap: var(--sp-1); padding: 0; border-radius: 0; background: none; }
+.guest .gu-lang button { min-width: 44px; min-height: 0; height: 36px; padding: 0 var(--sp-3); border-radius: var(--r-pill); background: var(--pill); color: var(--ink); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.guest .gu-lang button::before { inset: -4px 0; z-index: 0; border-radius: 0; background: none; box-shadow: none; } /* (a target 44 high) */
+.guest .gu-lang button.on { background: var(--accent); color: var(--accent-ink); }
+.guest .gu-lang button.on::before { background: none; box-shadow: none; }
+
+/* ---------- the pages: from edge to edge; a group's name a row of the shade between two lines ---------- */
+.guest .gu-scroll { padding: 0 0 var(--sp-6); }
+.guest :is(.gu-h, .gu-sub-h) {
+  display: flex; align-items: center; margin: 0; padding: 0 var(--sp-4); background: var(--bg); letter-spacing: 0; text-transform: none;
+  box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl);
+}
+.guest .gu-h { min-height: 52px; color: var(--ink); font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; }
+.guest .gu-sub-h { min-height: 44px; color: var(--ink-2); font-size: var(--fs-sm); font-weight: var(--fw-regular); line-height: 18px; }
+.guest .gu-h + .gu-sub-h { box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .gu-note { color: var(--ink-2); font-size: var(--fs-sm); line-height: 20px; }
+.guest .gu-scroll > .gu-note, .guest .gu-places + .gu-note { margin: 0; padding: var(--sp-3) var(--sp-4); }
+.guest .gu-proto { margin: 0 var(--sp-4); }
+/* a key that is not the main one: a pill of the screen's shade, 16 semibold */
+.guest .gu-btn2 {
+  min-height: 48px; margin-top: 0; padding: 0 var(--sp-5); border: 0; border-radius: var(--r-pill); background: var(--surface-3); color: var(--ink);
+  font-size: var(--fs-md); font-weight: var(--fw-semibold);
+}
+.guest .gu-btn2:active { background: var(--pill-press); }
+
+/* ---------- home: the QR a zone of the accent; the map; the places rows from edge to edge ---------- */
+.guest .gu-scan { gap: var(--sp-4); min-height: 96px; padding: var(--sp-4) var(--sp-4) var(--sp-4) var(--sp-5); border-radius: 0; box-shadow: none; }
+.guest .gu-scan:active { transform: none; background: var(--accent-2); }
+.guest .gu-scan-ic { width: 52px; height: 52px; border-radius: 50%; }
+.guest .gu-scan-h { font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; }
+.guest .gu-scan-s { font-size: var(--fs-sm); line-height: 18px; }
+.guest .gu-map { border-radius: 0; box-shadow: none; }
+.guest .gu-pin-label { font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+/* the city's name on the plan without capitals, as the rivers' */
+.guest .gu-map-city { font-size: 12px; font-weight: var(--fw-regular); letter-spacing: 0; }
+.guest .gu-places { gap: 0; margin: 0; box-shadow: inset 0 1px 0 0 var(--zl); }
+.guest .gu-place {
+  gap: var(--sp-3); min-height: 76px; padding: var(--sp-3) var(--sp-4); border-radius: 0; background: var(--surface); box-shadow: inset 0 -1px 0 0 var(--zl);
+}
+.guest .gu-place:active { background: var(--surface-3); }
+.guest .gu-place-name { font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; }
+.guest .gu-place-sub { color: var(--ink-2); font-size: var(--fs-sm); line-height: 18px; }
+/* what a place does: words, not tags */
+.guest .gu-tags { display: block; margin-top: 0; color: var(--ink-2); font-size: var(--fs-sm); line-height: 18px; }
+.guest .gu-tag { padding: 0; border-radius: 0; background: none; color: inherit; font-size: inherit; font-weight: var(--fw-regular); }
+.guest .gu-tag + .gu-tag::before { content: ' · '; }
+/* «Вы заказывали»: a row each; «Повторить» a key */
+.guest .gu-again { margin-top: 0; }
+.guest .gu-again-list { gap: 0; }
+.guest .gu-again-card { gap: var(--sp-3); padding: var(--sp-2) var(--sp-4) var(--sp-2) 0; border-radius: 0; background: var(--surface); box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .gu-again-main { padding: var(--sp-2) 0 var(--sp-2) var(--sp-4); border-radius: 0; }
+.guest .gu-again-where { color: var(--ink-2); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.guest .gu-again-what { font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; }
+.guest .gu-again-sum { color: var(--ink-2); font-family: var(--font-timer); font-size: var(--fs-sm); }
+.guest .gu-again-here { margin: 0; padding: var(--sp-3) var(--sp-4); border-radius: 0; background: var(--surface); box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .gu-again-here .gu-btn2 { min-height: 44px; font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+
+/* ---------- the tabs: one glass pill over the screen, the chosen one the accent's (as the waiter's) ---------- */
+.guest .gu-home .gu-scroll { padding-bottom: calc(var(--tab-top) + var(--sp-6)); }
+.guest .gu-home:has(> .gu-live) .gu-scroll { padding-bottom: calc(var(--tab-top) + 56px + var(--sp-8)); }
+.guest .gu-tabs {
+  position: absolute; right: var(--sp-4); bottom: max(var(--sp-3), env(safe-area-inset-bottom, 0px)); left: var(--sp-4); z-index: 3;
+  height: 64px; padding: var(--sp-1); border-top: 0; border-radius: var(--r-pill);
+  background: var(--glass); -webkit-backdrop-filter: blur(30px) saturate(2); backdrop-filter: blur(30px) saturate(2);
+  box-shadow: inset 0 0 0 1px var(--glass-rim), inset 0 1px 0 var(--glass-top), var(--glass-shadow);
+}
+.guest .gu-tab { gap: 2px; height: 56px; min-height: 0; padding: 0; border-radius: var(--r-pill); color: var(--ink-2); font-size: var(--fs-sm); font-weight: var(--fw-regular); line-height: 16px; }
+.guest .gu-tab.on { background: var(--accent); color: var(--accent-ink); }
+.guest .gu-tab-badge { top: 4px; left: calc(50% + 6px); background: var(--ok); color: #FFFFFF; font-size: var(--fs-sm); line-height: 18px; box-shadow: 0 0 0 2px var(--surface); }
+/* an order on its way: a pill key over the tabs */
+.guest .gu-live {
+  position: absolute; right: var(--sp-4); bottom: calc(var(--tab-top) + var(--sp-2)); left: var(--sp-4); z-index: 3;
+  min-height: 56px; margin: 0; padding: 0 var(--sp-4) 0 var(--sp-5); border-radius: var(--r-pill); box-shadow: var(--glass-shadow);
+}
+.guest .gu-live-no { font-family: var(--font-timer); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .gu-live-t { font-size: var(--fs-sm); }
+.guest .gu-live-rate { background: var(--surface); color: var(--ink); box-shadow: var(--glass-shadow); }
+
+/* ---------- «Заказы»: a row each; the number in the figures of an instrument, its colour the state's ---------- */
+.guest .gu-orders { gap: 0; }
+.guest .gu-order-row { gap: var(--sp-3); min-height: 76px; padding: var(--sp-3) var(--sp-4); border-radius: 0; background: var(--surface); box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .gu-order-row:active { background: var(--surface-3); }
+.guest .gu-order-no {
+  place-items: center start; min-width: 52px; height: auto; padding: 0; border-radius: 0; background: none; color: var(--accent);
+  font-family: var(--font-timer); font-size: var(--fs-xl); font-weight: var(--fw-semibold);
+}
+.guest .gu-order-row.gus-ready .gu-order-no { background: none; color: var(--ok); }
+.guest .gu-order-row:is(.gus-served, .gus-void) .gu-order-no { background: none; color: var(--ink-3); }
+.guest .gu-order-st { font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; }
+.guest :is(.gu-order-sub, .gu-order-at) { color: var(--ink-2); font-size: var(--fs-sm); }
+.guest .gu-order-at { font-family: var(--font-timer); }
+.guest .gu-order-rate { padding: 0; border-radius: 0; background: none; color: var(--warn); font-family: var(--font-ui); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.guest .gu-order-rate.ask { background: none; color: var(--accent); }
+.guest .gu-empty-t { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+
+/* ---------- the QR: the camera; under it the demo's choice — the places a strip of keys, the tables tiles ---------- */
+.guest .gu-demo { padding: 0 0 var(--sp-6); border-radius: 0; }
+.guest .gu-demo-t { margin: 0; padding: var(--sp-4); color: var(--ink-2); font-size: var(--fs-sm); line-height: 20px; }
+.guest .gu-scanview .gu-chips { gap: 0; margin: 0; padding: 0; box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); }
+.guest .gu-scanview .gu-chip {
+  flex: 1 0 auto; min-height: 52px; padding: 0 var(--sp-5); border: 0; border-radius: 0; background: var(--bg); color: var(--ink-2);
+  font-size: var(--fs-md); font-weight: var(--fw-semibold); box-shadow: inset -1px 0 0 0 var(--zl), inset 0 -1px 0 0 var(--zl);
+}
+.guest .gu-scanview .gu-chip.on { background: var(--accent); color: var(--accent-ink); box-shadow: none; }
+.guest .gu-hall .gu-sub-h { box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .gu-tables { gap: 0; background: var(--surface); }
+.guest .gu-table {
+  gap: 2px; min-height: 80px; border: 0; border-radius: 0; background: var(--surface);
+  box-shadow: inset 1px 0 0 0 var(--zl), inset 0 -1px 0 0 var(--zl), var(--rim, 0 0 #0000);
+}
+.guest .gu-tables > .gu-table[data-rf] { box-shadow: inset 0 -1px 0 0 var(--zl), var(--rim, 0 0 #0000); }
+.guest .gu-table:active:not(:disabled) { background: var(--surface-3); }
+.guest .gu-table.on { border: 0; background: var(--ok-soft); }
+.guest .gu-table-n { font-family: var(--font-timer); font-size: var(--fs-xl); font-weight: var(--fw-semibold); }
+.guest .gu-table-s { color: var(--ink-2); font-size: var(--fs-sm); }
+
+/* ---------- a place's menu: its note a row of the accent's shade; its card; the folders a strip of keys ---------- */
+.guest .gu-banner { gap: var(--sp-3); margin: 0; padding: var(--sp-3) var(--sp-4); border-radius: 0; background: var(--accent-soft); color: var(--accent-2); font-size: var(--fs-sm); line-height: 20px; box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .gu-busy { gap: var(--sp-2); margin: 0; padding: var(--sp-3) var(--sp-4); border-radius: 0; background: var(--warn-soft); color: var(--warn); font-size: var(--fs-sm); font-weight: var(--fw-regular); line-height: 20px; box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .gu-busy-table { margin: 0; }
+.guest .gu-hero { padding: 0 0 var(--sp-4); background: var(--surface); }
+/* three of its dishes: tiles from edge to edge, a line between them */
+.guest .gu-hero-arts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin: 0 0 var(--sp-4); box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .gu-hero-art { width: auto; height: 104px; border-radius: 0; background: var(--bg); box-shadow: inset 1px 0 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); }
+.guest .gu-hero-art:first-child { box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .gu-hero-art .dish-art { width: auto; height: 84%; }
+.guest :is(.gu-hero-h, .gu-hero-s, .gu-hero-note, .gu-hero-acts) { margin-right: var(--sp-4); margin-left: var(--sp-4); }
+.guest .gu-hero > .gu-busy { margin-top: var(--sp-3); box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); }
+.guest .gu-hero-h { font-size: var(--fs-xl); font-weight: var(--fw-semibold); letter-spacing: 0; line-height: 28px; }
+.guest .gu-hero-s { color: var(--ink-2); font-size: var(--fs-sm); }
+.guest .gu-hero-note { margin-top: var(--sp-2); color: var(--ink-2); font-size: var(--fs-sm); line-height: 20px; }
+.guest .gu-hero-acts { gap: var(--sp-2); margin-top: var(--sp-4); }
+.guest .gu-hero-acts .gu-btn2 { min-height: 44px; padding: 0 var(--sp-4); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.guest .gu-route { font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.guest .gu-nav { gap: 0; padding: 0; background: var(--bg); box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); }
+/* (under a row that draws its own line — the table's note, «busy», «order again» — one line, not two) */
+.guest :is(.gu-banner, .gu-busy, .gu-again-here) + .gu-nav { box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest :is(.gu-banner, .gu-busy, .gu-again-here) + .gu-nav :is(.ks-search-btn, .ks-pill) { box-shadow: inset -1px 0 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); }
+.guest :is(.gu-banner, .gu-busy, .gu-again-here) + .gu-nav .ks-pill.on { box-shadow: none; }
+.guest .gu-nav .ks-search-btn {
+  flex: none; width: 52px; height: 52px; border-radius: 0; background: var(--bg); color: var(--ink);
+  box-shadow: inset -1px 0 0 0 var(--zl), inset 0 -1px 0 0 var(--zl), inset 0 1px 0 0 var(--zl);
+}
+.guest .gu-nav .ks-search-btn:active { background: var(--surface-3); }
+.guest .gu-nav .ks-search-btn.on { background: var(--surface); }
+.guest .gu-nav .ks-pills { gap: 0; padding: 0; -webkit-mask-image: none; mask-image: none; }
+.guest .gu-nav .ks-pill {
+  flex: 1 0 auto; min-width: 112px; height: 52px; min-height: 0; padding: 0 var(--sp-4); border: 0; border-radius: 0;
+  background: var(--bg); color: var(--ink-2); font-size: var(--fs-md); font-weight: var(--fw-semibold); transition: none;
+  box-shadow: inset -1px 0 0 0 var(--zl), inset 0 -1px 0 0 var(--zl), inset 0 1px 0 0 var(--zl);
+}
+.guest .gu-nav .ks-pill:active { background: var(--surface-3); }
+.guest .gu-nav .ks-pill.on { background: var(--accent); color: var(--accent-ink); box-shadow: none; }
+.guest .gu-nav .ks-search {
+  height: 52px; padding: 0 var(--sp-4); border: 0; border-radius: 0; background: var(--surface); font-size: var(--fs-md);
+  box-shadow: inset 0 -1px 0 0 var(--zl), inset 0 1px 0 0 var(--zl);
+}
+.guest .gu-nav .ks-search:focus { border: 0; box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -2px 0 0 var(--accent); }
+
+/* ---------- the dishes: a folder's name a row of the shade; its dishes the brand grid's tiles, two to a row ---------- */
+.guest .gu-menu { padding-bottom: 0; background: var(--bg); }
+.guest .gu-menu .ks-sec { padding: 0; }
+.guest .ks-h {
+  display: flex; align-items: center; min-height: 52px; margin: 0; padding: 0 var(--sp-4); background: var(--bg); color: var(--ink);
+  font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; letter-spacing: 0; text-transform: none;
+  box-shadow: inset 0 -1px 0 0 var(--zl);
+}
+.guest .ks-sec + .ks-sec .ks-h { box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); }
+.guest .ks-grid { gap: 0; background: var(--surface); }
+.guest .ks-card {
+  gap: var(--sp-1); padding: var(--sp-3) var(--sp-4) var(--sp-4); border-radius: 0; background: var(--surface); transition: background 0.12s;
+  box-shadow: inset 1px 0 0 0 var(--zl), inset 0 1px 0 0 var(--zl), var(--rim, 0 0 #0000);
+}
+.guest .ks-grid > .ks-card[data-rf] { box-shadow: inset 0 1px 0 0 var(--zl), var(--rim, 0 0 #0000); }
+.guest .ks-grid > .ks-card[data-r0] { box-shadow: inset 1px 0 0 0 var(--zl), var(--rim, 0 0 #0000); }
+.guest .ks-grid > .ks-card[data-r0][data-rf] { box-shadow: var(--rim, none); }
+.guest .ks-card:active { transform: none; background: var(--surface-3); }
+.guest .ks-card:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+.guest .ks-card:has(> .ks-badge) { background: var(--accent-soft); }
+.guest .ks-img { height: 132px; aspect-ratio: auto; margin: 0 0 var(--sp-2); border-radius: 0; background: none; }
+.guest .ks-img img { object-fit: contain; }
+.guest .ks-name { min-height: 0; font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; }
+.guest .ks-price { padding-top: var(--sp-1); color: var(--ink); font-family: var(--font-timer); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .ks-cur { color: var(--ink-2); font-family: var(--font-ui); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.guest .ks-left { margin-top: 0; color: #8A5300; font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.guest .ks-badge { top: var(--sp-3); right: var(--sp-3); min-width: 32px; height: 32px; font-family: var(--font-timer); font-size: var(--fs-md); }
+.guest .ks-card.off { opacity: 1; }
+.guest .ks-card.off > * { opacity: 0.45; }
+.guest .ks-card.off .ks-price { color: var(--ink-2); font-family: var(--font-ui); font-weight: var(--fw-regular); font-size: var(--fs-sm); }
+.guest .ks-none { padding: var(--sp-5) var(--sp-4); color: var(--ink-2); font-size: var(--fs-md); }
+.guest .ks-end { height: 112px; background: var(--bg); box-shadow: inset 0 1px 0 0 var(--zl); }
+/* a pair at a discount: a straight label at the tile's corner, the accent's shade; the price before it struck out */
+.guest .gu-pair-badge { top: 0; left: 0; padding: 2px var(--sp-2); border-radius: 0; background: var(--accent-soft); color: var(--accent-2); font-size: var(--fs-sm); font-weight: var(--fw-regular); box-shadow: none; }
+.guest .gu-pair-badge.on { background: var(--ok); color: #FFFFFF; }
+.guest .ks-card:has(> .gu-pair-badge) .ks-badge { top: var(--sp-3); }
+.guest .gu-was { color: var(--ink-3); font-family: var(--font-timer); font-weight: var(--fw-regular); }
+
+/* ---------- the basket's key at the foot: one big pill of the accent ---------- */
+.guest .ks-bar { padding: var(--sp-6) var(--sp-4) calc(var(--sp-3) + env(safe-area-inset-bottom, 0px)); background: linear-gradient(rgb(240 242 246 / 0), var(--bg) 45%); }
+.guest .ks-bar-btn { gap: var(--sp-3); min-height: 64px; padding: 0 var(--sp-2) 0 var(--sp-2); background: var(--accent); color: var(--accent-ink); }
+.guest .ks-bar-btn:active { background: var(--accent-2); }
+.guest .ks-bar-n { min-width: 48px; height: 48px; padding: 0 var(--sp-2); border-radius: var(--r-pill); color: var(--accent); font-family: var(--font-timer); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .ks-bar-t { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .ks-bar-sum { font-family: var(--font-timer); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .ks-bar-go { min-height: 48px; padding: 0 var(--sp-3); background: none; font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+
+/* ---------- the sheets: from edge to edge under the header, no radius ---------- */
+.guest .ks-scrim { padding: calc(var(--key-h) + env(safe-area-inset-top, 0px)) 0 0; }
+.guest .ks-modal { width: 100%; max-height: 100%; border-radius: 0; box-shadow: 0 -1px 0 0 var(--zl); }
+.guest .ks-x { top: var(--sp-2); right: var(--sp-3); width: 44px; height: 44px; border-radius: var(--r-pill); background: var(--surface-3); box-shadow: none; }
+.guest .ks-x:active { background: var(--pill-press); }
+.guest .ks-modal-img { height: min(220px, 28vh); border-radius: 0; background: var(--bg); box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .ks-modal-img img { object-fit: contain; }
+.guest .ks-modal-body { gap: var(--sp-1); padding: var(--sp-4) 0 var(--sp-4); }
+.guest .ks-modal-body > :is(.ks-modal-title, .ks-modal-price, .ks-desc, .ks-alg, .ks-muted, .ks-kept, .ks-none, .gu-pay-sum, .gu-pay-tip, .gu-note, .gu-demo-note, .gu-review-p, .gu-review-ic) {
+  margin-right: var(--sp-4); margin-left: var(--sp-4);
+}
+.guest :is(.ks-basket, .gu-pay) .ks-modal-body { padding-top: 0; }
+/* the basket's and the payment's head — its name and what is under it — kept at the sheet's top as it scrolls, the
+   close key over its end: the key never lies over a tile */
+.guest .gu-sheet-h {
+  position: sticky; top: 0; z-index: 1; display: flex; flex: none; flex-direction: column; gap: var(--sp-1);
+  padding: var(--sp-4) 68px var(--sp-3) var(--sp-4); background: var(--surface); box-shadow: 0 1px 0 0 var(--zl);
+}
+.guest .gu-sheet-h > .ks-modal-title { padding-right: 0; }
+/* (the basket's lines start at the head's line — one line, not two) */
+.guest .gu-sheet-h + .ks-lines { margin-top: calc(-1 * var(--sp-1)); }
+.guest .gu-sheet-h + .gu-pay-sum { margin-top: var(--sp-4); }
+.guest .ks-modal > .ks-x { z-index: 2; }
+.guest .ks-modal-title { padding-right: 52px; font-size: var(--fs-xl); font-weight: var(--fw-semibold); line-height: 28px; }
+.guest .ks-modal-price { color: var(--ink); font-family: var(--font-timer); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .ks-weight { font-family: var(--font-ui); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.guest .ks-desc { margin-top: var(--sp-1); color: var(--ink-2); font-size: var(--fs-sm); line-height: 20px; }
+/* the allergens: the words, not chips */
+.guest .ks-alg { gap: 0 var(--sp-2); margin-top: var(--sp-1); font-size: var(--fs-sm); }
+.guest .ks-alg-t { color: var(--ink-3); font-size: var(--fs-sm); font-weight: var(--fw-regular); letter-spacing: 0; text-transform: none; }
+.guest .ks-alg-chip { padding: 0; border-radius: 0; background: none; box-shadow: none; color: var(--ink); font-size: var(--fs-sm); }
+.guest .ks-alg-chip:not(:last-child)::after { content: ','; }
+.guest .ks-muted { color: var(--ink-2); font-size: var(--fs-sm); }
+/* a group: its name a row of the shade; the options tiles, two to a row, the chosen one tinted */
+.guest .ks-group { gap: 0; margin-top: var(--sp-4); }
+.guest .ks-group-t {
+  display: block; min-height: 44px; padding: 12px var(--sp-4); background: var(--bg); color: var(--ink-2);
+  font-size: var(--fs-sm); font-weight: var(--fw-regular); line-height: 20px; letter-spacing: 0; text-transform: none;
+  box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl);
+}
+.guest .ks-opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; }
+.guest .ks-opt {
+  justify-content: space-between; min-width: 0; min-height: var(--key-h); padding: 0 var(--sp-4); border: 0; border-radius: 0;
+  background: var(--surface); color: var(--ink); font-size: var(--fs-md); font-weight: var(--fw-semibold); text-align: left;
+  box-shadow: inset 1px 0 0 0 var(--zl), inset 0 1px 0 0 var(--zl), var(--rim, 0 0 #0000);
+}
+.guest .ks-opts > .ks-opt[data-rf] { box-shadow: inset 0 1px 0 0 var(--zl), var(--rim, 0 0 #0000); }
+.guest .ks-opts > .ks-opt[data-r0] { box-shadow: inset 1px 0 0 0 var(--zl), var(--rim, 0 0 #0000); }
+.guest .ks-opts > .ks-opt[data-r0][data-rf] { box-shadow: var(--rim, none); }
+.guest .ks-opt:active { background: var(--surface-3); }
+.guest .ks-opt.on { background: var(--accent-soft); color: var(--accent-2); font-weight: var(--fw-semibold); }
+.guest .ks-opt-p { color: var(--ink-2); font-family: var(--font-timer); font-size: var(--fs-sm); }
+/* «as last time»: a row of the green shade from edge to edge, its reset a small key */
+.guest .ks-modal-body > .ks-kept {
+  margin: var(--sp-4) 0 0; padding: var(--sp-1) var(--sp-3) var(--sp-1) var(--sp-4); border-radius: 0; font-weight: var(--fw-regular); line-height: 20px;
+  box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl);
+}
+.guest .ks-kept-reset { min-height: 44px; border-radius: var(--r-pill); background: var(--surface); font-weight: var(--fw-regular); }
+/* the pair's note, «as last time» and the groups one under another without a gap — one line between them */
+/* (the sheet's rows stand a small gap apart: here none) */
+.guest .gu-pair-note + .ks-kept { margin-top: calc(-1 * var(--sp-1)); box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest :is(.ks-group, .gu-pair-note, .ks-kept) + .ks-group { margin-top: calc(-1 * var(--sp-1)); }
+.guest :is(.gu-pair-note, .ks-kept) + .ks-group > .ks-group-t { box-shadow: inset 0 -1px 0 0 var(--zl); }
+/* the foot: a line over it; the quantity one pill — «−», how many, «+» — as tall as the key beside it */
+.guest .ks-modal-foot {
+  gap: var(--sp-3); padding: var(--sp-3) var(--sp-4) calc(var(--sp-3) + env(safe-area-inset-bottom, 0px)); border-top: 0;
+  box-shadow: inset 0 1px 0 0 var(--zl);
+}
+.guest .ks-step { gap: 0; height: var(--key-h); padding: 0; border-radius: var(--r-pill); background: var(--surface-3); }
+.guest .ks-modal-foot > .ks-step { align-self: center; }
+.guest .ks-step button { width: var(--key-h); height: var(--key-h); border-radius: var(--r-pill); background: none; box-shadow: none; }
+.guest .ks-step button:active:not(:disabled) { background: var(--pill-press); }
+.guest .ks-step span { min-width: 28px; font-family: var(--font-timer); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .ks-step.sm { height: 44px; }
+.guest .ks-step.sm button { width: 44px; height: 44px; }
+.guest .ks-step.sm span { min-width: 24px; font-size: var(--fs-md); }
+.guest .ks-primary { min-height: var(--key-h); padding: 0 var(--sp-4); border-radius: var(--r-pill); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .ks-primary:active:not(:disabled) { background: var(--accent-2); }
+.guest .ks-total { min-width: 0; }
+.guest .ks-total .mono { font-size: var(--fs-xl); font-weight: var(--fw-semibold); }
+.guest .ks-total .ks-muted { font-size: var(--fs-sm); }
+.guest .ks-promo { font-size: var(--fs-sm); }
+.guest .ks-promo-row:not(:first-child) { color: var(--ok); font-weight: var(--fw-regular); }
+.guest .ks-promo-row.gu-tip-row { color: var(--ink); }
+/* a pair's note in the dish's sheet: a row of the accent's shade */
+.guest .gu-pair-note { gap: 0; margin-top: var(--sp-4); box-shadow: inset 0 1px 0 0 var(--zl); }
+.guest .gu-pair-note p { gap: var(--sp-2); padding: var(--sp-3) var(--sp-4); border-radius: 0; background: var(--accent-soft); color: var(--accent-2); font-size: var(--fs-sm); line-height: 20px; box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .gu-pair-note b { font-weight: var(--fw-regular); }
+
+/* ---------- the basket: the lines from edge to edge; a pair's offer, the hours, the name, the phone, the tip ---------- */
+.guest .ks-lines { margin-top: var(--sp-3); box-shadow: inset 0 1px 0 0 var(--zl); }
+.guest .ks-line { gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); border-bottom: 0; box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .ks-line-img { width: 56px; height: 56px; border-radius: 0; background: var(--bg); }
+.guest .ks-line-img img { object-fit: contain; }
+.guest .ks-line-name { font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; }
+.guest .ks-line-sum { color: var(--ink-2); font-family: var(--font-timer); font-size: var(--fs-sm); }
+.guest .gu-pair { margin-top: var(--sp-4); padding: 0; border-radius: 0; background: var(--surface); box-shadow: inset 0 1px 0 0 var(--zl); }
+.guest .gu-pair-h { gap: var(--sp-2); padding: var(--sp-3) var(--sp-4); background: var(--accent-soft); color: var(--accent-2); font-size: var(--fs-sm); line-height: 20px; box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .gu-pair-h b { font-weight: var(--fw-regular); }
+.guest .gu-pair-opts { gap: 0; margin-top: 0; }
+.guest .gu-pair-opt { gap: var(--sp-3); min-height: 64px; padding: var(--sp-2) var(--sp-4); border-radius: 0; background: var(--surface); box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .gu-pair-opt:active { background: var(--surface-3); }
+.guest .gu-pair-img { width: 48px; height: 48px; border-radius: 0; background: var(--bg); }
+.guest .gu-pair-name { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .gu-pair-price { color: var(--ink-2); font-family: var(--font-timer); font-size: var(--fs-sm); }
+.guest .gu-pair-price .mono { color: var(--ok); font-weight: var(--fw-semibold); }
+.guest .gu-pair-plus { width: 44px; height: 44px; }
+/* the hours of a pre-order: «как можно скорее» a row; the quarter hours tiles, four to a row */
+.guest .gu-slot.wide {
+  display: flex; justify-content: space-between; width: 100%; min-height: var(--key-h); padding: 0 var(--sp-4); border: 0; border-radius: 0;
+  background: var(--surface); color: var(--ink); font-size: var(--fs-md); font-weight: var(--fw-semibold); box-shadow: inset 0 -1px 0 0 var(--zl);
+}
+.guest .gu-slot.wide.on { background: var(--accent-soft); color: var(--accent-2); }
+.guest .gu-slot-s { color: var(--ink-2); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.guest .gu-slot.on .gu-slot-s { color: var(--accent-2); }
+.guest .gu-slots { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; }
+.guest .gu-slots > .gu-slot {
+  min-width: 0; min-height: var(--key-h); padding: 0; border: 0; border-radius: 0; background: var(--surface); color: var(--ink);
+  font-family: var(--font-timer); font-size: var(--fs-md); font-weight: var(--fw-semibold);
+  box-shadow: inset 1px 0 0 0 var(--zl), inset 0 -1px 0 0 var(--zl), var(--rim, 0 0 #0000);
+}
+.guest .gu-slots > .gu-slot[data-rf] { box-shadow: inset 0 -1px 0 0 var(--zl), var(--rim, 0 0 #0000); }
+.guest .gu-slots > .gu-slot:active { background: var(--surface-3); }
+.guest .gu-slots > .gu-slot.on { background: var(--accent-soft); color: var(--accent-2); }
+/* a field: a row of the screen's white, a line under it — the accent's under the one being typed in */
+.guest .gu-field input, .guest .gu-field textarea {
+  min-height: var(--key-h); padding: 0 var(--sp-4); border: 0; border-radius: 0; background: var(--surface); color: var(--ink);
+  font-size: var(--fs-md); font-weight: var(--fw-semibold); box-shadow: inset 0 -1px 0 0 var(--zl);
+}
+.guest .gu-field textarea { padding-top: var(--sp-3); padding-bottom: var(--sp-3); line-height: 22px; }
+.guest .gu-field input::placeholder, .guest .gu-field textarea::placeholder { color: var(--ink-3); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.guest .gu-field :is(input, textarea):focus { border: 0; outline: 0; box-shadow: inset 0 -2px 0 0 var(--accent); }
+.guest .gu-field input[aria-invalid="true"] { border: 0; box-shadow: inset 0 -2px 0 0 var(--bad); }
+.guest .gu-opt { font-weight: var(--fw-regular); }
+.guest :is(.gu-err, .gu-ok-line, .gu-warn-line) { padding: var(--sp-2) var(--sp-4) 0; font-weight: var(--fw-regular); }
+.guest :is(.gu-phone, .gu-tips-group) .gu-note { margin: 0; padding: var(--sp-2) var(--sp-4) 0; font-size: var(--fs-sm); }
+/* the tip: 5, 10 and 15%, «Без чаевых», «Своя сумма» — tiles, three to a row */
+.guest .gu-tips { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
+.guest .gu-tip, .guest .gu-tip.wide {
+  grid-column: auto; gap: 2px; min-height: 64px; padding: var(--sp-2) var(--sp-1); border: 0; border-radius: 0; background: var(--surface); color: var(--ink);
+  box-shadow: inset 1px 0 0 0 var(--zl), inset 0 -1px 0 0 var(--zl), var(--rim, 0 0 #0000);
+}
+.guest .gu-tips > .gu-tip[data-rf] { box-shadow: inset 0 -1px 0 0 var(--zl), var(--rim, 0 0 #0000); }
+.guest .gu-tip:active { background: var(--surface-3); }
+.guest .gu-tip.on { background: var(--accent-soft); color: var(--accent-2); }
+.guest .gu-tip-v, .guest .gu-tip.wide .gu-tip-v { font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; }
+.guest .gu-tip:not(.wide) .gu-tip-v { font-family: var(--font-timer); }
+.guest .gu-tip-s { color: var(--ink-2); font-family: var(--font-timer); font-size: var(--fs-sm); }
+.guest .gu-tip.on .gu-tip-s { color: var(--accent-2); }
+.guest .gu-tip-own { padding: var(--sp-3) var(--sp-4) 0; }
+.guest .gu-tip-own label { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .gu-tip-in { color: var(--ink-2); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.guest .gu-tip-in input { min-height: 48px; border: 0; border-radius: 0; background: var(--bg); font-family: var(--font-timer); font-size: var(--fs-md); box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .gu-tip-in input:focus { border: 0; outline: 0; box-shadow: inset 0 -2px 0 0 var(--accent); }
+
+/* ---------- the payment: the sum in the figures of an instrument; the wallets keys; the bank's page a zone ---------- */
+.guest .gu-pay-sum { margin-top: var(--sp-3); margin-bottom: var(--sp-4); font-family: var(--font-timer); font-size: 36px; font-weight: var(--fw-semibold); letter-spacing: -0.02em; line-height: 1.1; }
+.guest .gu-pay-sum span { color: var(--ink-2); font-family: var(--font-ui); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.guest .gu-pay-tip { margin-top: calc(var(--sp-3) * -1); color: var(--ink-2); font-size: var(--fs-sm); }
+.guest .gu-wallets { gap: var(--sp-2); padding: 0 var(--sp-4); }
+.guest .gu-wallet { min-height: var(--key-h); border-radius: var(--r-pill); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .gu-wallet.card { background: var(--surface-3); color: var(--ink); }
+.guest .gu-wallets .gu-note { margin: var(--sp-1) 0 0; font-size: var(--fs-sm); }
+.guest .gu-pay-busy { font-size: var(--fs-md); }
+.guest .gu-bank { gap: var(--sp-3); padding: var(--sp-4); border: 0; border-radius: 0; background: var(--bg); box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); }
+.guest .gu-bank-h { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .gu-demo-note { margin-top: var(--sp-4); color: var(--ink-2); font-size: var(--fs-sm); line-height: 20px; }
+
+/* ---------- an order after payment: the state; its steps, its dishes, the payment — zones from edge to edge ---------- */
+.guest .gu-status { padding: 0 0 var(--sp-6); background: var(--bg); }
+.guest .gu-st-head { gap: var(--sp-3); padding: var(--sp-6) var(--sp-4) var(--sp-5); background: var(--surface); box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .gu-st-ic { width: 64px; height: 64px; }
+.guest .gu-st-title { font-size: var(--fs-xl); font-weight: var(--fw-semibold); line-height: 28px; }
+.guest .gu-st-do { font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; }
+/* a pre-order's number: the figures of an instrument, large, on the page's white — no card round it */
+.guest .gu-st-no { gap: var(--sp-1); margin-top: 0; padding: 0; border-radius: 0; background: none; box-shadow: none; }
+.guest .gu-st-no-l { color: var(--ink-2); font-size: var(--fs-sm); font-weight: var(--fw-regular); letter-spacing: 0; text-transform: none; }
+.guest .gu-st-no-n { font-family: var(--font-timer); font-size: 64px; font-weight: var(--fw-semibold); letter-spacing: -0.02em; line-height: 1; }
+.guest .gu-st-no-s { color: var(--ink-2); font-size: var(--fs-sm); line-height: 20px; }
+/* ready: the head a zone of green from edge to edge */
+.guest .gu-st-head.gus-ready { margin: 0; padding: var(--sp-6) var(--sp-4); border-radius: 0; background: var(--ok); color: #FFFFFF; box-shadow: none; }
+.guest .gu-st-head.gus-ready .gu-st-no-l, .guest .gu-st-head.gus-ready .gu-st-no-s { color: rgb(255 255 255 / 0.86); }
+.guest .gu-st-head.gus-ready .gu-st-no-n { color: #FFFFFF; }
+.guest .gu-st-head.gus-ready .gu-route { color: #FFFFFF; }
+/* the steps: a zone of white, a row each */
+.guest .gu-steps { margin: var(--sp-4) 0 0; padding: var(--sp-2) var(--sp-4); border-radius: 0; background: var(--surface); box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); }
+.guest .gu-step { min-height: 44px; }
+.guest .gu-step-l { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .gu-step-n { font-size: var(--fs-sm); }
+.guest .gu-step-at { color: var(--ink-2); font-family: var(--font-timer); font-size: var(--fs-sm); }
+/* a zone: its name a row of the shade, its rows with a line between them */
+.guest .gu-card { margin-top: var(--sp-4); padding: 0; border-radius: 0; background: var(--surface); box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); }
+.guest .gu-card .gu-sub-h { margin: 0; box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); }
+.guest .gu-lines { padding: 0; }
+.guest .gu-line { gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); border-bottom: 0; box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .gu-line:last-child { box-shadow: inset 0 -1px 0 0 var(--zl); }
+.guest .gu-line-q { min-width: 32px; font-family: var(--font-timer); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .gu-line-t { font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; }
+.guest .gu-line-t .ks-muted { font-weight: var(--fw-regular); }
+.guest .gu-chip-st { padding: 2px var(--sp-2); font-size: var(--fs-sm); font-weight: var(--fw-regular); line-height: 20px; }
+.guest .gu-promo { margin-top: 0; padding: var(--sp-3) var(--sp-4) 0; }
+.guest .gu-paid { margin-top: 0; padding: var(--sp-3) var(--sp-4); border-top: 0; font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .gu-paid .mono { font-family: var(--font-timer); }
+.guest .gu-tip-paid { gap: var(--sp-2); margin: 0; padding: var(--sp-3) var(--sp-4); border-radius: 0; background: var(--ok-soft); color: var(--ok); font-size: var(--fs-sm); font-weight: var(--fw-regular); line-height: 20px; box-shadow: inset 0 1px 0 0 var(--zl); }
+/* the fiscal receipt: a row with a line, its icon alone */
+.guest .gu-fiscal { gap: var(--sp-3); margin-top: var(--sp-4); padding: var(--sp-4); border: 0; border-radius: 0; background: var(--surface); box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); }
+.guest .gu-fiscal-ic { width: 24px; height: 24px; border-radius: 0; background: none; color: var(--ink-2); }
+.guest .gu-fiscal-h { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .gu-actions { gap: var(--sp-2); margin-top: var(--sp-4); padding: 0 var(--sp-4); }
+.guest .gu-actions .gu-btn2 { min-height: var(--key-h); }
+/* «Сообщить, когда будет готово» and the SMS: rows; the icons alone */
+.guest .gu-notify { padding: 0; }
+.guest .gu-nt { padding: var(--sp-3) var(--sp-4); }
+.guest .gu-nt + .gu-nt { border-top: 0; box-shadow: inset 0 1px 0 0 var(--zl); }
+.guest .gu-nt-ic { width: 24px; height: 40px; border-radius: 0; background: none; color: var(--ink-2); }
+.guest .gu-nt-ic.on { background: none; color: var(--accent); }
+.guest .gu-nt-h { font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; }
+.guest .gu-nt-s { color: var(--ink-2); font-size: var(--fs-sm); line-height: 20px; }
+.guest .gu-nt-allow { min-height: 44px; margin: var(--sp-2) 0 0 36px; font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.guest .gu-sms-text { font-size: var(--fs-sm); }
+/* the rating: the stars round keys; the words keys; the field a row */
+.guest .gu-rate, .guest .gu-rated { margin: var(--sp-4) 0 0; padding: var(--sp-2) 0 var(--sp-4); }
+.guest .gu-star-l { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
+.guest .gu-rate .gu-note { margin: 0 var(--sp-4) var(--sp-1); }
+.guest .gu-rate-tags { gap: var(--sp-2); margin: var(--sp-3) var(--sp-4) 0; }
+.guest .gu-rate-tags .gu-chip { min-height: 44px; padding: 0 var(--sp-4); border: 0; border-radius: var(--r-pill); background: var(--surface-3); color: var(--ink); font-size: var(--fs-sm); }
+.guest .gu-rate-tags .gu-chip.on { background: var(--accent); color: var(--accent-ink); }
+.guest .gu-rate-field { margin-top: var(--sp-4); }
+.guest .gu-rate .ks-primary { width: calc(100% - 2 * var(--sp-4)); margin: var(--sp-4) var(--sp-4) 0; }
+.guest .gu-stars-ro { padding: 0 var(--sp-4); font-size: var(--fs-xl); font-weight: var(--fw-semibold); }
+.guest .gu-rate-text { margin: var(--sp-3) var(--sp-4) 0; padding: var(--sp-3) var(--sp-4); border-radius: 0; background: var(--bg); font-size: var(--fs-sm); box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); }
+.guest .gu-rated .gu-note { margin: var(--sp-3) var(--sp-4) 0; }
+.guest .gu-rated > :is(.gu-sub-h, h2) + * { margin-top: var(--sp-3); }
+.guest .gu-review { gap: var(--sp-2); margin: var(--sp-4) var(--sp-4) 0; padding-top: var(--sp-4); border-top: 0; box-shadow: inset 0 1px 0 0 var(--zl); }
+.guest .gu-review-btn { min-height: var(--key-h); padding: 0 var(--sp-4); border-radius: var(--r-pill); }
+.guest .gu-review-ic { border-radius: 50%; }
+.guest .gu-review-p { font-size: var(--fs-sm); line-height: 20px; }
+/* a narrow phone: the folders' keys a little narrower */
+@media (max-width: 380px) {
+  .guest .gu-nav .ks-pill { min-width: 96px; padding: 0 var(--sp-3); }
+  .guest .ks-img { height: 112px; }
+}
+/* the smallest phones: the three languages keep their room, «для гостей» gives way (the screen says whose it is) */
+@media (max-width: 339px) {
+  .guest .gu-brand-for { display: none; }
 }
 
 /* ---------- the kitchen screen in the front's look (2 November) ----------
@@ -7160,8 +7715,8 @@ tr.bl-theirs td { background: var(--accent-soft); }
    lines. Under the waiter's tables, the profile's tiles and the phone's dishes the line closing the last row comes from
    the empty block below them, across the whole width: under a short row the tiles draw it themselves (data-rz, in a
    grid marked data-tail) and the block draws none, so it stops where they stop — the vertical line at their end
-   reaches it. The kitchen's tickets and the back office's cards draw their own line under them already: only the right
-   one is theirs to add. */
+   reaches it. The kitchen's tickets, the pickup board's numbers, the back office's cards and the guest app's tables, tips
+   and hours draw their own line under them already: only the right one is theirs to add. */
 :is(.pt-grid, .pf-grid, .mt-grid)[data-tail] > [data-rz], :is(.pt-grid, .pf-grid, .mt-grid) > [data-rb] { --rim: 0 1px 0 0 var(--line-2); }
 :is(.pt-grid, .pf-grid, .mt-grid)[data-tail] > [data-rl] { --rim: 0 1px 0 0 var(--line-2), 1px 0 0 0 var(--line-2), 1px 1px 0 0 var(--line-2); }
 .pt-grid[data-tail] + .pt-fill > span, .mt-grid[data-tail] + .mt-fill > span, .pf-grid[data-tail] + .pf-fill { box-shadow: none; }
@@ -7169,7 +7724,7 @@ tr.bl-theirs td { background: var(--accent-soft); }
    sheet's foot, the next category's band closes it) */
 :is(.move-grid, .ks-grid, .ks-opts, .ks-up-list) > [data-rb] { --rim: 0 1px 0 0 var(--line-2); }
 :is(.move-grid, .ks-grid, .ks-opts, .ks-up-list) > [data-rl] { --rim: 1px 0 0 0 var(--line-2); }
-.kds-grid > [data-rl], .front-look :is(.of-page > :is(.kpi-row, .two-col, .sum-grid, .ig-grid, .int-grid, .loc-grid), .rg-grid, .card > .reconcile-row) > [data-rl] {
+:is(.kds-grid, .bd-list, .gu-tables, .gu-tips, .gu-slots) > [data-rl], .front-look :is(.of-page > :is(.kpi-row, .two-col, .sum-grid, .ig-grid, .int-grid, .loc-grid), .rg-grid, .card > .reconcile-row) > [data-rl] {
   --rim: 1px 0 0 0 var(--line-2);
 }
 
