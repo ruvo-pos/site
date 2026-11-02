@@ -1111,10 +1111,6 @@ body:has(.launcher.demo) { background: #FFFFFF; }
 .dl-foot-base { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding-top: 4px; }
 .dl-foot-base .wordmark { font-size: 11px; }
 
-/* (2 November, the owner of the website: «Д — выпрямить») the demo's start page as the site is now: its tiles straight,
-   side by side with a line between them and round them — the brand grid's; the devices keep their own corners */
-.dl-grid { gap: 1px; padding: 1px; background: var(--d-line); }
-.dl-tile, .dl-tile.wide { border-radius: 0; }
 
 /* ---------- app.ruvo.ac: connecting a device, the back office's sign-in, «Это устройство» (ui/server-start.jsx) ---------- */
 .srv-wrap { max-width: 980px; }
@@ -7317,24 +7313,28 @@ tr.bl-theirs td { background: var(--accent-soft); }
 .ipad .tbl-sum { max-width: 100%; overflow: hidden; font-size: var(--fs-md); line-height: 20px; white-space: nowrap; text-overflow: ellipsis; }
 .ipad .tbl-sum .money { font-family: var(--font-timer); font-weight: var(--fw-semibold); letter-spacing: -0.03em; }
 .ipad .tbl-round .tbl-sum { display: none; }
-/* the signs: a pill 24 high at a corner, half over the table's edge */
+/* the signs: a pill at a corner, half over the table's edge. (2 November, 13:57, the owner: «Надо сделать плашки над
+   столами просторнее (которые счет, цифры и тд)») 32 high, the words and the figures 12 from its ends, an icon 16 with 6
+   to its figure; the figures — how many are ready, how many cook, the app's number, the booking's hour — in the
+   instrument's (16 semibold), the words («Счёт», how the guest pays) 14 regular */
 .ipad .tbl-badge {
-  top: -12px; right: -10px; display: inline-flex; align-items: center; gap: 2px; height: 24px; padding: 0 var(--sp-2);
-  border-radius: var(--r-pill); font-size: var(--fs-sm); font-weight: var(--fw-regular); line-height: 24px;
+  top: -16px; right: -12px; display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px;
+  border-radius: var(--r-pill); font-size: var(--fs-sm); font-weight: var(--fw-regular); line-height: 32px;
 }
+.ipad .tbl-badge:is(.b-ready, .b-cook, .b-app, .b-book) { font-family: var(--font-timer); font-size: var(--fs-md); font-weight: var(--fw-semibold); letter-spacing: -0.02em; }
 .ipad .tbl-badge.b-ready {
-  z-index: 0; justify-content: center; min-width: 24px; padding: 0 6px;
+  z-index: 0; justify-content: center; min-width: 32px; padding: 0 10px;
   box-shadow: 0 0 0 4px color-mix(in oklab, var(--ok) 25%, transparent), 0 0 0 9px color-mix(in oklab, var(--ok) 10%, transparent);
 }
 .ipad .tbl-badge.b-ready::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; animation: live-badge 2.4s ease-out infinite; }
-.ipad .tbl-badge.b-bill { padding: 0 var(--sp-2) 0 22px; background: var(--surface); color: var(--bill); box-shadow: inset 0 0 0 1.5px var(--bill), var(--shadow-1); }
+.ipad .tbl-badge.b-bill { padding: 0 14px 0 32px; background: var(--surface); color: var(--bill); box-shadow: inset 0 0 0 1.5px var(--bill), var(--shadow-1); }
 .ipad .tbl-badge.b-bill::before {
-  content: ''; position: absolute; left: 8px; top: 50%; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; background: var(--bill);
+  content: ''; position: absolute; left: 13px; top: 50%; width: 9px; height: 9px; margin-top: -4.5px; border-radius: 50%; background: var(--bill);
   box-shadow: 0 0 0 4px color-mix(in oklab, var(--bill) 22%, transparent);
 }
-.ipad .tbl-badge.b-cook { left: -10px; right: auto; padding: 0 6px 0 2px; background: var(--surface); color: var(--warn); box-shadow: inset 0 0 0 1.5px var(--warn), var(--shadow-1); }
-.ipad .tbl-badge.b-app, .ipad .tbl-badge.b-book { top: auto; bottom: -12px; }
-.ipad .tbl-badge.b-book { left: -10px; right: auto; }
+.ipad .tbl-badge.b-cook { left: -12px; right: auto; padding: 0 13px 0 10px; background: var(--surface); color: var(--warn); box-shadow: inset 0 0 0 1.5px var(--warn), var(--shadow-1); }
+.ipad .tbl-badge.b-app, .ipad .tbl-badge.b-book { top: auto; bottom: -16px; padding: 0 13px 0 10px; }
+.ipad .tbl-badge.b-book { left: -12px; right: auto; }
 @media (prefers-reduced-motion: reduce) { .ipad .tbl-badge.b-ready::after { animation: none; } }
 /* a table drawn small (an iPad held upright, an iPad mini): by what it holds inside its edges. Three lines (the number
    28, the guests and the minutes, the sum: 70): with less its number 22 and the line under it 12; with less than 60

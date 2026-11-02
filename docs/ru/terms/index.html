@@ -1321,29 +1321,6 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 .lost { display: grid; gap: 16px; justify-items: start; padding-block: var(--band); }
 .lost h1 { font-size: var(--fs-h2); font-weight: 600; letter-spacing: -0.03em; }
 .lost ul { display: flex; flex-wrap: wrap; gap: 8px 24px; }
-:root { --r-md: 0px; --r-lg: 0px; --r-xl: 0px; }
-.plans, .integr ul, .mod-list { gap: 1px; padding: 1px; background: var(--line); }
-.ex-tabs { gap: 1px; padding: 1px; border-radius: 0; background: var(--line); }
-.ex-tabs button { height: 48px; padding-inline: 20px; border-radius: 0; background: var(--bg); color: var(--ink-2); }
-.ex-tabs button:hover { background: var(--bg-alt); color: var(--ink); }
-.ex-tabs button[aria-selected="true"] { background: var(--btn); color: var(--btn-ink); box-shadow: none; }
-.integr ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: min(100%, 860px); max-width: none; }
-.integr li { justify-content: flex-start; gap: 12px; min-height: 64px; padding: 14px 20px; border-radius: 0; background: var(--bg); box-shadow: none; text-align: left; }
-.integr li.soon { background: var(--bg); box-shadow: none; }
-@media (max-width: 640px) { .integr ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.rush-rows { --rush-gap: 0px; --night-line: #333336; gap: 0; box-shadow: inset 0 1px 0 0 var(--night-line), inset 0 -1px 0 0 var(--night-line); }
-.rush-row + .rush-row { box-shadow: inset 0 1px 0 0 var(--night-line); }
-.rush li { margin-right: 0; border-radius: 0; box-shadow: inset -1px 0 0 0 var(--night-line); }
-.rush { box-shadow: inset 1px 0 0 0 var(--night-line); }
-.rush-rows.marquee .rush { box-shadow: none; }
-.plan { border-radius: 0; }
-.plan.enamel::after { border-radius: 0; }
-.calc-presets .chip[aria-pressed="true"] { background: var(--btn); color: var(--btn-ink); }
-.mod { border-radius: 0; }
-.mod:has(input:checked) { box-shadow: none; background: var(--accent-soft); }
-.final, .final::after { border-radius: 0; }
-.vm-a { border-radius: 0; }
-.fld input:not([type="checkbox"]), .fld select, .su-demo, .su-msg, .si-in, .si-acc, .acc-status, .acc-scan-wrap { border-radius: 0; }
 </style>
 </head>
 <body>

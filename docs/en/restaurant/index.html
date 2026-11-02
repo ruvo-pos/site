@@ -1321,29 +1321,6 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 .lost { display: grid; gap: 16px; justify-items: start; padding-block: var(--band); }
 .lost h1 { font-size: var(--fs-h2); font-weight: 600; letter-spacing: -0.03em; }
 .lost ul { display: flex; flex-wrap: wrap; gap: 8px 24px; }
-:root { --r-md: 0px; --r-lg: 0px; --r-xl: 0px; }
-.plans, .integr ul, .mod-list { gap: 1px; padding: 1px; background: var(--line); }
-.ex-tabs { gap: 1px; padding: 1px; border-radius: 0; background: var(--line); }
-.ex-tabs button { height: 48px; padding-inline: 20px; border-radius: 0; background: var(--bg); color: var(--ink-2); }
-.ex-tabs button:hover { background: var(--bg-alt); color: var(--ink); }
-.ex-tabs button[aria-selected="true"] { background: var(--btn); color: var(--btn-ink); box-shadow: none; }
-.integr ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: min(100%, 860px); max-width: none; }
-.integr li { justify-content: flex-start; gap: 12px; min-height: 64px; padding: 14px 20px; border-radius: 0; background: var(--bg); box-shadow: none; text-align: left; }
-.integr li.soon { background: var(--bg); box-shadow: none; }
-@media (max-width: 640px) { .integr ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.rush-rows { --rush-gap: 0px; --night-line: #333336; gap: 0; box-shadow: inset 0 1px 0 0 var(--night-line), inset 0 -1px 0 0 var(--night-line); }
-.rush-row + .rush-row { box-shadow: inset 0 1px 0 0 var(--night-line); }
-.rush li { margin-right: 0; border-radius: 0; box-shadow: inset -1px 0 0 0 var(--night-line); }
-.rush { box-shadow: inset 1px 0 0 0 var(--night-line); }
-.rush-rows.marquee .rush { box-shadow: none; }
-.plan { border-radius: 0; }
-.plan.enamel::after { border-radius: 0; }
-.calc-presets .chip[aria-pressed="true"] { background: var(--btn); color: var(--btn-ink); }
-.mod { border-radius: 0; }
-.mod:has(input:checked) { box-shadow: none; background: var(--accent-soft); }
-.final, .final::after { border-radius: 0; }
-.vm-a { border-radius: 0; }
-.fld input:not([type="checkbox"]), .fld select, .su-demo, .su-msg, .si-in, .si-acc, .acc-status, .acc-scan-wrap { border-radius: 0; }
 </style>
 </head>
 <body>
@@ -1424,7 +1401,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="ex-tabs-wrap"><div class="ex-tabs" aria-label="Example screens" hidden><button type="button" id="ex-t-floor" aria-controls="ex-p-floor" aria-selected="true">Floor</button><button type="button" id="ex-t-waiter" aria-controls="ex-p-waiter" aria-selected="false" tabindex="-1">Waiter</button><button type="button" id="ex-t-kitchen" aria-controls="ex-p-kitchen" aria-selected="false" tabindex="-1">Kitchen</button><button type="button" id="ex-t-guests" aria-controls="ex-p-guests" aria-selected="false" tabindex="-1">Guests</button><button type="button" id="ex-t-stock" aria-controls="ex-p-stock" aria-selected="false" tabindex="-1">Stock</button><button type="button" id="ex-t-reports" aria-controls="ex-p-reports" aria-selected="false" tabindex="-1">Reports</button><button type="button" id="ex-t-team" aria-controls="ex-p-team" aria-selected="false" tabindex="-1">Team</button><button type="button" id="ex-t-delivery" aria-controls="ex-p-delivery" aria-selected="false" tabindex="-1">Delivery</button><button type="button" id="ex-t-kiosk" aria-controls="ex-p-kiosk" aria-selected="false" tabindex="-1">Kiosk</button><button type="button" id="ex-t-sef" aria-controls="ex-p-sef" aria-selected="false" tabindex="-1">SEF</button></div></div>
 <div class="ex-panels">
 <div class="ex-panel" id="ex-p-floor">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Example: the floor plan on the front terminal — free and taken tables, a table with dishes ready and a table waiting for the bill"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/en/floor-light.webp?v=f0a5855654" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/en/floor-dark.webp?v=4e5bb8ff27" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Example: the floor plan on the front terminal — free and taken tables, a table with dishes ready and a table waiting for the bill"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/en/floor-light.webp?v=2b4637f7a7" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/en/floor-dark.webp?v=cd3782a09e" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>The floor plan on the front terminal</h3><p>The whole floor on one screen: which tables are taken and for how long, where a dish is ready to serve and where guests wait for the bill. At the side — orders from the kiosk and the app, dishes ready and the day’s sales.</p><ul><li>The dining room and the terrace — each on its own plan</li><li>Ready to serve — at once, with the table number</li><li>Guests move to another table without a new order</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-waiter">
