@@ -16,6 +16,11 @@
 <meta property="og:description" content="Продажи у прилавка, техкарты для теста и кремов, полуфабрикаты, прогноз заготовок на завтра и минимальные остатки. RUVO для пекарен и кондитерских.">
 <meta property="og:url" content="https://ruvo.ac/ru/bakery/">
 <meta property="og:locale" content="ru_RU">
+<meta property="og:image" content="https://ruvo.ac/assets/og/ru/bakery.png?v=81075b9716">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="RUVO — POS для пекарен и кондитерских">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
@@ -448,21 +453,18 @@ font-family: var(--font-app); font-size: calc(var(--u)*15); line-height: 1.3; le
 .os-cats > span { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; padding: 0 calc(var(--u)*16); color: var(--a-ink-2); font-size: calc(var(--u)*16); font-weight: 600; white-space: nowrap; box-shadow: inset calc(var(--u)*-1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
 .os-cats > span:last-child { box-shadow: inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
 .os-cats > .on { background: var(--a-accent); color: var(--a-accent-ink); box-shadow: none; }
-.os-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: calc(var(--u)*110); align-content: start; min-width: 0; background: var(--a-bg); }
-.mc { position: relative; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; padding: calc(var(--u)*12) calc(var(--u)*14); background: var(--a-surface); box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*1) 0 0 var(--a-line-2), 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
-.mc[data-rf] { box-shadow: inset 0 calc(var(--u)*1) 0 0 var(--a-line-2), 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
-.mc[data-r0] { box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
-.mc[data-r0][data-rf] { box-shadow: 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
-.mc b { padding-right: calc(var(--u)*26); font-size: calc(var(--u)*16); font-weight: 600; line-height: calc(var(--u)*22); }
+.os-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-auto-rows: calc(var(--u)*106); align-content: start; min-width: 0; overflow: hidden; background: var(--a-bg); }
+.mc { position: relative; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; padding: calc(var(--u)*12); background: var(--a-surface); box-shadow: inset calc(var(--u)*-1) 0 0 0 var(--a-line), inset 0 calc(var(--u)*-1) 0 0 var(--a-line); }
+.mc b { overflow-wrap: anywhere; font-size: calc(var(--u)*16); font-weight: 600; line-height: 1.2; }
+.mc:has(> i) b { padding-right: calc(var(--u)*24); }
 .mc span { color: var(--a-ink-2); font-family: var(--font-timer); font-size: calc(var(--u)*14); font-weight: 600; }
 .mc span small { margin-left: calc(var(--u)*5); font-family: var(--font-app); font-size: calc(var(--u)*12); }
 .mc i { position: absolute; top: calc(var(--u)*10); right: calc(var(--u)*10); display: inline-flex; align-items: center; justify-content: center; min-width: calc(var(--u)*24); height: calc(var(--u)*24); padding-inline: calc(var(--u)*6); border-radius: 999px; background: var(--a-accent); color: var(--a-accent-ink); font-family: var(--font-timer); font-size: calc(var(--u)*13); font-style: normal; font-weight: 600; }
-.op { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--a-surface); box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2); }
+.op { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: var(--a-surface); }
 .op-lines { flex: 1; min-height: 0; overflow: hidden; }
-.op-course { display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u)*10); min-height: calc(var(--u)*52); padding: 0 calc(var(--u)*12) 0 calc(var(--u)*18); background: var(--a-bg); box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); color: var(--a-ink-2); font-size: calc(var(--u)*14); }
-.op-course + .ol { box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*-1) 0 0 var(--a-line); }
+.op-course { display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u)*10); min-height: calc(var(--u)*52); padding: 0 calc(var(--u)*12) 0 calc(var(--u)*18); background: var(--a-bg); box-shadow: inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); color: var(--a-ink-2); font-size: calc(var(--u)*14); }
 .op-fire { height: calc(var(--u)*40); padding: 0 calc(var(--u)*14); }
-.ol { display: grid; grid-template-columns: calc(var(--u)*34) minmax(0, 1fr) auto; grid-template-areas: "q n p" ". . s"; gap: calc(var(--u)*4) calc(var(--u)*6); padding: calc(var(--u)*12) calc(var(--u)*18); box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*-1) 0 0 var(--a-line); font-size: calc(var(--u)*16); }
+.ol { display: grid; grid-template-columns: calc(var(--u)*34) minmax(0, 1fr) auto; grid-template-areas: "q n p" ". . s"; gap: calc(var(--u)*4) calc(var(--u)*6); padding: calc(var(--u)*12) calc(var(--u)*18); box-shadow: inset 0 calc(var(--u)*-1) 0 0 var(--a-line); font-size: calc(var(--u)*16); }
 .ol-q { grid-area: q; font-weight: 600; }
 .ol-n { grid-area: n; min-width: 0; font-weight: 600; overflow-wrap: anywhere; }
 .ol-p { grid-area: p; font-family: var(--font-timer); font-weight: 600; text-align: right; }
@@ -470,7 +472,7 @@ font-family: var(--font-app); font-size: calc(var(--u)*15); line-height: 1.3; le
 .ol-st > span { grid-area: 1 / 1; padding: calc(var(--u)*2) calc(var(--u)*10); border-radius: 999px; font-size: calc(var(--u)*13); font-weight: 600; }
 .st-new { background: var(--a-accent-soft); color: var(--a-accent); opacity: 0; }
 .st-sent { background: var(--a-surface-3); color: var(--a-ink-2); }
-.op-foot { flex: none; display: grid; gap: calc(var(--u)*12); padding: calc(var(--u)*14) calc(var(--u)*16) calc(var(--u)*16); box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
+.op-foot { flex: none; display: grid; gap: calc(var(--u)*12); padding: calc(var(--u)*14) calc(var(--u)*16) calc(var(--u)*16); box-shadow: inset 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
 .op-total { display: flex; align-items: baseline; justify-content: space-between; gap: calc(var(--u)*12); font-size: calc(var(--u)*16); font-weight: 600; }
 .op-total b { font-family: var(--font-timer); font-size: calc(var(--u)*22); font-weight: 600; }
 .op-total small { margin-left: calc(var(--u)*5); color: var(--a-ink-2); font-family: var(--font-app); font-size: calc(var(--u)*14); }
@@ -565,10 +567,12 @@ position: relative; flex: 1; min-height: 0; display: flex; flex-direction: colum
 .ks-sec { display: flex; align-items: center; height: calc(var(--u)*52); padding: 0 calc(var(--u)*20); background: var(--a-bg); box-shadow: inset 0 calc(var(--u)*1) 0 0 var(--a-line-2), inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); font-size: calc(var(--u)*16); font-weight: 600; }
 .ks-cats + .ks-sec { box-shadow: inset 0 calc(var(--u)*-1) 0 0 var(--a-line-2); }
 .ks-grid { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); background: var(--a-surface); }
-.kd { position: relative; display: flex; flex-direction: column; gap: calc(var(--u)*4); min-width: 0; padding: calc(var(--u)*16) calc(var(--u)*20) calc(var(--u)*20); background: var(--a-surface); box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
-.kd[data-rf] { box-shadow: inset 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
-.kd[data-r0] { box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2); }
-.kd[data-r0][data-rf] { box-shadow: none; }
+.kd { position: relative; display: flex; flex-direction: column; gap: calc(var(--u)*4); min-width: 0; padding: calc(var(--u)*16) calc(var(--u)*20) calc(var(--u)*20); background: var(--a-surface); box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), inset 0 calc(var(--u)*1) 0 0 var(--a-line-2), var(--rim, 0 0 #0000); }
+.kd[data-rf] { box-shadow: inset 0 calc(var(--u)*1) 0 0 var(--a-line-2), var(--rim, 0 0 #0000); }
+.kd[data-r0] { box-shadow: inset calc(var(--u)*1) 0 0 0 var(--a-line-2), var(--rim, 0 0 #0000); }
+.kd[data-r0][data-rf] { box-shadow: var(--rim, none); }
+.kd[data-rl] { --rim: calc(var(--u)*1) 0 0 0 var(--a-line-2); }
+.kd[data-rb] { --rim: 0 calc(var(--u)*1) 0 0 var(--a-line-2); }
 .kd.in { background: var(--a-accent-soft); }
 .kd-img { display: block; height: calc(var(--u)*210); margin-bottom: calc(var(--u)*8); }
 .kd-img img { display: block; width: 100%; height: 100%; object-fit: contain; }
@@ -970,8 +974,8 @@ font-family: var(--font-app); font-size: 15px; font-weight: 600; line-height: 1.
 .mbc { display: grid; grid-template-rows: 40px minmax(0, 1fr); min-width: 0; }
 .mbc + .mbc { box-shadow: inset 1px 0 0 0 var(--a-line-2); }
 .mbh { display: flex; align-items: center; padding: 0 12px; color: var(--a-ink-2); box-shadow: inset 0 -1px 0 0 var(--a-line-2); }
-.mbn { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
-.mbn > span { display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 0; padding: 0 12px; }
+.mbn { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.mbn > span { display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 0; padding: 0 10px; }
 .mbn > span + span { box-shadow: inset 1px 0 0 0 var(--a-line); }
 .mbn b { color: var(--a-ink-2); font-family: var(--font-timer); font-size: 26px; font-weight: 600; line-height: 1; }
 .mbn small { overflow: hidden; color: var(--a-ink); font-size: 13px; font-weight: 400; white-space: nowrap; text-overflow: ellipsis; }
@@ -1317,6 +1321,29 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 .lost { display: grid; gap: 16px; justify-items: start; padding-block: var(--band); }
 .lost h1 { font-size: var(--fs-h2); font-weight: 600; letter-spacing: -0.03em; }
 .lost ul { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+:root { --r-md: 0px; --r-lg: 0px; --r-xl: 0px; }
+.plans, .integr ul, .mod-list { gap: 1px; padding: 1px; background: var(--line); }
+.ex-tabs { gap: 1px; padding: 1px; border-radius: 0; background: var(--line); }
+.ex-tabs button { height: 48px; padding-inline: 20px; border-radius: 0; background: var(--bg); color: var(--ink-2); }
+.ex-tabs button:hover { background: var(--bg-alt); color: var(--ink); }
+.ex-tabs button[aria-selected="true"] { background: var(--btn); color: var(--btn-ink); box-shadow: none; }
+.integr ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: min(100%, 860px); max-width: none; }
+.integr li { justify-content: flex-start; gap: 12px; min-height: 64px; padding: 14px 20px; border-radius: 0; background: var(--bg); box-shadow: none; text-align: left; }
+.integr li.soon { background: var(--bg); box-shadow: none; }
+@media (max-width: 640px) { .integr ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.rush-rows { --rush-gap: 0px; --night-line: #333336; gap: 0; box-shadow: inset 0 1px 0 0 var(--night-line), inset 0 -1px 0 0 var(--night-line); }
+.rush-row + .rush-row { box-shadow: inset 0 1px 0 0 var(--night-line); }
+.rush li { margin-right: 0; border-radius: 0; box-shadow: inset -1px 0 0 0 var(--night-line); }
+.rush { box-shadow: inset 1px 0 0 0 var(--night-line); }
+.rush-rows.marquee .rush { box-shadow: none; }
+.plan { border-radius: 0; }
+.plan.enamel::after { border-radius: 0; }
+.calc-presets .chip[aria-pressed="true"] { background: var(--btn); color: var(--btn-ink); }
+.mod { border-radius: 0; }
+.mod:has(input:checked) { box-shadow: none; background: var(--accent-soft); }
+.final, .final::after { border-radius: 0; }
+.vm-a { border-radius: 0; }
+.fld input:not([type="checkbox"]), .fld select, .su-demo, .su-msg, .si-in, .si-acc, .acc-status, .acc-scan-wrap { border-radius: 0; }
 </style>
 </head>
 <body>
@@ -1353,7 +1380,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="stage-dev"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><div class="sb"><span class="sb-t">21:41<span>Ср 14 окт.</span></span><span class="sb-r"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-wifi-high"/></svg><span class="bat"><i></i></span></span></div><div class="hd"><span class="pl ic"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-caret-left"/></svg></span><span class="hd-t"><b>Прилавок</b><small>Jelena · 07:42</small></span><span class="hd-r"><span class="pl">Гость</span><span class="pl">Скидка</span></span></div><div class="os">
 <div class="os-search"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-magnifying-glass"/></svg><span>Поиск</span></div>
 <div class="os-cats"><span class="on">Бурек и пироги</span><span>Хлеб и булочки</span><span>Сладкое</span><span>Йогурт и напитки</span></div>
-<div class="os-grid"><div class="mc" data-rf data-r0><b>Бурек с сыром</b><span>300<small>RSD</small></span><i>2</i></div><div class="mc" data-r0><b>Бурек с мясом</b><span>330<small>RSD</small></span></div><div class="mc" data-r0><b>Гибаница</b><span>260<small>RSD</small></span></div><div class="mc" data-rf><b>Пирог со шпинатом</b><span>240<small>RSD</small></span></div><div class="mc"><b>Пирог с яблоками</b><span>220<small>RSD</small></span></div><div class="mc"><b>Пирог с вишней</b><span>220<small>RSD</small></span></div></div>
+<div class="os-grid"><div class="mc"><b>Бурек с сыром</b><span>300<small>RSD</small></span><i>2</i></div><div class="mc"><b>Бурек с мясом</b><span>330<small>RSD</small></span></div><div class="mc"><b>Гибаница</b><span>260<small>RSD</small></span></div><div class="mc"><b>Пирог со шпинатом</b><span>240<small>RSD</small></span></div><div class="mc"><b>Пирог с яблоками</b><span>220<small>RSD</small></span></div><div class="mc"><b>Пирог с вишней</b><span>220<small>RSD</small></span></div><div class="mc"><b>Бурек со шпинатом</b><span>300<small>RSD</small></span></div><div class="mc"><b>Бурек с грибами</b><span>310<small>RSD</small></span></div><div class="mc"><b>Бурек с картофелем</b><span>280<small>RSD</small></span></div><div class="mc"><b>Бурек без начинки</b><span>220<small>RSD</small></span></div><div class="mc"><b>Пирог с картофелем</b><span>250<small>RSD</small></span></div><div class="mc"><b>Пирог с мясом</b><span>330<small>RSD</small></span></div><div class="mc"><b>Пирог с тыквой</b><span>230<small>RSD</small></span></div><div class="mc"><b>Пирог с маком</b><span>240<small>RSD</small></span></div><div class="mc"><b>Пирог с орехами</b><span>250<small>RSD</small></span></div><div class="mc"><b>Рулет с сыром</b><span>270<small>RSD</small></span></div><div class="mc"><b>Яблочный штрудель</b><span>260<small>RSD</small></span></div><div class="mc"><b>Кукурузный хлеб с сыром</b><span>200<small>RSD</small></span></div></div>
 <div class="op op--pay">
 <div class="op-lines"><div class="ol"><span class="ol-q">2×</span><span class="ol-n">Бурек с сыром</span><span class="ol-p">600</span></div><div class="ol"><span class="ol-q">6×</span><span class="ol-n">Кифла</span><span class="ol-p">300</span></div><div class="ol"><span class="ol-q">2×</span><span class="ol-n">Йогурт</span><span class="ol-p">240</span></div></div>
 <div class="op-foot"><div class="op-total"><span>Итого</span><b>1 140<small>RSD</small></b></div><div class="op-acts"><span class="op-pay"><span class="pb"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-receipt"/></svg>Счёт</span><span class="pb go"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-check"/></svg>Оплатить</span></span></div></div>
@@ -1373,27 +1400,27 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="ex-tabs-wrap"><div class="ex-tabs" aria-label="Примеры экранов" hidden><button type="button" id="ex-t-stock" aria-controls="ex-p-stock" aria-selected="true">Склад</button><button type="button" id="ex-t-kiosk" aria-controls="ex-p-kiosk" aria-selected="false" tabindex="-1">Киоск</button><button type="button" id="ex-t-guests" aria-controls="ex-p-guests" aria-selected="false" tabindex="-1">Гости</button><button type="button" id="ex-t-reports" aria-controls="ex-p-reports" aria-selected="false" tabindex="-1">Отчёты</button><button type="button" id="ex-t-sef" aria-controls="ex-p-sef" aria-selected="false" tabindex="-1">SEF</button><button type="button" id="ex-t-team" aria-controls="ex-p-team" aria-selected="false" tabindex="-1">Команда</button></div></div>
 <div class="ex-panels">
 <div class="ex-panel" id="ex-p-stock">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Пример: техкарта чевапи — продукты брутто и нетто, себестоимость порции и фудкост каждого блюда"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/ru/tech-light.webp?v=4cde24d9ef" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/ru/tech-dark.webp?v=6ed56b5c0a" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Пример: техкарта чевапи — продукты брутто и нетто, себестоимость порции и фудкост каждого блюда"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/ru/tech-light.webp?v=b8aab6dc6b" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/ru/tech-dark.webp?v=e5721ad12e" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>Склад и техкарты</h3><p>Каждая продажа списывает продукты по техкарте — брутто, нетто и потери при обработке. Видно себестоимость порции, фудкост каждого блюда и что ниже минимума.</p><ul><li>Приход, списание и инвентаризация</li><li>Полуфабрикаты со своими техкартами</li><li>Средняя себестоимость считается сама</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-kiosk">
-<div class="ex-shot ex-shot--port" role="img" aria-label="Пример: киоск с выпечкой на фото и номер заказа для оплаты на кассе"><div class="pair"><div class="dv dv-port" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot" src="../../assets/shots/ru/kiosk-light.webp?v=324831f1da" alt="" width="834" height="1210" loading="lazy" decoding="async"></div></div></div><div class="nc kio-no"><p class="nc-h"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-hand-tap"/></svg><span>Ваш номер</span></p><span class="kio-num">47</span><p class="nc-note">Оплатите на кассе и назовите этот номер.</p></div></div></div>
+<div class="ex-shot ex-shot--port" role="img" aria-label="Пример: киоск с выпечкой на фото и номер заказа для оплаты на кассе"><div class="pair"><div class="dv dv-port" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot" src="../../assets/shots/ru/kiosk-light.webp?v=8052c8c3de" alt="" width="834" height="1210" loading="lazy" decoding="async"></div></div></div><div class="nc kio-no"><p class="nc-h"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-hand-tap"/></svg><span>Ваш номер</span></p><span class="kio-num">47</span><p class="nc-note">Оплатите на кассе и назовите этот номер.</p></div></div></div>
 <div class="ex-text"><h3>Киоск для гостей</h3><p>Гость сам выбирает блюда по фото, видит описание и аллергены и получает номер. Заказ сразу уходит на кухню, а оплата — на кассе по номеру.</p><ul><li>Сербский, английский или русский — одним касанием</li><li>Аллергены и описание у каждого блюда</li><li>Акции по расписанию действуют и здесь</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-guests">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Пример: счёт стола 5 с картой гостя и скидкой уровня «Золото»"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/ru/guests-light.webp?v=eb0f32c98f" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/ru/guests-dark.webp?v=0ca88aa2f8" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Пример: счёт стола 5 с картой гостя и скидкой уровня «Золото»"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/ru/guests-light.webp?v=63d99716f1" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/ru/guests-dark.webp?v=169cac6881" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>Карта гостя в счёте</h3><p>Скидка уровня гостя и баллы с каждого чека. Акции по расписанию считаются сами, а скидки не суммируются: на каждое блюдо действует самая большая.</p><ul><li>Уровни по сумме покупок: Гость, Серебро, Золото</li><li>Оплата баллами — по коду из SMS или карте</li><li>Счастливые часы и обед — по расписанию</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-reports">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Пример: отчёт по вопросу — выручка прошлой недели по дням против недели до неё"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/ru/reports-light.webp?v=bdf9d323af" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/ru/reports-dark.webp?v=7aaf08edb2" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Пример: отчёт по вопросу — выручка прошлой недели по дням против недели до неё"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/ru/reports-light.webp?v=0405741a65" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/ru/reports-dark.webp?v=5e43dc8f1a" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>Отчёты и <span class="nw">ИИ-помощник</span></h3><p>Спросите обычными словами — RUVO соберёт отчёт: выручка, средний чек, фудкост, блюда, официанты. «Объяснить» скажет, что изменилось.</p><ul><li>16 готовых отчётов и ваши сохранённые</li><li>Сравнение с прошлым периодом</li><li>Все заведения вместе или каждое отдельно</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-sef">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Пример: входящий счёт поставщика овощей из SEF — позиции сопоставлены с продуктами склада"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/ru/sef-light.webp?v=f68985a7d7" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/ru/sef-dark.webp?v=6ec915bb2e" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Пример: входящий счёт поставщика овощей из SEF — позиции сопоставлены с продуктами склада"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/ru/sef-light.webp?v=950cac32ca" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/ru/sef-dark.webp?v=6ec915bb2e" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>Счета поставщиков из SEF</h3><p>Входящие <span class="nw">e-фактуры</span> приходят сами. Позиции поставщика связываются с вашими продуктами один раз, а приход на склад — одной кнопкой.</p><ul><li>Принять или отклонить счёт из RUVO</li><li>Срок ответа всегда на виду</li><li>Несколько фирм (ПИБ) в одном аккаунте</li><li>Бумажная накладная — по фото: строки заполнит ИИ</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-team">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Пример: зарплата за неделю — часы, ставка, процент с продаж и чаевые"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/ru/pay-light.webp?v=b7a6f262e3" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/ru/pay-dark.webp?v=f3dcf63b8d" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Пример: зарплата за неделю — часы, ставка, процент с продаж и чаевые"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/ru/pay-light.webp?v=cae88c8712" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/ru/pay-dark.webp?v=4dabd2132e" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>Команда и смены</h3><p>Каждый работает под своим PIN и со своей ролью. Смена начинается и заканчивается по PIN на фронте, а зарплата считается сама — по часам и проценту с продаж.</p><ul><li>Роли: владелец, управляющий, официант, повар, бар</li><li>Журнал действий — кто что сделал и когда</li><li>Забытая смена исправляется с причиной</li></ul></div>
 </div>
 </div>
@@ -1404,7 +1431,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <section class="band" id="forecast" aria-labelledby="forecast-h"><div class="wrap">
 <div class="sec-head"><p class="eyebrow"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-chart-line-up"/></svg>Прогноз</p><h2 id="forecast-h">Завтрашний день — заранее</h2><p>RUVO считает, сколько будет счетов и выручки в каждый час, — по продажам вашего же заведения. А из этого — сколько людей поставить на смену, что заготовить и что заказать у поставщика.</p></div>
 <div class="fc">
-<div class="fc-shot" role="img" aria-label="Пример: прогноз на четверг с матчем вечером — счета по часам и люди по часам"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/ru/forecast-light.webp?v=eac00baada" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/ru/forecast-dark.webp?v=4052865ffa" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="fc-shot" role="img" aria-label="Пример: прогноз на четверг с матчем вечером — счета по часам и люди по часам"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/ru/forecast-light.webp?v=432937e942" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/ru/forecast-dark.webp?v=fed1985ded" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <ul class="fc-list">
 <li><svg class="i fc-i" aria-hidden="true" focusable="false"><use href="#i-chart-bar"/></svg><h3>Счета и выручка по часам</h3><p>Обычный день — медиана того же дня недели за четыре прошлые недели, по каждому часу и блюду. С диапазоном: насколько прогноз ошибался в прошлые дни.</p></li>
 <li><svg class="i fc-i" aria-hidden="true" focusable="false"><use href="#i-sparkle"/></svg><h3>Скажите, что знаете</h3><p>«Матч в 20:00», «дождь», «банкет на 30 человек в 13:00», «закрыты с 18» — напишите словами. ИИ превратит это в изменения по часам, а без ИИ RUVO поймёт ключевые слова.</p></li>

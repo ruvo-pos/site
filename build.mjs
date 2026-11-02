@@ -123,7 +123,21 @@ function href(from, to, hash = '') {
 }
 const urlOf = (file) => `${ORIGIN}/${file.replace(/(^|\/)index\.html$/, '$1')}`;
 
+// (2 November, the owner: «Е — сделать») the picture a link to a page shows in a messenger or a social network: the
+// landing page's own first screen (tools/og.mjs → src/og/<lang>/<page>.png), the home page's for the other pages
+const OG_DIR = path.join(ROOT, 'src/og');
+const OG_USED = new Set();
+function ogImage(lang, page) {
+  const key = page === 'home' ? 'home' : page.startsWith('v:') ? page.slice(2) : 'home';
+  const own = `${lang}/${key}.png`;
+  const rel = existsSync(path.join(OG_DIR, own)) ? own : `${lang}/home.png`;
+  if (!existsSync(path.join(OG_DIR, rel))) return null;
+  OG_USED.add(rel);
+  return `${ORIGIN}/assets/og/${rel}?v=${createHash('sha256').update(readFileSync(path.join(OG_DIR, rel))).digest('hex').slice(0, 10)}`;
+}
+
 function head(lang, page, file, title, description, { noindex = false } = {}) {
+  const og = ogImage(lang, page);
   const alternates = LANGS.map((l) => `<link rel="alternate" hreflang="${l}" href="${urlOf(fileOf(l, page))}">`);
   return [
     '<meta charset="utf-8">',
@@ -140,6 +154,7 @@ function head(lang, page, file, title, description, { noindex = false } = {}) {
     `<meta property="og:description" content="${esc(description)}">`,
     `<meta property="og:url" content="${urlOf(file)}">`,
     `<meta property="og:locale" content="${T[lang].ui.og}">`,
+    ...(og ? [`<meta property="og:image" content="${og}">`, '<meta property="og:image:width" content="1200">', '<meta property="og:image:height" content="630">', `<meta property="og:image:alt" content="${esc(title)}">`, '<meta name="twitter:card" content="summary_large_image">'] : []),
     '<meta name="color-scheme" content="light dark">',
     `<meta name="theme-color" content="${THEME_BG.light}" media="(prefers-color-scheme: light)">`,
     `<meta name="theme-color" content="${THEME_BG.dark}" media="(prefers-color-scheme: dark)">`,
@@ -371,14 +386,22 @@ function tabPill(lang, on = 'hall') {
   return `<div class="tabs">${tabs.map(([id, icon, label, n]) => `<span${id === on ? ' class="on"' : ''}>${icon ? IC(icon) : '<b class="av">M</b>'}${n ? `<i>${n}</i>` : ''}<em>${esc(label)}</em></span>`).join('')}</div>`;
 }
 // a tile of the brand grid knows whether it starts its row and whether it is in the first one: its lines go by that
-const gridMark = (i, cols) => `${i % cols === 0 ? ' data-rf' : ''}${i < cols ? ' data-r0' : ''}`;
+// the brand grid's marks, as the app's ui/even-grid.jsx sets them on its tiles: a tile starting a row data-rf, of the
+// first row data-r0; of a last row left short (the owner, 2 November: «Не растягивай блоки» — every tile one column, after
+// the last the screen's ground) the last tile data-rl, its line at the right, and a tile with nothing under it data-rb,
+// its line below
+const gridMark = (i, cols, n = Infinity) => {
+  const last = (Math.ceil(n / cols) - 1) * cols;
+  const short = Number.isFinite(n) && n % cols !== 0;
+  return `${i % cols === 0 ? ' data-rf' : ''}${i < cols ? ' data-r0' : ''}${short && i === n - 1 ? ' data-rl' : ''}${short && i >= n - cols && i < last ? ' data-rb' : ''}`;
+};
 
 // the menu beside an open table, as the iPad shows it: the search across the screen, the categories a strip of keys under
 // it (the chosen one the accent's), the dishes the brand grid's tiles — each with how many of it the order has
 function menuCols(lang, g, counts = {}) {
   return `<div class="os-search">${IC('magnifying-glass')}<span>${esc(APP[lang].search)}</span></div>
 <div class="os-cats">${g.cats.map((c, i) => `<span${i === g.on ? ' class="on"' : ''}>${esc(c)}</span>`).join('')}</div>
-<div class="os-grid">${g.dishes.map(([name, price], i) => `<div class="mc"${gridMark(i, 3)}><b>${esc(name)}</b><span>${money(price)}<small>RSD</small></span>${counts[name] ? `<i>${counts[name]}</i>` : ''}</div>`).join('')}</div>`;
+<div class="os-grid">${g.dishes.map(([name, price]) => `<div class="mc"><b>${esc(name)}</b><span>${money(price)}<small>RSD</small></span>${counts[name] ? `<i>${counts[name]}</i>` : ''}</div>`).join('')}</div>`;
 }
 
 // The front terminal with a table open (ui/ipad.jsx): its header (the table, who opened it and when; the guests, «Gost»,
@@ -540,11 +563,13 @@ function qrSvg(seed = 20261012) {
 
 // ---------- the app's own screens (the owner, 2 November, 03:31: «наполняем наш лендинг актуальными примерами и
 // скриншотами»): screenshots of the demo on its devices, made by tools/shots.mjs — src/shots/<lang>/<name>-<theme>.webp,
-// on the pages under assets/shots/: the light one or the dark one with the page's theme; the kitchen's always dark, the
-// kiosk's always light, as they are. Each image as big as the device's screen; the device's label says what it shows.
+// on the pages under assets/shots/: the light one or the dark one with the page's theme (the kitchen's too: since
+// 2 November it has a light look of its own); the kiosk's always light, as it is. Each image as big as the device's
+// screen; the device's label says what it shows.
 const SHOT_DIR = path.join(ROOT, 'src/shots');
 const SHOT_SIZE = { pad: [1210, 834], port: [834, 1210], phone: [440, 956] };
-const SHOT_ONE = { kitchen: 'dark', kiosk: 'light', 'guest-app': 'light', board: 'dark' };
+// (the kitchen in both looks since 2 November: dark, or light chosen on its screen)
+const SHOT_ONE = { kiosk: 'light', 'guest-app': 'light', board: 'dark' };
 const SHOT_USED = new Set();
 const SHOT_V = new Map();
 function shotSrc(lang, file, name, theme) {
@@ -614,7 +639,7 @@ function kioskScreen(lang, k, file, lazy = true) {
   const price = Object.fromEntries(k.dishes);
   const sum = k.basket.reduce((total, id) => total + price[id], 0);
   const cols = k.dishes.length > 4 ? 3 : 2;
-  const dish = ([id, p], i) => `<div class="kd${k.basket.includes(id) ? ' in' : ''}"${gridMark(i, cols)}><span class="kd-img"><img src="${href(file, `assets/dishes/${DISH_FILE[id]}`)}" alt=""${lazy ? ' loading="lazy"' : ''} decoding="async"></span><span class="kd-n">${txt(k.names[id])}</span><span class="kd-p">${money(p)}<small>RSD</small></span>${k.basket.includes(id) ? '<i class="kd-c">1</i>' : ''}</div>`;
+  const dish = ([id, p], i, list) => `<div class="kd${k.basket.includes(id) ? ' in' : ''}"${gridMark(i, cols, list.length)}><span class="kd-img"><img src="${href(file, `assets/dishes/${DISH_FILE[id]}`)}" alt=""${lazy ? ' loading="lazy"' : ''} decoding="async"></span><span class="kd-n">${txt(k.names[id])}</span><span class="kd-p">${money(p)}<small>RSD</small></span>${k.basket.includes(id) ? '<i class="kd-c">1</i>' : ''}</div>`;
   const grid = (list) => `<div class="ks-grid" style="--cols: ${cols}">${list.map(dish).join('')}</div>`;
   // the menu goes on under the open folder — its next one, cut by the basket's key at the foot of the screen
   return `<div class="ks">${sbPad(lang)}
@@ -1985,6 +2010,8 @@ put(DEMO.en, demoPage('en'));
 put(DEMO.ru, demoPage('ru'));
 // the app's screenshots the pages show (the demo's start page's too)
 for (const rel of [...SHOT_USED].sort()) put(`assets/shots/${rel}`, readFileSync(path.join(SHOT_DIR, rel)));
+// the pictures of the links (og:image)
+for (const rel of [...OG_USED].sort()) put(`assets/og/${rel}`, readFileSync(path.join(OG_DIR, rel)));
 put('demo/app.js', DEMO_JS);
 put('demo/app.css', DEMO_CSS);
 if (!PREVIEW) {

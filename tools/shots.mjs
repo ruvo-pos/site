@@ -1,8 +1,9 @@
 // Screenshots of the RUVO app for the site (the owner, 2 November, 03:31: «наполняем наш лендинг актуальными примерами и
 // скриншотами»): the app's own screens as they are now — the demo's own bundle (src/demo/app.js, app.css, the one the
 // demo pages run) with the app's own letters (Onest, JetBrains Mono, from the ruvo checkout beside this one; FONTS= to
-// point elsewhere), the demo's restaurant in Serbian, English and Russian, light and dark (the kitchen dark only and the
-// kiosk light only, as they always are), at the sizes of the devices the site draws round them: an iPad Pro 11″ on its side 1210×834 (the front,
+// point elsewhere), the demo's restaurant in Serbian, English and Russian, light and dark (the kiosk and the guests' app
+// light only, the board dark only, as they always are; the kitchen light as chosen on its screen), at the sizes of the
+// devices the site draws round them: an iPad Pro 11″ on its side 1210×834 (the front,
 // the kitchen, the back office) and upright 834×1210 (the kiosk), an iPhone 18 Pro Max 440×956 (the waiter, the guests'
 // app), and for the demo's start page a laptop 1440×900 (the back office) and a screen 1440×810 (the board). Each as the
 // device shows it: the app under the status bar (the safe areas of the device given to its CSS: 24/20 points on the
@@ -105,12 +106,19 @@ async function device(b, kind, lang, theme) {
   const p = await ctx.newPage();
   const errs = [];
   p.on('pageerror', (e) => errs.push(e.message));
-  // the demo's start page fills the empty restaurant by itself (ui/launcher.jsx, DemoLauncher); the device after it
-  const open = async (hash) => {
+  // the demo's start page fills the empty restaurant by itself (ui/launcher.jsx, DemoLauncher); the device after it —
+  // with the device's own settings first when asked (prefs: the kitchen's light look), the page opened again on them
+  const open = async (hash, prefs = null) => {
     await p.goto(`${BASE}${lang}-${kind}.html`);
     await p.waitForSelector('.launcher.demo');
     await p.waitForFunction(() => { try { return Object.keys(JSON.parse(localStorage.getItem('pos-proto-data-v1') || '{}').orders || {}).length > 0; } catch (e) { return false; } }, null, { timeout: 15000 });
-    await p.evaluate((h) => { window.location.hash = h; }, hash);
+    if (prefs) {
+      await p.evaluate((x) => { const k = 'pos-proto-prefs-v1'; localStorage.setItem(k, JSON.stringify({ ...JSON.parse(localStorage.getItem(k) || '{}'), ...x })); }, prefs);
+      // (a page loaded anew — a change of the hash alone would keep the app as it was, its settings read)
+      await p.goto(`${BASE}${lang}-${kind}.html?prefs#${hash}`);
+    } else {
+      await p.evaluate((h) => { window.location.hash = h; }, hash);
+    }
     await settle();
   };
   // the toasts gone, the sheets open, the fonts in
@@ -119,7 +127,7 @@ async function device(b, kind, lang, theme) {
     await p.clock.fastForward(6000);
     await p.waitForTimeout(400);
   };
-  return { ctx, p, errs, open, settle, lang, kind };
+  return { ctx, p, errs, open, settle, lang, kind, theme };
 }
 
 const pin = async (p) => {
@@ -185,8 +193,8 @@ const SHOTS = {
   // the front's iPad: the hall at dinner; delivery; a table's bill with the guest's card
   floor: { kind: 'pad', go: async (d) => { await d.open('ipad'); await pin(d.p); await d.settle(); } },
   delivery: { kind: 'pad', go: async (d) => { await d.open('ipad'); await pin(d.p); await d.p.locator('.tabbar .tab').nth(1).click(); await d.settle(); } },
-  // the kitchen, always dark
-  kitchen: { kind: 'pad', theme: 'dark', go: async (d) => { await d.open('kds'); await d.settle(); } },
+  // the kitchen: dark, and (2 November, the owner: «Сделать и светлый») light — the look chosen on the screen itself
+  kitchen: { kind: 'pad', go: async (d) => { await d.open('kds', d.theme === 'light' ? { kdsLight: true } : null); await d.settle(); } },
   // the waiter's iPhone: his tables…
   'waiter-tables': { kind: 'phone', go: async (d) => { await d.open('iphone'); await d.p.getByRole('button', { name: /Marko/ }).click(); await pin(d.p); await d.settle(); } },
   // …and its bill: how the guest pays, and the bill goes to the till (2 November: «Счёт на кассу»)
@@ -217,8 +225,7 @@ for (const lang of LANGS) {
   for (const theme of THEMES) {
     for (const [name, s] of Object.entries(SHOTS)) {
       if (ONLY && !ONLY.includes(name)) continue;
-      // a screen with a theme of its own (the kitchen's and the board's dark, the kiosk's and the guests' app's light) is
-      // taken once
+      // a screen with a theme of its own (the board's dark, the kiosk's and the guests' app's light) is taken once
       if (s.theme && theme !== s.theme) continue;
       const d = await device(b, s.kind, lang, theme);
       try {

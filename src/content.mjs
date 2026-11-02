@@ -62,11 +62,12 @@ export const APP = {
 };
 
 // The demo restaurant's menu as the front terminal shows it beside an order: the categories, the one open, its dishes
-// with their prices (RSD, as in the demo)
+// with their prices (RSD, as in the demo). (2 November, the owner: «Сделать так во всех сценах сайта? — Да», «добавить
+// блюда и в демо — Да») eighteen mains, as the demo has them now: six rows of three, the iPad's menu full
 const MAINS = {
-  sr: { cats: ['Doručak', 'Supe i čorbe', 'Glavna jela', 'Salate', 'Dezerti', 'Pića'], on: 2, dishes: [['Domaći pelmeni', 890], ['Ćevapi, 10 kom', 1290], ['Pljeskavica', 1190], ['Burger sa junetinom', 1290], ['Pasta karbonara', 990], ['Rib-aj stek, 300 g', 3690]] },
-  en: { cats: ['Breakfast', 'Soups', 'Mains', 'Salads', 'Desserts', 'Drinks'], on: 2, dishes: [['Homemade pelmeni', 890], ['Ćevapi, 10 pcs', 1290], ['Pljeskavica', 1190], ['Beef burger', 1290], ['Pasta carbonara', 990], ['Rib-eye steak, 300 g', 3690]] },
-  ru: { cats: ['Завтраки', 'Супы', 'Горячее', 'Салаты', 'Десерты', 'Напитки'], on: 2, dishes: [['Домашние пельмени', 890], ['Чевапи, 10 шт', 1290], ['Плескавица', 1190], ['Бургер с говядиной', 1290], ['Паста карбонара', 990], ['Стейк рибай, 300 г', 3690]] },
+  sr: { cats: ['Doručak', 'Supe i čorbe', 'Glavna jela', 'Salate', 'Dezerti', 'Pića'], on: 2, dishes: [['Domaći pelmeni', 890], ['Ćevapi, 10 kom', 1290], ['Pljeskavica', 1190], ['Burger sa junetinom', 1290], ['Pasta karbonara', 990], ['Rib-aj stek, 300 g', 3690], ['Karađorđeva šnicla', 1390], ['Pileći file sa žara', 990], ['Svinjski vrat sa žara', 1090], ['Punjena pljeskavica', 1290], ['Leskovački uštipci', 1190], ['Pastrmka sa žara', 1290], ['Bečka šnicla', 1290], ['Sarma', 990], ['Teleći gulaš', 1190], ['Musaka', 890], ['Ražnjići', 1190], ['Punjene paprike', 890]] },
+  en: { cats: ['Breakfast', 'Soups', 'Mains', 'Salads', 'Desserts', 'Drinks'], on: 2, dishes: [['Homemade pelmeni', 890], ['Ćevapi, 10 pcs', 1290], ['Pljeskavica', 1190], ['Beef burger', 1290], ['Pasta carbonara', 990], ['Rib-eye steak, 300 g', 3690], ['Karađorđe schnitzel', 1390], ['Grilled chicken breast', 990], ['Grilled pork neck', 1090], ['Stuffed pljeskavica', 1290], ['Leskovac meatballs', 1190], ['Grilled trout', 1290], ['Wiener schnitzel', 1290], ['Sarma', 990], ['Veal goulash', 1190], ['Moussaka', 890], ['Pork skewers', 1190], ['Stuffed peppers', 890]] },
+  ru: { cats: ['Завтраки', 'Супы', 'Горячее', 'Салаты', 'Десерты', 'Напитки'], on: 2, dishes: [['Домашние пельмени', 890], ['Чевапи, 10 шт', 1290], ['Плескавица', 1190], ['Бургер с говядиной', 1290], ['Паста карбонара', 990], ['Стейк рибай, 300 г', 3690], ['Караджорджева шницла', 1390], ['Куриное филе на гриле', 990], ['Свиная шея на гриле', 1090], ['Плескавица с начинкой', 1290], ['Лесковацкие уштипцы', 1190], ['Форель на гриле', 1290], ['Венский шницель', 1290], ['Сарма', 990], ['Телячий гуляш', 1190], ['Мусака', 890], ['Ражничи', 1190], ['Фаршированные перцы', 890]] },
 };
 export { MAINS };
 
