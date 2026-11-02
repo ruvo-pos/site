@@ -267,7 +267,7 @@ background: transparent; color: var(--ink); font: inherit; cursor: pointer; opac
 .tt[data-mode="dark"] .tt-moon, .tt:not([data-mode="dark"]) .tt-sun { display: none; }
 .tt-foot { display: none; }
 @media (max-width: 1180px) { .top-in { gap: 16px; } .nav { gap: 22px; } }
-@media (max-width: 1000px) { .nav { display: none; } .top-end { margin-left: auto; } }
+@media (max-width: 1000px) { .nav { display: none; } .top-end, .nav + .top-end { margin-left: auto; } }
 @media (max-width: 720px) { .top-cta { display: none; } }
 @media (max-width: 480px) {
 .top-in { gap: 10px; }
@@ -358,13 +358,13 @@ font: inherit; font-size: 17px; font-weight: 400; line-height: 1.2; letter-spaci
 .band.alt { background: var(--bg-alt); }
 .sec-head { display: grid; justify-items: center; gap: 14px; max-width: 860px; margin: 0 auto clamp(40px, 5vw, 64px); text-align: center; }
 h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacing: -0.028em; text-wrap: balance; }
-.sec-head p { max-width: 40em; color: var(--ink-3); font-size: var(--fs-intro); line-height: 1.38; letter-spacing: -0.016em; text-wrap: pretty; }
+.sec-head p { max-width: 40em; color: var(--ink-3); font-size: var(--fs-intro); line-height: 1.38; letter-spacing: -0.016em; text-wrap: balance; }
 .hero { padding-block: clamp(36px, 5vw, 76px) var(--band); overflow: clip; }
 .hero-text { display: grid; justify-items: center; max-width: 920px; margin-inline: auto; text-align: center; }
 .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--accent); font-size: var(--fs-intro); font-weight: 600; letter-spacing: -0.016em; }
 .eyebrow .i { width: 24px; height: 24px; }
 .hero h1 { margin-top: 12px; font-size: var(--fs-h1); font-weight: 600; line-height: 1.05; letter-spacing: -0.032em; text-wrap: balance; }
-.lead { max-width: 34em; margin-top: 22px; color: var(--ink-3); font-size: clamp(18px, 0.6vw + 15px, 22px); line-height: 1.42; letter-spacing: -0.018em; text-wrap: pretty; }
+.lead { max-width: 34em; margin-top: 22px; color: var(--ink-3); font-size: clamp(18px, 0.6vw + 15px, 22px); line-height: 1.42; letter-spacing: -0.018em; text-wrap: balance; }
 @media (max-width: 480px) { .hero .cta-row .btn { flex: 1 1 100%; } }
 .stage { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 244px; align-items: center; max-width: 1140px; margin: clamp(36px, 4.6vw, 64px) auto 0; }
 .stage-dev { min-width: 0; }
@@ -983,6 +983,7 @@ font-family: var(--font-app); font-size: 15px; font-weight: 600; line-height: 1.
 .why h3 { font-size: 21px; font-weight: 600; line-height: 1.24; letter-spacing: -0.022em; text-wrap: balance; }
 .why p { color: var(--ink-2); font-size: 16px; line-height: 1.5; }
 .why + .cta-row { margin-top: clamp(48px, 5vw, 72px); }
+.why li, .fc-list li { grid-row: span 3; grid-template-rows: subgrid; row-gap: 12px; }
 @media (max-width: 1000px) { .why { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .why { grid-template-columns: minmax(0, 1fr); } }
 .plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); align-items: stretch; }
@@ -1018,7 +1019,7 @@ font-family: var(--font-app); font-size: 15px; font-weight: 600; line-height: 1.
 .p-head p { color: var(--ink-3); font-size: 14px; }
 .pt-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px clamp(24px, 4vw, 56px); align-items: start; }
 .pt { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
-.pt thead th { padding: 0 0 10px 16px; border-bottom: 1px solid var(--line-2); color: var(--ink-3); font-size: 12px; font-weight: 600; line-height: 1.2; letter-spacing: var(--track-caps); text-align: right; text-transform: uppercase; white-space: nowrap; }
+.pt thead th { padding: 0 0 10px 16px; border-bottom: 1px solid var(--line-2); color: var(--ink-3); font-size: 13px; font-weight: 600; line-height: 1.2; letter-spacing: 0; text-align: right; white-space: nowrap; }
 .pt thead th:first-child { padding-left: 0; text-align: left; }
 .pt .pt-g th { padding: 26px 0 8px; border-bottom: 1px solid var(--line); color: var(--ink); font-size: 14px; font-weight: 600; line-height: 1.3; text-align: left; }
 .pt tbody th[scope="row"] { padding: 13px 0; border-bottom: 1px solid var(--line); font-weight: 400; text-align: left; vertical-align: baseline; }
@@ -1038,7 +1039,7 @@ font-family: var(--font-app); font-size: 15px; font-weight: 600; line-height: 1.
 .calc-presets .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 .calc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px clamp(24px, 3vw, 48px); align-items: start; }
 .calc-col { display: grid; align-content: start; gap: 8px; min-width: 0; margin: 0; padding: 0; border: 0; }
-.calc-k { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-height: 24px; color: var(--ink-3); font-size: 12px; font-weight: 600; letter-spacing: var(--track-caps); text-transform: uppercase; }
+.calc-k { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-height: 24px; color: var(--ink-3); font-size: 13px; font-weight: 600; letter-spacing: 0; }
 .calc-in .calc-k:not(:first-child) { margin-top: 16px; }
 .stp { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 46px; }
 .stp label { min-width: 0; font-size: 16px; line-height: 1.3; }
@@ -1093,7 +1094,7 @@ font-family: var(--font-app); font-size: 15px; font-weight: 600; line-height: 1.
 .pfaq-item p { padding: 0 44px 22px 0; color: var(--ink-2); font-size: 16px; line-height: 1.55; }
 @media (max-width: 900px) { .pfaq-cols { grid-template-columns: minmax(0, 1fr); } .pfaq-col + .pfaq-col { border-top: 0; } }
 .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px 0; }
-.step { display: grid; align-content: start; gap: 8px; min-width: 0; padding-right: var(--gap); }
+.step { display: grid; grid-row: span 3; grid-template-rows: subgrid; align-content: start; gap: 8px; min-width: 0; padding-right: var(--gap); }
 .path-n { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; color: var(--accent); font-size: clamp(52px, 3vw + 24px, 72px); font-weight: 200; line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
 .path-n::after { content: ''; flex: 1; height: 1px; background: var(--line-2); }
 .step:last-child .path-n::after { background: linear-gradient(90deg, var(--line-2), transparent); }
@@ -1102,7 +1103,7 @@ font-family: var(--font-app); font-size: 15px; font-weight: 600; line-height: 1.
 @media (max-width: 1000px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) {
 .steps { grid-template-columns: minmax(0, 1fr); gap: 0; }
-.step { grid-template-columns: auto minmax(0, 1fr); column-gap: 20px; padding: 0 0 24px; }
+.step { grid-row: auto; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: none; column-gap: 20px; padding: 0 0 24px; }
 .path-n { grid-row: span 2; flex-direction: column; align-self: stretch; gap: 12px; margin: 0; font-size: 46px; }
 .path-n::after { width: 1px; height: auto; }
 .step:last-child .path-n::after { background: linear-gradient(180deg, var(--line-2), transparent); }
@@ -1114,8 +1115,17 @@ font-family: var(--font-app); font-size: 15px; font-weight: 600; line-height: 1.
 .equip ul { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px 20px; }
 .equip li { display: grid; justify-items: center; align-content: start; gap: 12px; font-size: 15px; line-height: 1.4; text-align: center; text-wrap: balance; }
 .eq-i { width: 40px; height: 40px; color: var(--ink); }
-@media (max-width: 900px) { .equip ul { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .equip ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px) {
+.equip ul { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.equip li { grid-column: span 2; }
+.equip li:nth-child(3n + 1):nth-last-child(2) { grid-column: 2 / span 2; }
+.equip li:nth-child(3n + 1):last-child { grid-column: 3 / span 2; }
+}
+@media (max-width: 560px) {
+.equip ul { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.equip li:nth-child(3n + 1):nth-last-child(2), .equip li:nth-child(3n + 1):last-child { grid-column: auto / span 2; }
+.equip li:nth-child(odd):last-child { grid-column: 2 / span 2; }
+}
 .final { position: relative; display: grid; gap: clamp(28px, 4vw, 48px); padding: clamp(32px, 5.4vw, 72px); border-radius: clamp(24px, 2.6vw, 36px); background: var(--plate); color: var(--plate-ink); }
 .final::after { content: ''; position: absolute; inset: clamp(6px, 0.7vw, 10px); border: 1.5px solid var(--plate-rule); border-radius: clamp(18px, 2vw, 27px); pointer-events: none; }
 .final-head { display: grid; gap: 16px; max-width: 46em; }
@@ -1190,7 +1200,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 .pin-in { letter-spacing: 0.4em; font-variant-numeric: tabular-nums; }
 .cf-done { display: grid; gap: 12px; justify-items: start; margin-top: 32px; }
 .cf-done[hidden] { display: none; }
-.cf-k { margin-top: 12px; color: var(--ink-3); font-size: 12px; font-weight: 600; letter-spacing: var(--track-caps); text-transform: uppercase; }
+.cf-k { margin-top: 12px; color: var(--ink-3); font-size: 13px; font-weight: 600; letter-spacing: 0; }
 .cf-code { position: relative; padding: 0.42em 0.6em 0.36em 0.7em; border-radius: 0.2em; background: var(--plate); color: var(--plate-ink); font-family: var(--font-brand); font-size: clamp(34px, 7vw, 56px); font-weight: 700; line-height: 1; letter-spacing: 0.1em; box-shadow: var(--shadow-2); }
 .cf-code::after { content: ''; position: absolute; inset: 0.07em; border: max(1.5px, 0.045em) solid var(--plate-rule); border-radius: 0.14em; pointer-events: none; }
 .cf-until { color: var(--ink-2); font-size: 14px; }
@@ -1224,7 +1234,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 .si-acc span { color: var(--ink-3); font-size: 14px; }
 .si-alt { max-width: 26rem; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--ink-2); }
 .acc { max-width: 44rem; }
-.acc-k { color: var(--ink-3); font-size: 12px; font-weight: 600; letter-spacing: var(--track-caps); text-transform: uppercase; }
+.acc-k { color: var(--ink-3); font-size: 13px; font-weight: 600; letter-spacing: 0; }
 .acc h1 { margin-top: 8px; overflow-wrap: anywhere; }
 .acc > .su-msg { margin-top: 20px; }
 .acc-body { display: grid; gap: 0; margin-top: 16px; }
@@ -1298,7 +1308,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 .faq-item h3 { font-size: 18px; font-weight: 600; line-height: 1.35; letter-spacing: -0.02em; }
 .faq-item p { color: var(--ink-2); }
 .co { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 12px 24px; align-items: baseline; padding: 22px 26px; border-radius: var(--r-lg); background: var(--bg-alt); font-variant-numeric: tabular-nums; }
-.co dt { margin: 0; color: var(--ink-3); font-size: 12px; font-weight: 600; letter-spacing: var(--track-caps); text-transform: uppercase; }
+.co dt { margin: 0; color: var(--ink-3); font-size: 13px; font-weight: 600; letter-spacing: 0; }
 .co dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
 @media (max-width: 480px) {
 .co { grid-template-columns: minmax(0, 1fr); gap: 4px; }
@@ -1482,7 +1492,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="p-block ptab"><div class="p-head"><h3>Licence i moduli</h3><p>RSD, bez PDV-a</p></div>
 <div class="pt-cols">
 <table class="pt">
-<thead><tr><th scope="col"><span class="vh">Licence i moduli</span></th><th scope="col">mesečno</th><th scope="col">godišnje</th></tr></thead>
+<thead><tr><th scope="col"><span class="vh">Licence i moduli</span></th><th scope="col">Mesečno</th><th scope="col">Godišnje</th></tr></thead>
 <tbody>
 <tr class="pt-g"><th colspan="3" scope="colgroup">Licence — po uređaju</th></tr>
 <tr><th scope="row"><span class="pt-n">Dodatni terminal sale</span> <span class="pt-hw">iPad</span></th><td>1.500</td><td>15.000</td></tr>
@@ -1492,7 +1502,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 </tbody>
 </table>
 <table class="pt">
-<thead><tr><th scope="col"><span class="vh">Licence i moduli</span></th><th scope="col">mesečno</th><th scope="col">godišnje</th></tr></thead>
+<thead><tr><th scope="col"><span class="vh">Licence i moduli</span></th><th scope="col">Mesečno</th><th scope="col">Godišnje</th></tr></thead>
 <tbody>
 <tr class="pt-g"><th colspan="3" scope="colgroup">Moduli — po objektu</th></tr>
 <tr><th scope="row"><span class="pt-n">IPS QR plaćanje</span></th><td>1.000</td><td>10.000</td></tr>

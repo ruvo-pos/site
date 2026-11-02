@@ -470,7 +470,7 @@ const PRICING = {
     includesTitle: 'U ceni objekta',
     includes: ['Terminal sale', 'Ekran kuhinje', 'Meni, magacin i normativi', 'Fakture sa fotografije', 'Izveštaji i AI pomoćnik', 'Zaposleni i uloge'],
     tableTitle: 'Licence i moduli',
-    cols: ['mesečno', 'godišnje'],
+    cols: ['Mesečno', 'Godišnje'],
     groups: [
       ['Licence — po uređaju', [
         ['d:ipad', 'Dodatni terminal sale', 'iPad'],
@@ -520,7 +520,7 @@ const PRICING = {
     includesTitle: 'Included in a venue',
     includes: ['A front terminal', 'A kitchen screen', 'Menu, stock and recipes', 'Invoices from a photo', 'Reports and the AI assistant', 'Staff and roles'],
     tableTitle: 'Licences and modules',
-    cols: ['monthly', 'yearly'],
+    cols: ['Monthly', 'Yearly'],
     groups: [
       ['Licences — per device', [
         ['d:ipad', 'Extra front terminal', 'iPad'],
@@ -570,7 +570,7 @@ const PRICING = {
     includesTitle: 'В цене заведения',
     includes: ['Фронт', 'Экран кухни', 'Меню, склад и техкарты', 'Накладные по фото', 'Отчёты и ИИ-помощник', 'Сотрудники и роли'],
     tableTitle: 'Лицензии и модули',
-    cols: ['в месяц', 'за год'],
+    cols: ['В месяц', 'За год'],
     groups: [
       ['Лицензии — за устройство', [
         ['d:ipad', 'Ещё один фронт', 'iPad'],
