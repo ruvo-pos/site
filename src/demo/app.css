@@ -1391,20 +1391,22 @@ body:has(.launcher.demo) { background: #FFFFFF; }
 /* (its fields one to a row of the grid, each in the middle of its row: the field's box is never a few pixels off a
    tile's line) */
 .os-course.os-delivery { display: grid; flex: none; grid-auto-rows: var(--row, 104px); align-items: center; gap: 0; padding-block: 0; overflow: hidden; }
+/* (its line under it on the first pixel of the row below, where the tiles draw theirs: across the screen one line) */
+.os-ticket > .os-delivery { border-bottom: 0; box-shadow: 0 1px 0 0 var(--line-2); }
 .os-delivery .field { flex: none; width: 100%; }
 .os-delivery .seg { width: 100%; }
 .os-delivery .seg-btn { flex: 1; }
 .os-lines { flex: 1; min-height: 0; padding: var(--sp-1) var(--sp-2); overflow: auto; }
 .os-guest { padding: var(--sp-2) var(--sp-2) var(--sp-1); }
-/* the foot: whole rows down to the bottom (ui/row-grid.js); its line in the last pixel of the row above — where the
-   tiles' lines are —, what it holds at the bottom, by the thumb. Its last row is two halves: the buttons fill one half
+/* the foot: whole rows down to the bottom (ui/row-grid.js); its line in its own first pixel — where the tiles' lines are
+   (3 November: each tile its line at its top) —, what it holds at the bottom, by the thumb. Its last row is two halves: the buttons fill one half
    exactly, so their top and bottom edges stand on the grid too (a button's edge a few pixels off a tile's line read as
    «чуть на разных уровнях»); under the last row, the home indicator's band (--row-left). A sent bill: the discounts and
    the total in the rows above (at their bottom), «Счёт» and «Закрыть стол» in the upper half, the guest, the discount,
    a move in the lower; a new one and a delivery: the total in the upper half, «Отправить» in the lower — one row. */
 .os-foot {
   display: flex; flex: none; flex-direction: column; justify-content: flex-end; padding: 0 var(--sp-4);
-  overflow: hidden; border-top: 0; box-shadow: 0 -1px 0 var(--line);
+  overflow: hidden; border-top: 0; box-shadow: inset 0 1px 0 0 var(--line-2);
 }
 .os-sum { display: flex; flex: 1 1 auto; flex-direction: column; justify-content: flex-end; gap: 6px; min-height: 0; padding: var(--sp-1) 0 var(--sp-2); }
 .os-sum:empty { display: none; }
@@ -4046,14 +4048,13 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 .app.kiosk .ks-where-btn.on { background: var(--accent); color: var(--accent-ink); box-shadow: none; }
 
 /* ---------- «Dodati uz porudžbinu?»: the menu's tiles, each with its own key ---------- */
+/* (3 November: the lines checked again) the first row draws its own top line too — the list's own lay under the tiles */
 .app.kiosk .ks-up-list { gap: 0; margin: var(--sp-4) 0 0; box-shadow: inset 0 1px 0 0 var(--zl); }
 .app.kiosk .ks-up-card {
   gap: var(--sp-1); padding: var(--sp-4) var(--sp-5) var(--sp-5); border-radius: 0; background: var(--surface);
   box-shadow: inset 1px 0 0 0 var(--zl), inset 0 1px 0 0 var(--zl), var(--rim, 0 0 #0000);
 }
 .app.kiosk .ks-up-list > .ks-up-card[data-rf] { box-shadow: inset 0 1px 0 0 var(--zl), var(--rim, 0 0 #0000); }
-.app.kiosk .ks-up-list > .ks-up-card[data-r0] { box-shadow: inset 1px 0 0 0 var(--zl), var(--rim, 0 0 #0000); }
-.app.kiosk .ks-up-list > .ks-up-card[data-r0][data-rf] { box-shadow: var(--rim, none); }
 .app.kiosk .ks-up-card.on { background: var(--accent-soft); box-shadow: inset 1px 0 0 0 var(--zl), inset 0 1px 0 0 var(--zl), var(--rim, 0 0 #0000); }
 .app.kiosk .ks-up-list > .ks-up-card.on[data-rf] { box-shadow: inset 0 1px 0 0 var(--zl), var(--rim, 0 0 #0000); }
 .app.kiosk .ks-up-card .ks-img { height: 160px; border-radius: 0; }
@@ -4080,8 +4081,7 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
   box-shadow: inset 1px 0 0 0 var(--zl), inset 0 1px 0 0 var(--zl);
 }
 .app.kiosk .ks-key:nth-child(3n + 1) { box-shadow: inset 0 1px 0 0 var(--zl); }
-.app.kiosk .ks-key:nth-child(-n + 3) { box-shadow: inset 1px 0 0 0 var(--zl); }
-.app.kiosk .ks-key:first-child { box-shadow: none; }
+/* (3 November: the lines checked again) the first row draws its top line itself — the keypad's own lay under the keys */
 .app.kiosk .ks-key:active:not(:disabled) { transform: none; background: var(--surface-3); }
 .app.kiosk .ks-key-fn { background: var(--bg); color: var(--ink); }
 .app.kiosk .ks-consent {
@@ -5011,6 +5011,11 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 .guest .ks-opts > .ks-opt[data-rf] { box-shadow: inset 0 1px 0 0 var(--zl), var(--rim, 0 0 #0000); }
 .guest .ks-opts > .ks-opt[data-r0] { box-shadow: inset 1px 0 0 0 var(--zl), var(--rim, 0 0 #0000); }
 .guest .ks-opts > .ks-opt[data-r0][data-rf] { box-shadow: var(--rim, none); }
+/* (3 November, 13:04, the owner: «Каждый блок, у которого есть две линии … должен быть заключен в прямоугольник или
+   квадрат») a dish whose sheet ends with its options: the last row of tiles stands on the foot's line — no strip of the
+   sheet under it, where «+ ягоды» beside an empty half had no line under it */
+/* (the dish's sheet only: the basket's tips and the payment draw their own line under them) */
+.guest .ks-modal:not(.gu-basket):not(.gu-pay) .ks-modal-body:has(> .ks-group:last-child) { padding-bottom: 0; }
 .guest .ks-opt:active { background: var(--surface-3); }
 .guest .ks-opt.on { background: var(--accent-soft); color: var(--accent-2); font-weight: var(--fw-semibold); }
 .guest .ks-opt-p { color: var(--ink-2); font-family: var(--font-timer); font-size: var(--fs-sm); }
@@ -5280,7 +5285,7 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 }
 .kds-sum .kds-side-head { box-shadow: inset 0 -1px 0 0 var(--line-2), inset -1px 0 0 0 var(--line-2); }
 .kds-done .kds-side-head { box-shadow: inset 0 -1px 0 0 var(--line-2), inset 1px 0 0 0 var(--line-2); }
-.sum-row { display: flex; align-items: baseline; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); box-shadow: inset 0 -1px 0 0 var(--line); }
+.sum-row { display: flex; align-items: baseline; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); box-shadow: inset 0 -1px 0 0 var(--line-2); }
 .sum-n { min-width: 28px; color: var(--warn); font-family: var(--font-timer); font-size: var(--fs-xl); font-weight: var(--fw-semibold); line-height: 24px; text-align: right; }
 .sum-row > span:last-child { font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; }
 .kds-sum > .muted, .kds-done > .muted { padding: var(--sp-3) var(--sp-4); }
@@ -5300,6 +5305,20 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
   box-shadow: inset 1px 0 0 0 var(--line-2), inset 0 -1px 0 0 var(--line-2), var(--rim, 0 0 #0000);
 }
 .kds-grid > .kt[data-rf] { box-shadow: inset 0 -1px 0 0 var(--line-2), var(--rim, 0 0 #0000); }
+/* (3 November, 03:49, the owner: «нет вертикальной линии» — the lines checked again, a line under its children's shade
+   is missing) a ticket's lines, and the line between two dishes, drawn again over what they hold: the heads' and the
+   dishes' shades had covered them — two amber heads side by side, two cooking dishes one under another, ran together */
+.kt { position: relative; }
+.kt::before, .kds .kt-items > li::before { content: ''; position: absolute; inset: 0; z-index: 1; box-shadow: inherit; pointer-events: none; }
+.kds .kt-items > li { position: relative; }
+/* (13:04, the owner: «Каждый блок, у которого есть две линии … должен быть заключен в прямоугольник или квадрат»; the
+   lines checked for the ones carried on a pixel aside) every line of the kitchen on the last pixel of the block above it,
+   as the heads', the course's and the courier's are and the side lists' rows — a dish's line under it (the last one's
+   too: a dish over the ticket's empty room is closed), the line over the foot the list's own last pixel; before, the
+   dishes and the foot drew theirs on their first pixel, one pixel under the line of «В работе» or «Готово недавно» it
+   carries on. One grey for them all, as the front's tiles */
+.kds .kt-items { position: relative; }
+.kds .kt-items::after { content: ''; position: absolute; right: 0; bottom: 0; left: 0; z-index: 2; height: 1px; background: var(--line-2); pointer-events: none; }
 .kt-new { animation: flash 1.2s ease-out 3; }
 /* a ticket's head: as tall as a key, where it goes left — a table's number 28 in the figures of an instrument, who
    and how many under it in the small letters — the timer right, 22 in the figures of an instrument; its shade says
@@ -5340,7 +5359,7 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 /* the dishes: a row each, a line between them; the number and the dish 22 semibold, read from two metres; the options
    16 semibold grey; a note on a band of its own; a touch: «готовлю» (amber, a flame), again «готово» (struck out) */
 .kt-items { flex: 1; margin: 0; padding: 0; list-style: none; }
-.kt-items > li + li { box-shadow: inset 0 1px 0 0 var(--line); }
+.kt-items > li { box-shadow: inset 0 -1px 0 0 var(--line-2); }
 .ki { display: flex; align-items: flex-start; gap: var(--sp-3); width: 100%; min-height: 56px; padding: var(--sp-3) var(--sp-4); border: 0; border-radius: 0; background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
 .ki:active { background: var(--surface-3); }
 .ki-qty { min-width: 28px; font-family: var(--font-timer); font-size: var(--fs-xl); font-weight: var(--fw-semibold); line-height: 28px; }
@@ -5360,7 +5379,7 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 /* a dish past its norm: how much, a mark of the exception */
 .ki-over { margin-left: var(--sp-2); padding: 2px 8px; border-radius: var(--r-pill); background: var(--bad-soft); color: var(--bad); font-family: var(--font-timer); font-size: var(--fs-sm); font-weight: var(--fw-semibold); vertical-align: 3px; white-space: nowrap; }
 /* a course line between the dishes of one ticket: the small letters, grey, a row of the shade */
-.kt-course { margin: 0; padding: var(--sp-2) var(--sp-4); border: 0; background: var(--bg); box-shadow: inset 0 -1px 0 0 var(--line); color: var(--ink-3); font-size: var(--fs-sm); font-weight: var(--fw-regular); letter-spacing: 0; line-height: 18px; text-transform: none; }
+.kt-course { margin: 0; padding: var(--sp-2) var(--sp-4); border: 0; background: var(--bg); box-shadow: inset 0 -1px 0 0 var(--line-2); color: var(--ink-3); font-size: var(--fs-sm); font-weight: var(--fw-regular); letter-spacing: 0; line-height: 18px; text-transform: none; }
 .kt-course.is-held { color: var(--ink-2); }
 /* a dish cancelled after it reached the kitchen: struck out in place, «Отменено» and why in red */
 .ki-void { cursor: default; opacity: 0.75; }
@@ -5380,12 +5399,12 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 .kt-off .kt-timer { color: var(--bad); font-family: var(--font-ui); font-size: var(--fs-md); font-weight: var(--fw-semibold); letter-spacing: 0; }
 
 /* the foot: the order's number and station in the small letters, «Готово» a big green key filling the rest */
-.kt-foot { display: flex; flex: none; align-items: center; gap: var(--sp-3); min-height: var(--key-h); padding: var(--sp-2) var(--sp-4); border-top: 0; box-shadow: inset 0 1px 0 0 var(--line-2); }
+.kt-foot { display: flex; flex: none; align-items: center; gap: var(--sp-3); min-height: var(--key-h); padding: var(--sp-2) var(--sp-4); border-top: 0; box-shadow: none; }
 .kt-foot > .muted { flex: none; color: var(--ink-3); font-size: var(--fs-sm); }
 .kt-foot > .btn { flex: 1; min-height: var(--kds-row); border-radius: var(--r-pill); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
 
 /* «Готово недавно»: where it went and «Вернуть» on one line, the dishes under it; a row each, a line between them */
-.done-row { display: flex; flex-direction: column; gap: 2px; padding: var(--sp-3) var(--sp-4); border-radius: 0; background: none; box-shadow: inset 0 -1px 0 0 var(--line); }
+.done-row { display: flex; flex-direction: column; gap: 2px; padding: var(--sp-3) var(--sp-4); border-radius: 0; background: none; box-shadow: inset 0 -1px 0 0 var(--line-2); }
 .done-top { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); }
 .done-top > .strong { font-size: var(--fs-md); font-weight: var(--fw-semibold); }
 .done-top > .btn { min-height: 44px; padding: 0 var(--sp-4); border: 0; border-radius: var(--r-pill); background: var(--pill); color: var(--ink); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
@@ -5397,9 +5416,9 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 
 /* the kitchen's pace (kitchen.js): the queue under «В работе», today's share of dishes within their norm under
    «Готово недавно» — rows of their own */
-.kds-load { margin: 0; padding: var(--sp-3) var(--sp-4); border-radius: 0; background: none; box-shadow: inset 0 -1px 0 0 var(--line); color: var(--ink-2); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
+.kds-load { margin: 0; padding: var(--sp-3) var(--sp-4); border-radius: 0; background: none; box-shadow: inset 0 -1px 0 0 var(--line-2); color: var(--ink-2); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
 .kds-load.busy { background: var(--warn-soft); color: var(--warn); }
-.kds-norm { display: flex; align-items: baseline; gap: var(--sp-2); margin: 0; padding: var(--sp-3) var(--sp-4); box-shadow: inset 0 -1px 0 0 var(--line); }
+.kds-norm { display: flex; align-items: baseline; gap: var(--sp-2); margin: 0; padding: var(--sp-3) var(--sp-4); box-shadow: inset 0 -1px 0 0 var(--line-2); }
 .kds-norm-v { font-family: var(--font-timer); font-size: var(--fs-xl); font-weight: var(--fw-semibold); }
 .kds-norm-v.good { color: var(--ok); }
 .kds-norm-v.mid { color: var(--warn); }
@@ -8142,6 +8161,33 @@ tr.bl-theirs td { background: var(--accent-soft); }
   .ipad .order-screen .cat-btn { flex: 0 0 var(--col, auto); padding: 0 var(--sp-2); line-height: 20px; white-space: normal; text-wrap: balance; scroll-snap-align: start; }
 }
 .ipad .cat-list[data-more] { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 72px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 72px), transparent); }
+/* (3 November, 13:06, the owner on the order screen: «Тут тоже смотри вертикальные линии съехали») the dishes' lines as
+   every tile's of the front (86-tiles.css): each tile its line at its left and at its top, on its own first pixel — the
+   way the categories' keys draw theirs, so a key's line runs straight on into the line between the dishes under it.
+   Before, each tile drew its right and its bottom edge: one pixel left of the keys' lines, and in the lighter grey. A
+   tile starting a row no line at its left (the screen's edge), the first row none at its top (the strip's line above);
+   round a short row's end and under the last row the lines of --rim, where the next tile's own would lie. The bill's
+   column its own line at its left, so the key over it carries on into it down to the foot, under the last dishes too.
+   A dish off sale greys its words, not its lines. The strip's last key, when the keys end short of the screen's edge, a
+   line at its right; the strip's line under the keys runs on to the edge (13:04, the owner: «Каждый блок, у которого
+   есть две линии … должен быть заключен в прямоугольник или квадрат») */
+.ipad .item-cards > .item-card { border: 0; box-shadow: inset 1px 0 0 0 var(--line-2), inset 0 1px 0 0 var(--line-2), var(--rim, 0 0 #0000); }
+.ipad .item-cards > .item-card[data-rf] { box-shadow: inset 0 1px 0 0 var(--line-2), var(--rim, 0 0 #0000); }
+.ipad .item-cards > .item-card[data-r0] { box-shadow: inset 1px 0 0 0 var(--line-2), var(--rim, 0 0 #0000); }
+.ipad .item-cards > .item-card[data-r0][data-rf] { box-shadow: var(--rim, none); }
+.ipad .item-cards > :is([data-rz], [data-rb]) { --rim: 0 1px 0 0 var(--line-2); }
+.ipad .item-cards > [data-rl] { --rim: 0 1px 0 0 var(--line-2), 1px 0 0 0 var(--line-2), 1px 1px 0 0 var(--line-2); }
+/* (the rule of no capitals and three styles of letters) «нет» on a dish off sale in the price's own letters, red — not
+   «NEMA» in capitals */
+.ipad .stop-tag { font-size: inherit; font-weight: inherit; letter-spacing: 0; text-transform: none; }
+.ipad .item-cards > .item-card.stopped { opacity: 1; }
+.ipad .item-cards > .item-card.stopped > * { opacity: 0.55; }
+.ipad .cat-list { box-shadow: inset 0 -1px 0 0 var(--line-2); }
+.ipad .cat-btn:last-child:not(.on) { box-shadow: inset 1px 0 0 0 var(--line-2), inset 0 -1px 0 0 var(--line-2), 1px 0 0 0 var(--line-2); }
+.ipad .cat-btn:last-child:first-child:not(.on) { box-shadow: inset 0 -1px 0 0 var(--line-2), 1px 0 0 0 var(--line-2); }
+@media (min-width: 641px) {
+  .ipad .order-screen > .os-ticket { border-left: 1px solid var(--line-2); }
+}
 /* (the audit: an order with less text) a dish's state in words only where someone acts on it — «Готово» and
    «Готовится»; a sent and a served one without a word, a served one grey */
 .ipad .os-ticket .line .st-sent, .ipad .os-ticket .line .st-served { display: none; }
@@ -8199,12 +8245,18 @@ tr.bl-theirs td { background: var(--accent-soft); }
   display: flex; align-items: center; min-height: 44px; padding: 0 var(--sp-5); background: var(--bg);
   font-size: var(--fs-sm); font-weight: var(--fw-regular); letter-spacing: 0; text-transform: none; color: var(--ink-3);
 }
-.ipad .checks .reconcile-row { gap: 0; margin: 0 0 0 -1px; padding: 0; border: 0; grid-auto-rows: auto; }
+/* (3 November: the lines checked for one carried on a pixel aside) the rows the screen's width, not a pixel wider to
+   hide the first cell's line past the edge: 1 181 in six and in two put the lines of both rows on half a pixel, drawn a
+   pixel apart; the cell starting a row draws no line at its left instead (ui/even-grid.jsx marks it) */
+.ipad .checks .reconcile-row { gap: 0; margin: 0; padding: 0; border: 0; grid-auto-rows: auto; }
 .ipad .checks .rec-cell {
   justify-content: space-between; gap: 2px; min-height: 104px; padding: var(--sp-4) var(--sp-5); border: 0; border-radius: 0; background: var(--surface);
-  box-shadow: inset 1px 0 0 0 var(--line-2), inset 0 1px 0 0 var(--line-2);
+  box-shadow: inset 1px 0 0 0 var(--line-2), inset 0 1px 0 0 var(--line-2), var(--rim, 0 0 #0000);
 }
-.ipad .checks .rec-groups { margin: 0 0 0 -1px; padding: 0; border-top: 0; }
+.ipad .checks .reconcile-row > .rec-cell:is([data-rf], :first-child) { box-shadow: inset 0 1px 0 0 var(--line-2), var(--rim, 0 0 #0000); }
+.ipad .checks .reconcile-row > [data-rb] { --rim: 0 1px 0 0 var(--line-2); }
+.ipad .checks .reconcile-row > [data-rl] { --rim: 1px 0 0 0 var(--line-2); }
+.ipad .checks .rec-groups { margin: 0; padding: 0; border-top: 0; }
 .ipad .checks .rec-cell .muted.small { color: var(--ink-2); font-size: var(--fs-sm); }
 .ipad .checks .rec-cell .mono.strong { font-family: var(--font-timer); font-size: var(--fs-xl); font-weight: var(--fw-semibold); letter-spacing: -0.03em; line-height: 28px; }
 .ipad .checks .rec-tip { color: var(--ink-2); font-size: var(--fs-sm); }
@@ -8316,7 +8368,18 @@ tr.bl-theirs td { background: var(--accent-soft); }
 /* (the zones' line closed under them by a line across: no line ends in the white) */
 .ipad .sheet-body.flush > .pay-grid { margin: 0; gap: 0; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); border-bottom: 1px solid var(--line-2); }
 .ipad .sheet-body.flush .pay-items, .ipad .sheet-body.flush .pay-methods { gap: 0; }
-.ipad .sheet-body.flush .pay-methods { box-shadow: inset 1px 0 0 0 var(--line-2); }
+/* (13:04, the owner: «Каждый блок, у которого есть две линии … должен быть заключен в прямоугольник или квадрат») the
+   shorter column's last row closed under it: after the rows the column's room left over, its line at its top — none
+   where no room is left (the line under the sheet's rows is the grid's), so «К оплате» over an empty column is a row
+   with its four lines, not a row open at its foot */
+.ipad .sheet-body.flush :is(.pay-items, .pay-methods)::after { content: ''; flex: 1 1 0; min-height: 0; box-shadow: inset 0 1px 0 0 var(--line-2); }
+/* (3 November, 03:49, the owner: «Стало ровнее, но нет вертикальной линии») the line between the zones drawn over the
+   zone's rows and tiles: the zone's own inset line lay under their shade (a way of paying, a group's name), seen only
+   beside a row with no shade of its own */
+.ipad .sheet-body.flush .pay-methods { position: relative; }
+.ipad .sheet-body.flush .pay-methods::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0; z-index: 2; width: 1px; background: var(--line-2); pointer-events: none;
+}
 .ipad .sheet-body.flush .pay-items > .seg {
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; min-height: 0; padding: 0; border-radius: 0; background: none; box-shadow: none;
 }
@@ -8390,7 +8453,8 @@ tr.bl-theirs td { background: var(--accent-soft); }
   flex-direction: row; align-items: center; justify-content: space-between; gap: var(--sp-2); min-height: 56px; padding: 0 var(--sp-4);
   border-radius: 0; background: var(--surface);
 }
-.ipad .sheet-body.flush .cash-cell + .cash-cell { box-shadow: inset 1px 0 0 0 var(--line-2); }
+.ipad .sheet-body.flush .cash-cell { box-shadow: inset 0 1px 0 0 var(--line-2); }
+.ipad .sheet-body.flush .cash-cell + .cash-cell { box-shadow: inset 1px 0 0 0 var(--line-2), inset 0 1px 0 0 var(--line-2); }
 .ipad .sheet-body.flush .cash-cell > .field-label { margin: 0; color: var(--ink-3); font-size: var(--fs-sm); font-weight: var(--fw-regular); letter-spacing: 0; text-transform: none; }
 .ipad .sheet-body.flush .cash-val { font-family: var(--font-timer); font-size: var(--fs-xl); font-weight: var(--fw-semibold); line-height: 28px; letter-spacing: -0.03em; }
 .ipad .sheet-body.flush .cash-quick { display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); gap: 0; }
