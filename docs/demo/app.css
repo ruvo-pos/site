@@ -1830,7 +1830,8 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
   padding-top: var(--sp-2); border-top: 1px dashed var(--line-2); font-weight: var(--fw-semibold);
 }
 .pay-charge .money { font-size: var(--fs-lg); font-variant-numeric: tabular-nums; }
-.chip-keep { gap: var(--sp-1); border-style: dashed; color: var(--ok); }
+/* «Сдачу — в чаевые» under the change calculator's amounts (the iPad's pay sheet draws it as a row: 88-ipad-look.css) */
+.cash-keep { display: flex; align-items: center; justify-content: center; gap: var(--sp-1); min-height: 44px; border: 1.5px dashed var(--line-2); border-radius: var(--r-md); background: var(--surface); color: var(--ok); font-weight: var(--fw-semibold); cursor: pointer; }
 
 /* the bill: the tip beside the payment, in the colour of money received */
 .bill-tip { color: var(--ok); }
@@ -3403,6 +3404,12 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 }
 .phone .chip:first-child { box-shadow: inset 0 1px 0 0 var(--line-2); }
 .phone .chip.on { background: var(--accent); color: var(--accent-ink); }
+/* (3 November: «И проверь все на горизонтальные и вертикальные линии») the categories' keys one width, three to the
+   screen — the keys as wide as their words had put a line 3 px beside the dishes' middle line —; a long name takes two
+   lines; the strip goes by whole keys, its end fading while more keys lie past it */
+.phone .menu-list-top .chips { scroll-snap-type: x mandatory; }
+.phone .menu-list-top .chips > .chip { flex: 0 0 calc(100% / 3); justify-content: center; padding: 0 var(--sp-2); line-height: 20px; white-space: normal; text-align: center; text-wrap: balance; scroll-snap-align: start; }
+.phone .menu-list-top .chips[data-more] { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent); }
 .phone .rows { padding: 0; background: var(--surface); }
 /* (22:26, the owner: «нет возможности уменьшить количество блюда, только увеличить») a row: the dish a key that adds
    one; with new lines of it, «−» · how many · «+», each key 56 wide and the row's whole height, no lines of their own */
@@ -4896,6 +4903,12 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 }
 .guest .gu-nav .ks-pill:active { background: var(--surface-3); }
 .guest .gu-nav .ks-pill.on { background: var(--accent); color: var(--accent-ink); box-shadow: none; }
+/* (3 November: «И проверь все на горизонтальные и вертикальные линии») the folders' keys one width, three after the
+   search key — keys as wide as their names had been three widths; a long name takes two lines; the strip goes by whole
+   keys, its end fading while more lie past it (ui/even-grid.jsx, useMoreEdge) */
+.guest .gu-nav .ks-pills { scroll-snap-type: x mandatory; }
+.guest .gu-nav .ks-pill { flex: 0 0 calc(100% / 3); min-width: 0; padding: 0 var(--sp-2); line-height: 20px; white-space: normal; text-align: center; text-wrap: balance; scroll-snap-align: start; }
+.guest .gu-nav .ks-pills[data-more] { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent); }
 .guest .gu-nav .ks-search {
   height: 52px; padding: 0 var(--sp-4); border: 0; border-radius: 0; background: var(--surface); font-size: var(--fs-md);
   box-shadow: inset 0 -1px 0 0 var(--zl), inset 0 1px 0 0 var(--zl);
@@ -5188,7 +5201,7 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 .guest .gu-review-p { font-size: var(--fs-sm); line-height: 20px; }
 /* a narrow phone: the folders' keys a little narrower */
 @media (max-width: 380px) {
-  .guest .gu-nav .ks-pill { min-width: 96px; padding: 0 var(--sp-3); }
+  .guest .gu-nav .ks-pill { padding: 0 var(--sp-2); }
   .guest .ks-img { height: 112px; }
 }
 /* the smallest phones: the three languages keep their room, «для гостей» gives way (the screen says whose it is) */
@@ -5261,7 +5274,7 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 .kds-sum > *, .kds-done > * { flex: none; }
 /* a zone's name: a row of the shade, the screen's small letters */
 .kds .kds-side-head {
-  display: flex; align-items: center; min-height: 44px; margin: 0; padding: 0 var(--sp-4); background: var(--bg);
+  display: flex; align-items: center; min-height: var(--key-h); margin: 0; padding: 0 var(--sp-4); background: var(--bg);
   box-shadow: inset 0 -1px 0 0 var(--line-2); color: var(--ink-3); font-size: var(--fs-sm); font-weight: var(--fw-regular);
   letter-spacing: 0; line-height: 18px; text-transform: none;
 }
@@ -5403,6 +5416,35 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
   .kds .tool-btn { padding: 0 var(--sp-3); }
   .kds .kds-top .tb-right { gap: var(--sp-1); }
 }
+
+/* ---------- the rows of 28 (3 November) ----------
+   (the owner, 3 November: «И проверь все на горизонтальные и вертикальные линии») The tickets' lines and the lines of
+   the lists at their sides had stood a few pixels apart — a list's row 49 or 71 high beside a dish's 56 or 76, the
+   zones' names 44 beside the tickets' heads 64. Every row of the kitchen is now a whole number of rows of 28 — each line
+   of text 28 high, each padding half of one —, so a line of a ticket, of the ticket beside it and of the lists at the
+   sides are one line or 28 apart, never «чуть на разных уровнях»: the tickets' heads and the zones' names 56; a dish
+   14 + 28 a line (its name, its options, its note) + 14; a course and a courier 28 a line; the foot 56, «Готово» 48 in
+   it; a list's row 14 + 28 a line + 14; «Готово недавно»: its name and «Вернуть» 56, its dishes 28 a line. */
+.kds { --u: 28px; }
+.kds .kt-head, .kds .kds-side-head { height: calc(2 * var(--u)); min-height: 0; }
+.kds .ki { min-height: calc(2 * var(--u)); padding: calc(var(--u) / 2) var(--sp-4); }
+.kds .ki-main { gap: 0; }
+.kds :is(.ki-qty, .ki-name, .ki-mods, .ki-cancel) { line-height: var(--u); }
+.kds .ki-comment { margin-top: 0; padding: 0 var(--sp-3); line-height: var(--u); }
+.kds .ki-state { padding-top: 4px; }
+.kds .kt-course { padding: 0 var(--sp-4); line-height: var(--u); }
+.kds .kt-courier { min-height: var(--u); padding: 0 var(--sp-4); line-height: var(--u); }
+.kds .kt-foot { height: calc(2 * var(--u)); min-height: 0; padding: 4px var(--sp-4); }
+.kds .kt-foot > .btn { height: 48px; min-height: 0; }
+.kds :is(.sum-row, .kds-load, .kds-norm) { padding: calc(var(--u) / 2) var(--sp-4); line-height: var(--u); }
+.kds .sum-row > :is(.sum-n, span:last-child), .kds .kds-norm > * { line-height: var(--u); }
+.kds :is(.sum-row, .kds-norm) { align-items: flex-start; }
+/* (a dish past its norm: its «+2 мин» inside the line's 28, not raising it) */
+.kds .ki-over { line-height: 20px; }
+.kds .done-row { gap: 0; padding: 0 var(--sp-4); }
+.kds .done-top { min-height: calc(2 * var(--u)); }
+.kds .done-row .item-lines { gap: 0; padding-bottom: 0; }
+.kds .done-row .item-lines > li { line-height: var(--u); }
 
 /* ---------- back office ----------
    The sidebar and the page stand on one grid of rows: the same 24px top, a 44px head row (the wordmark ↔ the
@@ -5775,6 +5817,16 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 }
 .api-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--sp-4); }
 .api-col { display: flex; flex-direction: column; gap: var(--sp-3); min-width: 0; }
+/* (3 November, the lines both ways) the steps of Wolt and of Glovo side by side share their rows: the two columns are
+   one grid (subgrid), a step as tall as the taller of the pair — a step without a hint, or of fewer lines on a narrow
+   screen, had ended 13–20 px above its neighbour */
+@supports (grid-template-rows: subgrid) {
+  .api-grid { row-gap: 0; }
+  .api-col { display: grid; grid-row: span 7; grid-template-rows: subgrid; gap: 0; }
+  .api-col > .check-list { display: contents; }
+  .api-col > .api-col-head { margin-bottom: var(--sp-3); }
+  .api-col > .api-id { margin-top: var(--sp-3); }
+}
 .api-col-head { display: flex; align-items: center; gap: var(--sp-2); min-height: var(--h-sm); }
 .api-col-head .muted { margin-left: auto; }
 .api-id { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--sp-2); }
@@ -8078,6 +8130,18 @@ tr.bl-theirs td { background: var(--accent-soft); }
 .ipad .cat-btn:hover { background: var(--bg); }
 .ipad .cat-btn:active { background: var(--surface-3); }
 .ipad .cat-btn.on, .ipad .cat-btn.on:hover { background: var(--accent); color: var(--accent-ink); box-shadow: none; }
+/* (3 November, the owner: «И проверь все на горизонтальные и вертикальные линии») the order screen in whole columns
+   (ui/row-grid.js: --cols of at least 164, --col): the dishes all but two of them, the bill two; the categories' keys one
+   column each, so their lines stand on the dishes' lines and the bill's — the keys as wide as their words had put their
+   lines 17 px beside the dishes'. A long name takes two lines; the strip goes by whole keys, its end fading while more
+   keys lie past it (ui/even-grid.jsx, useMoreEdge). */
+@media (min-width: 641px) {
+  .ipad .order-screen:not(.os-lost) { grid-template-columns: minmax(0, calc(var(--col, 170px) * var(--menu-cols, 4))) minmax(0, 1fr); }
+  .ipad .order-screen .item-cards { grid-template-columns: repeat(var(--menu-cols, 4), minmax(0, 1fr)); }
+  .ipad .order-screen .cat-list { scroll-snap-type: x mandatory; }
+  .ipad .order-screen .cat-btn { flex: 0 0 var(--col, auto); padding: 0 var(--sp-2); line-height: 20px; white-space: normal; text-wrap: balance; scroll-snap-align: start; }
+}
+.ipad .cat-list[data-more] { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 72px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 72px), transparent); }
 /* (the audit: an order with less text) a dish's state in words only where someone acts on it — «Готово» and
    «Готовится»; a sent and a served one without a word, a served one grey */
 .ipad .os-ticket .line .st-sent, .ipad .os-ticket .line .st-served { display: none; }
@@ -8262,14 +8326,14 @@ tr.bl-theirs td { background: var(--accent-soft); }
 }
 .ipad .sheet-body.flush .pay-items > .seg .seg-btn:first-child { box-shadow: none; }
 .ipad .sheet-body.flush .pay-items > .seg .seg-btn::before { display: none; }
-.ipad .sheet-body.flush .pay-items > .seg .seg-btn.on { background: var(--accent-soft); color: var(--accent); }
+.ipad .sheet-body.flush .pay-items > .seg .seg-btn.on { background: var(--accent); color: var(--accent-ink); }
 .ipad .sheet-body.flush .pay-list { max-height: none; border: 0; border-radius: 0; }
 .ipad .sheet-body.flush .pay-row { border-bottom: 0; box-shadow: inset 0 1px 0 0 var(--line-2); }
 .ipad .sheet-body.flush .pay-line { min-height: 56px; padding: var(--sp-3) var(--sp-4); border: 0; border-radius: 0; font-weight: var(--fw-semibold); }
 .ipad .sheet-body.flush .pay-line .mono { font-family: var(--font-timer); letter-spacing: -0.03em; }
 .ipad .sheet-body.flush .pay-line .mono.small { font-weight: var(--fw-regular); }
-.ipad .sheet-body.flush .pay-sub { min-height: 44px; align-items: center; padding: 0 var(--sp-4); box-shadow: inset 0 1px 0 0 var(--line-2); }
-.ipad .sheet-body.flush .pay-total { align-items: center; min-height: var(--key-h); padding: 0 var(--sp-4); box-shadow: inset 0 1px 0 0 var(--line-2); }
+.ipad .sheet-body.flush .pay-sub { min-height: 56px; align-items: center; padding: 0 var(--sp-4); box-shadow: inset 0 1px 0 0 var(--line-2); }
+.ipad .sheet-body.flush .pay-total { align-items: center; min-height: 56px; padding: 0 var(--sp-4); box-shadow: inset 0 1px 0 0 var(--line-2); }
 .ipad .sheet-body.flush .pay-total .money.big .money-v, .ipad .sheet-body.flush .pay-total .money.big { font-family: var(--font-timer); font-size: var(--fs-xl); font-weight: var(--fw-semibold); letter-spacing: -0.03em; }
 .ipad .sheet-body.flush .pay-charge { min-height: 56px; align-items: center; padding: 0 var(--sp-4); border-top: 0; box-shadow: inset 0 1px 0 0 var(--line-2); }
 .ipad .sheet-body.flush :is(.pay-methods > .field-label, .pay-methods > .tip-pick > .field-label, .pay-points > .field-label) {
@@ -8277,28 +8341,76 @@ tr.bl-theirs td { background: var(--accent-soft); }
   font-size: var(--fs-sm); font-weight: var(--fw-regular); letter-spacing: 0; text-transform: none; color: var(--ink-3);
 }
 .ipad .sheet-body.flush .pay-methods > .field-label:first-child { box-shadow: none; }
-.ipad .sheet-body.flush .method-grid, .ipad .sheet-body.flush .tip-opts { padding: 0; }
-.ipad .sheet-body.flush .method, .ipad .sheet-body.flush .tip-opt {
-  min-height: 72px; border-radius: 0; box-shadow: inset 1px 0 0 0 var(--line-2), inset 0 1px 0 0 var(--line-2);
+/* (3 November, 03:11, the owner of this sheet on the iPad: «Кривовато выглядит, исправим?») The ways of paying and the
+   tips are the brand grid's tiles (ui/even-grid.jsx): all of a block one size — the tips had been two wide and three
+   narrow —, rows filled — the ways of paying in as many columns as fill their rows (three in one row, four two by two;
+   a way left alone in a row had had a blank beside it), the tips five in a row as narrow as their words allow (in a
+   narrower column four, the fifth a short row, the lines round its end). The chosen one filled with the accent, as the
+   chosen category and hall are — not framed: the frame had come out thicker on the zones' line, thinner at the sheet's
+   edge; the bill's «Весь счёт · По позициям» the same. Every row of both zones is 56 high or twice that — the ways of
+   paying their icon beside their name, the tips, who gets them, «К оплате», the change and its keys —, so a line of the
+   bill and a line of the payment are one line or a row apart, never «чуть на разных уровнях» (a way's tile of two
+   lines, 99 high, had stood 13 px off the bill's line). */
+.ipad .sheet-body.flush .method-grid, .ipad .sheet-body.flush .tip-opts { display: grid; gap: 0; padding: 0; }
+.ipad .sheet-body.flush .method-grid { grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)); }
+.ipad .sheet-body.flush .tip-opts { grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); }
+.ipad .sheet-body.flush :is(.method, .tip-opt) {
+  min-height: 56px; border-radius: 0; background: var(--surface);
+  box-shadow: inset 1px 0 0 0 var(--line-2), inset 0 1px 0 0 var(--line-2), var(--rim, 0 0 #0000);
 }
-.ipad .sheet-body.flush .method:nth-child(2n + 1), .ipad .sheet-body.flush .tip-opt:first-child { box-shadow: inset 0 1px 0 0 var(--line-2); }
-.ipad .sheet-body.flush .method { padding: var(--sp-3) var(--sp-4); font-size: var(--fs-md); font-weight: var(--fw-semibold); }
-.ipad .sheet-body.flush :is(.method, .tip-opt).on {
-  /* (as every block of plates, 86-tiles.css: the chosen plate's frame on the lines' own pixels, over its neighbours') */
-  box-shadow: 1px 0 0 0 var(--accent), 0 1px 0 0 var(--accent), 1px 1px 0 0 var(--accent),
-    inset 2px 0 0 0 var(--accent), inset 0 2px 0 0 var(--accent), inset -1px 0 0 0 var(--accent), inset 0 -1px 0 0 var(--accent);
+.ipad .sheet-body.flush :is(.method, .tip-opt)[data-rf] { box-shadow: inset 0 1px 0 0 var(--line-2), var(--rim, 0 0 #0000); }
+.ipad .sheet-body.flush :is(.method-grid, .tip-opts) > [data-rl] { --rim: 1px 0 0 0 var(--line-2); }
+.ipad .sheet-body.flush :is(.method-grid, .tip-opts) > [data-rb] { --rim: 0 1px 0 0 var(--line-2); }
+.ipad .sheet-body.flush .method {
+  flex-direction: row; align-items: center; justify-content: center; gap: var(--sp-2); padding: var(--sp-1) var(--sp-2);
+  font-size: var(--fs-md); font-weight: var(--fw-semibold); text-align: center;
 }
+.ipad .sheet-body.flush .method > svg { flex: none; }
+.ipad .sheet-body.flush .method > span { text-wrap: balance; }
+.ipad .sheet-body.flush :is(.method, .tip-opt).on, .ipad .sheet-body.flush :is(.method, .tip-opt).on:hover { background: var(--accent); color: var(--accent-ink); }
+.ipad .sheet-body.flush .tip-opt.on .tip-v { color: inherit; }
+.ipad .sheet-body.flush :is(.method, .tip-opt):disabled:not(.on) { background: var(--surface); color: var(--ink-3); }
 .ipad .sheet-body.flush .tip-pick { gap: 0; }
-.ipad .sheet-body.flush .tip-opts { flex-wrap: nowrap; gap: 0; }
-.ipad .sheet-body.flush .tip-opt { flex: 1 1 0; min-width: 0; padding: var(--sp-2); font-size: var(--fs-md); }
-.ipad .sheet-body.flush .tip-opt:first-child, .ipad .sheet-body.flush .tip-opt:last-child { flex: 1.6 1 0; padding: var(--sp-2) var(--sp-3); white-space: normal; }
+.ipad .sheet-body.flush .tip-opt { min-width: 0; padding: var(--sp-2) var(--sp-1); font-size: var(--fs-md); white-space: normal; }
 .ipad .sheet-body.flush .tip-opt .tip-v { font-family: var(--font-timer); font-size: var(--fs-sm); font-weight: var(--fw-regular); }
-.ipad .sheet-body.flush .tip-pick > :is(.tip-own, .warn-txt, .tip-who) { padding: var(--sp-3) var(--sp-4) 0; }
-.ipad .sheet-body.flush .tip-pick > .tip-who { padding-bottom: var(--sp-3); box-shadow: inset 0 1px 0 0 var(--line-2); font-size: var(--fs-sm); }
-.ipad .sheet-body.flush .tip-own { gap: var(--sp-1); }
+.ipad .sheet-body.flush .tip-pick > :is(.tip-own, .warn-txt, .tip-who) { margin: 0; padding: 0 var(--sp-4); box-shadow: inset 0 1px 0 0 var(--line-2); }
+.ipad .sheet-body.flush .tip-pick > :is(.warn-txt, .tip-who) { display: flex; align-items: center; min-height: 56px; font-size: var(--fs-sm); }
+/* the guest's own amount: its name and its field two rows' height */
+.ipad .sheet-body.flush .tip-own { justify-content: center; gap: var(--sp-1); min-height: 112px; }
 .ipad .sheet-body.flush .tip-own > .field-label { min-height: 0; padding: 0; background: none; box-shadow: none; }
 .ipad .sheet-body.flush .pay-methods > :is(.cash-calc, .ips-panel, .term-panel, .pay-free, .muted.small) { margin: 0; border: 0; border-radius: 0; padding: var(--sp-3) var(--sp-4); box-shadow: inset 0 1px 0 0 var(--line-2); }
-.ipad .sheet-body.flush .pay-methods > .cash-calc { background: var(--surface); }
+.ipad .sheet-body.flush .pay-methods > :is(.term-hint, .pay-free, .muted.small) { display: flex; align-items: center; min-height: 56px; padding-block: 0; }
+/* the change (3 November): «Получено · Сдача» two cells of a row, as «К оплате» — the word at the left, the sum at the
+   right; what the guest gave in tiles of one row, the bill's own amount first («без сдачи» in figures), the notes over
+   it; «Сдачу — в чаевые» a row; the keys as the PIN's, one block — rows of 56, as the bill's */
+/* (.cash-calc twice: over the panels' padding above, whose :is() counts .muted.small) */
+.ipad .sheet-body.flush .pay-methods > .cash-calc.cash-calc { gap: 0; padding: 0; background: none; }
+.ipad .sheet-body.flush .cash-top { gap: 0; }
+.ipad .sheet-body.flush .cash-cell {
+  flex-direction: row; align-items: center; justify-content: space-between; gap: var(--sp-2); min-height: 56px; padding: 0 var(--sp-4);
+  border-radius: 0; background: var(--surface);
+}
+.ipad .sheet-body.flush .cash-cell + .cash-cell { box-shadow: inset 1px 0 0 0 var(--line-2); }
+.ipad .sheet-body.flush .cash-cell > .field-label { margin: 0; color: var(--ink-3); font-size: var(--fs-sm); font-weight: var(--fw-regular); letter-spacing: 0; text-transform: none; }
+.ipad .sheet-body.flush .cash-val { font-family: var(--font-timer); font-size: var(--fs-xl); font-weight: var(--fw-semibold); line-height: 28px; letter-spacing: -0.03em; }
+.ipad .sheet-body.flush .cash-quick { display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); gap: 0; }
+.ipad .sheet-body.flush :is(.cash-quick > .chip, .cash-key) {
+  display: flex; align-items: center; justify-content: center; height: auto; min-height: 56px; padding: 0 var(--sp-1); border: 0; border-radius: 0;
+  background: var(--surface); color: var(--ink); font-family: var(--font-timer); font-weight: var(--fw-semibold); letter-spacing: -0.03em;
+  box-shadow: inset 1px 0 0 0 var(--line-2), inset 0 1px 0 0 var(--line-2), var(--rim, 0 0 #0000);
+}
+.ipad .sheet-body.flush .cash-quick > .chip { font-size: var(--fs-md); }
+.ipad .sheet-body.flush .cash-key { font-size: var(--fs-xl); }
+.ipad .sheet-body.flush :is(.cash-quick > .chip[data-rf], .cash-key:nth-child(3n + 1)) { box-shadow: inset 0 1px 0 0 var(--line-2), var(--rim, 0 0 #0000); }
+.ipad .sheet-body.flush .cash-quick > [data-rl] { --rim: 1px 0 0 0 var(--line-2); }
+.ipad .sheet-body.flush .cash-quick > [data-rb] { --rim: 0 1px 0 0 var(--line-2); }
+.ipad .sheet-body.flush .cash-quick > .chip.on, .ipad .sheet-body.flush .cash-quick > .chip.on:hover { background: var(--accent); color: var(--accent-ink); }
+.ipad .sheet-body.flush :is(.cash-quick > .chip, .cash-key):active { background: var(--surface-3); transform: none; }
+.ipad .sheet-body.flush .cash-keep {
+  display: flex; align-items: center; justify-content: center; gap: var(--sp-2); min-height: 56px; padding: 0 var(--sp-4); border: 0; border-radius: 0;
+  background: var(--ok-soft); color: var(--ok); font-size: var(--fs-md); font-weight: var(--fw-semibold); box-shadow: inset 0 1px 0 0 var(--line-2); cursor: pointer;
+}
+.ipad .sheet-body.flush .cash-keys { gap: 0; }
 .ipad .sheet-body.flush .pay-points { gap: var(--sp-2); padding: 0 0 var(--sp-3); border-radius: 0; background: var(--surface); }
 .ipad .sheet-body.flush .pay-points > :not(.field-label) { margin: 0 var(--sp-4); }
 .ipad .sheet-body.flush .pay-split { width: 56px; height: 56px; border-radius: 0; }
