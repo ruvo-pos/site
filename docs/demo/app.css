@@ -8911,11 +8911,13 @@ tr.bl-theirs td { background: var(--accent-soft); }
 .front-look .rec-cell .muted { color: var(--ink-2); }
 .front-look .rec-cell .strong { font-family: var(--font-timer); font-size: var(--fs-xl); font-weight: var(--fw-semibold); letter-spacing: -0.03em; line-height: 28px; }
 .front-look .card > .reconcile-row:last-child { margin-bottom: calc(-1 * var(--py) - 1px); }
+/* (3 November, the owner: «Оплат нет — лишняя линия внизу») a card of the page's grid draws its lines inside itself and
+   has no border: the row last in it reaches the card's own bottom, not a pixel past it — and fills a card the card
+   beside made taller, its cells with it: the line under them is the card's, not a second one a few pixels over it */
+.front-look .of-page > .sum-grid > .card > .reconcile-row:last-child { flex: 1 0 auto; margin-bottom: calc(-1 * var(--py)); }
 /* (each cell one column, a short last row short: the lines round its end, 86-tiles.css — the row's own line under it
    stops with the cells) */
 .front-look .card > .reconcile-row[data-tail] { box-shadow: none; }
-/* (no payments: «Оплат нет.» on the card's margins, not against its edge) */
-.front-look .card > .reconcile-row > .muted { grid-column: 1 / -1; padding: var(--sp-4) var(--px); box-shadow: inset 1px 0 0 0 var(--zl); }
 .front-look .sum-tips { margin-top: 0; border-top: 0; }
 .front-look .sum-tips-v { font-size: var(--fs-md); }
 
