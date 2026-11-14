@@ -114,6 +114,11 @@ const NAV = {
   reports: { sr: 'Izveštaji', en: 'Reports', ru: 'Отчёты' },
   forecast: { sr: 'Prognoza', en: 'Forecast', ru: 'Прогноз' },
   storage: { sr: 'Magacin', en: 'Stock', ru: 'Склад' },
+  // (14 November: the back office's menu of 9 November — the recipes open from «Jela», the supplier invoices from
+  // «Prijemnice»)
+  menu: { sr: 'Artikli', en: 'Items', ru: 'Номенклатура' },
+  dishes: { sr: 'Jela', en: 'Dishes', ru: 'Блюда' },
+  docin: { sr: 'Prijemnice', en: 'Goods received', ru: 'Приходные накладные' },
   tech: { sr: 'Normativi', en: 'Recipes', ru: 'Техкарты' },
   sef: { sr: 'Fakture dobavljača', en: 'Supplier invoices', ru: 'Счета поставщиков' },
   team: { sr: 'Tim', en: 'Team', ru: 'Команда' },
@@ -125,7 +130,9 @@ async function nav(d, group, page) {
   const { p, lang } = d;
   const g = p.locator(`.of-group-btn[aria-controls="of-sub-${group}"]`);
   if ((await g.getAttribute('aria-expanded')) !== 'true') await g.click();
-  await p.locator(`#of-sub-${group} .of-sub-btn[title="${NAV[page][lang]}"]`).click();
+  const byId = p.locator(`#of-sub-${group} [data-page="${page}"]`);
+  if (await byId.count()) await byId.first().click();
+  else await p.locator(`#of-sub-${group} .of-sub-btn[title="${NAV[page][lang]}"]`).click();
   await d.settle(900);
 }
 async function officePage(d, group, page) {
@@ -137,10 +144,14 @@ async function officePage(d, group, page) {
 // and the vegetables' invoice opened — the supplier's lines matched to the restaurant's products
 async function sefInvoice(d) {
   const { p } = d;
-  await officePage(d, 'storage', 'sef');
+  const sefPage = async () => { await nav(d, 'storage', 'docin'); await p.click('#doc-sef'); await d.settle(700); };
+  await d.open('office');
+  await p.waitForSelector('.of-nav');
+  await sefPage();
   await p.click('#sef-demo-firms');
   await d.settle(500);
   await nav(d, 'settings', 'locs');
+  if (!(await p.locator('#firms-card').count())) { await p.locator('.set-tabs .seg-btn', { hasText: { sr: 'Kompanija', en: 'Company', ru: 'Компания' }[d.lang] }).first().click(); await d.settle(600); }
   const ids = await p.locator('#firms-card .firm-row').evaluateAll((els) => els.map((e) => e.id.replace('firm-', '')));
   for (const id of ids) {
     await p.locator('#firm-sef-' + id).scrollIntoViewIfNeeded();
@@ -149,7 +160,7 @@ async function sefInvoice(d) {
     await p.click('#sef-demo-connect');
     await d.settle(500);
   }
-  await nav(d, 'storage', 'sef');
+  await sefPage();
   await p.waitForSelector('.sef-table');
   await p.locator('.sef-table tbody tr', { hasText: 'Povrće' }).click();
   await d.settle(900);
@@ -158,9 +169,13 @@ async function sefInvoice(d) {
 async function forecastDay(d) {
   const { p, lang } = d;
   await officePage(d, 'analytics', 'forecast');
+  // (14 November: the day's events in a sheet of their own, «Uračunaj» at its foot)
+  await p.click('#fc-add');
   await p.fill('#fc-events', T[lang].home.forecast.screen.typed);
-  await p.locator('.fc-ask-btns .btn').first().click();
-  await d.settle(900);
+  await p.locator('.sheet .btn-primary, .sheet .btn.primary, .sheet-foot .btn').last().click();
+  await d.settle(1200);
+  await p.keyboard.press('Escape').catch(() => {});
+  await d.settle(600);
 }
 const SHOTS = {
   // the front's iPad: the hall at dinner; delivery; a table's bill with the guest's card
@@ -177,7 +192,7 @@ const SHOTS = {
   // the guests' kiosk, upright, always light
   kiosk: { kind: 'port', theme: 'light', go: async (d) => { await d.open('kiosk'); await d.settle(); } },
   // the back office on the iPad
-  tech: { kind: 'pad', go: async (d) => { await officePage(d, 'storage', 'tech'); } },
+  tech: { kind: 'pad', go: async (d) => { await officePage(d, 'menu', 'dishes'); await d.p.click('#dish-techs'); await d.p.waitForSelector('.tech-layout'); await d.settle(900); } },
   // the reports: the site's question in plain words, and the report it makes — the week by day against the week before
   reports: { kind: 'pad', go: async (d) => { await officePage(d, 'analytics', 'reports'); const q = d.p.locator('.of-page input, .of-page textarea').first(); await q.fill(T[d.lang].home.examples.items.find((x) => x.id === 'reports').report.ask); await q.press('Enter'); await d.settle(1200); } },
   sef: { kind: 'pad', go: sefInvoice },
