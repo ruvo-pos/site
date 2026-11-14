@@ -1269,6 +1269,13 @@ h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacin
 .calc-lines li span:last-child { color: var(--ink); font-weight: 600; white-space: nowrap; }
 /* under the lines: what the ordering site takes besides its month */
 .calc-pct { margin-top: 10px; color: var(--ink-2); font-size: 14px; }
+/* (14 November 2026, 19:40, the owner: «Кривовато») three columns side by side: the steppers and the modules on one
+   rhythm — every row 52 px, 8 px apart, «Licence u svakom objektu» standing in a row's place over its steppers — so each
+   module is level with a row at its left (the sixth with «Kiosci») and the two columns end on one line */
+@media (min-width: 1101px) {
+  .stp, .mod { min-height: 52px; }
+  .calc-in .calc-k:not(:first-child) { min-height: 52px; margin-top: 0; align-items: flex-end; }
+}
 @media (max-width: 1100px) {
   .calc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .calc-in { grid-column: 1; grid-row: 1; }

@@ -1114,6 +1114,10 @@ font-family: var(--font-app); font-size: 15px; font-weight: 600; line-height: 1.
 .calc-lines li { display: flex; justify-content: space-between; gap: 12px; color: var(--ink-2); }
 .calc-lines li span:last-child { color: var(--ink); font-weight: 600; white-space: nowrap; }
 .calc-pct { margin-top: 10px; color: var(--ink-2); font-size: 14px; }
+@media (min-width: 1101px) {
+.stp, .mod { min-height: 52px; }
+.calc-in .calc-k:not(:first-child) { min-height: 52px; margin-top: 0; align-items: flex-end; }
+}
 @media (max-width: 1100px) {
 .calc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .calc-in { grid-column: 1; grid-row: 1; }
