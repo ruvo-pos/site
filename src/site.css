@@ -735,6 +735,9 @@ h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacin
   .stage.multi .sg { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
 }
 @media (max-width: 520px) { .stage.multi .sg { grid-template-columns: minmax(0, 1fr); } }
+/* (14 November 2026, «Делаем все») on a phone the first screen is the iPad and one card over its foot — the kitchen's
+   ticket, the waiter's iPhone, Wolt's ticket, the stock written off —, not two cards one under another */
+@media (max-width: 520px) { .stage-side > .nc, .stage.multi .sg > :nth-child(2) { display: none; } }
 /* the waiter's iPhone: table 5 is ready — then served */
 .nc-h em { margin-left: auto; color: var(--a-ink-2); font-size: 13px; font-style: normal; font-weight: 400; }
 .rd-t { display: flex; align-items: center; gap: 6px; margin: 0; padding: 10px 14px; color: var(--a-ok); font-size: 16px; font-weight: 600; box-shadow: inset 0 -1px 0 0 var(--a-line); }
@@ -853,6 +856,10 @@ h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacin
 .ex-tabs { display: flex; gap: 2px; max-width: 100%; padding: 4px; overflow-x: auto; border-radius: 999px; background: var(--fill); scrollbar-width: none; }
 .ex-tabs::-webkit-scrollbar { display: none; }
 .ex-tabs[hidden] { display: none; }
+/* (14 November 2026, «Делаем все») a row of tabs wider than its frame fades at the edge it goes on past */
+.ex-tabs.fade-r, .ex-tabs-wrap.fade-r { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent); }
+.ex-tabs.fade-l, .ex-tabs-wrap.fade-l { -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(to left, #000 calc(100% - 48px), transparent); }
+.ex-tabs.fade-l.fade-r, .ex-tabs-wrap.fade-l.fade-r { -webkit-mask-image: linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent); }
 .ex-tabs button {
   flex: none; height: 36px; padding-inline: 12px; border: 0; border-radius: 999px; /* (14 November: fourteen tabs on one line) */
   background: transparent; color: var(--ink-2); font: inherit; font-size: 14px; font-weight: 500; letter-spacing: -0.01em; cursor: pointer;
@@ -877,6 +884,16 @@ h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacin
 .pair { display: flex; align-items: flex-start; justify-content: center; gap: clamp(18px, 4vw, 56px); width: 100%; }
 .ex-shot--phones .dv-phone { width: min(44%, 296px); }
 .ex-shot--port .dv-port { width: min(62%, 446px); }
+/* (14 November 2026, «Делаем все») the team's tab: the week's pay on the iPad and, standing over its right corner and a
+   little below it, the waiter's own profile on the iPhone — as tall as the other tabs' devices */
+.combo { position: relative; width: min(100%, 980px); padding-bottom: 5%; }
+.combo .dv-pad { width: 84%; }
+.combo .dv-phone { position: absolute; right: 0; bottom: 0; width: 25%; }
+@media (max-width: 640px) {
+  .combo { padding-bottom: 22%; }
+  .combo .dv-pad { width: 90%; }
+  .combo .dv-phone { width: 30%; }
+}
 /* the guest's number, as the kiosk shows it (app/src/styles/56-kiosk-look.css, 2 November): always light, as the kiosk;
    the card's head from edge to edge, the number in the figures of an instrument in the blue */
 .kio-no {
@@ -887,7 +904,7 @@ h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacin
 .kio-no .nc-note { padding-top: 8px; }
 @media (max-width: 640px) { .kio-no { display: none; } .ex-shot--port .dv-port { width: min(86%, 400px); } }
 /* (14 November 2026, the new parts) beside a phone: what the phone and the people around it see — RUVO Order's
-   notification as the iPhone draws it, the shift's missions, the owner's notifications, RUVO's bot in Telegram */
+   notification as the iPhone draws it, the owner's notifications, RUVO's bot in Telegram */
 .side { flex: none; display: grid; align-content: start; gap: 16px; width: 264px; margin-top: clamp(40px, 9vw, 150px); }
 .side-nc .nc-h span { min-width: 0; }
 .side-nc .nc-r span { display: inline-flex; align-items: center; gap: 6px; }
@@ -922,6 +939,9 @@ h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacin
 .ex-text h3 { grid-column: 1; font-size: var(--fs-h3); font-weight: 600; line-height: 1.2; letter-spacing: -0.022em; }
 .ex-text p { grid-column: 1; color: var(--ink-2); line-height: 1.5; }
 .ex-text ul { grid-column: 2; grid-row: 1 / span 2; display: grid; align-content: start; gap: 12px; }
+/* (14 November 2026) a way to try it live, under the words: the ordering site's example */
+.ex-text .ex-try { grid-column: 1; }
+@media (min-width: 761px) { .ex-text:has(.ex-try) ul { grid-row: 1 / span 3; } }
 .ex-text li { position: relative; padding: 0 0 12px 18px; border-bottom: 1px solid var(--line); color: var(--ink); font-size: 16px; line-height: 1.45; }
 .ex-text li:last-child { border-bottom: 0; }
 .ex-text li::before { content: ''; position: absolute; left: 2px; top: 0.6em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
@@ -955,6 +975,14 @@ h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacin
 .integr li .i { width: 19px; height: 19px; color: var(--accent); }
 .integr li.soon { background: transparent; box-shadow: inset 0 0 0 1px var(--line-2); color: var(--ink-3); }
 .integr li.soon .i { color: var(--ink-3); }
+/* (14 November 2026, «Делаем все») on a phone not a tower of pills one under another: two columns of tiles, the words
+   at the left, a long one on two lines; the last one alone takes the whole row */
+@media (max-width: 520px) {
+  .integr ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; }
+  .integr li { align-items: flex-start; padding: 12px; border-radius: 14px; font-size: 14px; line-height: 1.3; text-align: left; }
+  .integr li .i { flex: none; width: 18px; height: 18px; }
+  .integr li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
 .ex-demo { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: 4px 14px; margin-top: 26px; text-align: center; }
 .ex-demo p { color: var(--ink-3); }
 
@@ -1107,6 +1135,12 @@ h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacin
 .mq { flex: none; font-weight: 600; white-space: nowrap; }
 /* the pickup board over the counter: dark, as in the app — cooking quiet at the left, ready green at the right, the
    numbers tiles from edge to edge, one width (2 November: «не растягивай блоки») */
+/* (14 November 2026) an order from the restaurant's own site: its pill and its edge in RUVO's blue; a shift's mission:
+   how far, as a bar */
+.pf.site { background: var(--a-accent); color: var(--a-accent-ink); }
+.mu--web .mr.mdc { box-shadow: inset 4px 0 0 0 var(--a-accent); }
+.mu--mission .md-bar { height: 8px; border-radius: 4px; overflow: hidden; }
+.mu--mission .md-bar .d-fill { border-radius: 4px; }
 .mu--board { --a-surface: #161920; --a-ink: #ECEEF4; --a-ink-2: #B5BBC5; --a-line: #272B34; --a-line-2: #373C46; color-scheme: dark; }
 .mbd { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .mbc { display: grid; grid-template-rows: 40px minmax(0, 1fr); min-width: 0; }
@@ -1178,8 +1212,10 @@ h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacin
 .pt-hw { margin-left: 4px; color: var(--ink-3); font-size: 14px; white-space: nowrap; }
 .pt td { width: 6.5em; padding: 13px 0 13px 16px; border-bottom: 1px solid var(--line); font-size: 16px; font-weight: 500; line-height: 1.4; text-align: right; vertical-align: baseline; white-space: nowrap; }
 .pt td.pt-free { color: var(--ok); }
+/* (14 November 2026) the ordering site's share of its orders beside its month: «5.000 + 3%» */
+.pt-pct { color: var(--ink-2); }
 @media (max-width: 900px) { .pt-cols { grid-template-columns: minmax(0, 1fr); } }
-@media (max-width: 480px) { .pt thead th, .pt td { padding-left: 10px; } .pt td { width: auto; font-size: 15px; } }
+@media (max-width: 480px) { .pt thead th, .pt td { padding-left: 10px; } .pt td { width: auto; font-size: 15px; } .pt-pct { display: block; font-size: 13px; } }
 
 /* the calculator: a card across the width — the venues and the licences, the modules, the sum */
 .calc[hidden] { display: none; }
@@ -1187,16 +1223,16 @@ h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacin
 .calc .p-head { align-items: center; }
 .calc-presets { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .calc-presets-k { margin-right: 2px; color: var(--ink-3); font-size: 14px; }
+.calc-presets .chip { height: 34px; padding: 0 15px; border: 0; border-radius: 999px; background: var(--fill); color: var(--ink); font: inherit; font-size: 14px; letter-spacing: -0.01em; cursor: pointer; }
+.calc-presets .chip:hover { background: var(--fill-2); }
+.calc-presets .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 /* (14 November, 15:31, the owner: «кое-где съехавшие пилюли») a phone: «Primer:» over the three, the three on one line
-   (the third went alone to a line of its own) */
+   (the third went alone to a line of its own); after the chips' own rule, so its smaller size holds */
 @media (max-width: 520px) {
   .calc-presets { display: grid; grid-template-columns: auto auto 1fr; gap: 8px 6px; justify-items: start; }
   .calc-presets-k { grid-column: 1 / -1; }
   .calc-presets .chip { padding: 0 12px; font-size: 13px; white-space: nowrap; }
 }
-.calc-presets .chip { height: 34px; padding: 0 15px; border: 0; border-radius: 999px; background: var(--fill); color: var(--ink); font: inherit; font-size: 14px; letter-spacing: -0.01em; cursor: pointer; }
-.calc-presets .chip:hover { background: var(--fill-2); }
-.calc-presets .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 .calc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px clamp(24px, 3vw, 48px); align-items: start; }
 .calc-col { display: grid; align-content: start; gap: 8px; min-width: 0; margin: 0; padding: 0; border: 0; }
 .calc-k { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; min-height: 24px; color: var(--ink-3); font-size: 13px; font-weight: 600; letter-spacing: 0; }
@@ -1231,6 +1267,8 @@ h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacin
 .calc-lines { display: grid; gap: 6px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 14px; font-variant-numeric: tabular-nums; }
 .calc-lines li { display: flex; justify-content: space-between; gap: 12px; color: var(--ink-2); }
 .calc-lines li span:last-child { color: var(--ink); font-weight: 600; white-space: nowrap; }
+/* under the lines: what the ordering site takes besides its month */
+.calc-pct { margin-top: 10px; color: var(--ink-2); font-size: 14px; }
 @media (max-width: 1100px) {
   .calc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .calc-in { grid-column: 1; grid-row: 1; }

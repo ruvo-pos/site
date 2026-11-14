@@ -74,8 +74,8 @@ const EQUIP_ICON = { ipad: 'device-tablet', iphone: 'device-mobile', kds: 'devic
 const HOME_EQUIP = ['ipad', 'iphone', 'kds', 'router', 'fiscal'];
 // «Zašto RUVO», «U ceni objekta» and «Povezivanja», in the order of their lines in content.mjs
 const WHY_ICON = ['cash-register', 'lock-simple-open', 'shield-check', 'chef-hat'];
-const INCL_ICON = ['device-tablet', 'device-tablet-camera', 'package', 'receipt', 'sparkle', 'users'];
-const INTEGR_ICON = ['qr-code', 'credit-card', 'file-text', 'paper-plane-tilt', 'arrows-left-right', 'moped'];
+const INCL_ICON = ['device-tablet', 'device-tablet-camera', 'package', 'receipt', 'sparkle', 'users', 'wallet', 'device-mobile'];
+const INTEGR_ICON = ['qr-code', 'credit-card', 'file-text', 'paper-plane-tilt', 'arrows-left-right', 'moped', 'plug'];
 // a link that reads on: «Pogledajte cene ›»
 const MORE = (label) => `${esc(label)}${IC('caret-right', 'lnk-i')}`;
 // the demo: one page per language of the app — Serbian, English (since 15 October, the owner: «И в демо тоже надо сделать
@@ -679,23 +679,23 @@ const SHOTS = {
   guests: (lang, x, file) => shot('pad', lang, file, 'guests'),
   stock: (lang, x, file) => shot('pad', lang, file, 'tech'),
   reports: (lang, x, file) => shot('pad', lang, file, 'reports'),
-  sef: (lang, x, file) => shot('pad', lang, file, 'sef'),
-  team: (lang, x, file) => shot('pad', lang, file, 'pay'),
+  // (14 November 2026, «Делаем все») the team and its motivation in one tab: the week's pay on the iPad, the waiter's
+  // profile on the iPhone standing over its right corner
+  team: (lang, x, file) => `<div class="combo">${shot('pad', lang, file, 'pay')}${shot('phone', lang, file, 'motivation')}</div>`,
   site: (lang, x, file) => `<div class="pair">${shot('phone', lang, file, 'site')}<div class="side">${iosNote(x.push)}</div></div>`,
-  motivation: (lang, x, file) => `<div class="pair">${shot('phone', lang, file, 'motivation')}<div class="side">${missionsCard(x.missions)}</div></div>`,
   money: (lang, x, file) => shot('pad', lang, file, 'money'),
   office: (lang, x, file) => `<div class="pair">${shot('phone', lang, file, 'office-phone')}<div class="side">${notesCard(x.notes)}${tgCard(x.tg)}</div></div>`,
 };
-const SHOT_KIND = { waiter: 'phones', kiosk: 'port', site: 'phones', motivation: 'phones', office: 'phones' };
-// (14 November 2026) the tabs' order: the hall and the guests, the books, the people, the owner
-const TAB_ORDER = ['floor', 'waiter', 'kitchen', 'delivery', 'kiosk', 'site', 'guests', 'stock', 'sef', 'reports', 'money', 'team', 'motivation', 'office'];
+const SHOT_KIND = { waiter: 'phones', kiosk: 'port', site: 'phones', team: 'combo', office: 'phones' };
+// (14 November 2026) the tabs' order: the hall and the guests, the books, the people, the owner — twelve since «Делаем
+// все» (SEF in «Magacin», the motivation in «Tim»)
+const TAB_ORDER = ['floor', 'waiter', 'kitchen', 'delivery', 'kiosk', 'site', 'guests', 'stock', 'reports', 'money', 'team', 'office'];
 
 // (14 November 2026, the new parts) the drawn pieces beside a phone, in the app's own words (content.mjs): a
-// notification as the iPhone shows it — RUVO Order's icon, its name and the time over its words; the shift's missions;
-// the owner's notifications; a chat with RUVO's bot in Telegram
+// notification as the iPhone shows it — RUVO Order's icon, its name and the time over its words; the owner's
+// notifications; a chat with RUVO's bot in Telegram
 const ORDER_ICON = readFileSync(path.join(ROOT, 'src/ruvo-order-icon.svg'), 'utf8').replace('<svg ', '<svg class="ios-n-ic" aria-hidden="true" focusable="false" ');
 const iosNote = (n) => `<div class="ios-n"><p class="ios-n-app">${ORDER_ICON}<span>${esc(n.app)}</span><time>${esc(n.when)}</time></p><p class="ios-n-t">${esc(n.title)}</p><p class="ios-n-b">${esc(n.body)}</p></div>`;
-const missionsCard = (m) => `<div class="nc side-nc"><p class="nc-h">${IC('target')}<span>${esc(m.title)}</span></p>${m.rows.map(([what, prize, done]) => `<div class="nc-r"><span>${done ? IC('check', 'nc-ok') : ''}${esc(what)}</span><b${done ? ' class="ok"' : ''}>${esc(prize)}</b></div>`).join('')}<p class="nc-note">${esc(m.note)}</p></div>`;
 const notesCard = (n) => `<div class="nc side-nc"><p class="nc-h">${IC('bell')}<span>${esc(n.title)}</span></p>${n.rows.map(([t, b]) => `<div class="nc-n"><b>${esc(t)}</b><span>${esc(b)}</span></div>`).join('')}</div>`;
 const tgCard = (t) => `<div class="nc side-nc tg"><p class="nc-h">${IC('paper-plane-tilt')}<span>${esc(t.title)}</span></p><div class="tg-msg"><b>${esc(t.report)}</b>${t.rows.map(([k, v]) => `<span class="tg-r"><span>${esc(k)}</span><b>${esc(v)}</b></span>`).join('')}</div><div class="tg-msg"><span>${esc(t.ask)}</span></div><div class="tg-keys">${t.keys.map((k) => `<span>${esc(k)}</span>`).join('')}</div></div>`;
 
@@ -738,7 +738,7 @@ function features(lang, file, v = null, tabs = null) {
 <div class="ex-panels">${items.map((it) => `
 <div class="ex-panel" id="ex-p-${it.id}">
 <div class="ex-shot ex-shot--${SHOT_KIND[it.id] || 'pad'}" role="img" aria-label="${esc(it.label)}">${SHOTS[it.id](lang, it, file)}</div>
-<div class="ex-text"><h3>${txt(it.title)}</h3><p>${txt(it.text)}</p><ul>${it.points.map((p) => `<li>${txt(p)}</li>`).join('')}</ul></div>
+<div class="ex-text"><h3>${txt(it.title)}</h3><p>${txt(it.text)}</p>${it.try ? `<p class="ex-try"><a class="lnk" href="${esc(it.try.href)}">${MORE(it.try.text)}</a></p>` : ''}<ul>${it.points.map((p) => `<li>${txt(p)}</li>`).join('')}</ul></div>
 </div>`).join('')}
 </div>
 </div>
@@ -775,6 +775,10 @@ function micro(lang, key, u) {
     queue: () => row(esc(u.label), `<b class="mq">${esc(u.load)}</b>`, ' m3') + row(esc(u.note), '', ' warn', 'clock'),
     norm: () => row(esc(u.label), fig(`${u.pct}%`, ' big'), ' ok') + u.rows.map(([a, b]) => row(esc(a), fig(esc(b)), ' m3')).join(''),
     pair: () => u.rows.map(([a, v]) => row(esc(a), fig(money(v)))).join('') + row(esc(u.disc), fig(`−${money(u.minus)}`), ' on m3', 'tag'),
+    // (14 November 2026, «Делаем все») an order from the restaurant's site, a till closed short, a shift's mission
+    web: () => `<div class="mr mdc"><span class="mr-a"><span class="pf site">${esc(u.src)}</span>${fig(esc(u.code))}</span></div>${row(esc(u.item), '', ' mdc')}${row(esc(u.when), '', ' mdc m3', 'clock')}`,
+    short: () => row(esc(u.got), fig(money(u.cash))) + row(esc(u.need), fig(money(u.expected)), ' m3') + row(esc(u.note), '', ' warn', 'bell'),
+    mission: () => row(esc(u.task), fig(`${u.done}/${u.of}`, ' big'), ' on', 'target') + `<div class="mr mday"><span class="md-bar"><i class="d-fill" style="right: ${Math.round((1 - u.done / u.of) * 1000) / 10}%"></i></span></div>` + row(esc(u.prize), '', ' ok m3', 'check'),
     board: () => `<div class="mbd">${[[u.cooking, u.wait, ''], [u.ready, u.done, ' ok']].map(([h, list, c]) => `<div class="mbc${c}"><span class="mbh">${esc(h)}</span><span class="mbn">${[...list].sort((x, y) => (y[1] ? 1 : 0) - (x[1] ? 1 : 0)).map(([no, nm]) => `<span><b>${esc(no)}</b>${nm ? `<small>${esc(nm)}</small>` : ''}</span>`).join('')}</span></div>`).join('')}</div>`,
   };
   return `<div class="mu mu--${key}" aria-hidden="true">${M[key]()}</div>`;
@@ -848,7 +852,9 @@ const priceOf = (key) => {
 // What a setup costs a month — the same sum as the app's billOf: the venue with one front terminal and one kitchen
 // screen, the terminals and kitchen screens beyond those, a licence for every waiter device and every kiosk, the modules
 // on in each venue, Telegram once for the company. The example bills are counted with it here, and the calculator's
-// script carries its source text, so the two never differ. → { lines: [[key, qty, sum]], month }
+// script carries its source text, so the two never differ. (14 November 2026) The team's motivation comes with
+// «Smene i plate» (its prizes go into the pay); the ordering site takes `sitePct` of its orders besides its month —
+// `pct`, said under the sum. → { lines: [[key, qty, sum]], month, pct }
 function billOf(D, s) {
   const n = s.venues || 1;
   const lines = [];
@@ -858,10 +864,13 @@ function billOf(D, s) {
   add('kds', n * Math.max(0, (s.kds || 0) - D.included.kds), D.device.kds);
   add('iphone', n * (s.iphone || 0), D.device.iphone);
   add('kiosk', n * (s.kiosk || 0), D.device.kiosk);
-  for (const m of ['ips', 'terminal', 'shifts']) if (s[m]) add(m, n, D.modules[m]);
+  const has = { ...s, shifts: !!(s.shifts || s.motivation) };
+  for (const m of ['site', 'motivation', 'shifts', 'ips', 'terminal']) if (has[m]) add(m, n, D.modules[m]);
   if (s.telegram) add('telegram', 1, D.modules.telegram);
-  return { lines, month: lines.reduce((sum, l) => sum + l[2], 0) };
+  return { lines, month: lines.reduce((sum, l) => sum + l[2], 0), pct: s.site ? D.sitePct : 0 };
 }
+// the modules the calculator offers, in its order
+const CALC_MODS = ['site', 'motivation', 'shifts', 'ips', 'terminal', 'telegram'];
 
 // `bills` — the calculator's examples, the first pressed at the start: a kind of venue puts its own first
 function pricing(lang, file, bills = null) {
@@ -884,15 +893,18 @@ function pricing(lang, file, bills = null) {
 </article>`;
   };
   // a row of the price list: the name, for a licence the hardware in one word, both prices
+  // (the ordering site: its month and its share of the orders — «5.000 + 3%»)
+  const pct = (key) => key === 'm:site' ? `<span class="pt-pct"> + ${PRICES.sitePct}%<span class="vh"> ${esc(p.sitePct)}</span></span>` : '';
   const group = ([title, items]) => `<tbody>
 <tr class="pt-g"><th colspan="3" scope="colgroup">${esc(title)}</th></tr>${items.map(([key, name, hw]) => {
     const v = priceOf(key);
-    const cells = v === 0 ? `<td colspan="2" class="pt-free">${esc(p.free)}</td>` : `<td>${num(v)}</td><td>${num(yearOf(v))}</td>`;
+    const cells = v === 0 ? `<td colspan="2" class="pt-free">${esc(p.free)}</td>` : `<td>${num(v)}${pct(key)}</td><td>${num(yearOf(v))}${pct(key)}</td>`;
     return `
 <tr><th scope="row"><span class="pt-n">${txt(name)}</span>${hw ? ` <span class="pt-hw">${esc(hw)}</span>` : ''}</th>${cells}</tr>`;
   }).join('')}
 </tbody>`;
-  // two tables of one look on the page's halves: the licences; the modules and what a company pays once
+  // two tables of one look on the page's halves, two groups each: the licences and what a company pays once; the modules
+  // and the payments
   const table = (gs) => `<table class="pt">
 <thead><tr><th scope="col"><span class="vh">${esc(p.tableTitle)}</span></th><th scope="col">${esc(p.cols[0])}</th><th scope="col">${esc(p.cols[1])}</th></tr></thead>
 ${gs.map(group).join('\n')}
@@ -903,9 +915,10 @@ ${gs.map(group).join('\n')}
   const presets = `<div class="calc-presets" role="group" aria-label="${esc(p.presets)}"><span class="calc-presets-k">${esc(p.presets)}:</span>${p.bills.map(([name], i) => `<button type="button" class="chip" data-preset="${i}" aria-pressed="${i === 0}">${esc(name)}</button>`).join('')}</div>`;
   // a row of the calculator: the name (with «1 included» where a venue includes one) and − value +
   const stepper = (id, label, min, max, value, hint = '') => `<div class="stp"><label for="c-${id}">${esc(label)}${hint ? ` <small>${esc(hint)}</small>` : ''}</label><span class="stp-ctl"><button type="button" data-d="-1" aria-label="${esc(c.less)}: ${esc(label)}">−</button><input id="c-${id}" type="number" inputmode="numeric" min="${min}" max="${max}" step="1" value="${value}"><button type="button" data-d="1" aria-label="${esc(c.more)}: ${esc(label)}">+</button></span></div>`;
-  const mod = (m) => `<label class="mod"><input type="checkbox" value="${m}"><span class="mod-box" aria-hidden="true"></span><span class="mod-n">${esc(c.mods[m])}${m === 'telegram' ? ` <small>${esc(c.perCompany)}</small>` : ''}</span><span class="mod-p">${num(PRICES.modules[m])}</span></label>`;
+  const modNote = { telegram: c.perCompany, motivation: c.withShifts };
+  const mod = (m) => `<label class="mod"><input type="checkbox" value="${m}"><span class="mod-box" aria-hidden="true"></span><span class="mod-n">${esc(c.mods[m])}${modNote[m] ? ` <small>${esc(modNote[m])}</small>` : ''}</span><span class="mod-p">${num(PRICES.modules[m])}${m === 'site' ? ` + ${PRICES.sitePct}%` : ''}</span></label>`;
   // what the calculator counts with: the price list, the names of its lines and the presets; «<» never ends the script
-  const data = JSON.stringify({ ...PRICES, locale: LOCALE[lang], lines: c.lines, presets: p.bills.map(([, s]) => s) }).replace(/</g, '\\u003c');
+  const data = JSON.stringify({ ...PRICES, locale: LOCALE[lang], lines: c.lines, sitePlus: c.sitePlus, mods: CALC_MODS, presets: p.bills.map(([, s]) => s) }).replace(/</g, '\\u003c');
   const half = Math.ceil(p.faq.length / 2);
   return `<section class="band" id="pricing" aria-labelledby="pricing-h"><div class="wrap">
 <div class="sec-head"><h2 id="pricing-h">${esc(p.title)}</h2><p>${txt(p.lead)}</p></div>
@@ -919,8 +932,8 @@ ${plan('year', yearOf(PRICES.venue))}
 </div>
 <div class="p-block ptab">${head(p.tableTitle, `<p>RSD, ${esc(p.vat)}</p>`)}
 <div class="pt-cols">
-${table(p.groups.slice(0, 1))}
-${table(p.groups.slice(1))}
+${table(p.groups.slice(0, 2))}
+${table(p.groups.slice(2))}
 </div>
 </div>
 <div class="p-block calc" id="calc" hidden>${head(c.title, presets)}
@@ -934,13 +947,14 @@ ${stepper('kds', c.kds, 0, 10, 1, c.included)}
 ${stepper('iphone', c.iphone, 0, 30, 0)}
 ${stepper('kiosk', c.kiosk, 0, 10, 0)}
 </div>
-<fieldset class="calc-col calc-mods"><legend class="calc-k">${esc(c.modsTitle)}</legend><div class="mod-list">${['ips', 'terminal', 'shifts', 'telegram'].map(mod).join('')}</div></fieldset>
+<fieldset class="calc-col calc-mods"><legend class="calc-k">${esc(c.modsTitle)}</legend><div class="mod-list">${CALC_MODS.map(mod).join('')}</div></fieldset>
 <div class="calc-col calc-out">
 <div class="calc-tots" aria-live="polite">
 <div class="calc-tot"><p class="calc-k">${esc(c.month)}</p><p class="calc-total"><span data-o="month">${num(PRICES.venue)}</span><small>RSD</small></p></div>
 <div class="calc-tot"><p class="calc-k">${esc(c.year)} <span class="plan-badge">${esc(c.yearNote)}</span></p><p class="calc-total"><span data-o="year">${num(yearOf(PRICES.venue))}</span><small>RSD</small></p></div>
 </div>
 <ul class="calc-lines" data-o="lines"></ul>
+<p class="calc-pct" data-o="pct" hidden>${esc(c.sitePlus)}</p>
 </div>
 </div></div>
 </div>
@@ -969,7 +983,7 @@ const HOME_JS = `(() => {
     ${billOf.toString().replace(/\n/g, '\n    ')}
     const update = () => {
       const s = { venues: val('venues'), ipad: val('ipad'), kds: val('kds'), iphone: val('iphone'), kiosk: val('kiosk') };
-      for (const m of ['ips', 'terminal', 'shifts', 'telegram']) s[m] = on(m);
+      for (const m of D.mods) s[m] = on(m);
       const b = billOf(D, s);
       $('[data-o=month]').textContent = f.format(b.month);
       $('[data-o=year]').textContent = f.format(b.month * D.yearMonths);
@@ -984,17 +998,23 @@ const HOME_JS = `(() => {
         li.append(a, c);
         ul.append(li);
       }
+      $('[data-o=pct]').hidden = !b.pct;
     };
     // the example setups: a press fills the calculator in; any change by hand lets the pressed one go
     const chips = [...calc.querySelectorAll('[data-preset]')];
     const press = (i) => chips.forEach((x, j) => x.setAttribute('aria-pressed', String(i === j)));
     const preset = (s) => {
       for (const k of ['venues', 'ipad', 'kds', 'iphone', 'kiosk']) $('#c-' + k).value = s[k] || (k === 'venues' || k === 'ipad' ? 1 : 0);
-      for (const m of ['ips', 'terminal', 'shifts', 'telegram']) $('input[value="' + m + '"]').checked = !!s[m];
+      for (const m of D.mods) $('input[value="' + m + '"]').checked = !!s[m] || (m === 'shifts' && !!s.motivation);
+    };
+    // the team's motivation comes with the shifts and pay: one on turns the other on, the shifts off turn it off
+    const tie = (t) => {
+      if (t.value === 'motivation' && t.checked) $('input[value="shifts"]').checked = true;
+      if (t.value === 'shifts' && !t.checked) $('input[value="motivation"]').checked = false;
     };
     // the first example is the page's own (a kind of venue puts its setup first): it fills the calculator in at the start
     if (chips.length) { preset(D.presets[0]); press(0); }
-    calc.addEventListener('input', () => { press(-1); update(); });
+    calc.addEventListener('input', (e) => { if (e.target.type === 'checkbox') tie(e.target); press(-1); update(); });
     calc.addEventListener('change', (e) => { if (e.target.type === 'number') e.target.value = val(e.target.id.slice(2)); update(); });
     calc.addEventListener('click', (e) => {
       const c = e.target.closest('[data-preset]');
@@ -1029,9 +1049,22 @@ const HOME_JS = `(() => {
         panels[j].inert = !on;
       });
       if (focus) tabs[i].focus();
-      // a tab row that scrolls sideways keeps the chosen one in view
-      if (list.scrollWidth > list.clientWidth) list.scrollTo({ left: tabs[i].offsetLeft - 16, behavior: 'smooth' });
+      // a tab row that scrolls sideways keeps the chosen one in view (on a phone the row's frame scrolls, not the row)
+      const sc = scroller();
+      if (sc) sc.scrollTo({ left: i ? sc.scrollLeft + tabs[i].getBoundingClientRect().left - sc.getBoundingClientRect().left - 16 : 0, behavior: 'smooth' });
     };
+    // (14 November 2026, «Делаем все») where the row goes on past an edge, that edge fades: there is more to scroll to
+    const frames = [list, list.parentNode];
+    const scroller = () => frames.find((el) => el.scrollWidth > el.clientWidth + 1) || null;
+    const edges = () => {
+      for (const el of frames) {
+        const s = el.scrollWidth > el.clientWidth + 1;
+        el.classList.toggle('fade-l', s && el.scrollLeft > 2);
+        el.classList.toggle('fade-r', s && el.scrollLeft + el.clientWidth < el.scrollWidth - 2);
+      }
+    };
+    for (const el of frames) el.addEventListener('scroll', edges, { passive: true });
+    addEventListener('resize', edges);
     tabs.forEach((t, i) => {
       t.addEventListener('click', () => show(i));
       t.addEventListener('keydown', (e) => {
@@ -1044,6 +1077,7 @@ const HOME_JS = `(() => {
     list.hidden = false;
     box.classList.add('js');
     show(0);
+    edges();
   }
   // what moves on the page moves only while it is in sight, and not at all for those who asked for less motion
   const still = window.matchMedia('(prefers-reduced-motion: reduce)');

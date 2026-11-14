@@ -24,13 +24,18 @@ export const SITE = {
 // (app/src/billing.js, pricesOf): a venue includes one iPad and one kitchen screen; devices beyond those are paid per
 // device; modules per venue where they are on, Telegram and the move once a company. SEF and Wolt/Glovo have no price
 // yet, so they are not on the list. The venue 6 500 since 16 October (the owner: «цену поднимем до 6500»), with reading
-// paper invoices from a photo in it.
+// paper invoices from a photo in it. (14 November 2026, 16:11, the owner — prices weighed against what a venue saves or
+// earns: «сайт заказов плюс ордер я бы делал бы 5 000 динар в месяц плюс 3% от сумм заказов. Мотивация команды… 3 в
+// месяц. Деньги… в цене объекта… бэк-офис в айфоне владельца тоже в цене объекта») the ordering site with RUVO Order
+// 5 000 a venue and `sitePct` of its orders' sums; the team's motivation 3 000 a venue (its prizes go into the pay, so
+// the calculator turns «Smene i plate» on with it); the money and the back office on the owner's iPhone in the venue.
 export const PRICES = {
   currency: 'RSD',
   venue: 6500,
   included: { ipad: 1, kds: 1 },
   device: { ipad: 1500, kds: 1200, iphone: 1000, kiosk: 5000 },
-  modules: { ips: 1000, terminal: 1000, shifts: 1500, telegram: 500, migrate: 0 },
+  modules: { site: 5000, motivation: 3000, shifts: 1500, ips: 1000, terminal: 1000, telegram: 500, migrate: 0 },
+  sitePct: 3,
   yearMonths: 10,
   vat: 20,
 };
@@ -83,16 +88,17 @@ const TICKET = {
 // The hero goes on (the owner, 14 October, 15:53: «первый блок снабдить большим кол-ом демо-вариантов, как будто там
 // кипит работа»): after table 12 — the floor with table 5 ready and served, a Wolt order to its courier, table 12 paid
 // by IPS QR and its stock written off; meanwhile notices come one by one, as they do on a busy evening. Every one is
-// something RUVO does (the kiosk, Wolt, the waiter's iPhone, the stop list with portions, the pickup screen, IPS QR).
+// something RUVO does (the kiosk, Wolt, the stop list with portions, the pickup screen, IPS QR; since «Делаем все», 14
+// November 2026, an order from the restaurant's site and a waiter's shift mission done).
 const LIVE = {
   sr: {
-    label: 'Jedno veče u RUVO-u: porudžbina stola 12 ide u kuhinju, sala sa stolom 5 spremnim za serviranje, dostava za Wolt i naplata IPS QR kodom; okolo — obaveštenja sa kioska, od kurira i iz kuhinje',
+    label: 'Jedno veče u RUVO-u: porudžbina stola 12 ide u kuhinju, sala sa stolom 5 spremnim za serviranje, dostava za Wolt i naplata IPS QR kodom; okolo — obaveštenja sa kioska, sa sajta, od kurira i iz kuhinje',
     now: 'sada',
     events: [
       ['hand-tap', 'Kiosk', 'Nova porudžbina 48 · plaćanje na kasi'],
       ['moped', 'Wolt', 'Nova porudžbina W-7F3A · 2× Ćevapi'],
-      ['bell', 'Sto 5', 'Spremno za serviranje · 3 jela'],
-      ['device-mobile', 'Sto 9 · Jovana', 'Poslato u kuhinju i šank · 6 stavki'],
+      ['target', 'Marko · zadatak smene', '6 palačinki — ispunjeno · +300 RSD'],
+      ['globe', 'Sajt · nova porudžbina', 'Br. 7 · preuzimanje u 21:30 · 2 340 RSD'],
       ['prohibit', 'Stop-lista', 'Ćevapi, 10 kom — ostalo 3'],
       ['moped', 'Wolt W-7F3A', 'Kurir stiže u 21:52'],
       ['qr-code', 'Sto 12 · IPS QR', 'Plaćeno {sum} RSD'],
@@ -106,13 +112,13 @@ const LIVE = {
     written: 'otpisano · Sto 12',
   },
   en: {
-    label: 'An evening in RUVO: table 12’s order goes to the kitchen, the floor with table 5 ready to serve, a Wolt delivery and an IPS QR payment; around them, notices from the kiosk, the couriers and the kitchen',
+    label: 'An evening in RUVO: table 12’s order goes to the kitchen, the floor with table 5 ready to serve, a Wolt delivery and an IPS QR payment; around them, notices from the kiosk, the ordering site, the couriers and the kitchen',
     now: 'now',
     events: [
       ['hand-tap', 'Kiosk', 'New order 48 · pay at the counter'],
       ['moped', 'Wolt', 'New order W-7F3A · 2× Ćevapi'],
-      ['bell', 'Table 5', 'Ready to serve · 3 dishes'],
-      ['device-mobile', 'Table 9 · Jovana', 'Sent to the kitchen and bar · 6 items'],
+      ['target', 'Marko · shift mission', '6 pancakes — done · +300 RSD'],
+      ['globe', 'Site · new order', 'No. 7 · pickup at 21:30 · 2 340 RSD'],
       ['prohibit', 'Stop list', 'Ćevapi, 10 pcs — 3 left'],
       ['moped', 'Wolt W-7F3A', 'The courier arrives at 21:52'],
       ['qr-code', 'Table 12 · IPS QR', 'Paid {sum} RSD'],
@@ -126,13 +132,13 @@ const LIVE = {
     written: 'written off · Table 12',
   },
   ru: {
-    label: 'Вечер в RUVO: заказ стола 12 уходит на кухню, зал со столом 5, готовым к подаче, доставка Wolt и оплата по IPS QR; вокруг — уведомления с киоска, от курьеров и с кухни',
+    label: 'Вечер в RUVO: заказ стола 12 уходит на кухню, зал со столом 5, готовым к подаче, доставка Wolt и оплата по IPS QR; вокруг — уведомления с киоска, с сайта, от курьеров и с кухни',
     now: 'сейчас',
     events: [
       ['hand-tap', 'Киоск', 'Новый заказ 48 · оплата на кассе'],
       ['moped', 'Wolt', 'Новый заказ W-7F3A · 2× Чевапи'],
-      ['bell', 'Стол 5', 'Готово к подаче · 3 блюда'],
-      ['device-mobile', 'Стол 9 · Jovana', 'Отправлено на кухню и бар · 6 позиций'],
+      ['target', 'Marko · задание смены', '6 блинчиков — выполнено · +300 RSD'],
+      ['globe', 'Сайт · новый заказ', '№ 7 · самовывоз в 21:30 · 2 340 RSD'],
       ['prohibit', 'Стоп-лист', 'Чевапи, 10 шт — осталось 3'],
       ['moped', 'Wolt W-7F3A', 'Курьер приедет в 21:52'],
       ['qr-code', 'Стол 12 · IPS QR', 'Оплачено {sum} RSD'],
@@ -269,9 +275,10 @@ const EXAMPLES = {
         label: 'Primer: račun stola 5 sa karticom gosta i popustom nivoa Zlato',
       },
       {
-        id: 'stock', tab: 'Magacin', title: 'Magacin i normativi',
-        text: 'Svaka prodaja otpisuje namirnice po normativu — bruto, neto i gubitak pri obradi. Vidite cenu koštanja porcije, food cost svakog jela i šta je ispod minimuma.',
-        points: ['Prijemnice, otpis i popis', 'Poluproizvodi sa svojim normativima', 'Prosečna nabavna cena se računa sama'],
+        // (14 November 2026, «Делаем все») the supplier invoices from SEF are this tab's now: fourteen tabs were too many
+        id: 'stock', tab: 'Magacin', title: 'Magacin, normativi i fakture',
+        text: 'Svaka prodaja otpisuje namirnice po normativu — bruto, neto i gubitak pri obradi — i vidite food cost svakog jela. E-fakture dobavljača stižu iz SEF-a same: stavke povežete sa proizvodima jednom, a prijemnica nastaje jednim dugmetom.',
+        points: ['Prijemnice, otpis i popis — i sa telefona', 'Fakture iz SEF-a: prihvatite ili odbijte u RUVO-u', 'Papirna otpremnica — fotografijom: stavke popuni AI', 'Više firmi (PIB) pod jednim nalogom'],
         label: 'Primer: normativ za ćevape — namirnice bruto i neto, cena koštanja porcije i food cost svakog jela',
       },
       {
@@ -282,16 +289,12 @@ const EXAMPLES = {
         report: { ask: 'Kakav je bio promet prošle nedelje u odnosu na nedelju pre?' },
       },
       {
-        id: 'sef', tab: 'SEF', title: 'Fakture dobavljača iz SEF-a',
-        text: 'Ulazne e-fakture stižu same. Stavke dobavljača povežete sa svojim proizvodima jednom, a prijemnica u magacin nastaje jednim dugmetom.',
-        points: ['Prihvatite ili odbijte fakturu iz RUVO-a', 'Rok za odgovor uvek pred očima', 'Više firmi (PIB) pod jednim nalogom', 'Papirna otpremnica — fotografijom: stavke popuni AI'],
-        label: 'Primer: ulazna faktura dobavljača povrća iz SEF-a — stavke povezane sa proizvodima magacina',
-      },
-      {
-        id: 'team', tab: 'Tim', title: 'Tim i smene',
-        text: 'Svako radi pod svojim PIN-om i sa svojom ulogom. Smena počinje i završava se PIN-om na terminalu sale, a plata se računa sama — po satima i procentu od prodaje.',
-        points: ['Uloge: vlasnik, menadžer, konobar, kuvar, šank', 'Dnevnik radnji — ko je šta uradio i kada', 'Zaboravljena smena se ispravlja uz razlog'],
-        label: 'Primer: plate za nedelju — sati, satnica, procenat od prodaje i napojnice',
+        // (14 November 2026, «Делаем все») the team's motivation is this tab's now: the week's pay on the iPad, the
+        // waiter's own profile on the iPhone over it
+        id: 'team', tab: 'Tim', title: 'Tim, smene i motivacija',
+        text: 'Svako radi pod svojim PIN-om i sa svojom ulogom, a plata se računa sama — po satima i procentu od prodaje. Konobar na iPhone-u vidi koliko je zaradio ovog meseca i kako da zaradi više: zadaci smene, bonus za jela koja vi izaberete, rang lista i nivoi sa većim procentom.',
+        points: ['Uloge, PIN i dnevnik radnji — ko je šta uradio i kada', 'Zadaci smene — na primer, 6 palačinki za +300 RSD', 'Bonus po porciji za jela koja želite da prodajete', 'Zarada iz motivacije sama ulazi u platu'],
+        label: 'Primer: plate za nedelju na iPad-u i profil konobara na iPhone-u — zarada ovog meseca, zadaci, rang lista i nivo',
       },
       // (14 November 2026, the owner: «надо лендинг обновить — Сеилс Форс, клиентский сайт и тд»; 14:51 — «Мотивация
       // команды», all four parts) the screens that need the server: tools/shots-live.mjs
@@ -301,13 +304,7 @@ const EXAMPLES = {
         points: ['Meni, cene i stop-lista — iz vašeg RUVO-a', 'Plaćanje na kasi ili IPS QR kodom', 'Aplikacija RUVO Order za iPhone — uskoro u App Store-u'],
         label: 'Primer: stranica restorana na telefonu gosta i obaveštenje da je porudžbina spremna',
         push: { app: 'RUVO Order', when: 'sada', title: 'Porudžbina br. 12 je spremna', body: 'Preuzmite je u restoranu Bistro Dorćol. Na kasi recite broj 12.' },
-      },
-      {
-        id: 'motivation', tab: 'Motivacija', title: 'Motivacija tima',
-        text: 'Konobar na svom iPhone-u vidi koliko je zaradio ovog meseca i kako da zaradi više: zadaci smene, bonus za jela koja vi izaberete, rang lista sa nagradama, nivoi sa većim procentom i dostignuća. Pravila postavljate u bekofisu, a ono što konobar zaradi samo ulazi u platu.',
-        points: ['Zadaci smene — na primer, 6 palačinki za +300 RSD', 'Bonus po porciji za jela koja želite da prodajete', 'Rang lista meseca i nivoi sa većim procentom'],
-        label: 'Primer: profil konobara — zarada ovog meseca, zadaci, rang lista, nivo i dostignuća',
-        missions: { title: 'Zadaci smene', rows: [['6 palačinki', '+300 RSD', true], ['Promet 40 000 RSD', '+500 RSD', false]], note: 'Rang lista meseca: 1. mesto — 3 000 RSD' },
+        try: { href: 'https://order.ruvo.ac/example', text: 'Otvorite primer sajta' },
       },
       {
         id: 'money', tab: 'Novac', title: 'Novac: tok novca, dobit i fakture',
@@ -374,9 +371,9 @@ const EXAMPLES = {
         label: 'Example: the bill of table 5 with a guest card and the Gold level’s discount',
       },
       {
-        id: 'stock', tab: 'Stock', title: 'Stock and recipes',
-        text: 'Every sale writes off ingredients by recipe — gross, net and the loss in processing. You see what a portion costs, each dish’s food cost and what is below the minimum.',
-        points: ['Receipts, write-offs and stocktakes', 'Semi-finished items with recipes of their own', 'The average cost is worked out by itself'],
+        id: 'stock', tab: 'Stock', title: 'Stock, recipes and supplier invoices',
+        text: 'Every sale writes off ingredients by recipe — gross, net and the loss in processing — and you see each dish’s food cost. Suppliers’ e-invoices arrive from SEF by themselves: match their items to your products once, and the stock receipt is one button.',
+        points: ['Receipts, write-offs and stocktakes — from a phone too', 'SEF invoices: accept or reject them in RUVO', 'A paper delivery note — by photo: AI fills in the lines', 'Several companies (PIB) in one account'],
         label: 'Example: the recipe for ćevapi — ingredients gross and net, the cost of a portion and every dish’s food cost',
       },
       {
@@ -387,16 +384,10 @@ const EXAMPLES = {
         report: { ask: 'How did last week’s sales compare with the week before?' },
       },
       {
-        id: 'sef', tab: 'SEF', title: 'Supplier invoices from SEF',
-        text: 'Incoming e-invoices arrive by themselves. Match a supplier’s items to your products once, and the stock receipt is one button.',
-        points: ['Accept or reject the invoice from RUVO', 'The reply deadline always in sight', 'Several companies (PIB) in one account', 'A paper delivery note — by photo: AI fills in the lines'],
-        label: 'Example: a vegetable supplier’s incoming invoice from SEF — its items matched to stock products',
-      },
-      {
-        id: 'team', tab: 'Team', title: 'Team and shifts',
-        text: 'Everyone works under their own PIN and role. A shift starts and ends with a PIN on the front terminal, and pay counts itself — by the hours and a share of the sales.',
-        points: ['Roles: owner, manager, waiter, cook, bar', 'The action log — who did what and when', 'A forgotten shift is corrected with a reason'],
-        label: 'Example: the week’s pay — hours, the hourly rate, a share of the sales and tips',
+        id: 'team', tab: 'Team', title: 'Team, shifts and motivation',
+        text: 'Everyone works under their own PIN and role, and pay counts itself — by the hours and a share of the sales. On their iPhone a waiter sees what they have earned this month and how to earn more: shift missions, a bonus for the dishes you choose, a ranking and levels with a higher percentage.',
+        points: ['Roles, PINs and the action log — who did what and when', 'Shift missions — say, 6 pancakes for +300 RSD', 'A bonus per portion for the dishes you want sold', 'What motivation earns goes into the pay by itself'],
+        label: 'Example: the week’s pay on the iPad and the waiter’s profile on the iPhone — the month’s earnings, missions, ranking and level',
       },
       {
         id: 'site', tab: 'Site', title: 'An ordering site and the RUVO Order app',
@@ -404,13 +395,7 @@ const EXAMPLES = {
         points: ['Menu, prices and the stop list — from your RUVO', 'Pay at the counter or with an IPS QR code', 'The RUVO Order app for iPhone — coming to the App Store'],
         label: 'Example: the restaurant’s page on the guest’s phone and a notification that the order is ready',
         push: { app: 'RUVO Order', when: 'now', title: 'Order No. 12 is ready', body: 'Pick it up at Bistro Dorćol. Say number 12 at the counter.' },
-      },
-      {
-        id: 'motivation', tab: 'Motivation', title: 'Team motivation',
-        text: 'On their iPhone a waiter sees what they have earned this month and how to earn more: shift missions, a bonus for the dishes you choose, a monthly ranking with prizes, levels with a higher percentage and badges. You set the rules in the back office, and what the waiter earns goes into the pay by itself.',
-        points: ['Shift missions — say, 6 pancakes for +300 RSD', 'A bonus per portion for the dishes you want sold', 'The month’s ranking and levels with a higher percentage'],
-        label: 'Example: the waiter’s profile — the month’s earnings, missions, ranking, level and badges',
-        missions: { title: 'Shift missions', rows: [['6 pancakes', '+300 RSD', true], ['Sales of 40 000 RSD', '+500 RSD', false]], note: 'The month’s ranking: 1st place — 3 000 RSD' },
+        try: { href: 'https://order.ruvo.ac/example', text: 'Open the example site' },
       },
       {
         id: 'money', tab: 'Money', title: 'Money: cash flow, profit and bills',
@@ -477,9 +462,9 @@ const EXAMPLES = {
         label: 'Пример: счёт стола 5 с картой гостя и скидкой уровня «Золото»',
       },
       {
-        id: 'stock', tab: 'Склад', title: 'Склад и техкарты',
-        text: 'Каждая продажа списывает продукты по техкарте — брутто, нетто и потери при обработке. Видно себестоимость порции, фудкост каждого блюда и что ниже минимума.',
-        points: ['Приход, списание и инвентаризация', 'Полуфабрикаты со своими техкартами', 'Средняя себестоимость считается сама'],
+        id: 'stock', tab: 'Склад', title: 'Склад, техкарты и счета поставщиков',
+        text: 'Каждая продажа списывает продукты по техкарте — брутто, нетто и потери при обработке, — и виден фудкост каждого блюда. Е-фактуры поставщиков приходят из SEF сами: позиции связываются с продуктами один раз, а приход на склад — одной кнопкой.',
+        points: ['Приход, списание и инвентаризация — и с телефона', 'Счета из SEF: принять или отклонить прямо в RUVO', 'Бумажная накладная — по фото: строки заполнит ИИ', 'Несколько фирм (ПИБ) в одном аккаунте'],
         label: 'Пример: техкарта чевапи — продукты брутто и нетто, себестоимость порции и фудкост каждого блюда',
       },
       {
@@ -490,16 +475,10 @@ const EXAMPLES = {
         report: { ask: 'Какая была выручка на прошлой неделе по сравнению с позапрошлой?' },
       },
       {
-        id: 'sef', tab: 'SEF', title: 'Счета поставщиков из SEF',
-        text: 'Входящие e-фактуры приходят сами. Позиции поставщика связываются с вашими продуктами один раз, а приход на склад — одной кнопкой.',
-        points: ['Принять или отклонить счёт из RUVO', 'Срок ответа всегда на виду', 'Несколько фирм (ПИБ) в одном аккаунте', 'Бумажная накладная — по фото: строки заполнит ИИ'],
-        label: 'Пример: входящий счёт поставщика овощей из SEF — позиции сопоставлены с продуктами склада',
-      },
-      {
-        id: 'team', tab: 'Команда', title: 'Команда и смены',
-        text: 'Каждый работает под своим PIN и со своей ролью. Смена начинается и заканчивается по PIN на фронте, а зарплата считается сама — по часам и проценту с продаж.',
-        points: ['Роли: владелец, управляющий, официант, повар, бар', 'Журнал действий — кто что сделал и когда', 'Забытая смена исправляется с причиной'],
-        label: 'Пример: зарплата за неделю — часы, ставка, процент с продаж и чаевые',
+        id: 'team', tab: 'Команда', title: 'Команда, смены и мотивация',
+        text: 'Каждый работает под своим PIN и со своей ролью, а зарплата считается сама — по часам и проценту с продаж. Официант на своём iPhone видит, сколько заработал за месяц и как заработать больше: задания смены, бонус за блюда, которые вы выберете, рейтинг и уровни с большим процентом.',
+        points: ['Роли, PIN и журнал действий — кто что сделал и когда', 'Задания смены — например, 6 блинчиков за +300 RSD', 'Бонус за порцию блюд, которые хотите продавать', 'Заработанное в мотивации само попадает в зарплату'],
+        label: 'Пример: зарплата за неделю на iPad и профиль официанта на iPhone — заработок за месяц, задания, рейтинг и уровень',
       },
       {
         id: 'site', tab: 'Сайт', title: 'Сайт заказов и приложение RUVO Order',
@@ -507,13 +486,7 @@ const EXAMPLES = {
         points: ['Меню, цены и стоп-лист — из вашего RUVO', 'Оплата на кассе или по IPS QR', 'Приложение RUVO Order для iPhone — скоро в App Store'],
         label: 'Пример: страница ресторана на телефоне гостя и уведомление, что заказ готов',
         push: { app: 'RUVO Order', when: 'сейчас', title: 'Заказ № 12 готов', body: 'Заберите его в ресторане Bistro Dorćol. На кассе назовите номер 12.' },
-      },
-      {
-        id: 'motivation', tab: 'Мотивация', title: 'Мотивация команды',
-        text: 'Официант на своём iPhone видит, сколько заработал за месяц и как заработать больше: задания смены, бонус за блюда, которые вы выберете, рейтинг месяца с призами, уровни с большим процентом и ачивки. Правила задаёте в бэкофисе, а заработанное само попадает в зарплату.',
-        points: ['Задания смены — например, 6 блинчиков за +300 RSD', 'Бонус за порцию блюд, которые хотите продавать', 'Рейтинг месяца и уровни с большим процентом'],
-        label: 'Пример: профиль официанта — заработок за месяц, задания, рейтинг, уровень и ачивки',
-        missions: { title: 'Задания смены', rows: [['6 блинчиков', '+300 RSD', true], ['Продажи 40 000 RSD', '+500 RSD', false]], note: 'Рейтинг месяца: 1 место — 3 000 RSD' },
+        try: { href: 'https://order.ruvo.ac/example', text: 'Открыть пример сайта' },
       },
       {
         id: 'money', tab: 'Деньги', title: 'Деньги: ДДС, прибыль и счета',
@@ -555,9 +528,10 @@ const PRICING = {
       year: { label: 'Godišnje', badge: '2 meseca besplatno', unit: 'po objektu, godišnje' },
     },
     includesTitle: 'U ceni objekta',
-    includes: ['Terminal sale', 'Ekran kuhinje', 'Meni, magacin i normativi', 'Fakture sa fotografije', 'Izveštaji i AI pomoćnik', 'Zaposleni i uloge'],
+    includes: ['Terminal sale', 'Ekran kuhinje', 'Meni, magacin i normativi', 'Fakture sa fotografije', 'Izveštaji i AI pomoćnik', 'Zaposleni i uloge', 'Novac: tok novca, P&L i budžet', 'Bekofis i na iPhone-u'],
     tableTitle: 'Licence i moduli',
     cols: ['Mesečno', 'Godišnje'],
+    // the left table — the first two groups, the right — the rest: five rows under two heads on each side
     groups: [
       ['Licence — po uređaju', [
         ['d:ipad', 'Dodatni terminal sale', 'iPad'],
@@ -565,13 +539,20 @@ const PRICING = {
         ['d:iphone', 'Uređaj konobara', 'iPhone'],
         ['d:kiosk', 'Kiosk', 'iPad'],
       ]],
+      ['Za firmu', [
+        ['m:telegram', 'Izveštaj u Telegramu'],
+      ]],
       ['Moduli — po objektu', [
+        ['m:site', 'Sajt za porudžbine i RUVO Order'],
+        ['m:motivation', 'Motivacija tima'],
+        ['m:shifts', 'Smene i plate'],
+      ]],
+      ['Plaćanje — po objektu', [
         ['m:ips', 'IPS QR plaćanje'],
         ['m:terminal', 'Bankovni terminal'],
-        ['m:shifts', 'Smene i plate'],
-        ['m:telegram', 'Izveštaj u Telegramu', 'za firmu'],
       ]],
     ],
+    sitePct: 'od porudžbina',
     free: 'besplatno',
     presets: 'Primer',
     bills: [
@@ -587,13 +568,17 @@ const PRICING = {
       ['Da li RUVO menja fiskalnu kasu?', 'Ne. Fiskalni račun i dalje izdaje vaša kasa, a RUVO beleži način plaćanja da bi se iznosi slagali.'],
       ['Postoji li ugovorna obaveza?', 'Ne. Pretplatu završavate kad želite, a podatke vam šaljemo u standardnom formatu.'],
       ['Šta ako plaćanje kasni?', 'Sala i kuhinja rade dalje — javljamo se pre bilo kakvog isključenja.'],
+      // (14 November 2026) the two paid new parts, weighed against what they bring
+      ['Koliko košta sajt za porudžbine?', '5 000 RSD mesečno po objektu i 3% od porudžbina sa sajta i iz aplikacije RUVO Order — plaćate samo od onoga što ste prodali. Gost plaća na kasi ili IPS QR kodom, a dostavu nose kuriri Wolt Drive po vašem ugovoru sa Wolt-om.'],
+      ['Kada se isplati motivacija tima?', 'Kad konobari prodaju više. Primer: četiri konobara prodaju po jedan desert od 600 RSD više u svakoj smeni — za mesec to je preko 50 000 RSD prometa, a modul košta 3 000 RSD. Radi uz „Smene i plate”: nagrade ulaze u platu.'],
     ],
     calc: {
       title: 'Izračunajte cenu', venuesTitle: 'Objekti', venues: 'Objekata', perVenue: 'Licence u svakom objektu', included: '1 u ceni',
       ipad: 'Terminali sale', kds: 'Ekrani kuhinje', iphone: 'Uređaji konobara', kiosk: 'Kiosci',
-      modsTitle: 'Moduli', mods: { ips: 'IPS QR plaćanje', terminal: 'Bankovni terminal', shifts: 'Smene i plate', telegram: 'Izveštaj u Telegramu' }, perCompany: 'za firmu',
+      modsTitle: 'Moduli', mods: { site: 'Sajt za porudžbine', motivation: 'Motivacija tima', shifts: 'Smene i plate', ips: 'IPS QR plaćanje', terminal: 'Bankovni terminal', telegram: 'Izveštaj u Telegramu' }, perCompany: 'za firmu',
+      withShifts: 'sa smenama i platama', sitePlus: '+ 3% od porudžbina sa sajta',
       month: 'Mesečno', year: 'Godišnje', yearNote: '2 meseca besplatno', less: 'Manje', more: 'Više',
-      lines: { venue: 'Objekat', ipad: 'Dodatni terminal sale', kds: 'Dodatni ekran kuhinje', iphone: 'Uređaj konobara', kiosk: 'Kiosk', ips: 'IPS QR plaćanje', terminal: 'Bankovni terminal', shifts: 'Smene i plate', telegram: 'Izveštaj u Telegramu' },
+      lines: { venue: 'Objekat', ipad: 'Dodatni terminal sale', kds: 'Dodatni ekran kuhinje', iphone: 'Uređaj konobara', kiosk: 'Kiosk', site: 'Sajt za porudžbine', motivation: 'Motivacija tima', shifts: 'Smene i plate', ips: 'IPS QR plaćanje', terminal: 'Bankovni terminal', telegram: 'Izveštaj u Telegramu' },
     },
   },
   en: {
@@ -605,7 +590,7 @@ const PRICING = {
       year: { label: 'Yearly', badge: '2 months free', unit: 'per venue, a year' },
     },
     includesTitle: 'Included in a venue',
-    includes: ['A front terminal', 'A kitchen screen', 'Menu, stock and recipes', 'Invoices from a photo', 'Reports and the AI assistant', 'Staff and roles'],
+    includes: ['A front terminal', 'A kitchen screen', 'Menu, stock and recipes', 'Invoices from a photo', 'Reports and the AI assistant', 'Staff and roles', 'Money: cash flow, P&L and budget', 'The back office on iPhone too'],
     tableTitle: 'Licences and modules',
     cols: ['Monthly', 'Yearly'],
     groups: [
@@ -615,13 +600,20 @@ const PRICING = {
         ['d:iphone', 'Waiter device', 'iPhone'],
         ['d:kiosk', 'Kiosk', 'iPad'],
       ]],
+      ['Per company', [
+        ['m:telegram', 'Report in Telegram'],
+      ]],
       ['Modules — per venue', [
+        ['m:site', 'Ordering site and RUVO Order'],
+        ['m:motivation', 'Team motivation'],
+        ['m:shifts', 'Shifts and pay'],
+      ]],
+      ['Payments — per venue', [
         ['m:ips', 'IPS QR payments'],
         ['m:terminal', 'Bank terminal'],
-        ['m:shifts', 'Shifts and pay'],
-        ['m:telegram', 'Report in Telegram', 'per company'],
       ]],
     ],
+    sitePct: 'of orders',
     free: 'free',
     presets: 'Example',
     bills: [
@@ -637,13 +629,16 @@ const PRICING = {
       ['Does RUVO replace the fiscal register?', 'No. Your register still issues the fiscal receipt, and RUVO records the payment method so the totals match.'],
       ['Is there a lock-in contract?', 'No. End the subscription whenever you like, and we send you your data in a standard format.'],
       ['What if a payment is late?', 'The floor and the kitchen keep working — we call before anything is switched off.'],
+      ['What does the ordering site cost?', '5 000 RSD a month per venue and 3% of the orders from the site and the RUVO Order app — you pay only on what you sold. The guest pays at the counter or with an IPS QR code, and Wolt Drive couriers deliver under your own contract with Wolt.'],
+      ['When does team motivation pay off?', 'When the waiters sell more. Say four waiters each sell one more 600 RSD dessert every shift — over a month that is more than 50 000 RSD in sales, and the module costs 3 000 RSD. It works with “Shifts and pay”: the prizes go into the pay.'],
     ],
     calc: {
       title: 'Work out your price', venuesTitle: 'Venues', venues: 'Venues', perVenue: 'Licences in each venue', included: '1 included',
       ipad: 'Front terminals', kds: 'Kitchen screens', iphone: 'Waiter devices', kiosk: 'Kiosks',
-      modsTitle: 'Modules', mods: { ips: 'IPS QR payments', terminal: 'Bank terminal', shifts: 'Shifts and pay', telegram: 'Report in Telegram' }, perCompany: 'per company',
+      modsTitle: 'Modules', mods: { site: 'Ordering site', motivation: 'Team motivation', shifts: 'Shifts and pay', ips: 'IPS QR payments', terminal: 'Bank terminal', telegram: 'Report in Telegram' }, perCompany: 'per company',
+      withShifts: 'with shifts and pay', sitePlus: '+ 3% of the orders from the site',
       month: 'A month', year: 'A year', yearNote: '2 months free', less: 'Fewer', more: 'More',
-      lines: { venue: 'Venue', ipad: 'Extra front terminal', kds: 'Extra kitchen screen', iphone: 'Waiter device', kiosk: 'Kiosk', ips: 'IPS QR payments', terminal: 'Bank terminal', shifts: 'Shifts and pay', telegram: 'Report in Telegram' },
+      lines: { venue: 'Venue', ipad: 'Extra front terminal', kds: 'Extra kitchen screen', iphone: 'Waiter device', kiosk: 'Kiosk', site: 'Ordering site', motivation: 'Team motivation', shifts: 'Shifts and pay', ips: 'IPS QR payments', terminal: 'Bank terminal', telegram: 'Report in Telegram' },
     },
   },
   ru: {
@@ -655,7 +650,7 @@ const PRICING = {
       year: { label: 'За год', badge: '2 месяца бесплатно', unit: 'за заведение в год' },
     },
     includesTitle: 'В цене заведения',
-    includes: ['Фронт', 'Экран кухни', 'Меню, склад и техкарты', 'Накладные по фото', 'Отчёты и ИИ-помощник', 'Сотрудники и роли'],
+    includes: ['Фронт', 'Экран кухни', 'Меню, склад и техкарты', 'Накладные по фото', 'Отчёты и ИИ-помощник', 'Сотрудники и роли', 'Деньги: ДДС, P&L и бюджет', 'Бэкофис и на iPhone'],
     tableTitle: 'Лицензии и модули',
     cols: ['В месяц', 'За год'],
     groups: [
@@ -665,13 +660,20 @@ const PRICING = {
         ['d:iphone', 'Устройство официанта', 'iPhone'],
         ['d:kiosk', 'Киоск', 'iPad'],
       ]],
+      ['На компанию', [
+        ['m:telegram', 'Отчёт в Telegram'],
+      ]],
       ['Модули — за заведение', [
+        ['m:site', 'Сайт заказов и RUVO Order'],
+        ['m:motivation', 'Мотивация команды'],
+        ['m:shifts', 'Смены и зарплата'],
+      ]],
+      ['Оплата — за заведение', [
         ['m:ips', 'Оплата по QR (IPS)'],
         ['m:terminal', 'Банковский терминал'],
-        ['m:shifts', 'Смены и зарплата'],
-        ['m:telegram', 'Отчёт в Telegram', 'на компанию'],
       ]],
     ],
+    sitePct: 'от заказов',
     free: 'бесплатно',
     presets: 'Пример',
     bills: [
@@ -687,13 +689,16 @@ const PRICING = {
       ['RUVO заменяет фискальную кассу?', 'Нет. Фискальный чек по-прежнему печатает ваша касса, а RUVO отмечает способ оплаты, чтобы суммы сходились.'],
       ['Есть ли обязательства по договору?', 'Нет. Подписку можно закончить в любой момент, а ваши данные мы пришлём в стандартном формате.'],
       ['Что если оплата задержалась?', 'Зал и кухня продолжают работать — перед любым отключением мы позвоним.'],
+      ['Сколько стоит сайт заказов?', '5 000 RSD в месяц за заведение и 3% от заказов с сайта и из приложения RUVO Order — платите только с того, что продали. Гость платит на кассе или по IPS QR, а доставляют курьеры Wolt Drive по вашему договору с Wolt.'],
+      ['Когда окупается мотивация команды?', 'Когда официанты продают больше. Пример: четыре официанта продают по одному десерту за 600 RSD больше в каждую смену — за месяц это больше 50 000 RSD выручки, а модуль стоит 3 000 RSD. Работает вместе со «Сменами и зарплатой»: призы попадают в зарплату.'],
     ],
     calc: {
       title: 'Посчитайте цену', venuesTitle: 'Заведения', venues: 'Заведений', perVenue: 'Лицензии в каждом заведении', included: '1 в цене',
       ipad: 'Фронтов', kds: 'Экранов кухни', iphone: 'Устройств официантов', kiosk: 'Киосков',
-      modsTitle: 'Модули', mods: { ips: 'Оплата по QR (IPS)', terminal: 'Банковский терминал', shifts: 'Смены и зарплата', telegram: 'Отчёт в Telegram' }, perCompany: 'на компанию',
+      modsTitle: 'Модули', mods: { site: 'Сайт заказов', motivation: 'Мотивация команды', shifts: 'Смены и зарплата', ips: 'Оплата по QR (IPS)', terminal: 'Банковский терминал', telegram: 'Отчёт в Telegram' }, perCompany: 'на компанию',
+      withShifts: 'со сменами и зарплатой', sitePlus: '+ 3% от заказов с сайта',
       month: 'В месяц', year: 'За год', yearNote: '2 месяца бесплатно', less: 'Меньше', more: 'Больше',
-      lines: { venue: 'Заведение', ipad: 'Ещё один фронт', kds: 'Ещё один экран кухни', iphone: 'Устройство официанта', kiosk: 'Киоск', ips: 'Оплата по QR (IPS)', terminal: 'Банковский терминал', shifts: 'Смены и зарплата', telegram: 'Отчёт в Telegram' },
+      lines: { venue: 'Заведение', ipad: 'Ещё один фронт', kds: 'Ещё один экран кухни', iphone: 'Устройство официанта', kiosk: 'Киоск', site: 'Сайт заказов', motivation: 'Мотивация команды', shifts: 'Смены и зарплата', ips: 'Оплата по QR (IPS)', terminal: 'Банковский терминал', telegram: 'Отчёт в Telegram' },
     },
   },
 };
@@ -718,20 +723,23 @@ export const PHOTOS = {
 
 const MORE = {
   sr: {
-    demo: { cta: 'Isprobajte demo', note: 'Sve ovo možete da probate sami — demo restoran radi u vašem pregledaču.', link: 'Otvorite demo', page: { title: 'Demo restoran — RUVO', description: 'Isprobajte RUVO u pregledaču: terminal sale, uređaj konobara, ekran kuhinje, kiosk, bekofis, aplikacija za goste i ekran za preuzimanje, sa demo menijem.', noscript: 'Za demo je potreban JavaScript.' } },
+    demo: { cta: 'Isprobajte demo', note: 'Sve ovo možete da probate sami — demo restoran radi u vašem pregledaču.', link: 'Otvorite demo', page: { title: 'Demo restoran — RUVO', description: 'Isprobajte RUVO u pregledaču: terminal sale, uređaj konobara, ekran kuhinje, kiosk, bekofis, poručivanje za stolom i ekran za preuzimanje, sa demo menijem.', noscript: 'Za demo je potreban JavaScript.' } },
     rush: {
       title: 'Sitnice koje spasavaju smenu',
       lead: 'Ono što se dešava usred gužve, rešeno u samom sistemu.',
       items: [
         ['bell', 'Sledovi i „Pozovi”', 'Drugi sled čeka u kuhinji dok ga konobar ne pozove — tada tiket zazvoni i trepće.', { course: 'Sled 2 · čeka poziv', dish: 'Palačinke sa čokoladom', qty: 2, sum: 1040, btn: 'Pozovi' }],
+        ['web', 'Porudžbina sa sajta', 'Ide pravo u kuhinju sa vremenom preuzimanja, a gost dobije obaveštenje kad je spremna.', { src: 'Sajt', code: 'Br. 7', item: '2× Ćevapi, 10 kom', when: 'Preuzimanje u 21:30' }],
         ['stop', 'Stop-lista sa porcijama', 'Jelo samo prelazi u stop kad se porcije potroše; više od ostatka ne može da se poruči.', { rows: [['Ćevapi, 10 kom', 'ostalo 3', 1290], ['Rib-aj stek, 300 g', 'Nema', 3690]] }],
         ['split', 'Deljenje računa', 'Plaćanje po stavkama ili u delovima, svaki deo svojim načinom plaćanja.', { seg: ['Ceo račun', 'Po stavkama'], parts: [['Deo 1 · kartica', 1290], ['Deo 2 · gotovina', 940]] }],
         ['cash', 'Kusur bez greške', 'Unesete koliko je gost dao, a RUVO krupno pokaže kusur.', { due: 'Za naplatu', got: 'Primljeno', change: 'Kusur', sum: 3730, paid: 5000 }],
+        ['short', 'Manjak u kasi', 'Kad se kasa zatvori sa manjkom, vlasnik odmah dobije obaveštenje sa iznosom.', { got: 'U kasi', need: 'Treba', cash: 41300, expected: 41800, note: 'Manjak 500 RSD — obaveštenje vlasniku' }],
         ['lock', 'Otkazivanje uz PIN', 'Poslato jelo otkazuje samo onaj ko ima pravo, uz razlog; ako je kuhinja počela, namirnice idu u otpis.', { title: 'Potvrdite svojim PIN-om', reason: 'Gost se predomislio' }],
         ['tag', 'Popusti pod kontrolom', 'Popust za osoblje i komplimenti samo uz PIN menadžera, i sve ostaje u dnevniku radnji.', { disc: 'Osoblje −30%', ok: 'odobreno · Dragana' }],
         ['rotate', '„Vrati sto”', 'Zatvoren sto se ponovo otvara uz PIN i razlog; magacin i promet se sami isprave.', { row: 'Sto 4 · zatvoren 21:40', btn: 'Vrati sto' }],
         ['move', 'Plan sale za minut', 'Stolove, sale i oznake premeštate prevlačenjem na terminalu sale.', { btn: 'Uredi salu' }],
         ['user', 'Lični PIN', 'Svako radi pod svojim imenom, a terminal se sam zaključa posle pet minuta.', { title: 'Unesite svoj PIN', name: 'Marko' }],
+        ['mission', 'Zadaci smene', 'Konobar vidi koliko mu je ostalo do zadatka, a nagrada sama ulazi u platu.', { task: 'Palačinke u smeni', done: 4, of: 6, prize: '+300 RSD ide u platu' }],
         ['bike', 'Dostava na istom ekranu', 'Porudžbine za Wolt i Glovo idu u kuhinju zajedno sa salom, sa vremenom dolaska kurira.', { code: 'W-7F3A', item: '2× Ćevapi, 10 kom', courier: 'Kurir 21:52' }],
         ['clock', 'Radni dan do 5 ujutru', 'Za lokale koji rade posle ponoći: promet ide u pravi dan.', { day: 'Radni dan', now: 'sada' }],
         ['info', 'Alergeni za goste', '14 alergena EU za svako jelo, iz normativa, u kiosku i kod konobara.', { dish: 'Palačinke sa čokoladom', tags: ['Gluten', 'Mleko', 'Jaja'], note: '14 alergena EU' }],
@@ -766,14 +774,17 @@ const MORE = {
       lead: 'What happens mid-rush, handled in the system itself.',
       items: [
         ['bell', 'Courses and “Fire”', 'The second course waits in the kitchen until the waiter fires it — then the ticket rings and flashes.', { course: 'Course 2 · waits for the call', dish: 'Pancakes with chocolate', qty: 2, sum: 1040, btn: 'Fire' }],
+        ['web', 'An order from the site', 'It goes straight to the kitchen with its pickup time, and the guest is notified when it is ready.', { src: 'Site', code: 'No. 7', item: '2× Ćevapi, 10 pcs', when: 'Pickup at 21:30' }],
         ['stop', 'Stop list with portions', 'A dish goes on stop by itself when its portions run out; nobody can order more than is left.', { rows: [['Ćevapi, 10 pcs', '3 left', 1290], ['Rib-eye steak, 300 g', 'Out', 3690]] }],
         ['split', 'Split bills', 'Pay by items or in parts, each part with its own payment method.', { seg: ['Whole bill', 'By items'], parts: [['Part 1 · card', 1290], ['Part 2 · cash', 940]] }],
         ['cash', 'Change without mistakes', 'Type what the guest handed over, and RUVO shows the change in big digits.', { due: 'To pay', got: 'Received', change: 'Change', sum: 3730, paid: 5000 }],
+        ['short', 'A till closed short', 'When a till closes short, the owner gets a notification with the amount at once.', { got: 'In the drawer', need: 'Expected', cash: 41300, expected: 41800, note: 'Short by 500 RSD — the owner is notified' }],
         ['lock', 'Cancelling with a PIN', 'A sent dish is cancelled only by someone allowed to, with a reason; if the kitchen had started, the ingredients go to waste.', { title: 'Confirm with your PIN', reason: 'Guest changed their mind' }],
         ['tag', 'Discounts under control', 'Staff discounts and complimentary dishes only with a manager’s PIN, and all of it stays in the action log.', { disc: 'Staff −30%', ok: 'approved · Dragana' }],
         ['rotate', '“Bring the table back”', 'A closed table reopens with a PIN and a reason; stock and sales correct themselves.', { row: 'Table 4 · closed 21:40', btn: 'Bring back' }],
         ['move', 'A floor plan in a minute', 'Move tables, rooms and labels by dragging on the front terminal.', { btn: 'Edit floor' }],
         ['user', 'Personal PIN', 'Everyone works under their own name, and the terminal locks itself after five minutes.', { title: 'Enter your PIN', name: 'Marko' }],
+        ['mission', 'Shift missions', 'A waiter sees how far they are from a mission, and the prize goes into the pay by itself.', { task: 'Pancakes this shift', done: 4, of: 6, prize: '+300 RSD into the pay' }],
         ['bike', 'Delivery on the same screen', 'Orders for Wolt and Glovo go to the kitchen together with the floor, with the courier’s arrival time.', { code: 'W-7F3A', item: '2× Ćevapi, 10 pcs', courier: 'Courier 21:52' }],
         ['clock', 'A working day until 5 a.m.', 'For places open after midnight: sales land on the right day.', { day: 'Working day', now: 'now' }],
         ['info', 'Allergens for guests', 'The 14 EU allergens for every dish, from its recipe, on the kiosk and for the waiter.', { dish: 'Pancakes with chocolate', tags: ['Gluten', 'Milk', 'Eggs'], note: '14 EU allergens' }],
@@ -808,14 +819,17 @@ const MORE = {
       lead: 'То, что случается в разгар смены, решено в самой системе.',
       items: [
         ['bell', 'Курсы и «Вызвать»', 'Второй курс ждёт на кухне, пока официант его не вызовет, — тогда тикет звенит и мигает.', { course: 'Курс 2 · ждёт вызова', dish: 'Палачинки с шоколадом', qty: 2, sum: 1040, btn: 'Вызвать' }],
+        ['web', 'Заказ с сайта', 'Сразу уходит на кухню со временем самовывоза, а гость получает уведомление, когда заказ готов.', { src: 'Сайт', code: '№ 7', item: '2× Чевапи, 10 шт', when: 'Самовывоз в 21:30' }],
         ['stop', 'Стоп-лист с порциями', 'Блюдо само уходит в стоп, когда порции закончились; больше остатка не заказать.', { rows: [['Чевапи, 10 шт', 'осталось 3', 1290], ['Стейк рибай, 300 г', 'Стоп', 3690]] }],
         ['split', 'Деление счёта', 'Оплата по позициям или частями, у каждой части свой способ оплаты.', { seg: ['Весь счёт', 'По позициям'], parts: [['Часть 1 · карта', 1290], ['Часть 2 · наличные', 940]] }],
         ['cash', 'Сдача без ошибок', 'Вводите, сколько дал гость, а RUVO крупно показывает сдачу.', { due: 'К оплате', got: 'Получено', change: 'Сдача', sum: 3730, paid: 5000 }],
+        ['short', 'Недостача в кассе', 'Если касса закрыта с недостачей, владелец сразу получает уведомление с суммой.', { got: 'В кассе', need: 'Должно быть', cash: 41300, expected: 41800, note: 'Недостача 500 RSD — уведомление владельцу' }],
         ['lock', 'Отмена по PIN', 'Отправленное блюдо отменяет только тот, у кого есть право, с причиной; если кухня начала готовить, продукты уходят в списание.', { title: 'Подтвердите своим PIN', reason: 'Гость передумал' }],
         ['tag', 'Скидки под контролем', 'Скидка персоналу и комплимент — только с PIN менеджера, и всё остаётся в журнале действий.', { disc: 'Персонал −30%', ok: 'одобрено · Dragana' }],
         ['rotate', '«Вернуть стол»', 'Закрытый стол открывается снова с PIN и причиной; склад и выручка исправляются сами.', { row: 'Стол 4 · закрыт 21:40', btn: 'Вернуть стол' }],
         ['move', 'План зала за минуту', 'Столы, залы и подписи перетаскиваются прямо на фронте.', { btn: 'Изменить зал' }],
         ['user', 'Личный PIN', 'Каждый работает под своим именем, а фронт сам блокируется через пять минут.', { title: 'Введите свой PIN', name: 'Marko' }],
+        ['mission', 'Задания смены', 'Официант видит, сколько осталось до задания, а приз сам попадает в зарплату.', { task: 'Блинчики за смену', done: 4, of: 6, prize: '+300 RSD в зарплату' }],
         ['bike', 'Доставка на том же экране', 'Заказы для Wolt и Glovo идут на кухню вместе с залом — со временем приезда курьера.', { code: 'W-7F3A', item: '2× Чевапи, 10 шт', courier: 'Курьер 21:52' }],
         ['clock', 'Рабочий день до 5 утра', 'Для заведений, которые работают после полуночи: выручка попадает в нужный день.', { day: 'Рабочий день', now: 'сейчас' }],
         ['info', 'Аллергены для гостей', '14 аллергенов ЕС у каждого блюда — по техкарте, в киоске и у официанта.', { dish: 'Палачинки с шоколадом', tags: ['Глютен', 'Молоко', 'Яйца'], note: '14 аллергенов ЕС' }],
@@ -855,10 +869,10 @@ export const T = {
     skip: 'Na sadržaj',
     home: {
       title: 'RUVO — POS za restorane',
-      description: 'RUVO vodi porudžbine na iPad-u i iPhone-u, ekran kuhinje, magacin i normative, fakture dobavljača iz SEF-a i izveštaje. Za jedan objekat ili celu mrežu.',
+      description: 'RUVO vodi porudžbine na iPad-u i iPhone-u, kuhinju, magacin, fakture iz SEF-a, novac i P&L, sajt za porudžbine i motivaciju tima. Za objekat ili celu mrežu.',
       eyebrow: 'POS za restorane i kafiće',
       h1: 'Sala, kuhinja i magacin u jednom sistemu',
-      lead: 'RUVO prima porudžbine na iPad-u i iPhone-u, šalje ih na ekran kuhinje, otpisuje namirnice po normativima i pravi izveštaje. Za jedan objekat ili za celu mrežu.',
+      lead: 'RUVO prima porudžbine na iPad-u, iPhone-u i sa vašeg sajta, šalje ih u kuhinju, otpisuje namirnice po normativima, vodi novac i motiviše tim. Za jedan objekat ili za celu mrežu.',
       cta: 'Pišite nam',
       ...MORE.sr,
       ticket: TICKET.sr,
@@ -867,7 +881,7 @@ export const T = {
       forecast: FORECAST.sr,
       pricing: PRICING.sr,
       integrationsTitle: 'Povezivanja',
-      integrations: ['IPS QR plaćanje', 'bankovni terminal', 'SEF e-fakture', 'dnevni izveštaj u Telegramu', 'prenos iz drugog POS-a', 'Wolt i Glovo — uskoro'],
+      integrations: ['IPS QR plaćanje', 'bankovni terminal', 'SEF e-fakture', 'dnevni izveštaj u Telegramu', 'prenos iz drugog POS-a', 'Wolt Drive — dostava sa sajta', 'Wolt i Glovo — uskoro'],
       startTitle: 'Kako počinje',
       start: [
         ['Pišete nam', 'Na hello@ruvo.ac, ukratko o objektu: sale, stolovi, uređaji.'],
@@ -951,10 +965,10 @@ export const T = {
     skip: 'Skip to content',
     home: {
       title: 'RUVO — point of sale for restaurants',
-      description: 'RUVO runs orders on iPad and iPhone, the kitchen screen, stock and recipes, supplier invoices from SEF and reports. For one venue or a whole group.',
+      description: 'RUVO runs orders on iPad and iPhone, the kitchen, stock, supplier invoices from SEF, money and P&L, an ordering site and team motivation. For one venue or a group.',
       eyebrow: 'Point of sale for restaurants and cafés',
       h1: 'Dining room, kitchen and stock in one system',
-      lead: 'RUVO takes orders on iPad and iPhone, sends them to the kitchen screen, writes off ingredients by recipe and builds the reports. For one venue or a whole group.',
+      lead: 'RUVO takes orders on iPad, iPhone and your own site, sends them to the kitchen, writes off ingredients by recipe, keeps the money and motivates the team. For one venue or a whole group.',
       cta: 'Write to us',
       ...MORE.en,
       ticket: TICKET.en,
@@ -963,7 +977,7 @@ export const T = {
       forecast: FORECAST.en,
       pricing: PRICING.en,
       integrationsTitle: 'Connections',
-      integrations: ['IPS QR payments', 'bank terminal', 'SEF e-invoices', 'daily report in Telegram', 'moving from another POS', 'Wolt and Glovo — soon'],
+      integrations: ['IPS QR payments', 'bank terminal', 'SEF e-invoices', 'daily report in Telegram', 'moving from another POS', 'Wolt Drive — delivery from your site', 'Wolt and Glovo — soon'],
       startTitle: 'How it starts',
       start: [
         ['You write to us', 'At hello@ruvo.ac, briefly about the venue: rooms, tables, devices.'],
@@ -1046,10 +1060,10 @@ export const T = {
     skip: 'К содержанию',
     home: {
       title: 'RUVO — POS для ресторанов',
-      description: 'RUVO ведёт заказы на iPad и iPhone, экран кухни, склад и техкарты, счета поставщиков из SEF и отчёты. Для одного заведения или целой сети.',
+      description: 'RUVO ведёт заказы на iPad и iPhone, кухню, склад, счета из SEF, деньги и P&L, сайт заказов и мотивацию команды. Для одного заведения или целой сети.',
       eyebrow: 'POS для ресторанов и кафе',
       h1: 'Зал, кухня и склад в одной системе',
-      lead: 'RUVO принимает заказы на iPad и iPhone, отправляет их на экран кухни, списывает продукты по техкартам и строит отчёты. Для одного заведения или целой сети.',
+      lead: 'RUVO принимает заказы на iPad, iPhone и с вашего сайта, отправляет их на кухню, списывает продукты по техкартам, ведёт деньги и мотивирует команду. Для одного заведения или целой сети.',
       cta: 'Напишите нам',
       ...MORE.ru,
       ticket: TICKET.ru,
@@ -1058,7 +1072,7 @@ export const T = {
       forecast: FORECAST.ru,
       pricing: PRICING.ru,
       integrationsTitle: 'Подключения',
-      integrations: ['оплата по QR (IPS)', 'банковский терминал', 'e-фактуры SEF', 'отчёт в Telegram каждый день', 'перенос из другой POS', 'Wolt и Glovo — скоро'],
+      integrations: ['оплата по QR (IPS)', 'банковский терминал', 'e-фактуры SEF', 'отчёт в Telegram каждый день', 'перенос из другой POS', 'Wolt Drive — доставка с сайта', 'Wolt и Glovo — скоро'],
       startTitle: 'Как начать',
       start: [
         ['Вы пишете нам', 'На hello@ruvo.ac — коротко о заведении: залы, столы, устройства.'],

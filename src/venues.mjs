@@ -21,18 +21,20 @@ export const VENUE_SLUGS = {
 };
 
 // What a kind of venue shows: its icon (Phosphor regular, src/icons/), the product's tabs in its order (ids of EXAMPLES
-// in content.mjs), its small things of a shift (keys of «Sitnice» it puts first; the rest of the sixteen follow them),
+// in content.mjs), its small things of a shift (keys of «Sitnice» it puts first; the rest of the nineteen follow them),
 // its example setup for the calculator (the same fields as the calculator's presets) and the icon of each line of what it
-// needs (`equip`, in the order of its lines; the icons are named in build.mjs, EQUIP_ICON).
+// needs (`equip`, in the order of its lines; the icons are named in build.mjs, EQUIP_ICON). (14 November 2026, «Делаем
+// все») the ordering site where guests order ahead, the money and the owner's phone for a group and a hotel; SEF is in
+// «Magacin» now.
 export const VENUE_SETUP = {
-  restaurant: { icon: 'fork-knife', tabs: ['floor', 'waiter', 'kitchen', 'guests', 'stock', 'reports', 'team', 'delivery', 'kiosk', 'sef'], rush: ['bell', 'stop', 'split', 'cash', 'lock', 'tag', 'rotate', 'move', 'user', 'bike', 'clock', 'info'], preset: { venues: 1, ipad: 2, kds: 2, iphone: 4 }, equip: ['ipad', 'iphone', 'kds', 'router', 'fiscal'] },
-  cafe: { icon: 'coffee', tabs: ['floor', 'guests', 'stock', 'kitchen', 'reports', 'team', 'kiosk', 'sef'], rush: ['cash', 'split', 'tag', 'clock', 'user', 'stop', 'rotate', 'info'], preset: { venues: 1, ipad: 1, kds: 1 }, equip: ['ipad', 'kds', 'kiosk', 'router', 'fiscal'] },
-  fastfood: { icon: 'hamburger', tabs: ['kiosk', 'kitchen', 'delivery', 'stock', 'reports', 'team', 'sef'], rush: ['stop', 'cash', 'info', 'bike', 'user', 'lock', 'tag', 'clock'], preset: { venues: 1, ipad: 1, kds: 1, kiosk: 2 }, equip: ['kiosk', 'ipad', 'kds', 'tv', 'router'] },
-  bakery: { icon: 'bread', tabs: ['stock', 'kiosk', 'guests', 'reports', 'sef', 'team'], rush: ['stop', 'cash', 'info', 'user', 'tag', 'lock', 'rotate', 'split'], preset: { venues: 1, ipad: 1, kds: 1 }, equip: ['ipad', 'kds', 'kiosk', 'router', 'fiscal'] },
-  hotel: { icon: 'bed', tabs: ['floor', 'waiter', 'kitchen', 'reports', 'stock', 'sef', 'team', 'guests'], rush: ['split', 'rotate', 'tag', 'user', 'clock', 'info', 'lock', 'bell'], preset: { venues: 3, ipad: 1, kds: 1, iphone: 2 }, equip: ['ipad', 'iphone', 'kds', 'router', 'fiscal'] },
-  catering: { icon: 'cooking-pot', tabs: ['kitchen', 'stock', 'reports', 'sef', 'team', 'kiosk'], rush: ['bell', 'stop', 'lock', 'info', 'user', 'tag', 'split', 'rotate'], preset: { venues: 1, ipad: 1, kds: 2 }, equip: ['kds', 'ipad', 'kiosk', 'router', 'fiscal'] },
-  delivery: { icon: 'moped', tabs: ['delivery', 'kitchen', 'stock', 'reports', 'sef', 'team'], rush: ['bike', 'stop', 'lock', 'info', 'user', 'tag', 'clock', 'cash'], preset: { venues: 1, ipad: 1, kds: 2, telegram: true }, equip: ['ipad', 'kds', 'courier', 'router', 'fiscal'] },
-  group: { icon: 'buildings', tabs: ['reports', 'stock', 'sef', 'team', 'guests', 'floor', 'kitchen'], rush: ['user', 'tag', 'lock', 'rotate', 'clock', 'stop', 'move', 'info'], preset: { venues: 5, ipad: 2, kds: 2, iphone: 4, telegram: true }, equip: ['ipad', 'iphone', 'office', 'router', 'fiscal'] },
+  restaurant: { icon: 'fork-knife', tabs: ['floor', 'waiter', 'kitchen', 'guests', 'site', 'stock', 'reports', 'team', 'delivery', 'kiosk'], rush: ['bell', 'mission', 'stop', 'split', 'cash', 'lock', 'tag', 'rotate', 'move', 'user', 'bike', 'clock', 'info'], preset: { venues: 1, ipad: 2, kds: 2, iphone: 4 }, equip: ['ipad', 'iphone', 'kds', 'router', 'fiscal'] },
+  cafe: { icon: 'coffee', tabs: ['floor', 'guests', 'site', 'stock', 'kitchen', 'reports', 'team', 'kiosk'], rush: ['cash', 'web', 'split', 'tag', 'clock', 'user', 'stop', 'rotate', 'info'], preset: { venues: 1, ipad: 1, kds: 1 }, equip: ['ipad', 'kds', 'kiosk', 'router', 'fiscal'] },
+  fastfood: { icon: 'hamburger', tabs: ['kiosk', 'kitchen', 'site', 'delivery', 'stock', 'reports', 'team'], rush: ['web', 'stop', 'cash', 'info', 'bike', 'user', 'lock', 'tag', 'clock'], preset: { venues: 1, ipad: 1, kds: 1, kiosk: 2 }, equip: ['kiosk', 'ipad', 'kds', 'tv', 'router'] },
+  bakery: { icon: 'bread', tabs: ['stock', 'kiosk', 'site', 'guests', 'reports', 'team'], rush: ['stop', 'cash', 'info', 'user', 'tag', 'lock', 'rotate', 'split'], preset: { venues: 1, ipad: 1, kds: 1 }, equip: ['ipad', 'kds', 'kiosk', 'router', 'fiscal'] },
+  hotel: { icon: 'bed', tabs: ['floor', 'waiter', 'kitchen', 'reports', 'money', 'stock', 'team', 'guests', 'office'], rush: ['split', 'rotate', 'tag', 'user', 'clock', 'info', 'lock', 'bell'], preset: { venues: 3, ipad: 1, kds: 1, iphone: 2 }, equip: ['ipad', 'iphone', 'kds', 'router', 'fiscal'] },
+  catering: { icon: 'cooking-pot', tabs: ['kitchen', 'stock', 'reports', 'team', 'kiosk'], rush: ['bell', 'stop', 'lock', 'info', 'user', 'tag', 'split', 'rotate'], preset: { venues: 1, ipad: 1, kds: 2 }, equip: ['kds', 'ipad', 'kiosk', 'router', 'fiscal'] },
+  delivery: { icon: 'moped', tabs: ['delivery', 'site', 'kitchen', 'stock', 'reports', 'team'], rush: ['bike', 'web', 'stop', 'lock', 'info', 'user', 'tag', 'clock', 'cash'], preset: { venues: 1, ipad: 1, kds: 2, telegram: true }, equip: ['ipad', 'kds', 'courier', 'router', 'fiscal'] },
+  group: { icon: 'buildings', tabs: ['reports', 'money', 'office', 'stock', 'team', 'guests', 'floor', 'kitchen'], rush: ['short', 'user', 'tag', 'lock', 'rotate', 'clock', 'stop', 'move', 'info'], preset: { venues: 5, ipad: 2, kds: 2, iphone: 4, telegram: true }, equip: ['ipad', 'iphone', 'office', 'router', 'fiscal'] },
 };
 
 // The first screen's drawn scene of each kind, played as the home page's: an order on the front terminal (for fast food
