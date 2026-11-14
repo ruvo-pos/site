@@ -1066,6 +1066,11 @@ font-family: var(--font-app); font-size: 15px; font-weight: 600; line-height: 1.
 .calc .p-head { align-items: center; }
 .calc-presets { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .calc-presets-k { margin-right: 2px; color: var(--ink-3); font-size: 14px; }
+@media (max-width: 520px) {
+.calc-presets { display: grid; grid-template-columns: auto auto 1fr; gap: 8px 6px; justify-items: start; }
+.calc-presets-k { grid-column: 1 / -1; }
+.calc-presets .chip { padding: 0 12px; font-size: 13px; white-space: nowrap; }
+}
 .calc-presets .chip { height: 34px; padding: 0 15px; border: 0; border-radius: 999px; background: var(--fill); color: var(--ink); font: inherit; font-size: 14px; letter-spacing: -0.01em; cursor: pointer; }
 .calc-presets .chip:hover { background: var(--fill-2); }
 .calc-presets .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
@@ -1449,7 +1454,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="ex-text"><h3>Карта гостя в счёте</h3><p>Скидка уровня гостя и баллы с каждого чека. Акции по расписанию считаются сами, а скидки не суммируются: на каждое блюдо действует самая большая.</p><ul><li>Уровни по сумме покупок: Гость, Серебро, Золото</li><li>Оплата баллами — по коду из SMS или карте</li><li>Счастливые часы и обед — по расписанию</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-floor">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Пример: план зала на фронте — свободные и занятые столы, стол с готовыми блюдами и стол, который ждёт счёт"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/ru/floor-light.webp?v=8a76809710" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/ru/floor-dark.webp?v=697c91989b" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Пример: план зала на фронте — свободные и занятые столы, стол с готовыми блюдами и стол, который ждёт счёт"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/ru/floor-light.webp?v=e1824fae7c" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/ru/floor-dark.webp?v=6006c8784a" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>План зала на фронте</h3><p>Весь зал на одном экране: какие столы заняты и как давно, где блюдо готово к подаче и где гости ждут счёт. Сбоку — заказы из киоска и приложения, готовые блюда и выручка дня.</p><ul><li>Зал и терраса — каждый на своём плане</li><li>Готово к подаче — сразу, с номером стола</li><li>Гостей пересаживают за другой стол без нового заказа</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-kitchen">

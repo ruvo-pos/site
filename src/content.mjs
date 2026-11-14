@@ -222,7 +222,7 @@ const FORECAST = {
 const EXAMPLES = {
   sr: {
     title: 'Sve što objektu treba',
-    lead: 'Deset ekrana iz RUVO-a — snimljenih u demo restoranu, onakvih kakvi su danas.',
+    lead: 'Ekrani iz RUVO-a onakvi kakvi su danas — snimljeni u demo restoranu.',
     tabsLabel: 'Primeri ekrana',
     items: [
       {
@@ -327,7 +327,7 @@ const EXAMPLES = {
   },
   en: {
     title: 'Everything a venue needs',
-    lead: 'Ten screens of RUVO — taken in the demo restaurant, as they are today.',
+    lead: 'RUVO’s screens as they are today — taken in the demo restaurant.',
     tabsLabel: 'Example screens',
     items: [
       {
@@ -430,7 +430,7 @@ const EXAMPLES = {
   },
   ru: {
     title: 'Всё, что нужно заведению',
-    lead: 'Десять экранов RUVO — сняты в демо-ресторане такими, какие они сегодня.',
+    lead: 'Экраны RUVO такими, какие они сегодня, — сняты в демо-ресторане.',
     tabsLabel: 'Примеры экранов',
     items: [
       {

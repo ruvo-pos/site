@@ -1066,6 +1066,11 @@ font-family: var(--font-app); font-size: 15px; font-weight: 600; line-height: 1.
 .calc .p-head { align-items: center; }
 .calc-presets { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .calc-presets-k { margin-right: 2px; color: var(--ink-3); font-size: 14px; }
+@media (max-width: 520px) {
+.calc-presets { display: grid; grid-template-columns: auto auto 1fr; gap: 8px 6px; justify-items: start; }
+.calc-presets-k { grid-column: 1 / -1; }
+.calc-presets .chip { padding: 0 12px; font-size: 13px; white-space: nowrap; }
+}
 .calc-presets .chip { height: 34px; padding: 0 15px; border: 0; border-radius: 999px; background: var(--fill); color: var(--ink); font: inherit; font-size: 14px; letter-spacing: -0.01em; cursor: pointer; }
 .calc-presets .chip:hover { background: var(--fill-2); }
 .calc-presets .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
@@ -1411,7 +1416,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="ex-text"><h3>Экран кухни</h3><p>Каждый цех видит своё: кухня — блюда, бар — напитки. Таймер показывает, сколько ждёт заказ, а опаздывающие выделены.</p><ul><li>Зал, киоск, Wolt и Glovo на одном экране</li><li>Касание — «готовлю», ещё одно — «готово»</li><li>Официант сразу видит, что готово</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-delivery">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Пример: доставка на фронте — заказ Wolt готовится, время курьера, и выданные заказы"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/ru/delivery-light.webp?v=0aaf19ae12" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/ru/delivery-dark.webp?v=67e272bd17" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Пример: доставка на фронте — заказ Wolt готовится, время курьера, и выданные заказы"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/ru/delivery-light.webp?v=824a4d781d" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/ru/delivery-dark.webp?v=06bfd369cf" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>Доставка на том же экране</h3><p>Заказы Wolt и Glovo идут на кухню и в склад, как все остальные, со временем курьера. Пока их переносят с планшета платформы — прямая связь скоро.</p><ul><li>Готовятся, ждут курьера, выданы</li><li>Свои цены для Wolt и Glovo</li><li>Время курьера на каждом заказе</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-stock">

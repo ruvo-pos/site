@@ -221,6 +221,8 @@ for (const lang of LANGS) {
         await d.p.mouse.move(0, DEV[s.kind].size.height - 1);
         await d.p.evaluate(() => { if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur(); });
         await d.p.waitForTimeout(400);
+        // (14 November, 15:31: «съехавшие пилюли») the glass tab bar as the phone shows it, frosted (tools/shots-live.mjs)
+        await d.p.addStyleTag({ content: '.phone .tabbar { background: var(--pill) !important; }' });
         if (!DEV[s.kind].bare) await statusBar(d.p, s.kind, lang, theme === 'dark' ? '#FFFFFF' : '#000000');
         const dir = path.join(OUT, lang);
         mkdirSync(dir, { recursive: true });

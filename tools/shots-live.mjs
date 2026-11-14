@@ -30,6 +30,10 @@ const SCALE = Number(process.env.SCALE || 1.5);
 const PHONE = { size: { width: 440, height: 956 }, top: 62, bottom: 34 };
 const PAD = { size: { width: 1210, height: 834 }, top: 24, bottom: 20 };
 const LOCALE = { sr: 'sr-Latn-RS', en: 'en-GB', ru: 'ru-RU' };
+// (14 November, 15:31, the owner: «кое-где съехавшие пилюли») the iPhone's glass tab bar: a screenshot's browser draws
+// it half clear without the blur the phone puts behind it — the rows under it showed through, sharp; on the picture
+// it is the frosted pill the eye sees on the phone, of the pill's own colour
+export const GLASS = ' .phone .tabbar { background: var(--pill) !important; }';
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const { startPg, freshDb, PEPPER } = await import(path.join(RUVO, 'server/test/helpers/pg.js'));
@@ -230,6 +234,11 @@ try {
       await d.p.waitForSelector('.lock', { state: 'detached', timeout: 10000 });
       await d.p.locator('.tabbar .tab').last().click();
       await d.p.waitForSelector('#pf-ach', { timeout: 10000 });
+      // (14 November, 15:31, the owner: «кое-где съехавшие пилюли») the badges' toast gone before the shot; the pill over
+      // the screen as on the phone — nothing of the rows under it drawn over it
+      await d.p.waitForTimeout(1500);
+      // (the last row's one tile, under the pill at the screen's foot, left out of the picture)
+      await d.p.addStyleTag({ content: '.toasts, .toast { display: none !important; } .phone .pf-grid > :last-child:nth-child(3n+1) { visibility: hidden; }' + GLASS });
       await d.p.waitForTimeout(1800);
       return d;
     },

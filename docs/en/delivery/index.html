@@ -1066,6 +1066,11 @@ font-family: var(--font-app); font-size: 15px; font-weight: 600; line-height: 1.
 .calc .p-head { align-items: center; }
 .calc-presets { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .calc-presets-k { margin-right: 2px; color: var(--ink-3); font-size: 14px; }
+@media (max-width: 520px) {
+.calc-presets { display: grid; grid-template-columns: auto auto 1fr; gap: 8px 6px; justify-items: start; }
+.calc-presets-k { grid-column: 1 / -1; }
+.calc-presets .chip { padding: 0 12px; font-size: 13px; white-space: nowrap; }
+}
 .calc-presets .chip { height: 34px; padding: 0 15px; border: 0; border-radius: 999px; background: var(--fill); color: var(--ink); font: inherit; font-size: 14px; letter-spacing: -0.01em; cursor: pointer; }
 .calc-presets .chip:hover { background: var(--fill-2); }
 .calc-presets .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
@@ -1405,7 +1410,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="ex-tabs-wrap"><div class="ex-tabs" aria-label="Example screens" hidden><button type="button" id="ex-t-delivery" aria-controls="ex-p-delivery" aria-selected="true">Delivery</button><button type="button" id="ex-t-kitchen" aria-controls="ex-p-kitchen" aria-selected="false" tabindex="-1">Kitchen</button><button type="button" id="ex-t-stock" aria-controls="ex-p-stock" aria-selected="false" tabindex="-1">Stock</button><button type="button" id="ex-t-reports" aria-controls="ex-p-reports" aria-selected="false" tabindex="-1">Reports</button><button type="button" id="ex-t-sef" aria-controls="ex-p-sef" aria-selected="false" tabindex="-1">SEF</button><button type="button" id="ex-t-team" aria-controls="ex-p-team" aria-selected="false" tabindex="-1">Team</button></div></div>
 <div class="ex-panels">
 <div class="ex-panel" id="ex-p-delivery">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Example: delivery on the front terminal — a Wolt order cooking with the courier’s time, and orders picked up"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/en/delivery-light.webp?v=13ad816726" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/en/delivery-dark.webp?v=e61e98ec06" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Example: delivery on the front terminal — a Wolt order cooking with the courier’s time, and orders picked up"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/en/delivery-light.webp?v=e20c8421cb" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/en/delivery-dark.webp?v=110c5d165d" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>Delivery on the same screen</h3><p>Wolt and Glovo orders go to the kitchen and stock like all the others, with the courier’s time. For now you carry them over from the platform’s tablet — the direct link is coming soon.</p><ul><li>Cooking, waiting for the courier, picked up</li><li>Separate prices for Wolt and Glovo</li><li>The courier’s time on every order</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-kitchen">

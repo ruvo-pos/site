@@ -1066,6 +1066,11 @@ font-family: var(--font-app); font-size: 15px; font-weight: 600; line-height: 1.
 .calc .p-head { align-items: center; }
 .calc-presets { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .calc-presets-k { margin-right: 2px; color: var(--ink-3); font-size: 14px; }
+@media (max-width: 520px) {
+.calc-presets { display: grid; grid-template-columns: auto auto 1fr; gap: 8px 6px; justify-items: start; }
+.calc-presets-k { grid-column: 1 / -1; }
+.calc-presets .chip { padding: 0 12px; font-size: 13px; white-space: nowrap; }
+}
 .calc-presets .chip { height: 34px; padding: 0 15px; border: 0; border-radius: 999px; background: var(--fill); color: var(--ink); font: inherit; font-size: 14px; letter-spacing: -0.01em; cursor: pointer; }
 .calc-presets .chip:hover { background: var(--fill-2); }
 .calc-presets .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
@@ -1449,7 +1454,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="ex-text"><h3>Kartica gosta na računu</h3><p>Popust nivoa gosta i poeni sa svakog računa. Akcije po rasporedu se uračunavaju same, a popusti se ne sabiraju: za svako jelo važi najveći.</p><ul><li>Nivoi po potrošnji: Gost, Srebro, Zlato</li><li>Plaćanje poenima — uz kod iz <span class="nw">SMS-a</span> ili karticu</li><li>Srećni sati i ručak — po rasporedu</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-floor">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Primer: plan sale na terminalu — slobodni i zauzeti stolovi, sto sa spremnim jelima i sto koji čeka račun"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../assets/shots/sr/floor-light.webp?v=93379dc32d" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../assets/shots/sr/floor-dark.webp?v=df3aa382cd" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Primer: plan sale na terminalu — slobodni i zauzeti stolovi, sto sa spremnim jelima i sto koji čeka račun"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../assets/shots/sr/floor-light.webp?v=cf881fac0d" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../assets/shots/sr/floor-dark.webp?v=7aac6f9400" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>Plan sale na terminalu</h3><p>Cela sala na jednom ekranu: koji su stolovi zauzeti i koliko dugo, gde je jelo spremno za serviranje i gde gosti čekaju račun. Sa strane — porudžbine sa kioska i iz aplikacije, spremna jela i promet dana.</p><ul><li>Sala i bašta — svaka na svom planu</li><li>Spremno za serviranje — odmah, sa brojem stola</li><li>Gosti prelaze za drugi sto bez nove porudžbine</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-kitchen">

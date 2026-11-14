@@ -1066,6 +1066,11 @@ font-family: var(--font-app); font-size: 15px; font-weight: 600; line-height: 1.
 .calc .p-head { align-items: center; }
 .calc-presets { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .calc-presets-k { margin-right: 2px; color: var(--ink-3); font-size: 14px; }
+@media (max-width: 520px) {
+.calc-presets { display: grid; grid-template-columns: auto auto 1fr; gap: 8px 6px; justify-items: start; }
+.calc-presets-k { grid-column: 1 / -1; }
+.calc-presets .chip { padding: 0 12px; font-size: 13px; white-space: nowrap; }
+}
 .calc-presets .chip { height: 34px; padding: 0 15px; border: 0; border-radius: 999px; background: var(--fill); color: var(--ink); font: inherit; font-size: 14px; letter-spacing: -0.01em; cursor: pointer; }
 .calc-presets .chip:hover { background: var(--fill-2); }
 .calc-presets .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
@@ -1405,7 +1410,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="ex-tabs-wrap"><div class="ex-tabs" aria-label="Primeri ekrana" hidden><button type="button" id="ex-t-delivery" aria-controls="ex-p-delivery" aria-selected="true">Dostava</button><button type="button" id="ex-t-kitchen" aria-controls="ex-p-kitchen" aria-selected="false" tabindex="-1">Kuhinja</button><button type="button" id="ex-t-stock" aria-controls="ex-p-stock" aria-selected="false" tabindex="-1">Magacin</button><button type="button" id="ex-t-reports" aria-controls="ex-p-reports" aria-selected="false" tabindex="-1">Izveštaji</button><button type="button" id="ex-t-sef" aria-controls="ex-p-sef" aria-selected="false" tabindex="-1">SEF</button><button type="button" id="ex-t-team" aria-controls="ex-p-team" aria-selected="false" tabindex="-1">Tim</button></div></div>
 <div class="ex-panels">
 <div class="ex-panel" id="ex-p-delivery">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Primer: dostava na terminalu sale — porudžbina Wolt-a u pripremi sa vremenom kurira i preuzete porudžbine"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../assets/shots/sr/delivery-light.webp?v=af7b1ace82" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../assets/shots/sr/delivery-dark.webp?v=e5fef6635c" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Primer: dostava na terminalu sale — porudžbina Wolt-a u pripremi sa vremenom kurira i preuzete porudžbine"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../assets/shots/sr/delivery-light.webp?v=b85cf46a10" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../assets/shots/sr/delivery-dark.webp?v=36cec98171" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>Dostava na istom ekranu</h3><p>Porudžbine sa <span class="nw">Wolt-a</span> i <span class="nw">Glovo-a</span> idu u kuhinju i magacin kao i sve ostale, sa vremenom kurira. Za sada ih prenosite sa tableta platforme — direktna veza stiže uskoro.</p><ul><li>U pripremi, čekaju kurira, preuzete</li><li>Posebne cene za Wolt i Glovo</li><li>Vreme kurira na svakoj porudžbini</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-kitchen">

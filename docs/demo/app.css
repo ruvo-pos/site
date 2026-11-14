@@ -3343,8 +3343,10 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 }
 .tab.on { color: var(--accent); }
 .tab-ic { position: relative; display: inline-flex; }
+/* (14 November, 15:31, the owner: «кое-где съехавшие пилюли») the count off the icon's corner: on the iPad's «Dostava»
+   the scooter's wide glyph went under it */
 .tab-badge {
-  position: absolute; top: -6px; right: -12px; display: grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px;
+  position: absolute; top: -9px; left: calc(100% - 3px); right: auto; display: grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px;
   border-radius: var(--r-pill); background: var(--ok); color: var(--ok-ink); font-size: var(--fs-sm); font-weight: var(--fw-regular); line-height: 1;
 }
 .ph-bar {

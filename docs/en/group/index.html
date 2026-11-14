@@ -1066,6 +1066,11 @@ font-family: var(--font-app); font-size: 15px; font-weight: 600; line-height: 1.
 .calc .p-head { align-items: center; }
 .calc-presets { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .calc-presets-k { margin-right: 2px; color: var(--ink-3); font-size: 14px; }
+@media (max-width: 520px) {
+.calc-presets { display: grid; grid-template-columns: auto auto 1fr; gap: 8px 6px; justify-items: start; }
+.calc-presets-k { grid-column: 1 / -1; }
+.calc-presets .chip { padding: 0 12px; font-size: 13px; white-space: nowrap; }
+}
 .calc-presets .chip { height: 34px; padding: 0 15px; border: 0; border-radius: 999px; background: var(--fill); color: var(--ink); font: inherit; font-size: 14px; letter-spacing: -0.01em; cursor: pointer; }
 .calc-presets .chip:hover { background: var(--fill-2); }
 .calc-presets .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
@@ -1449,7 +1454,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="ex-text"><h3>The guest’s card on the bill</h3><p>The discount of the guest’s level and points from every bill. Scheduled promotions count by themselves, and discounts don’t add up: each dish gets the biggest one.</p><ul><li>Levels by spend: Guest, Silver, Gold</li><li>Paying with points — with a code by SMS or the card</li><li>Happy hours and lunch — on a schedule</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-floor">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Example: the floor plan on the front terminal — free and taken tables, a table with dishes ready and a table waiting for the bill"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/en/floor-light.webp?v=93360abc73" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/en/floor-dark.webp?v=41c0a3ce6e" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Example: the floor plan on the front terminal — free and taken tables, a table with dishes ready and a table waiting for the bill"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/en/floor-light.webp?v=56d6f53875" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/en/floor-dark.webp?v=73627098f9" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>The floor plan on the front terminal</h3><p>The whole floor on one screen: which tables are taken and for how long, where a dish is ready to serve and where guests wait for the bill. At the side — orders from the kiosk and the app, dishes ready and the day’s sales.</p><ul><li>The dining room and the terrace — each on its own plan</li><li>Ready to serve — at once, with the table number</li><li>Guests move to another table without a new order</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-kitchen">

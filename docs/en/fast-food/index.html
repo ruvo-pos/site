@@ -1066,6 +1066,11 @@ font-family: var(--font-app); font-size: 15px; font-weight: 600; line-height: 1.
 .calc .p-head { align-items: center; }
 .calc-presets { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .calc-presets-k { margin-right: 2px; color: var(--ink-3); font-size: 14px; }
+@media (max-width: 520px) {
+.calc-presets { display: grid; grid-template-columns: auto auto 1fr; gap: 8px 6px; justify-items: start; }
+.calc-presets-k { grid-column: 1 / -1; }
+.calc-presets .chip { padding: 0 12px; font-size: 13px; white-space: nowrap; }
+}
 .calc-presets .chip { height: 34px; padding: 0 15px; border: 0; border-radius: 999px; background: var(--fill); color: var(--ink); font: inherit; font-size: 14px; letter-spacing: -0.01em; cursor: pointer; }
 .calc-presets .chip:hover { background: var(--fill-2); }
 .calc-presets .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
@@ -1411,7 +1416,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="ex-text"><h3>The kitchen screen</h3><p>Each station sees its own: the kitchen the dishes, the bar the drinks. A timer shows how long an order has waited, and late ones stand out.</p><ul><li>The floor, the kiosk, Wolt and Glovo on one screen</li><li>Tap once — “cooking”, again — “ready”</li><li>The waiter sees at once what is ready</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-delivery">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Example: delivery on the front terminal — a Wolt order cooking with the courier’s time, and orders picked up"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/en/delivery-light.webp?v=13ad816726" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/en/delivery-dark.webp?v=e61e98ec06" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Example: delivery on the front terminal — a Wolt order cooking with the courier’s time, and orders picked up"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../../assets/shots/en/delivery-light.webp?v=e20c8421cb" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../../assets/shots/en/delivery-dark.webp?v=110c5d165d" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>Delivery on the same screen</h3><p>Wolt and Glovo orders go to the kitchen and stock like all the others, with the courier’s time. For now you carry them over from the platform’s tablet — the direct link is coming soon.</p><ul><li>Cooking, waiting for the courier, picked up</li><li>Separate prices for Wolt and Glovo</li><li>The courier’s time on every order</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-stock">
