@@ -782,7 +782,7 @@ animation-duration: 32s; animation-iteration-count: infinite; animation-fill-mod
 .ex-tabs::-webkit-scrollbar { display: none; }
 .ex-tabs[hidden] { display: none; }
 .ex-tabs button {
-flex: none; height: 36px; padding-inline: 16px; border: 0; border-radius: 999px;
+flex: none; height: 36px; padding-inline: 12px; border: 0; border-radius: 999px; 
 background: transparent; color: var(--ink-2); font: inherit; font-size: 14px; font-weight: 500; letter-spacing: -0.01em; cursor: pointer;
 }
 .ex-tabs button:hover { color: var(--ink); }
@@ -810,6 +810,34 @@ flex: none; display: grid; width: 220px; margin-top: clamp(40px, 9vw, 150px); te
 .kio-num { padding-top: 14px; color: var(--a-accent); font-family: var(--font-timer); font-size: 64px; font-weight: 600; line-height: 1; }
 .kio-no .nc-note { padding-top: 8px; }
 @media (max-width: 640px) { .kio-no { display: none; } .ex-shot--port .dv-port { width: min(86%, 400px); } }
+.side { flex: none; display: grid; align-content: start; gap: 16px; width: 264px; margin-top: clamp(40px, 9vw, 150px); }
+.side-nc .nc-h span { min-width: 0; }
+.side-nc .nc-r span { display: inline-flex; align-items: center; gap: 6px; }
+.side-nc .nc-ok { width: 16px; height: 16px; color: var(--a-ok); }
+.nc-n { display: grid; gap: 2px; padding: 10px 14px; box-shadow: inset 0 -1px 0 0 var(--a-line); }
+.nc-n:last-child { box-shadow: none; }
+.nc-n b { color: var(--a-ink); font-weight: 600; }
+.nc-n span { color: var(--a-ink-2); font-size: 13px; line-height: 1.35; }
+.tg-msg { display: grid; gap: 4px; margin: 10px 12px 0; padding: 9px 11px; border-radius: 12px 12px 12px 4px; background: var(--a-surface-2); box-shadow: 0 0 0 1px var(--a-line); font-size: 13px; line-height: 1.35; }
+.tg-msg > b { color: var(--a-ink); font-size: 14px; font-weight: 600; }
+.tg-r { display: flex; justify-content: space-between; gap: 10px; color: var(--a-ink-2); }
+.tg-r b { color: var(--a-ink); font-family: var(--font-timer); font-weight: 600; white-space: nowrap; }
+.tg-keys { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px 12px 12px; }
+.tg-keys span { display: grid; place-items: center; min-height: 34px; padding: 0 6px; border-radius: 8px; background: var(--a-surface-2); box-shadow: 0 0 0 1px var(--a-line-2); color: var(--a-accent); font-size: 13px; font-weight: 600; text-align: center; }
+.ios-n { padding: 12px 14px 13px; border-radius: 22px; background: rgba(246, 246, 248, 0.94); box-shadow: 0 10px 30px rgba(9, 18, 52, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.06); color: #111; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', var(--font-app), sans-serif; letter-spacing: -0.01em; -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); }
+.ios-n p { margin: 0; }
+.ios-n-app { display: flex; align-items: center; gap: 7px; color: rgba(60, 60, 67, 0.72); font-size: 12.5px; }
+.ios-n-app time { margin-left: auto; }
+.ios-n-ic { width: 20px; height: 20px; border-radius: 5px; }
+.ios-n-t { margin-top: 7px !important; font-size: 15px; font-weight: 600; line-height: 1.3; }
+.ios-n-b { font-size: 15px; line-height: 1.33; }
+:root[data-theme="dark"] .ios-n { background: rgba(44, 44, 48, 0.94); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08); color: #F2F2F7; }
+:root[data-theme="dark"] .ios-n-app { color: rgba(235, 235, 245, 0.62); }
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) .ios-n { background: rgba(44, 44, 48, 0.94); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08); color: #F2F2F7; }
+:root:not([data-theme="light"]) .ios-n-app { color: rgba(235, 235, 245, 0.62); }
+}
+@media (max-width: 640px) { .side { display: none; } }
 .ex-text { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px clamp(32px, 5vw, 72px); width: 100%; max-width: 960px; margin-inline: auto; }
 .ex-text h3 { grid-column: 1; font-size: var(--fs-h3); font-weight: 600; line-height: 1.2; letter-spacing: -0.022em; }
 .ex-text p { grid-column: 1; color: var(--ink-2); line-height: 1.5; }
@@ -1401,7 +1429,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="ex-tabs-wrap"><div class="ex-tabs" aria-label="Primeri ekrana" hidden><button type="button" id="ex-t-reports" aria-controls="ex-p-reports" aria-selected="true">Izveštaji</button><button type="button" id="ex-t-stock" aria-controls="ex-p-stock" aria-selected="false" tabindex="-1">Magacin</button><button type="button" id="ex-t-sef" aria-controls="ex-p-sef" aria-selected="false" tabindex="-1">SEF</button><button type="button" id="ex-t-team" aria-controls="ex-p-team" aria-selected="false" tabindex="-1">Tim</button><button type="button" id="ex-t-guests" aria-controls="ex-p-guests" aria-selected="false" tabindex="-1">Gosti</button><button type="button" id="ex-t-floor" aria-controls="ex-p-floor" aria-selected="false" tabindex="-1">Sala</button><button type="button" id="ex-t-kitchen" aria-controls="ex-p-kitchen" aria-selected="false" tabindex="-1">Kuhinja</button></div></div>
 <div class="ex-panels">
 <div class="ex-panel" id="ex-p-reports">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Primer: izveštaj po pitanju — promet prošle nedelje po danima prema nedelji pre"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../assets/shots/sr/reports-light.webp?v=8df4d1422f" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../assets/shots/sr/reports-dark.webp?v=e78a96b9f3" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Primer: izveštaj po pitanju — promet prošle nedelje po danima prema nedelji pre"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../assets/shots/sr/reports-light.webp?v=7bdb265b67" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../assets/shots/sr/reports-dark.webp?v=5df013e63a" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>Izveštaji i AI pomoćnik</h3><p>Pitajte običnim rečima i RUVO sastavi izveštaj: promet, prosečan račun, food cost, jela, konobari. Dugme „Objasni” kaže šta se promenilo.</p><ul><li>16 gotovih izveštaja i vaši sačuvani</li><li>Poređenje sa prethodnim periodom</li><li>Svi objekti zajedno ili svaki posebno</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-stock">
@@ -1413,19 +1441,19 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="ex-text"><h3>Fakture dobavljača iz <span class="nw">SEF-a</span></h3><p>Ulazne <span class="nw">e-fakture</span> stižu same. Stavke dobavljača povežete sa svojim proizvodima jednom, a prijemnica u magacin nastaje jednim dugmetom.</p><ul><li>Prihvatite ili odbijte fakturu iz <span class="nw">RUVO-a</span></li><li>Rok za odgovor uvek pred očima</li><li>Više firmi (PIB) pod jednim nalogom</li><li>Papirna otpremnica — fotografijom: stavke popuni AI</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-team">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Primer: plate za nedelju — sati, satnica, procenat od prodaje i napojnice"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../assets/shots/sr/pay-light.webp?v=06dc7befce" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../assets/shots/sr/pay-dark.webp?v=3798a057aa" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Primer: plate za nedelju — sati, satnica, procenat od prodaje i napojnice"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../assets/shots/sr/pay-light.webp?v=ea70ecb7f0" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../assets/shots/sr/pay-dark.webp?v=0fe8fcd940" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>Tim i smene</h3><p>Svako radi pod svojim <span class="nw">PIN-om</span> i sa svojom ulogom. Smena počinje i završava se <span class="nw">PIN-om</span> na terminalu sale, a plata se računa sama — po satima i procentu od prodaje.</p><ul><li>Uloge: vlasnik, menadžer, konobar, kuvar, šank</li><li>Dnevnik radnji — ko je šta uradio i kada</li><li>Zaboravljena smena se ispravlja uz razlog</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-guests">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Primer: račun stola 5 sa karticom gosta i popustom nivoa Zlato"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../assets/shots/sr/guests-light.webp?v=6338202bf7" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../assets/shots/sr/guests-dark.webp?v=3ce61a1be6" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Primer: račun stola 5 sa karticom gosta i popustom nivoa Zlato"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../assets/shots/sr/guests-light.webp?v=180333e18e" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../assets/shots/sr/guests-dark.webp?v=2a3f1bde72" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>Kartica gosta na računu</h3><p>Popust nivoa gosta i poeni sa svakog računa. Akcije po rasporedu se uračunavaju same, a popusti se ne sabiraju: za svako jelo važi najveći.</p><ul><li>Nivoi po potrošnji: Gost, Srebro, Zlato</li><li>Plaćanje poenima — uz kod iz <span class="nw">SMS-a</span> ili karticu</li><li>Srećni sati i ručak — po rasporedu</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-floor">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Primer: plan sale na terminalu — slobodni i zauzeti stolovi, sto sa spremnim jelima i sto koji čeka račun"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../assets/shots/sr/floor-light.webp?v=f237e6df84" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../assets/shots/sr/floor-dark.webp?v=0974ef075d" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Primer: plan sale na terminalu — slobodni i zauzeti stolovi, sto sa spremnim jelima i sto koji čeka račun"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../assets/shots/sr/floor-light.webp?v=93379dc32d" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../assets/shots/sr/floor-dark.webp?v=df3aa382cd" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>Plan sale na terminalu</h3><p>Cela sala na jednom ekranu: koji su stolovi zauzeti i koliko dugo, gde je jelo spremno za serviranje i gde gosti čekaju račun. Sa strane — porudžbine sa kioska i iz aplikacije, spremna jela i promet dana.</p><ul><li>Sala i bašta — svaka na svom planu</li><li>Spremno za serviranje — odmah, sa brojem stola</li><li>Gosti prelaze za drugi sto bez nove porudžbine</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-kitchen">
-<div class="ex-shot ex-shot--pad" role="img" aria-label="Primer: ekran kuhinje — porudžbine sale, aplikacije i kioska sa tajmerima i zbir jela u radu"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../assets/shots/sr/kitchen-light.webp?v=375df13701" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../assets/shots/sr/kitchen-dark.webp?v=e8ad4cb16d" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
+<div class="ex-shot ex-shot--pad" role="img" aria-label="Primer: ekran kuhinje — porudžbine sale, aplikacije i kioska sa tajmerima i zbir jela u radu"><div class="dv dv-pad" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="../assets/shots/sr/kitchen-light.webp?v=975965c24f" alt="" width="1210" height="834" loading="lazy" decoding="async"><img class="shot shot-d" src="../assets/shots/sr/kitchen-dark.webp?v=3e533377fa" alt="" width="1210" height="834" loading="lazy" decoding="async"></div></div></div></div>
 <div class="ex-text"><h3>Ekran kuhinje</h3><p>Svaka stanica vidi svoje: kuhinja jela, šank pića. Tajmer pokazuje koliko porudžbina čeka, a one koje kasne se ističu.</p><ul><li>Sala, kiosk, Wolt i Glovo na jednom ekranu</li><li>Dodir — „sprema se”, još jedan — „gotovo”</li><li>Konobar odmah vidi šta je gotovo</li></ul></div>
 </div>
 </div>

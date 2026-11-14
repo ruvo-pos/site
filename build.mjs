@@ -681,8 +681,23 @@ const SHOTS = {
   reports: (lang, x, file) => shot('pad', lang, file, 'reports'),
   sef: (lang, x, file) => shot('pad', lang, file, 'sef'),
   team: (lang, x, file) => shot('pad', lang, file, 'pay'),
+  site: (lang, x, file) => `<div class="pair">${shot('phone', lang, file, 'site')}<div class="side">${iosNote(x.push)}</div></div>`,
+  motivation: (lang, x, file) => `<div class="pair">${shot('phone', lang, file, 'motivation')}<div class="side">${missionsCard(x.missions)}</div></div>`,
+  money: (lang, x, file) => shot('pad', lang, file, 'money'),
+  office: (lang, x, file) => `<div class="pair">${shot('phone', lang, file, 'office-phone')}<div class="side">${notesCard(x.notes)}${tgCard(x.tg)}</div></div>`,
 };
-const SHOT_KIND = { waiter: 'phones', kiosk: 'port' };
+const SHOT_KIND = { waiter: 'phones', kiosk: 'port', site: 'phones', motivation: 'phones', office: 'phones' };
+// (14 November 2026) the tabs' order: the hall and the guests, the books, the people, the owner
+const TAB_ORDER = ['floor', 'waiter', 'kitchen', 'delivery', 'kiosk', 'site', 'guests', 'stock', 'sef', 'reports', 'money', 'team', 'motivation', 'office'];
+
+// (14 November 2026, the new parts) the drawn pieces beside a phone, in the app's own words (content.mjs): a
+// notification as the iPhone shows it — RUVO Order's icon, its name and the time over its words; the shift's missions;
+// the owner's notifications; a chat with RUVO's bot in Telegram
+const ORDER_ICON = readFileSync(path.join(ROOT, 'src/ruvo-order-icon.svg'), 'utf8').replace('<svg ', '<svg class="ios-n-ic" aria-hidden="true" focusable="false" ');
+const iosNote = (n) => `<div class="ios-n"><p class="ios-n-app">${ORDER_ICON}<span>${esc(n.app)}</span><time>${esc(n.when)}</time></p><p class="ios-n-t">${esc(n.title)}</p><p class="ios-n-b">${esc(n.body)}</p></div>`;
+const missionsCard = (m) => `<div class="nc side-nc"><p class="nc-h">${IC('target')}<span>${esc(m.title)}</span></p>${m.rows.map(([what, prize, done]) => `<div class="nc-r"><span>${done ? IC('check', 'nc-ok') : ''}${esc(what)}</span><b${done ? ' class="ok"' : ''}>${esc(prize)}</b></div>`).join('')}<p class="nc-note">${esc(m.note)}</p></div>`;
+const notesCard = (n) => `<div class="nc side-nc"><p class="nc-h">${IC('bell')}<span>${esc(n.title)}</span></p>${n.rows.map(([t, b]) => `<div class="nc-n"><b>${esc(t)}</b><span>${esc(b)}</span></div>`).join('')}</div>`;
+const tgCard = (t) => `<div class="nc side-nc tg"><p class="nc-h">${IC('paper-plane-tilt')}<span>${esc(t.title)}</span></p><div class="tg-msg"><b>${esc(t.report)}</b>${t.rows.map(([k, v]) => `<span class="tg-r"><span>${esc(k)}</span><b>${esc(v)}</b></span>`).join('')}</div><div class="tg-msg"><span>${esc(t.ask)}</span></div><div class="tg-keys">${t.keys.map((k) => `<span>${esc(k)}</span>`).join('')}</div></div>`;
 
 // ---------- live photos: a place shows once its file is in src/photos/ (PHOTOS in content.mjs); the preview shows each
 // empty one, numbered in the order of the page, with what to shoot — the live site never shows an empty frame ----------
@@ -715,7 +730,7 @@ function features(lang, file, v = null, tabs = null) {
   const h = T[lang].home;
   const d = h.demo;
   const soon = h.integrations.length - 1;
-  const items = tabs ? tabs.map((id) => x.items.find((it) => it.id === id)) : x.items;
+  const items = tabs ? tabs.map((id) => x.items.find((it) => it.id === id)) : [...TAB_ORDER.map((id) => x.items.find((it) => it.id === id)).filter(Boolean), ...x.items.filter((it) => !TAB_ORDER.includes(it.id))];
   return `<section class="band alt" id="features" aria-labelledby="features-h"><span class="anchor" id="examples"></span><div class="wrap">
 <div class="sec-head"><h2 id="features-h">${esc(v ? v.featuresTitle : x.title)}</h2><p>${txt(v ? v.featuresLead : x.lead)}</p></div>
 <div class="ex" data-tabs>
