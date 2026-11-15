@@ -34,7 +34,7 @@ const LOCALE = { sr: 'sr-Latn-RS', en: 'en-GB', ru: 'ru-RU' };
 // 14 October: «приблизить к визуалу сайта Apple») — and in Inter where there is no San Francisco (a browser downloads
 // Inter only where it is used); the drawn screens of the app in the app's Onest; the wordmark and the enamel plates in
 // Unbounded; the running timers in JetBrains Mono.
-const FONTS = 'https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&amp;family=Onest:wght@400;500;600;700&amp;family=Unbounded:wght@700&amp;family=JetBrains+Mono:wght@600&amp;display=swap';
+const FONTS = 'https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&amp;family=Unbounded:wght@700&amp;family=JetBrains+Mono:wght@600&amp;display=swap';
 // The screens of the app are drawn in the points of the device they are on (src/site.css): u(15) — fifteen points of
 // the iPad's or the iPhone's screen, whatever size the device is drawn at (--u, set on each device from its width)
 const CSS = readFileSync(path.join(ROOT, 'src/site.css'), 'utf8')
@@ -87,7 +87,7 @@ const DEMO_CSS = readFileSync(path.join(ROOT, 'src/demo/app.css'), 'utf8');
 const DEMO_V = createHash('sha256').update(DEMO_JS).update(DEMO_CSS).digest('hex').slice(0, 10);
 // the app's faces, and Inter for its start page, which is set as the site is (the system's face; Inter where there is no
 // San Francisco)
-const APP_FONTS = 'https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&amp;family=JetBrains+Mono:wght@600&amp;family=Onest:wght@400;500;600;700&amp;family=Unbounded:wght@600;700&amp;display=swap';
+const APP_FONTS = 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600&amp;family=Onest:wght@400;500;600;700&amp;family=Unbounded:wght@600;700&amp;display=swap';
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const mail = `<a href="mailto:${SITE.email}">${SITE.email}</a>`;
@@ -1977,7 +1977,7 @@ function demoPage(lang) {
 ${THEME_EARLY}
 </head>
 <body>
-<div id="app"><noscript><p style="padding:24px;font-family:system-ui,sans-serif">${esc(d.noscript)}</p></noscript></div>
+<div id="app"><noscript><p style="padding:24px;font-family:Onest,system-ui,sans-serif">${esc(d.noscript)}</p></noscript></div>
 <script>window.RUVO_DEMO = ${config}; window.RUVO_DEMO_SHOTS = ${shots};</script>
 <script src="${asset('app.js')}"></script>
 </body>
