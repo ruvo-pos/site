@@ -394,7 +394,8 @@ h1, h2, h3, p, ul, ol, dl, dd { margin: 0; }
 .seg-chips .seg-btn:hover { border-color: var(--ink-3); }
 .seg-chips .seg-btn.on { border-color: transparent; background: var(--accent-soft); color: var(--accent); }
 .seg-chips .seg-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-.seg-count { color: var(--ink-3); font-weight: var(--fw-medium); font-variant-numeric: tabular-nums; }
+/* (15 November, the brand book: words 4.5:1 — the kitchen's «Все цеха 8» was 3.9) */
+.seg-count { color: var(--ink-2); font-weight: var(--fw-medium); font-variant-numeric: tabular-nums; }
 .seg-btn.on .seg-count { color: inherit; opacity: 0.75; }
 .seg-badge {
   min-width: 20px; padding: 0 6px; border-radius: var(--r-pill);
@@ -747,6 +748,19 @@ h1, h2, h3, p, ul, ol, dl, dd { margin: 0; }
 .net-fails { display: flex; flex-direction: column; gap: var(--sp-3); }
 .net-fail { display: flex; gap: var(--sp-3); }
 
+/* ---------- a finger's 44 px (15 November, the brand book's robot) ----------
+   On a touch screen the small keys reach out of their look to 44 px: a segment of a strip or of the kitchen's stations
+   (32–40 tall), a link in a row («Подключить», «Во всех заведениях») — an invisible band over and under them; a field and
+   a picker on a phone 44 tall. What one sees stays as it is. */
+@media (pointer: coarse) {
+  .seg-btn::after { content: ''; position: absolute; inset: min(0px, calc((100% - 44px) / 2)) 0; }
+  .link-btn, .ig-row .ig-where { position: relative; }
+  .link-btn::after, .ig-row .ig-where::after { content: ''; position: absolute; inset: min(0px, calc((100% - 44px) / 2)) 0; }
+}
+@media (pointer: coarse) and (max-width: 700px) {
+  .front-look :is(.select, .cell-input) { min-height: 44px; }
+}
+
 /* ---------- launcher ---------- */
 .launcher { overflow: auto; }
 .l-wrap { display: flex; flex-direction: column; gap: var(--sp-6); width: 100%; max-width: 1060px; margin: 0 auto; padding: var(--sp-6) var(--sp-5) var(--sp-8); }
@@ -866,7 +880,8 @@ h1, h2, h3, p, ul, ol, dl, dd { margin: 0; }
   --d-alu-2: #9C9EA5;
   --d-shadow: 0.16;
   --d-shadow-2: 0.1;
-  --d-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* (15 November, the owner: «Шрифт надо унифицировать везде») the demo's own page in the brand's face too */
+  --d-font: var(--font-ui);
   --d-gutter: clamp(16px, 4.2vw, 44px);
   display: block;
   overflow: auto;
@@ -7785,7 +7800,7 @@ tr.bl-theirs td { background: var(--accent-soft); }
 .rp-end textarea { width: 100%; min-height: 64px; padding: var(--sp-2) var(--sp-3); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); color: var(--ink); font: inherit; resize: vertical; }
 .rp-totals { line-height: 1.6; }
 .rp-preview-box summary { cursor: pointer; color: var(--accent); font-weight: var(--fw-semibold); }
-.rp-preview { margin: var(--sp-2) 0 0; padding: var(--sp-3); border-radius: var(--r-md); background: var(--surface-2); color: var(--ink); font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: var(--fs-sm); line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+.rp-preview { margin: var(--sp-2) 0 0; padding: var(--sp-3); border-radius: var(--r-md); background: var(--surface-2); color: var(--ink); font-family: var(--font-ui); font-size: var(--fs-sm); line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
 .rp-list tr.on td { background: var(--accent-soft); }
 
 /* a phone: a line in two rows — the room and what for; the sum, × — and the note under them */
@@ -9889,6 +9904,10 @@ tr.bl-theirs td { background: var(--accent-soft); }
   .front-look.mn-app .mn-filters > .check-row { padding: var(--sp-3) var(--px); }
 }
 
+/* (15 November, the brand book's robot) a row whose panel opens under it is brought up to just under what stays at the
+   top — the page's head (64) and the table's column heads (48) — not under them (ui/common.jsx, showOpened) */
+.front-look .of-main .tbl-data > tbody > tr { scroll-margin-top: 112px; }
+
 /* ---------- «Сводка»: the board of widgets (9 November, 23:17) ----------
    The owner: «вся сетка виджетов должна быть по горизонтали поделена на 5 частей, 1 часть = высоте всех виджетов; виджет
    с цифрами 2 части; виджет с выручкой по часам и каналам 3 части; скорость кухни, отмены, топ блюд, склад, советы — 1
@@ -10366,6 +10385,11 @@ button.wg-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 
     gap: 0; padding: 0; overflow: visible; border-bottom: 0; scroll-snap-type: none; -webkit-mask-image: none; mask-image: none;
     background: linear-gradient(180deg, var(--head-a), var(--head-m)); box-shadow: none;
   }
+  /* (15 November, 03:13, the owner on the back office's iPhone picture: «В скриншоте не должно быть белой полосы сверху») the
+     header's shade runs on under the clock and the battery, as the waiter's iPhone's does — not the page's white strip
+     over it: the app's top padding given to the bar of the logo and ☰ */
+  :root .app.front-look { padding-top: 0; }
+  :root .front-look .of-side { padding-top: env(safe-area-inset-top, 0px); }
   :root .front-look .of-side > .of-brand { display: contents; }
   :root .front-look .of-side > .of-brand > .wordmark { grid-area: logo; display: inline-flex; align-self: center; margin: 0 var(--sp-3) 0 var(--sp-4); }
   :root .front-look .of-side > .of-brand > :is(.of-theme, .of-me), :root .front-look .of-side > .of-scope { display: none; }
@@ -10782,6 +10806,12 @@ button.wg-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 
   :root .front-look .of-page > .sh-bar.sh-bar5 > .seg { --strip-cell: minmax(0, 1fr); grid-column: span 3; }
   :root .front-look .of-page > .sh-bar.sh-bar5 > :is(.select, .btn) { justify-self: stretch; width: 100%; min-width: 0; margin: 0; }
   :root .front-look .of-page > .sh-bar.sh-bar5:not(:has(> :is(.select, .sc-week))) > .btn { grid-column: span 2; }
+}
+/* (15 November, the brand book's robot: «16–22 ноября · следующая н…» cut on an iPad, 1024) a column is too narrow for the
+   week and its arrows: under 1100 px the three tabs take two columns, the week two */
+@media (min-width: 701px) and (max-width: 1100px) {
+  :root .front-look .of-page > .sh-bar.sh-bar5:has(> .sc-week) > .seg { grid-column: span 2; }
+  :root .front-look .of-page > .sh-bar.sh-bar5 > .sc-week { grid-column: span 2; }
 }
 
 /* «Прогноз» on a phone: the people of each hour a list (an hour short of hands shaded) */
@@ -11591,6 +11621,10 @@ button.wg-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 
 .nutr-fill .chip-row { gap: 6px; }
 /* (the four on one line, each a quarter) */
 .front-look .form-section > .form-row.nutr-row > .field { flex: 1 1 0; min-width: 0; }
+/* (15 November, the brand book's robot: «Ugljeni hidrati, g» on two lines put its box lower than the other three) a
+   name on two lines keeps the four boxes level: the names at the top, the boxes at the foot of the row's height */
+.front-look .form-section > .form-row.nutr-row { align-items: stretch; }
+.front-look .form-section > .form-row.nutr-row > .field { display: flex; flex-direction: column; justify-content: space-between; }
 .nutr-guess .chip { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 @media (max-width: 700px) {
@@ -11654,6 +11688,8 @@ button.wg-row:focus-visible { outline: 2px solid var(--accent); outline-offset: 
 /* (a phone: a modifier group's band the row's whole width — its shade on the row, not on its cell inside the row's
    margins) */
 @media (max-width: 700px) {
+  /* (15 November, the brand book's robot) the dish's squares and «Подача» under them: the line between them */
+  .front-look .dp > .pg-nums + .dp-mods-tab { box-shadow: inset 0 1px 0 0 var(--zl); }
   .front-look .dp-mods tr.dp-grp { align-items: center; min-height: 48px; padding-right: var(--sx, 16px); background: var(--surface-2); }
   .front-look .dp-mods tr.dp-grp > td { height: auto; background: none; }
 }
@@ -14734,6 +14770,10 @@ button.pp-tile-b:focus-visible { outline: 2px solid var(--accent); outline-offse
 .front-look :is(.table-wrap, .tbl-data) + .lines-bar { box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); }
 /* the recipes' list (Техкарты): a line under each dish and under each folder's name */
 .front-look .tech-list .tl-row, .front-look .tech-list .tl-cat { box-shadow: inset 0 -1px 0 0 var(--zl); }
+/* (15 November, 03:14, the owner on «Техкарты»: «Тут названия категорий надо выделять (и внутри текст выравнивать)») a
+   folder's name a band of its own between the dishes' rows: the second shade, its words 14 semibold in the ink, in the
+   middle of the band's height (they stood on its bottom line) */
+.front-look .tech-list .tl-cat { display: flex; align-items: center; min-height: 40px; padding: 0 var(--sp-4); background: var(--surface-2); color: var(--ink); font-weight: var(--fw-semibold); line-height: 18px; }
 @media (max-width: 700px) {
   /* a phone's list has no head of its columns: its first row draws the line under the block's head */
   .front-look .pg-block > :is(.pg-head, .dp-note) + .table-wrap > .tbl-data.list-rows > tbody:first-of-type > tr:first-child { box-shadow: inset 0 1px 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); }
@@ -15005,5 +15045,6 @@ button.pp-tile-b:focus-visible { outline: 2px solid var(--accent); outline-offse
 .dep-dot.dep-kitchen { background: var(--dep-kitchen); }
 .dep-dot.dep-office { background: var(--dep-office); }
 :root .front-look .avatar.dep-floor { background: color-mix(in oklab, var(--dep-floor) 22%, var(--surface)); color: var(--dep-floor); }
-:root .front-look .avatar.dep-kitchen { background: color-mix(in oklab, var(--dep-kitchen) 22%, var(--surface)); color: var(--dep-kitchen); }
+/* (15 November, the brand book: 4.5:1 — the kitchen's letter was 4.49 on its 22 %) */
+:root .front-look .avatar.dep-kitchen { background: color-mix(in oklab, var(--dep-kitchen) 16%, var(--surface)); color: var(--dep-kitchen); }
 :root .front-look .avatar.dep-office { background: color-mix(in oklab, var(--dep-office) 22%, var(--surface)); color: var(--dep-office); }

@@ -99,6 +99,8 @@ const keep = (html) => html.split(/(<[^>]+>)/).map((part) => (part.startsWith('<
   .replace(/ (?=[—–] )/g, '\u00A0')
   .replace(/(^|[\s(\u00A0])(\p{L}) /gu, '$1$2\u00A0')
   .replace(/ (\d+[.,;:!?]?)$/u, '\u00A0$1')
+  // (15 November) a name of two words is not split at a line's end: «App Store», «RUVO Order», «Wolt Drive»
+  .replace(/\b(App|RUVO|Wolt|Google) (Store|Order|Drive|Play)\b/g, '$1\u00A0$2')
   .replace(/[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)+/gu, '<span class="nw">$&</span>'))).join('');
 // plain text from content.mjs: escaped, with the address made a link
 const txt = (s) => keep(esc(s)).split(SITE.email).join(mail);
@@ -696,7 +698,7 @@ const TAB_ORDER = ['floor', 'waiter', 'kitchen', 'delivery', 'kiosk', 'site', 'g
 // notifications; a chat with RUVO's bot in Telegram
 const ORDER_ICON = readFileSync(path.join(ROOT, 'src/ruvo-order-icon.svg'), 'utf8').replace('<svg ', '<svg class="ios-n-ic" aria-hidden="true" focusable="false" ');
 const iosNote = (n) => `<div class="ios-n"><p class="ios-n-app">${ORDER_ICON}<span>${esc(n.app)}</span><time>${esc(n.when)}</time></p><p class="ios-n-t">${esc(n.title)}</p><p class="ios-n-b">${esc(n.body)}</p></div>`;
-const notesCard = (n) => `<div class="nc side-nc"><p class="nc-h">${IC('bell')}<span>${esc(n.title)}</span></p>${n.rows.map(([t, b]) => `<div class="nc-n"><b>${esc(t)}</b><span>${esc(b)}</span></div>`).join('')}</div>`;
+const notesCard = (n) => `<div class="nc side-nc"><p class="nc-h">${IC(n.icon || 'bell')}<span>${esc(n.title)}</span>${n.when ? `<em>${esc(n.when)}</em>` : ''}</p>${n.rows.map(([t, b]) => `<div class="nc-n"><b>${esc(t)}</b><span>${esc(b)}</span></div>`).join('')}</div>`;
 const tgCard = (t) => `<div class="nc side-nc tg"><p class="nc-h">${IC('paper-plane-tilt')}<span>${esc(t.title)}</span></p><div class="tg-msg"><b>${esc(t.report)}</b>${t.rows.map(([k, v]) => `<span class="tg-r"><span>${esc(k)}</span><b>${esc(v)}</b></span>`).join('')}</div><div class="tg-msg"><span>${esc(t.ask)}</span></div><div class="tg-keys">${t.keys.map((k) => `<span>${esc(k)}</span>`).join('')}</div></div>`;
 
 // ---------- live photos: a place shows once its file is in src/photos/ (PHOTOS in content.mjs); the preview shows each

@@ -16,7 +16,7 @@
 <meta property="og:description" content="На каких условиях TT DAILY KITCHEN DOO предоставляет RUVO ресторанам: аккаунт, пробный период, цены и оплата, данные, ответственность.">
 <meta property="og:url" content="https://ruvo.ac/ru/terms/">
 <meta property="og:locale" content="ru_RU">
-<meta property="og:image" content="https://ruvo.ac/assets/og/ru/home.png?v=7b8d5c1b2b">
+<meta property="og:image" content="https://ruvo.ac/assets/og/ru/home.png?v=b02b40dc9f">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Условия пользования — RUVO">
@@ -806,6 +806,14 @@ background: transparent; color: var(--ink-2); font: inherit; font-size: 14px; fo
 .ex-shot--pad .dv-pad { width: min(100%, 920px); }
 .pair { display: flex; align-items: flex-start; justify-content: center; gap: clamp(18px, 4vw, 56px); width: 100%; }
 .ex-shot--phones .dv-phone { width: min(44%, 296px); }
+.ex-shot--phones .trio { gap: clamp(16px, 3vw, 40px); }
+.ex-shot--phones .trio .dv-phone { width: min(32%, 284px); }
+.trio .side { width: 252px; margin-top: clamp(32px, 7vw, 120px); }
+@media (max-width: 900px) {
+.trio { flex-wrap: wrap; }
+.ex-shot--phones .trio .dv-phone { width: min(44%, 296px); }
+.trio .side { width: min(100%, 340px); margin: 8px auto 0; }
+}
 .ex-shot--port .dv-port { width: min(62%, 446px); }
 .combo { position: relative; width: min(100%, 980px); padding-bottom: 5%; }
 .combo .dv-pad { width: 84%; }
@@ -830,6 +838,7 @@ flex: none; display: grid; width: 220px; margin-top: clamp(40px, 9vw, 150px); te
 .nc-n:last-child { box-shadow: none; }
 .nc-n b { color: var(--a-ink); font-weight: 600; }
 .nc-n span { color: var(--a-ink-2); font-size: 13px; line-height: 1.35; }
+.nc-n { font-variant-numeric: normal; }
 .tg-msg { display: grid; gap: 4px; margin: 10px 12px 0; padding: 9px 11px; border-radius: 12px 12px 12px 4px; background: var(--a-surface-2); box-shadow: 0 0 0 1px var(--a-line); font-size: 13px; line-height: 1.35; }
 .tg-msg > b { color: var(--a-ink); font-size: 14px; font-weight: 600; }
 .tg-r { display: flex; justify-content: space-between; gap: 10px; color: var(--a-ink-2); }
@@ -851,12 +860,12 @@ flex: none; display: grid; width: 220px; margin-top: clamp(40px, 9vw, 150px); te
 }
 @media (max-width: 640px) { .side { display: none; } }
 .ex-text { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px clamp(32px, 5vw, 72px); width: 100%; max-width: 960px; margin-inline: auto; }
-.ex-text h3 { grid-column: 1; font-size: var(--fs-h3); font-weight: 600; line-height: 1.2; letter-spacing: -0.022em; }
-.ex-text p { grid-column: 1; color: var(--ink-2); line-height: 1.5; }
+.ex-text h3 { grid-column: 1; font-size: var(--fs-h3); font-weight: 600; line-height: 1.2; letter-spacing: -0.022em; text-wrap: balance; }
+.ex-text p { grid-column: 1; color: var(--ink-2); line-height: 1.5; text-wrap: pretty; }
 .ex-text ul { grid-column: 2; grid-row: 1 / span 2; display: grid; align-content: start; gap: 12px; }
 .ex-text .ex-try { grid-column: 1; }
 @media (min-width: 761px) { .ex-text:has(.ex-try) ul { grid-row: 1 / span 3; } }
-.ex-text li { position: relative; padding: 0 0 12px 18px; border-bottom: 1px solid var(--line); color: var(--ink); font-size: 16px; line-height: 1.45; }
+.ex-text li { position: relative; padding: 0 0 12px 18px; border-bottom: 1px solid var(--line); color: var(--ink); font-size: 16px; line-height: 1.45; text-wrap: pretty; }
 .ex-text li:last-child { border-bottom: 0; }
 .ex-text li::before { content: ''; position: absolute; left: 2px; top: 0.6em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 @media (max-width: 760px) {

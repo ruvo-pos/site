@@ -196,9 +196,11 @@ try {
   };
 
   b = await chromium.launch();
-  const phone = async (lang, theme, origin, { device = null, prefs = null, kind = 'phone', key = 'ruvo-device' } = {}) => {
+  const phone = async (lang, theme, origin, { device = null, prefs = null, kind = 'phone', key = 'ruvo-device', at = null } = {}) => {
     const D = kind === 'pad' ? PAD : PHONE;
     const ctx = await b.newContext({ viewport: D.size, deviceScaleFactor: SCALE, colorScheme: theme, locale: LOCALE[lang], timezoneId: 'Europe/Belgrade', isMobile: kind === 'phone', hasTouch: true });
+    // the page's clock at the status bar's time (APP: the site's dinner, 21:41), so the times on the page agree with it
+    if (at) await ctx.clock.setFixedTime(at);
     await ctx.addInitScript(({ device, prefs, lang, key }) => {
       try {
         if (device && !localStorage.getItem(key)) localStorage.setItem(key, device);
@@ -218,10 +220,43 @@ try {
     for (const k of code) await p.locator(sel, { hasText: k }).first().click();
   };
 
+  // the dinner of the status bar (APP in content.mjs: Wednesday 14 October, 21:41 in Belgrade)
+  const DINNER = new Date('2026-10-14T21:41:00+02:00');
   const SHOTS = {
     site: async (lang, theme) => {
-      const d = await phone(lang, theme, shop.origin + '/example');
+      const d = await phone(lang, theme, shop.origin + '/example', { at: DINNER });
       await d.p.waitForSelector('.dish', { timeout: 15000 });
+      await d.p.addStyleTag({ content: '.example-note { display: none !important; }' });
+      await d.p.waitForTimeout(1500);
+      return d;
+    },
+    // (15 November, the owner on the «Сайт» tab: «Тут мало инфы») the guest's order on its page — the number on the house
+    // plate, the steps, the dishes: the example restaurant's order, placed as a guest places it, while it cooks; its number
+    // the notification's beside it (12)
+    'site-order': async (lang, theme) => {
+      const d = await phone(lang, theme, shop.origin + '/example', { at: DINNER });
+      await d.p.waitForSelector('.dish .add', { timeout: 15000 });
+      await d.p.locator('.dish .add').first().click();
+      await d.p.waitForTimeout(400);
+      if (await d.p.locator('.sheet .btn-main').count()) await d.p.locator('.sheet .btn-main').click();
+      await d.p.locator('.bar-b').click();
+      await d.p.waitForSelector('.bsheet .panel-go', { timeout: 10000 });
+      await d.p.locator('.bsheet .panel-go').click();
+      await d.p.waitForSelector('.bsheet .checkout #who-name', { timeout: 10000 });
+      await d.p.locator('#who-name').fill({ sr: 'Ana', en: 'Ana', ru: 'Анна' }[lang]);
+      await d.p.locator('#who-phone').fill('+381 64 111 2222');
+      await d.p.locator('.pay:has(input[value="receipt"])').click();
+      await d.p.locator('.send .btn-main').click();
+      await d.p.waitForURL(/\/example\/o\//, { timeout: 15000 });
+      await d.p.evaluate(() => {
+        const k = 'ruvo-example-orders';
+        const all = JSON.parse(sessionStorage.getItem(k) || '{}');
+        const id = location.pathname.split('/').pop();
+        if (all[id]) { all[id].num = 12; all[id].at = Date.now() - 40000; all[id].placedAt = new Date(Date.now() - 40000).toISOString(); }
+        sessionStorage.setItem(k, JSON.stringify(all));
+      });
+      await d.p.reload();
+      await d.p.waitForSelector('.order-stage', { timeout: 15000 });
       await d.p.addStyleTag({ content: '.example-note { display: none !important; }' });
       await d.p.waitForTimeout(1500);
       return d;

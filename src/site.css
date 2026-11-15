@@ -884,6 +884,17 @@ h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacin
 .ex-shot--pad .dv-pad { width: min(100%, 920px); }
 .pair { display: flex; align-items: flex-start; justify-content: center; gap: clamp(18px, 4vw, 56px); width: 100%; }
 .ex-shot--phones .dv-phone { width: min(44%, 296px); }
+/* (15 November) the «Сайт» tab: two phones and the restaurant's side beside them; under 900 px the side's two cards
+   under the phones, one over the other (side by side they were of two heights); under 640 px (.side's own rule) the
+   phones alone */
+.ex-shot--phones .trio { gap: clamp(16px, 3vw, 40px); }
+.ex-shot--phones .trio .dv-phone { width: min(32%, 284px); }
+.trio .side { width: 252px; margin-top: clamp(32px, 7vw, 120px); }
+@media (max-width: 900px) {
+  .trio { flex-wrap: wrap; }
+  .ex-shot--phones .trio .dv-phone { width: min(44%, 296px); }
+  .trio .side { width: min(100%, 340px); margin: 8px auto 0; }
+}
 .ex-shot--port .dv-port { width: min(62%, 446px); }
 /* (14 November 2026, «Делаем все») the team's tab: the week's pay on the iPad and, standing over its right corner and a
    little below it, the waiter's own profile on the iPhone — as tall as the other tabs' devices */
@@ -914,6 +925,8 @@ h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacin
 .nc-n:last-child { box-shadow: none; }
 .nc-n b { color: var(--a-ink); font-weight: 600; }
 .nc-n span { color: var(--a-ink-2); font-size: 13px; line-height: 1.35; }
+/* (the brand book: figures of an instrument in columns and counters; in words — the text's own) */
+.nc-n { font-variant-numeric: normal; }
 .tg-msg { display: grid; gap: 4px; margin: 10px 12px 0; padding: 9px 11px; border-radius: 12px 12px 12px 4px; background: var(--a-surface-2); box-shadow: 0 0 0 1px var(--a-line); font-size: 13px; line-height: 1.35; }
 .tg-msg > b { color: var(--a-ink); font-size: 14px; font-weight: 600; }
 .tg-r { display: flex; justify-content: space-between; gap: 10px; color: var(--a-ink-2); }
@@ -937,13 +950,13 @@ h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacin
 }
 @media (max-width: 640px) { .side { display: none; } }
 .ex-text { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px clamp(32px, 5vw, 72px); width: 100%; max-width: 960px; margin-inline: auto; }
-.ex-text h3 { grid-column: 1; font-size: var(--fs-h3); font-weight: 600; line-height: 1.2; letter-spacing: -0.022em; }
-.ex-text p { grid-column: 1; color: var(--ink-2); line-height: 1.5; }
+.ex-text h3 { grid-column: 1; font-size: var(--fs-h3); font-weight: 600; line-height: 1.2; letter-spacing: -0.022em; text-wrap: balance; }
+.ex-text p { grid-column: 1; color: var(--ink-2); line-height: 1.5; text-wrap: pretty; }
 .ex-text ul { grid-column: 2; grid-row: 1 / span 2; display: grid; align-content: start; gap: 12px; }
 /* (14 November 2026) a way to try it live, under the words: the ordering site's example */
 .ex-text .ex-try { grid-column: 1; }
 @media (min-width: 761px) { .ex-text:has(.ex-try) ul { grid-row: 1 / span 3; } }
-.ex-text li { position: relative; padding: 0 0 12px 18px; border-bottom: 1px solid var(--line); color: var(--ink); font-size: 16px; line-height: 1.45; }
+.ex-text li { position: relative; padding: 0 0 12px 18px; border-bottom: 1px solid var(--line); color: var(--ink); font-size: 16px; line-height: 1.45; text-wrap: pretty; }
 .ex-text li:last-child { border-bottom: 0; }
 .ex-text li::before { content: ''; position: absolute; left: 2px; top: 0.6em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 @media (max-width: 760px) {
