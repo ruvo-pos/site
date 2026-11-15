@@ -761,6 +761,11 @@ h1, h2, h3, p, ul, ol, dl, dd { margin: 0; }
   .front-look :is(.select, .cell-input) { min-height: 44px; }
 }
 
+/* a dish without a photo (ui/dish-art.jsx, 15 November: no drawn dishes): the chef's hat on a quiet tile, as on the
+   restaurant's page of orders */
+.dish-none-bg { fill: var(--surface-2); }
+.dish-none-ic { fill: var(--ink-3); }
+
 /* ---------- launcher ---------- */
 .launcher { overflow: auto; }
 .l-wrap { display: flex; flex-direction: column; gap: var(--sp-6); width: 100%; max-width: 1060px; margin: 0 auto; padding: var(--sp-6) var(--sp-5) var(--sp-8); }
@@ -4327,6 +4332,49 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
   .app.kiosk .ks-done-n { font-size: 120px; }
 }
 
+/* ---------- the kiosk's menu as cards (15 November, the owner chose «А» of three) ----------
+   As the restaurant's page on order.ruvo.ac: the folders chips on the shade (the chosen one ink, not a blue cell — «В
+   киоске тоже много синих квадратов»), tiles over the menu — the promotions running now, then the best sellers «Хит» —,
+   the dishes white cards on the shade (three to a row upright, four on a lying iPad, two on a phone), a round «+» on
+   each. A dish in the basket is not tinted: its count says so. The blue is the key that moves the order on. */
+.app.kiosk { --ks-img: 196px; }
+.app.kiosk .ks-nav { gap: var(--sp-2); padding: var(--sp-3) var(--sp-5); background: var(--bg); box-shadow: none; }
+.app.kiosk .ks-search-btn { flex: none; width: 52px; height: 52px; border-radius: var(--r-pill); background: var(--surface); box-shadow: none; }
+.app.kiosk .ks-search-btn.on { background: var(--surface); }
+.app.kiosk .ks-search { height: 52px; border-radius: var(--r-pill); box-shadow: none; }
+.app.kiosk .ks-search:focus { box-shadow: inset 0 0 0 2px var(--accent); }
+.app.kiosk .ks-pills { gap: var(--sp-2); }
+.app.kiosk .ks-pill { flex: none; min-width: 0; height: 52px; padding: 0 var(--sp-5); border-radius: var(--r-pill); background: var(--surface); color: var(--ink); font-weight: var(--fw-semibold); box-shadow: none; }
+.app.kiosk .ks-pill:active { background: var(--surface-3); }
+.app.kiosk .ks-pill.on { background: var(--ink); color: var(--surface); box-shadow: none; }
+/* the tiles over the menu */
+.app.kiosk .ks-promos { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(240px, 1fr); gap: var(--sp-3); padding: var(--sp-2) var(--sp-5); overflow-x: auto; scrollbar-width: none; }
+.app.kiosk .ks-promos::-webkit-scrollbar { display: none; }
+.app.kiosk .ks-promo-tile { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-1); height: 164px; padding: var(--sp-4) var(--sp-5); border: 0; border-radius: 20px; background: var(--surface); color: var(--ink); text-align: left; overflow: hidden; cursor: pointer; }
+.app.kiosk .ks-promo-tile:active { background: var(--surface-3); }
+.app.kiosk .ks-promo-tile.is-off { background: var(--ink); color: var(--surface); }
+.app.kiosk .ks-promo-big { font-family: var(--font-timer); font-size: 40px; font-weight: var(--fw-semibold); line-height: 1; }
+.app.kiosk .ks-promo-t { max-width: 46%; font-size: var(--fs-md); font-weight: var(--fw-semibold); line-height: 22px; }
+.app.kiosk .ks-promo-tag { padding: 2px 10px; border-radius: var(--r-pill); background: var(--bg); color: var(--ink); font-size: var(--fs-sm); font-weight: var(--fw-regular); line-height: 20px; }
+.app.kiosk .ks-promo-img { position: absolute; right: 4px; bottom: 4px; width: 50%; height: 90%; }
+.app.kiosk .ks-promo-img :is(img, svg) { width: 100%; height: 100%; object-fit: contain; }
+/* the folders' names over their cards; the cards */
+.app.kiosk .ks-menu { background: var(--bg); }
+.app.kiosk :is(.ks-sec, .ks-sec:first-child) .ks-h { min-height: 0; padding: var(--sp-5) var(--sp-5) var(--sp-3); background: var(--bg); font-size: var(--fs-xl); line-height: 28px; box-shadow: none; }
+.app.kiosk .ks-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-3); padding: 0 var(--sp-5); background: var(--bg); }
+.app.kiosk .ks-grid > .ks-card:is([data-rf][data-r0], [data-rf], [data-r0], *) { --rim: 0 0 #0000; position: relative; padding: var(--sp-3) var(--sp-4) var(--sp-4); border-radius: 20px; background: var(--surface); box-shadow: none; }
+.app.kiosk .ks-grid > .ks-card:is([data-rf][data-r0], [data-rf], [data-r0], *):active { background: var(--surface-3); }
+.app.kiosk .ks-card:has(> .ks-badge) { background: var(--surface); }
+.app.kiosk .ks-name { padding-right: 48px; }
+.app.kiosk .ks-add { position: absolute; right: var(--sp-3); bottom: var(--sp-3); display: grid; place-items: center; width: 44px; height: 44px; border-radius: var(--r-pill); background: var(--bg); color: var(--ink); }
+.app.kiosk .ks-end { background: var(--bg); box-shadow: none; }
+@media (min-width: 1100px) { .app.kiosk .ks-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 640px) {
+  .app.kiosk .ks-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0 var(--sp-4); }
+  .app.kiosk .ks-promos { padding: var(--sp-2) var(--sp-4); }
+  .app.kiosk :is(.ks-sec, .ks-sec:first-child) .ks-h { padding: var(--sp-4) var(--sp-4) var(--sp-2); }
+}
+
 /* ---------- the guest app (#guest): RUVO on a guest's own phone ----------
    Always light, like the kiosk's menu (its cards, dish sheet and basket are reused, sized here for a phone). On a wide
    screen the app stands in a phone-wide column; the column is the containing block of its sheets and toasts
@@ -4811,7 +4859,7 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
   --ink: #ECEEF4; --ink-2: #B5BBC5; --ink-3: #969BA7; --line: #272B34; --line-2: #373C46;
   --ok: #5AC485; --ok-soft: #083A20; --accent: #81A8FF; --accent-ink: #0E1016; --accent-soft: #1E2F54; --seg-on: #383D47;
   --pill: #262A33; --pill-press: #373C46; --zl: var(--line-2); --key-h: 64px;
-  --bd-no: clamp(44px, 5.2vw, 84px); --bd-h: clamp(22px, 2.3vw, 36px); --bd-name: clamp(16px, 1.7vw, 26px); --bd-s: clamp(14px, 1.2vw, 18px);
+  --bd-no: clamp(44px, 5.2vw, 84px); --bd-row: calc(var(--bd-no) * 2.7); --bd-h: clamp(22px, 2.3vw, 36px); --bd-name: clamp(16px, 1.7vw, 26px); --bd-s: clamp(14px, 1.2vw, 18px);
   color-scheme: dark; background: var(--bg); color: var(--ink);
 }
 .app.board { padding-top: 0; }
@@ -4852,14 +4900,17 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 }
 .bd-ready .bd-h { box-shadow: inset 1px 0 0 0 var(--zl), inset 0 -1px 0 0 var(--zl); color: var(--ok); }
 /* the numbers: the brand grid's tiles, a line at the left of each (not at a row's start) and under it, as the kitchen's
-   tickets */
+   tickets. (15 November, the owner: «ВСЕ квадраты должны быть одинаковыми») every tile of both zones the same square,
+   --bd-row a side: a zone's row ends where its last square ends, the screen's ground after it */
 .bd-list {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(clamp(168px, 15vw, 264px), 1fr)); grid-auto-rows: auto; align-content: start;
+  display: grid; grid-template-columns: repeat(auto-fill, var(--bd-row)); grid-auto-rows: var(--bd-row); align-content: start; justify-content: start;
   gap: 0; margin: 0; padding: 0; overflow: hidden; list-style: none;
 }
+/* (15 November) the numbers of a row on one line: each tile's words from the same height down, not centred — a ticket
+   with a name, its source and a time no longer stands higher than its neighbour with a word */
 .bd-item {
-  display: flex; flex-direction: column; justify-content: center; gap: var(--sp-1); min-width: 0; min-height: calc(var(--bd-no) * 2.1);
-  padding: var(--sp-4) var(--sp-6); border-radius: 0; background: var(--surface);
+  display: flex; flex-direction: column; justify-content: flex-start; gap: var(--sp-1); min-width: 0; min-height: calc(var(--bd-no) * 2.1);
+  padding: calc(var(--bd-no) * 0.42) var(--sp-6) var(--sp-4); border-radius: 0; background: var(--surface);
   box-shadow: inset 1px 0 0 0 var(--zl), inset 0 -1px 0 0 var(--zl), var(--rim, 0 0 #0000);
 }
 .bd-list > .bd-item[data-rf] { box-shadow: inset 0 -1px 0 0 var(--zl), var(--rim, 0 0 #0000); }
@@ -4867,8 +4918,10 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 .bd-ready .bd-list > .bd-item[data-rf] { box-shadow: inset 1px 0 0 0 var(--zl), inset 0 -1px 0 0 var(--zl), var(--rim, 0 0 #0000); }
 .bd-no { font-family: var(--font-timer); font-size: var(--bd-no); font-weight: var(--fw-semibold); line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .bd-cooking .bd-no { color: var(--ink-2); }
-.bd-ready .bd-item { background: var(--ok-soft); }
 .bd-ready .bd-no { color: var(--ok); }
+/* (15 November, the owner chose «1» of three: no blue, no fill) a ready number on the same tile as a cooking one, green
+   and half as large again */
+.bd-ready .bd-no { font-size: calc(var(--bd-no) * 1.35); }
 .bd-meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px var(--sp-2); min-width: 0; }
 .bd-name { overflow: hidden; font-size: var(--bd-name); font-weight: var(--fw-semibold); line-height: 1.25; white-space: nowrap; text-overflow: ellipsis; }
 /* where it came from: words of its colour */
@@ -5439,7 +5492,8 @@ button.line:hover:not(:disabled) { background: var(--surface-2); }
 }
 .kds-stations .seg-btn::before { display: none; }
 .kds-stations .seg-btn.on { background: var(--seg-on); color: var(--ink); box-shadow: 0 1px 2px rgb(0 0 0 / 0.18); }
-.kds-stations .seg-badge { min-width: 0; margin: 0; padding: 0; background: none; color: var(--ink-3); font-size: 16px; font-weight: var(--fw-semibold); line-height: 1; opacity: 1; }
+/* (15 November, the brand book: 4.5:1 — «Все цеха 8» was 3.9) */
+.kds-stations .seg-badge { min-width: 0; margin: 0; padding: 0; background: none; color: var(--ink-2); font-size: 16px; font-weight: var(--fw-semibold); line-height: 1; opacity: 1; }
 /* its keys: pills 48 high; «Звук» on — its sign in the accent, off — grey; «⋯» round, a dot on it while the stop list has
    something */
 .kds .tool-btn {
@@ -9338,6 +9392,12 @@ tr.bl-theirs td { background: var(--accent-soft); }
 .front-look .of-side > .of-nav { padding: 0; }
 .front-look :is(.of-nav-btn, .of-sub-btn) { min-height: 48px; padding: 0 var(--sp-4) 0 var(--sp-5); border-radius: 0; }
 .front-look .of-sub-btn { min-height: 44px; padding-left: 52px; }
+/* (15 November, the brand book's robot: «Внутренние перемеще…» cut in the menu — two pixels short) the menu's names
+   8 from its right edge, not 16: «Внутренние перемещения» (177 px) on one line; a name longer still takes a second line, never an
+   ellipsis */
+.front-look .of-side .of-sub-btn { padding-right: var(--sp-2); }
+.front-look .of-side .of-sub-btn .of-sub-t { overflow: visible; white-space: normal; text-overflow: clip; line-height: 18px; text-wrap: balance; }
+.front-look .of-side .of-sub-btn:has(.of-sub-t) { padding-block: 6px; }
 .front-look .of-scope { padding: 0; }
 .front-look .of-scope .select { width: 100%; height: 56px; padding: 0 var(--sp-4) 0 var(--sp-5); border: 0; border-radius: 0; background: var(--surface); box-shadow: inset 0 -1px 0 0 var(--zl); }
 .front-look .of-scope-one { min-height: 56px; display: flex; align-items: center; padding: 0 var(--sp-5); box-shadow: inset 0 -1px 0 0 var(--zl); }
@@ -15044,7 +15104,8 @@ button.pp-tile-b:focus-visible { outline: 2px solid var(--accent); outline-offse
 .dep-dot.dep-floor { background: var(--dep-floor); }
 .dep-dot.dep-kitchen { background: var(--dep-kitchen); }
 .dep-dot.dep-office { background: var(--dep-office); }
-:root .front-look .avatar.dep-floor { background: color-mix(in oklab, var(--dep-floor) 22%, var(--surface)); color: var(--dep-floor); }
-/* (15 November, the brand book: 4.5:1 — the kitchen's letter was 4.49 on its 22 %) */
-:root .front-look .avatar.dep-kitchen { background: color-mix(in oklab, var(--dep-kitchen) 16%, var(--surface)); color: var(--dep-kitchen); }
-:root .front-look .avatar.dep-office { background: color-mix(in oklab, var(--dep-office) 22%, var(--surface)); color: var(--dep-office); }
+:root .front-look .avatar.dep-floor { background: color-mix(in oklab, var(--dep-floor) 22%, var(--surface)); color: color-mix(in oklab, var(--dep-floor) 70%, var(--ink)); }
+/* (15 November, the brand book: 4.5:1 — the letters on their department's shade were 3.6–4.3: the letter the
+   department's colour drawn toward the ink) */
+:root .front-look .avatar.dep-kitchen { background: color-mix(in oklab, var(--dep-kitchen) 22%, var(--surface)); color: color-mix(in oklab, var(--dep-kitchen) 70%, var(--ink)); }
+:root .front-look .avatar.dep-office { background: color-mix(in oklab, var(--dep-office) 22%, var(--surface)); color: color-mix(in oklab, var(--dep-office) 70%, var(--ink)); }

@@ -5,8 +5,9 @@
 //                                         and the Serbian home page has no skeleton of its own (the preview adds one).
 //   --signup                  → registration and the Terms of Service too, before SITE.signup is switched on (in the
 //                                         preview its forms only pretend to send)
-// The demo (ruvo.ac/demo/, ruvo.ac/en/demo/, ruvo.ac/ru/demo/) is the app's own bundle, src/demo/app.js and app.css: made in the ruvo
-// repository by `node build.mjs` in app/ (dist/demo/) and copied here.
+// The demo (ruvo.ac/demo/, ruvo.ac/en/demo/, ruvo.ac/ru/demo/) is the app's own bundle, src/demo/app.js and app.css, and the
+// photos of its dishes beside it, src/demo/dishes/: made in the ruvo repository by `node build.mjs` in app/ (dist/demo/)
+// and copied here.
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
@@ -517,7 +518,7 @@ function heroArt(lang, file, key) {
   const s = sceneOf(lang, key);
   if (!s.kiosk && !s.plan && (key === 'home' || VENUES[lang].items[key.slice(2)].scene.ticket12)) return heroLive(lang, file, s);
   const screen = s.kiosk
-    ? dev('port', kioskScreen(lang, s.kiosk, file, false))
+    ? shot('port', lang, file, 'kiosk-mains')
     : dev('pad', `${sbPad(lang)}${orderScreen(lang, s.pad)}`);
   return `<div class="stage${s.kiosk ? ' stage--port' : ''}" role="img" aria-label="${esc(s.label)}" data-live>
 <div class="stage-dev">${screen}</div>
@@ -571,7 +572,7 @@ function qrSvg(seed = 20261012) {
 const SHOT_DIR = path.join(ROOT, 'src/shots');
 const SHOT_SIZE = { pad: [1210, 834], port: [834, 1210], phone: [440, 956] };
 // (the kitchen in both looks since 2 November: dark, or light chosen on its screen)
-const SHOT_ONE = { kiosk: 'light', 'guest-app': 'light', board: 'dark' };
+const SHOT_ONE = { kiosk: 'light', 'kiosk-mains': 'light', 'guest-app': 'light', board: 'dark' };
 const SHOT_USED = new Set();
 const SHOT_V = new Map();
 function shotSrc(lang, file, name, theme) {
@@ -629,27 +630,6 @@ function deliveryScreen(lang, x) {
   return `${scrHead({ title: APP[lang].bar.delivery, dot: true, right: pill('Wolt', 'wolt', 'plus') + pill('Glovo', 'glovo', 'plus') })}<div class="dl">
 <div class="dl-cols">${d.cols.map(([title, cards], i) => `<div class="dl-col${i === d.cols.length - 1 ? ' dl-done' : ''}"><p class="dl-h">${esc(title)}<i>${cards.length}</i></p>${cards.map(card).join('')}</div>`).join('')}</div>
 ${tabPill(lang, 'delivery')}
-</div>`;
-}
-
-// The guests' kiosk (ui/kiosk.jsx, 2 November in the front's look), upright, always light, with the app's own pictures
-// of the dishes (src/dishes/: its drawings, and the photos of the pastries): the header, the folders a strip of keys, a
-// folder's name a row of the shade, the dishes the brand grid's tiles — two in the basket, tinted —, the basket's key
-const DISH_FILE = Object.fromEntries(readdirSync(path.join(ROOT, 'src/dishes')).filter((f) => /\.(svg|webp)$/.test(f)).map((f) => [f.replace(/\.\w+$/, ''), f]));
-const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
-function kioskScreen(lang, k, file, lazy = true) {
-  const price = Object.fromEntries(k.dishes);
-  const sum = k.basket.reduce((total, id) => total + price[id], 0);
-  const cols = k.dishes.length > 4 ? 3 : 2;
-  const dish = ([id, p], i, list) => `<div class="kd${k.basket.includes(id) ? ' in' : ''}"${gridMark(i, cols, list.length)}><span class="kd-img"><img src="${href(file, `assets/dishes/${DISH_FILE[id]}`)}" alt=""${lazy ? ' loading="lazy"' : ''} decoding="async"></span><span class="kd-n">${txt(k.names[id])}</span><span class="kd-p">${money(p)}<small>RSD</small></span>${k.basket.includes(id) ? '<i class="kd-c">1</i>' : ''}</div>`;
-  const grid = (list) => `<div class="ks-grid" style="--cols: ${cols}">${list.map(dish).join('')}</div>`;
-  // the menu goes on under the open folder — its next one, cut by the basket's key at the foot of the screen
-  return `<div class="ks">${sbPad(lang)}
-<div class="ks-top"><span class="ab-brand">RUVO</span><span class="ks-place">${esc(k.place)}</span><span class="ks-lang">${k.langs.map((l) => `<span${l === { sr: 'Srpski', en: 'English', ru: 'Русский' }[lang] ? ' class="on"' : ''}>${esc(l)}</span>`).join('')}</span><span class="pl ic">${IC('squares-four')}</span></div>
-<div class="ks-cats"><span class="ks-search">${IC('magnifying-glass')}</span>${k.cats.map((c, i) => `<span${i === k.on ? ' class="on"' : ''}>${esc(cap(c))}</span>`).join('')}</div>
-<p class="ks-sec">${esc(k.section)}</p>
-${grid(k.dishes)}${k.next ? `<p class="ks-sec">${esc(k.next[0])}</p>${grid(k.next[1])}` : ''}
-<div class="ks-cart"><span class="ks-cn">${k.basket.length}</span><span class="ks-b">${esc(k.basketTitle)}</span><span class="ks-sum">${money(sum)}<small>RSD</small></span><span class="kio-go">${esc(k.checkout)}${IC('arrow-right')}</span></div>
 </div>`;
 }
 
@@ -2055,8 +2035,6 @@ for (const lang of LANGS) {
   }
 }
 put('assets/favicon.svg', FAVICON);
-// the kiosk example's dishes: the app's own drawings (taken from its kiosk), one file each
-for (const f of Object.values(DISH_FILE)) put(`assets/dishes/${f}`, readFileSync(path.join(ROOT, 'src/dishes', f)));
 for (const f of Object.values(PHOTO_FILES).filter(Boolean)) put(`img/${f}`, readFileSync(path.join(PHOTO_DIR, f)));
 put(DEMO.sr, demoPage('sr'));
 put(DEMO.en, demoPage('en'));
@@ -2067,6 +2045,8 @@ for (const rel of [...SHOT_USED].sort()) put(`assets/shots/${rel}`, readFileSync
 for (const rel of [...OG_USED].sort()) put(`assets/og/${rel}`, readFileSync(path.join(OG_DIR, rel)));
 put('demo/app.js', DEMO_JS);
 put('demo/app.css', DEMO_CSS);
+// (15 November) the demo dishes' photos beside the bundle — it reads them from its own folder, demo/dishes/
+for (const f of readdirSync(path.join(ROOT, 'src/demo/dishes')).filter((x) => x.endsWith('.webp'))) put(`demo/dishes/${f}`, readFileSync(path.join(ROOT, 'src/demo/dishes', f)));
 if (!PREVIEW) {
   put('404.html', notFoundPage());
   put('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`);

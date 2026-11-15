@@ -57,6 +57,11 @@ const WORK = path.join(ROOT, 'tools', '.shots');
 rmSync(WORK, { recursive: true, force: true });
 mkdirSync(path.join(WORK, 'fonts'), { recursive: true });
 copyFileSync(path.join(DEMO, 'app.js'), path.join(WORK, 'app.js'));
+// the demo dishes' photos beside the bundle (app/src/ui/dish-photos.js reads them from the bundle's own folder)
+if (existsSync(path.join(DEMO, 'dishes'))) {
+  mkdirSync(path.join(WORK, 'dishes'));
+  for (const f of readdirSync(path.join(DEMO, 'dishes'))) copyFileSync(path.join(DEMO, 'dishes', f), path.join(WORK, 'dishes', f));
+}
 for (const f of readdirSync(FONTS).filter((x) => x.endsWith('.woff2'))) copyFileSync(path.join(FONTS, f), path.join(WORK, 'fonts', f));
 for (const f of readdirSync(path.join(ROOT, 'tools', 'fonts')).filter((x) => x.endsWith('.woff2'))) copyFileSync(path.join(ROOT, 'tools', 'fonts', f), path.join(WORK, 'fonts', f));
 const faces = readFileSync(path.join(FONTS, 'faces.css'), 'utf8').replace(/url\(\.\//g, 'url(fonts/');
@@ -69,7 +74,7 @@ for (const [kind, d] of Object.entries(DEV)) {
     writeFileSync(path.join(WORK, `${lang}-${kind}.html`), `<!doctype html><html lang="${lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>${faces}</style><link rel="stylesheet" href="app-${kind}.css"></head><body><div id="app"></div><script>window.RUVO_DEMO = ${config};</script><script src="app.js"></script></body></html>`);
   }
 }
-const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.woff2': 'font/woff2' };
+const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.woff2': 'font/woff2', '.webp': 'image/webp' };
 const server = createServer((req, res) => {
   const f = path.join(WORK, decodeURIComponent(req.url.split('?')[0].replace(/^\/+/, '')));
   if (!f.startsWith(WORK + path.sep) || !existsSync(f)) { res.writeHead(404); res.end(); return; }
@@ -200,6 +205,22 @@ const SHOTS = {
   guests: { kind: 'pad', go: async (d) => { await d.open('ipad'); await pin(d.p); await d.p.locator('.tbl[aria-label*=" 5,"], .tbl[aria-label$=" 5"]').first().click(); await d.settle(600); await d.p.locator('.ph-pill').filter({ hasText: /^(Gost|Guest|Гость)$/ }).first().click(); await d.settle(500); await d.p.fill('#guest-find', '381'); await d.p.waitForTimeout(300); await d.p.locator('.guest-row').first().click(); await d.settle(600); await d.p.locator('.cat-btn').nth(2).click(); await d.settle(900); } },
   // the guests' kiosk, upright, always light
   kiosk: { kind: 'port', theme: 'light', go: async (d) => { await d.open('kiosk'); await d.settle(); } },
+  // (15 November) the fast food's page (venues.mjs): the kiosk with the whole menu (prefs.kioskAll), the mains open, a
+  // burger and a pljeskavica in the basket — the order the kitchen's ticket beside it shows
+  'kiosk-mains': { kind: 'port', theme: 'light', go: async (d) => {
+    const { p, lang } = d;
+    await d.open('kiosk', { kioskAll: true });
+    await p.locator('.ks-pill[data-cat="mains"]').click();
+    await d.settle(600);
+    for (const name of [{ sr: 'Burger sa junetinom', en: 'Beef burger', ru: 'Бургер с говядиной' }, { sr: 'Pljeskavica', en: 'Pljeskavica', ru: 'Плескавица' }]) {
+      await p.locator('#ks-mains .ks-card', { has: p.locator('.ks-name', { hasText: new RegExp('^' + name[lang].replace(/ /g, '\\s') + '$') }) }).first().click();
+      await d.settle(400);
+      await p.locator('.ks-modal-foot .ks-primary').click();
+      await d.settle(400);
+    }
+    await p.locator('.ks-pill[data-cat="mains"]').click();
+    await d.settle(900);
+  } },
   // the back office on the iPad
   tech: { kind: 'pad', go: async (d) => { await officePage(d, 'menu', 'dishes'); await d.p.click('#dish-techs'); await d.p.waitForSelector('.tech-layout'); await d.settle(900); } },
   // the reports: the site's question in plain words, and the report it makes — the week by day against the week before

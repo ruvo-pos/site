@@ -166,10 +166,9 @@ const FLOOR = {
   ],
   open: 5, ready: 3, revenue: 23230,
 };
-// the kiosk, as the demo's: its own menu is the pastries and the drinks (the owner, 14 October: «давай тоже заменим
-// на булки и кофе»), so two folders; the owner's six pastries with their photos (src/dishes/*.webp), then the drinks led
-// by the owner's three iced drinks in RUVO cups; two in the basket
-const KIOSK = { dishes: [['croissant', 220], ['painchoc', 260], ['cinnamon', 290], ['brioche', 180], ['danish', 270], ['raisin', 250]], basket: ['croissant', 'cinnamon'], no: 47 };
+// the kiosk's tab: the app's own screenshot (tools/shots.mjs, «kiosk»: the demo's pastries and drinks, as the owner
+// asked on 14 October — «давай тоже заменим на булки и кофе») and beside it the number the guest says at the till
+const KIOSK = { no: 47 };
 // «Prognoza» (the owner, 14 October: «я бы ещё уделил внимание прогнозированию — хорошую фичу придумали»): the back
 // office's day ahead (app: forecast.js, ui/office-forecast.jsx) as its own section of the home page. Every claim is what
 // the app does: the usual day is the median of the same weekday over four past weeks, by the hour and by the dish;
@@ -266,7 +265,7 @@ const EXAMPLES = {
         text: 'Gost sam bira jela po slikama, vidi opis i alergene i dobija broj. Porudžbina odmah ide u kuhinju, a plaća se na kasi po broju.',
         points: ['Srpski, engleski ili ruski — jednim dodirom', 'Alergeni i opis uz svako jelo', 'Akcije po rasporedu važe i ovde'],
         label: 'Primer: kiosk sa pecivima na fotografijama i broj porudžbine za plaćanje na kasi',
-        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'English', 'Русский'], cats: ['peciva', 'pića'], on: 0, section: 'Peciva', names: { croissant: 'Puter kroasan', painchoc: 'Kroasan sa čokoladom', cinnamon: 'Rolnica sa cimetom', brioche: 'Francuski brioš', danish: 'Dansko pecivo sa vanila kremom', raisin: 'Pužić sa suvim grožđem', icedlatte: 'Ledeni late', icedmatcha: 'Ledeni mača late', espressotonic: 'Espresso tonik' }, next: ['Pića', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Vaša porudžbina', items: '2 stavke', checkout: 'Poruči', yourNo: 'Vaš broj', payAt: 'Platite na kasi i recite ovaj broj.' },
+        kiosk: { ...KIOSK, yourNo: 'Vaš broj', payAt: 'Platite na kasi i recite ovaj broj.' },
       },
       {
         id: 'guests', tab: 'Gosti', title: 'Kartica gosta na računu',
@@ -363,7 +362,7 @@ const EXAMPLES = {
         text: 'The guest picks dishes by picture, sees the description and allergens and gets a number. The order goes to the kitchen at once and is paid at the till by number.',
         points: ['Serbian, English or Russian — one tap', 'Allergens and a description with every dish', 'Scheduled promotions apply here too'],
         label: 'Example: the kiosk with pastries in photos and the order number to pay at the till',
-        kiosk: { ...KIOSK, place: 'Dorćol', langs: ['Srpski', 'English', 'Русский'], cats: ['pastries', 'drinks'], on: 0, section: 'Pastries', names: { croissant: 'Butter croissant', painchoc: 'Pain au chocolat', cinnamon: 'Cinnamon roll', brioche: 'French brioche', danish: 'Vanilla custard Danish', raisin: 'Pain aux raisins', icedlatte: 'Iced latte', icedmatcha: 'Iced matcha latte', espressotonic: 'Espresso tonic' }, next: ['Drinks', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Your order', items: '2 items', checkout: 'Order', yourNo: 'Your number', payAt: 'Pay at the till and say this number.' },
+        kiosk: { ...KIOSK, yourNo: 'Your number', payAt: 'Pay at the till and say this number.' },
       },
       {
         id: 'guests', tab: 'Guests', title: 'The guest’s card on the bill',
@@ -455,7 +454,7 @@ const EXAMPLES = {
         text: 'Гость сам выбирает блюда по фото, видит описание и аллергены и получает номер. Заказ сразу уходит на кухню, а оплата — на кассе по номеру.',
         points: ['Сербский, английский или русский — одним касанием', 'Аллергены и описание у каждого блюда', 'Акции по расписанию действуют и здесь'],
         label: 'Пример: киоск с выпечкой на фото и номер заказа для оплаты на кассе',
-        kiosk: { ...KIOSK, place: 'Дорчол', langs: ['Srpski', 'English', 'Русский'], cats: ['выпечка', 'напитки'], on: 0, section: 'Выпечка', names: { croissant: 'Классический круассан', painchoc: 'Круассан с шоколадом', cinnamon: 'Синнабон с корицей', brioche: 'Французская бриошь', danish: 'Датская слойка с ванильным кремом', raisin: 'Улитка с изюмом', icedlatte: 'Айс-латте', icedmatcha: 'Айс-матча', espressotonic: 'Эспрессо-тоник' }, next: ['Напитки', [['icedlatte', 360], ['icedmatcha', 440], ['espressotonic', 390]]], basketTitle: 'Ваш заказ', items: '2 позиции', checkout: 'Оформить', yourNo: 'Ваш номер', payAt: 'Оплатите на кассе и назовите этот номер.' },
+        kiosk: { ...KIOSK, yourNo: 'Ваш номер', payAt: 'Оплатите на кассе и назовите этот номер.' },
       },
       {
         id: 'guests', tab: 'Гости', title: 'Карта гостя в счёте',

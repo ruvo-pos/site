@@ -43,7 +43,8 @@ export const VENUE_SETUP = {
 // home page's table 12 (TICKET in content.mjs); a chip's numbers are summed into its note's {sum}. Prices in RSD, like
 // the demo menu's where the dish is there; the stock rows follow the recipes in «Magacin» (ćevapi: 0,25 kg of meat, a
 // lepinja, 0,04 kg of kajmak a portion).
-const KIOSK_DISHES = { dishes: [['burger', 1290], ['pljeskavica', 1190], ['cevapi', 1290], ['carbonara', 990]], basket: ['burger', 'pljeskavica'], no: 47 };
+// (15 November) the fast food's kiosk is the app's own screenshot (tools/shots.mjs, «kiosk-mains»: the mains, a burger and
+// a pljeskavica in the basket), no longer drawn here — `kiosk: true`
 const GROUP_SALES = [242000, 198400, 221300, 176900, 203600];
 const HOTEL_SALES = [184200, 61400, 42300];
 
@@ -92,7 +93,7 @@ export const VENUES = {
         final: 'Probajte RUVO u svom objektu',
         scene: {
           label: 'Primer: porudžbina na kiosku, ista porudžbina na ekranu kuhinje i broj 47 na ekranu za preuzimanje',
-          kiosk: { ...KIOSK_DISHES, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['doručak', 'glavna jela', 'prilozi', 'pića'], on: 1, section: 'Glavna jela', names: { cevapi: 'Ćevapi, 10 kom', pljeskavica: 'Pljeskavica', burger: 'Burger sa junetinom', carbonara: 'Pasta karbonara', lemonade: 'Domaća limunada', orange: 'Ceđena pomorandža' }, next: ['Pića', [['lemonade', 350], ['orange', 390]]], basketTitle: 'Vaša porudžbina', items: '2 stavke', checkout: 'Poruči' },
+          kiosk: true,
           ticket: { no: '#47', src: 'Kiosk', time: '02:10', station: 'Kuhinja', lines: [[1, 'Burger sa junetinom'], [1, 'Pljeskavica']], done: 'Gotovo' },
           chip: { title: 'Ekran za preuzimanje', rows: [['47', 'Gotovo', 'ok'], ['48', 'Spremamo'], ['49', 'Spremamo']], note: 'na TV-u ili tabletu kod pulta' },
         },
@@ -227,7 +228,7 @@ export const VENUES = {
         final: 'Try RUVO in your place',
         scene: {
           label: 'Example: an order on the kiosk, the same order on the kitchen screen, and number 47 on the pickup screen',
-          kiosk: { ...KIOSK_DISHES, place: 'Dorćol', langs: ['Srpski', 'Русский'], cats: ['breakfast', 'mains', 'sides', 'drinks'], on: 1, section: 'Mains', names: { cevapi: 'Ćevapi, 10 pcs', pljeskavica: 'Pljeskavica', burger: 'Beef burger', carbonara: 'Pasta carbonara', lemonade: 'Homemade lemonade', orange: 'Fresh orange juice' }, next: ['Drinks', [['lemonade', 350], ['orange', 390]]], basketTitle: 'Your order', items: '2 items', checkout: 'Order' },
+          kiosk: true,
           ticket: { no: '#47', src: 'Kiosk', time: '02:10', station: 'Kitchen', lines: [[1, 'Beef burger'], [1, 'Pljeskavica']], done: 'Done' },
           chip: { title: 'Pickup screen', rows: [['47', 'Ready', 'ok'], ['48', 'Preparing'], ['49', 'Preparing']], note: 'on a TV or a tablet by the counter' },
         },
@@ -362,7 +363,7 @@ export const VENUES = {
         final: 'Попробуйте RUVO в своём заведении',
         scene: {
           label: 'Пример: заказ на киоске, тот же заказ на экране кухни и номер 47 на табло выдачи',
-          kiosk: { ...KIOSK_DISHES, place: 'Дорчол', langs: ['Srpski', 'Русский'], cats: ['завтраки', 'основные блюда', 'гарниры', 'напитки'], on: 1, section: 'Основные блюда', names: { cevapi: 'Чевапи, 10 шт', pljeskavica: 'Плескавица', burger: 'Бургер с говядиной', carbonara: 'Паста карбонара', lemonade: 'Домашний лимонад', orange: 'Апельсиновый фреш' }, next: ['Напитки', [['lemonade', 350], ['orange', 390]]], basketTitle: 'Ваш заказ', items: '2 позиции', checkout: 'Заказать' },
+          kiosk: true,
           ticket: { no: '#47', src: 'Киоск', time: '02:10', station: 'Кухня', lines: [[1, 'Бургер с говядиной'], [1, 'Плескавица']], done: 'Готово' },
           chip: { title: 'Табло выдачи', rows: [['47', 'Готово', 'ok'], ['48', 'Готовим'], ['49', 'Готовим']], note: 'на телевизоре или планшете у стойки' },
         },
