@@ -222,15 +222,16 @@ border: 1.5px solid var(--plate-rule);
 }
 .wordmark {
 display: inline-block; flex: none;
-padding: 7px 10px 6px calc(10px + 0.08em);
-border-radius: 6px;
-font-size: 13px;
+padding: 6px 10px 5px calc(10px + 0.08em);
+border-radius: 7px;
+font-size: 14px;
 letter-spacing: 0.08em;
 text-decoration: none;
 }
-.wordmark::after { inset: 2px; border-width: 1.2px; border-radius: 4.5px; }
+.wordmark::after { inset: 2px; border-width: 1.5px; border-radius: 5px; }
 .wordmark:hover { color: var(--plate-ink); background: var(--plate-2); text-decoration: none; }
-.wordmark.sm { padding: 6px 9px 5px calc(9px + 0.08em); font-size: 12px; }
+.wordmark.sm { padding: 5px 7px 4px calc(7px + 0.08em); border-radius: 6px; font-size: 12px; }
+.wordmark.sm::after { border-width: 1px; border-radius: 4px; }
 .top {
 position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40;
 background: var(--nav-bg);
@@ -1484,7 +1485,7 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 <div class="ex-text"><h3>Kiosk za goste</h3><p>Gost sam bira jela po slikama, vidi opis i alergene i dobija broj. Porudžbina odmah ide u kuhinju, a plaća se na kasi po broju.</p><ul><li>Srpski, engleski ili ruski — jednim dodirom</li><li>Alergeni i opis uz svako jelo</li><li>Akcije po rasporedu važe i ovde</li></ul></div>
 </div>
 <div class="ex-panel" id="ex-p-site">
-<div class="ex-shot ex-shot--phones" role="img" aria-label="Primer: stranica restorana na telefonu gosta i obaveštenje da je porudžbina spremna"><div class="pair"><div class="dv dv-phone" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="assets/shots/sr/site-light.webp?v=1e5402b25c" alt="" width="440" height="956" loading="lazy" decoding="async"><img class="shot shot-d" src="assets/shots/sr/site-dark.webp?v=f9f50ea411" alt="" width="440" height="956" loading="lazy" decoding="async"></div></div></div><div class="side"><div class="ios-n"><p class="ios-n-app"><svg class="ios-n-ic" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><defs><linearGradient id="roi-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A404C"/><stop offset="1" stop-color="#15181E"/></linearGradient><linearGradient id="roi-r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#D5DAE3"/></linearGradient><filter id="roi-s" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="12.288" stdDeviation="16.384" flood-color="#000000" flood-opacity="0.32"/></filter></defs><rect width="1024" height="1024" fill="url(#roi-g)"/><path fill="url(#roi-r)" filter="url(#roi-s)" d="M393.44 584.8V772H249.5V252H558.45Q617.8 252 662.38 273.01Q706.96 294.02 731.86 331.32Q756.75 368.62 756.75 419.09Q756.75 468.18 731.86 505.69Q706.96 543.2 662.38 564Q644.98 572.12 625.33 577.07L774.5 772H607.96L468.54 584.8H393.44ZM393.44 479.27H538.49Q572.6 479.27 592.01 463.47Q611.43 447.66 611.43 419.09Q611.43 390.25 592.01 374.58Q572.6 358.91 538.49 358.91H393.44V479.27Z"/></svg>
+<div class="ex-shot ex-shot--phones" role="img" aria-label="Primer: stranica restorana na telefonu gosta i obaveštenje da je porudžbina spremna"><div class="pair"><div class="dv dv-phone" aria-hidden="true"><div class="dv-f"><div class="scr"><img class="shot shot-l" src="assets/shots/sr/site-light.webp?v=1e5402b25c" alt="" width="440" height="956" loading="lazy" decoding="async"><img class="shot shot-d" src="assets/shots/sr/site-dark.webp?v=f9f50ea411" alt="" width="440" height="956" loading="lazy" decoding="async"></div></div></div><div class="side"><div class="ios-n"><p class="ios-n-app"><svg class="ios-n-ic" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><rect width="1024" height="1024" fill="#FFFFFF"/><path fill="#1E44B0" d="M229.38 76.8H794.62C878.89 76.8 947.2 145.11 947.2 229.38V794.62C947.2 878.89 878.89 947.2 794.62 947.2H229.38C145.11 947.2 76.8 878.89 76.8 794.62V229.38C76.8 145.11 145.11 76.8 229.38 76.8ZM229.38 102.4C159.25 102.4 102.4 159.25 102.4 229.38V794.62C102.4 864.75 159.25 921.6 229.38 921.6H794.62C864.75 921.6 921.6 864.75 921.6 794.62V229.38C921.6 159.25 864.75 102.4 794.62 102.4Z"/><path fill="#1E44B0" d="M395.26 583.68V768H253.54V256H557.74Q616.17 256 660.07 276.68Q703.97 297.37 728.47 334.1Q752.98 370.82 752.98 420.52Q752.98 468.85 728.47 505.79Q703.97 542.72 660.07 563.2Q642.93 571.19 623.58 576.07L770.46 768H606.48L469.21 583.68H395.26ZM395.26 479.78H538.08Q571.67 479.78 590.78 464.21Q609.9 448.65 609.9 420.52Q609.9 392.12 590.78 376.69Q571.67 361.27 538.08 361.27H395.26V479.78Z"/></svg>
 <span>RUVO Order</span><time>sada</time></p><p class="ios-n-t">Porudžbina br. 12 je spremna</p><p class="ios-n-b">Preuzmite je u restoranu Bistro Dorćol. Na kasi recite broj 12.</p></div></div></div></div>
 <div class="ex-text"><h3>Sajt za porudžbine i aplikacija RUVO Order</h3><p>Restoran dobija svoju stranicu za porudžbine na order.ruvo.ac: meni sa fotografijama, akcije, preuzimanje ili dostava Wolt kuririma. Porudžbina ide pravo u kuhinju, a gost prati gde je — u pregledaču ili u aplikaciji RUVO Order, gde stiže obaveštenje kad je spremna.</p><p class="ex-try"><a class="lnk" href="https://order.ruvo.ac/example">Otvorite primer sajta<svg class="i lnk-i" aria-hidden="true" focusable="false"><use href="#i-caret-right"/></svg></a></p><ul><li>Meni, cene i <span class="nw">stop-lista</span> — iz vašeg <span class="nw">RUVO-a</span></li><li>Plaćanje na kasi ili IPS QR kodom</li><li>Aplikacija RUVO Order za iPhone — uskoro u App <span class="nw">Store-u</span></li></ul></div>
 </div>
