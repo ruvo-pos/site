@@ -684,7 +684,9 @@ const SHOTS = {
   // (14 November 2026, «Делаем все») the team and its motivation in one tab: the week's pay on the iPad, the waiter's
   // profile on the iPhone standing over its right corner
   team: (lang, x, file) => `<div class="combo">${shot('pad', lang, file, 'pay')}${shot('phone', lang, file, 'motivation')}</div>`,
-  site: (lang, x, file) => `<div class="pair">${shot('phone', lang, file, 'site')}<div class="side">${iosNote(x.push)}</div></div>`,
+  // (15 November, the owner: «Тут мало инфы») the guest's two screens — the restaurant's page, the order on its own
+  // page — and beside them the restaurant's side: the same order come into RUVO, then RUVO Order's notification
+  site: (lang, x, file) => `<div class="pair trio">${shot('phone', lang, file, 'site')}${shot('phone', lang, file, 'site-order')}<div class="side">${notesCard(x.order)}${iosNote(x.push)}</div></div>`,
   money: (lang, x, file) => shot('pad', lang, file, 'money'),
   office: (lang, x, file) => `<div class="pair">${shot('phone', lang, file, 'office-phone')}<div class="side">${notesCard(x.notes)}${tgCard(x.tg)}</div></div>`,
 };
