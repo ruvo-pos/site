@@ -1516,12 +1516,17 @@ h2 { font-size: var(--fs-h2); font-weight: 600; line-height: 1.07; letter-spacin
 /* ---------- documents: privacy policy, support, terms ---------- */
 .doc { padding-block: var(--head) var(--band); }
 .doc-in { max-width: 70ch; }
-.doc h1 { font-size: clamp(32px, 2.6vw + 20px, 52px); font-weight: 600; line-height: 1.08; letter-spacing: -0.03em; text-wrap: balance; hyphens: auto; }
+.doc h1 { font-size: clamp(32px, 2.6vw + 20px, 52px); font-weight: 600; line-height: 1.08; letter-spacing: -0.03em; text-wrap: balance; hyphens: auto; hyphenate-limit-chars: 10 4 4; -webkit-hyphenate-limit-before: 4; -webkit-hyphenate-limit-after: 4; }
 .upd { margin-top: 12px; color: var(--ink-3); font-size: 14px; }
-.doc-lead { margin-top: 24px; color: var(--ink-2); font-size: var(--fs-intro); line-height: 1.45; }
+/* (15 November, the owner: «Почему такой перенос» — «Пароль не ну-/жен.» on the sign-in page) a lead is not hyphenated
+   and its lines are balanced, as the first screen's and the sections' are; `.doc .doc-lead`, because `.doc p` (hyphens,
+   line-height 1.6) stood above the lead's own rule */
+.doc .doc-lead { margin-top: 24px; color: var(--ink-2); font-size: var(--fs-intro); line-height: 1.45; hyphens: manual; text-wrap: balance; }
 .doc section { display: grid; gap: 12px; margin-top: 48px; }
 .doc h2 { font-size: var(--fs-h3); line-height: 1.25; letter-spacing: -0.022em; }
-.doc p, .doc li { line-height: 1.6; hyphens: auto; }
+/* a long text is hyphenated only in words of ten letters and more, four at least on each side of the break, and its
+   last line is never one short word */
+.doc p, .doc li { line-height: 1.6; hyphens: auto; hyphenate-limit-chars: 10 4 4; -webkit-hyphenate-limit-before: 4; -webkit-hyphenate-limit-after: 4; text-wrap: pretty; }
 .doc section ul { display: grid; gap: 12px; }
 .doc section li { position: relative; padding-left: 20px; }
 .doc section li::before { content: ''; position: absolute; left: 4px; top: 0.66em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }

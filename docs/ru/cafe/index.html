@@ -1332,12 +1332,12 @@ background: var(--surface); color: var(--ink); font: inherit; font-size: 17px;
 @media (max-width: 480px) { .foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .doc { padding-block: var(--head) var(--band); }
 .doc-in { max-width: 70ch; }
-.doc h1 { font-size: clamp(32px, 2.6vw + 20px, 52px); font-weight: 600; line-height: 1.08; letter-spacing: -0.03em; text-wrap: balance; hyphens: auto; }
+.doc h1 { font-size: clamp(32px, 2.6vw + 20px, 52px); font-weight: 600; line-height: 1.08; letter-spacing: -0.03em; text-wrap: balance; hyphens: auto; hyphenate-limit-chars: 10 4 4; -webkit-hyphenate-limit-before: 4; -webkit-hyphenate-limit-after: 4; }
 .upd { margin-top: 12px; color: var(--ink-3); font-size: 14px; }
-.doc-lead { margin-top: 24px; color: var(--ink-2); font-size: var(--fs-intro); line-height: 1.45; }
+.doc .doc-lead { margin-top: 24px; color: var(--ink-2); font-size: var(--fs-intro); line-height: 1.45; hyphens: manual; text-wrap: balance; }
 .doc section { display: grid; gap: 12px; margin-top: 48px; }
 .doc h2 { font-size: var(--fs-h3); line-height: 1.25; letter-spacing: -0.022em; }
-.doc p, .doc li { line-height: 1.6; hyphens: auto; }
+.doc p, .doc li { line-height: 1.6; hyphens: auto; hyphenate-limit-chars: 10 4 4; -webkit-hyphenate-limit-before: 4; -webkit-hyphenate-limit-after: 4; text-wrap: pretty; }
 .doc section ul { display: grid; gap: 12px; }
 .doc section li { position: relative; padding-left: 20px; }
 .doc section li::before { content: ''; position: absolute; left: 4px; top: 0.66em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
