@@ -13,6 +13,11 @@
 //   node tools/shots.mjs [--only=floor,kitchen] [--langs=sr] [--themes=light] [--png]   (Playwright with its Chromium)
 // Writes src/shots/<lang>/<name>-<theme>.webp (tools/webp.py makes them from the .png it takes; --png keeps the .png
 // and writes to OUT= instead, to look at); build.mjs puts them on the pages (SHOTS there).
+// --store (15 November: the App Store's screenshots of RUVO, the staff's app ac.ruvo.pos): the front's, the kitchen's,
+// the waiter's and the owner's screens at the sizes App Store Connect takes — the iPad Pro 13″ on its side, 1376×1032
+// points at 2× (2752×2064), the iPhone 6.9″, 440×956 at 3× (1320×2868) —, light, from the app's own demo build as it is
+// now (DEMO= — ../ruvo/app/dist/demo, made by its build.mjs), as .png in OUT= (tools/.store/<lang>/).
+//   node tools/shots.mjs --store [--langs=en] [--only=floor]
 import { chromium } from '/opt/npm-tools/node_modules/playwright/index.mjs';
 import { createServer } from 'node:http';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
@@ -24,17 +29,21 @@ import { statusBar } from './statusbar.mjs';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const arg = (k) => { const a = process.argv.find((x) => x.startsWith('--' + k + '=')); return a ? a.slice(k.length + 3).split(',') : null; };
+const STORE = process.argv.includes('--store');
 const LANGS = arg('langs') || ['sr', 'en', 'ru'];
-const THEMES = arg('themes') || ['light', 'dark'];
-const ONLY = arg('only');
-const PNG = process.argv.includes('--png');
-const OUT = PNG ? (process.env.OUT || path.join(ROOT, 'tools', '.look')) : path.join(ROOT, 'src/shots');
+const THEMES = arg('themes') || (STORE ? ['light'] : ['light', 'dark']);
+// the App Store's: the hall, a table's bill, the kitchen, the reports on the iPad; the waiter's order at the table and
+// the guest's bill, the owner's back office on the iPhone
+const ONLY = arg('only') || (STORE ? ['floor', 'guests', 'kitchen', 'reports', 'waiter-order', 'waiter-bill', 'office-phone'] : null);
+const PNG = STORE || process.argv.includes('--png');
+const OUT = STORE ? (process.env.OUT || path.join(ROOT, 'tools', '.store')) : PNG ? (process.env.OUT || path.join(ROOT, 'tools', '.look')) : path.join(ROOT, 'src/shots');
+const DEMO = process.env.DEMO || (STORE ? path.join(ROOT, '..', 'ruvo', 'app', 'dist', 'demo') : path.join(ROOT, 'src/demo'));
 const FONTS = process.env.FONTS || path.join(ROOT, '..', 'ruvo', 'app', 'fonts');
 const SCALE = Number(process.env.SCALE || 1.5);
 const CLOCK = new Date('2026-10-14T21:41:00+02:00');
 // the devices: the screen's points and its safe areas
 const DEV = {
-  pad: { size: { width: 1210, height: 834 }, top: 24, bottom: 20 },
+  pad: STORE ? { size: { width: 1376, height: 1032 }, top: 24, bottom: 20, scale: 2 } : { size: { width: 1210, height: 834 }, top: 24, bottom: 20 },
   port: { size: { width: 834, height: 1210 }, top: 24, bottom: 20 },
   phone: { size: { width: 440, height: 956 }, top: 62, bottom: 34 },
   // the demo's start page draws two more (app/src/ui/demo-art.jsx): the back office on a laptop and the pickup board on
@@ -47,11 +56,11 @@ const DEV = {
 const WORK = path.join(ROOT, 'tools', '.shots');
 rmSync(WORK, { recursive: true, force: true });
 mkdirSync(path.join(WORK, 'fonts'), { recursive: true });
-copyFileSync(path.join(ROOT, 'src/demo/app.js'), path.join(WORK, 'app.js'));
+copyFileSync(path.join(DEMO, 'app.js'), path.join(WORK, 'app.js'));
 for (const f of readdirSync(FONTS).filter((x) => x.endsWith('.woff2'))) copyFileSync(path.join(FONTS, f), path.join(WORK, 'fonts', f));
 for (const f of readdirSync(path.join(ROOT, 'tools', 'fonts')).filter((x) => x.endsWith('.woff2'))) copyFileSync(path.join(ROOT, 'tools', 'fonts', f), path.join(WORK, 'fonts', f));
 const faces = readFileSync(path.join(FONTS, 'faces.css'), 'utf8').replace(/url\(\.\//g, 'url(fonts/');
-const css = readFileSync(path.join(ROOT, 'src/demo/app.css'), 'utf8');
+const css = readFileSync(path.join(DEMO, 'app.css'), 'utf8');
 for (const [kind, d] of Object.entries(DEV)) {
   const inset = { top: d.top, bottom: d.bottom, left: 0, right: 0 };
   writeFileSync(path.join(WORK, `app-${kind}.css`), css.replace(/env\(safe-area-inset-(top|bottom|left|right)(?:,[^)]*)?\)/g, (m, side) => `${inset[side]}px`));
@@ -74,7 +83,7 @@ const BASE = `http://127.0.0.1:${server.address().port}/`;
 
 // ---------- a device: a fresh browser, the demo's restaurant made at the site's dinner, in the language asked ----------
 async function device(b, kind, lang, theme) {
-  const ctx = await b.newContext({ viewport: DEV[kind].size, deviceScaleFactor: SCALE, colorScheme: theme, locale: { sr: 'sr-Latn-RS', en: 'en-GB', ru: 'ru-RU' }[lang], timezoneId: 'Europe/Belgrade' });
+  const ctx = await b.newContext({ viewport: DEV[kind].size, deviceScaleFactor: STORE ? DEV[kind].scale || 3 : SCALE, colorScheme: theme, locale: { sr: 'sr-Latn-RS', en: 'en-GB', ru: 'ru-RU' }[lang], timezoneId: 'Europe/Belgrade' });
   await ctx.clock.install({ time: CLOCK });
   const p = await ctx.newPage();
   const errs = [];
@@ -202,6 +211,16 @@ const SHOTS = {
   // for the demo's start page (build.mjs, demoPage): the back office's first page on a laptop; the guests' app on their
   // phone, always light; the pickup board over the counter, always dark
   office: { kind: 'lap', go: async (d) => { await d.open('office'); await d.p.waitForSelector('.of-nav'); await d.settle(900); } },
+  // (--store) the waiter takes the order at the table: the mains, two dishes added, «Send» at the foot
+  'waiter-order': { kind: 'phone', store: true, go: async (d) => {
+    await d.open('iphone'); await d.p.getByRole('button', { name: /Marko/ }).click(); await pin(d.p); await d.p.locator('.ptable.pt-ready').first().click(); await d.settle(600);
+    await d.p.locator('.ph-bar .btn-primary').click(); await d.settle(900);
+    await d.p.locator('.chip').nth(2).click(); await d.settle(400);
+    for (const i of [4, 8, 8]) { await d.p.locator('.row-hit').nth(i).click(); await d.settle(300); }
+    await d.settle(600);
+  } },
+  // (--store) the owner's back office on the iPhone: the day's summary
+  'office-phone': { kind: 'phone', store: true, go: async (d) => { await d.open('office'); await d.p.waitForSelector('.of-main, .of-page'); await d.settle(900); } },
   'guest-app': { kind: 'phone', theme: 'light', go: async (d) => { await d.open('guest'); await d.settle(900); } },
   board: { kind: 'tv', theme: 'dark', go: async (d) => { await d.open('board'); await d.settle(900); } },
 };
@@ -213,6 +232,7 @@ for (const lang of LANGS) {
   for (const theme of THEMES) {
     for (const [name, s] of Object.entries(SHOTS)) {
       if (ONLY && !ONLY.includes(name)) continue;
+      if (s.store && !STORE) continue;
       // a screen with a theme of its own (the board's dark, the kiosk's and the guests' app's light) is taken once
       if (s.theme && theme !== s.theme) continue;
       const d = await device(b, s.kind, lang, theme);
