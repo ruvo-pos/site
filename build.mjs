@@ -1293,7 +1293,8 @@ ${LOGIN_JS}
 }
 
 // The account (until the back office works through the server — the owner chose to open now): the company, how its
-// 30 days stand, its venues (the owner adds one), what comes with the devices, help; signing out.
+// 30 days stand, the back office opened signed in (25 November), its venues (the owner adds one), how the devices
+// connect (a code from the back office), help; signing out.
 function accountPage(lang) {
   const g = SG[lang].account;
   const file = fileOf(lang, 'account');
@@ -1306,6 +1307,7 @@ ${PREVIEW ? `<p class="su-demo">${esc(SG[lang].signup.demo)}</p>` : ''}
 <div class="acc-body" data-a="body" hidden>
 <div class="acc-head"><p class="acc-who" data-a="who"></p><button type="button" class="lnk-btn" data-a="logout">${esc(g.logout)}</button></div>
 <p class="acc-status" data-a="status"></p>
+<section class="acc-sec" aria-labelledby="acc-b"><h2 id="acc-b">${esc(g.backoffice)}</h2><p>${esc(g.backofficeText)}</p><p><a class="btn" href="${esc(SITE.app)}/" data-a="backoffice">${esc(g.backofficeOpen)}</a></p></section>
 <section class="acc-sec" aria-labelledby="acc-v"><h2 id="acc-v">${esc(g.venues)}</h2>
 <ul class="acc-venues" data-a="venues"></ul>
 <form class="acc-add" data-a="add" novalidate hidden>
@@ -1323,7 +1325,7 @@ ${PREVIEW ? `<p class="su-demo">${esc(SG[lang].signup.demo)}</p>` : ''}
 </div>
 </div></div></main>
 ${footer(lang, 'account', file)}
-${textData('acc-text', { ...g, mail: SITE.email, login: href(file, fileOf(lang, 'login')) })}
+${textData('acc-text', { ...g, mail: SITE.email, login: href(file, fileOf(lang, 'login')), app: SITE.app })}
 <script>
 ${ACCOUNT_JS}
 </script>`;
@@ -1802,6 +1804,26 @@ const ACCOUNT_JS = `(() => {
     el('logout').disabled = true;
     try { if (!demo) await call('POST', '/v1/logout'); } catch (e) {}
     out();
+  });
+  // (25 November, the owner: «Давай из кабинета человека сделаем ссылку на app.ruvo.ac, чтобы он сразу оттуда мог
+  // переходить») the back office, signed in: the server gives a link whose token signs that page in as this person
+  // (POST /v1/login/handoff — two minutes, once); a new tab, or no link — the back office's own sign-in by e-mail
+  const bo = el('backoffice');
+  const boReset = () => { bo.removeAttribute('aria-busy'); bo.textContent = T.backofficeOpen; };
+  window.addEventListener('pageshow', boReset);
+  bo.addEventListener('click', async (e) => {
+    if (demo || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    if (bo.getAttribute('aria-busy') === 'true') return;
+    bo.setAttribute('aria-busy', 'true');
+    bo.textContent = T.backofficeOpening;
+    try {
+      const r = await call('POST', '/v1/login/handoff', { lang });
+      const link = String((r.data && r.data.link) || '');
+      if (r.status === 201 && link.startsWith(T.app + '/')) { location.assign(link); return; }
+      if (r.status === 401) { out(); return; }
+    } catch (x) { /* the network: the plain address */ }
+    location.assign(bo.href);
   });
   const form = el('add');
   form.addEventListener('submit', async (e) => {

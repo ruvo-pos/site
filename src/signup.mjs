@@ -166,7 +166,13 @@ export const SIGNUP = {
       adding: 'Dodajemo…',
       addHint: 'Novi objekat menja iznos pretplate — po cenovniku.',
       devices: 'Uređaji',
-      devicesText: 'Terminal sale, ekran kuhinje i uređaje konobara povezujete jednokratnim kodom odavde, a na njima se prijavljujete svojim PIN-om. Povezivanje uređaja otvaramo uskoro — javićemo vam se e-poštom.',
+      devicesText: 'Terminal sale, ekran kuhinje i uređaje konobara povezujete jednokratnim kodom iz bekofisa: „Podešavanja“ → „Restorani“ → „Poveži“. Na samom uređaju otvorite app.ruvo.ac i pritisnite „Poveži kodom“, a zatim se prijavljujete svojim PIN-om.',
+      // (25 November, the owner: «Давай из кабинета человека сделаем ссылку на app.ruvo.ac, чтобы он сразу оттуда мог
+      // переходить») the back office, opened signed in
+      backoffice: 'Bekofis',
+      backofficeText: 'Meni i normativi, zaposleni, magacin, izveštaji i uređaji su u RUVO bekofisu. Otvara se već prijavljen na vaš nalog.',
+      backofficeOpen: 'Otvori bekofis',
+      backofficeOpening: 'Otvaramo…',
       demo: 'Isprobajte demo',
       scan: {
         title: 'Faktura sa fotografije — provera',
@@ -421,7 +427,11 @@ export const SIGNUP = {
       adding: 'Adding…',
       addHint: 'A new venue changes the subscription — by the price list.',
       devices: 'Devices',
-      devicesText: 'You connect the front terminal, the kitchen screen and the waiter devices with a one-time code from here, and sign in on them with your PIN. We are opening the connection of devices soon — we will write to you by email.',
+      devicesText: 'You connect the front terminal, the kitchen screen and the waiter devices with a one-time code from the back office: “Settings” → “Restaurants” → “Connect”. On the device itself, open app.ruvo.ac and tap “Connect with a code”, then sign in with your PIN.',
+      backoffice: 'Back office',
+      backofficeText: 'The menu and recipes, staff, stock, reports and devices are in the RUVO back office. It opens already signed in to your account.',
+      backofficeOpen: 'Open the back office',
+      backofficeOpening: 'Opening…',
       demo: 'Try the demo',
       scan: {
         title: 'Invoice from a photo — try it',
@@ -676,7 +686,11 @@ export const SIGNUP = {
       adding: 'Добавляем…',
       addHint: 'Новое заведение меняет сумму подписки — по прайсу.',
       devices: 'Устройства',
-      devicesText: 'Фронт, экран кухни и устройства официантов подключаются одноразовым кодом отсюда, а на них вы входите со своим PIN. Подключение устройств мы откроем скоро — напишем вам на почту.',
+      devicesText: 'Фронт, экран кухни и устройства официантов подключаются одноразовым кодом из бэкофиса: «Настройки» → «Рестораны» → «Подключить». На самом устройстве откройте app.ruvo.ac и нажмите «Подключить по коду», дальше входите со своим PIN.',
+      backoffice: 'Бэкофис',
+      backofficeText: 'Меню и техкарты, сотрудники, склад, отчёты и устройства — в бэкофисе RUVO. Он откроется уже с входом в ваш аккаунт.',
+      backofficeOpen: 'Открыть бэкофис',
+      backofficeOpening: 'Открываем…',
       demo: 'Попробовать демо',
       scan: {
         title: 'Накладная по фото — проверка',
